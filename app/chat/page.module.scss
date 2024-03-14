@@ -1,0 +1,48 @@
+:export {
+  iconColor: var(--primary-color);
+}
+
+.contentContainer {
+  height: 100%;
+  display: flex;
+}
+
+.main {
+  display: flex;
+  width: 100%;
+
+  aside {
+    width: 16rem;
+    background-color: var(--sidebar-background);
+    padding: 20px;
+    height: 100%;
+    border-width: 0;
+    border-style: solid;
+    border-color: var(--primary-border-color);
+    border: {
+      left-width: 2px;
+      right-width: 2px;
+    }
+  }
+}
+
+.chatInterface {
+  height: 100%;
+  width: 100%;
+  background-color: var(--foreground);
+
+  nav {
+    background-color: var(--navbar-background);
+    padding: var(--navbar-padding-y);
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}
