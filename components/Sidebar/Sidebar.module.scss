@@ -1,3 +1,27 @@
 .sidebar {
+  width: var(--sidebar-width);
+  height: calc(100vh - (var(--navbar-padding-y) * 2) - 36px);
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
+  ul {
+    align-items: center;
+    list-style: none;
+  }
+
+  a {
+    display: grid;
+    place-items: center;
+    padding: 1rem 0;
+
+    &:hover {
+      backdrop-filter: brightness(0.5);
+    }
+  }
+}
+
+.sidebarIcon {
+  stroke: #FFFFFF;
 }

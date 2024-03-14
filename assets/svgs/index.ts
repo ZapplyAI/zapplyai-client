@@ -1,1 +1,6 @@
 export { default as ZappyLogo } from './logo.svg'
+export { default as PencilIcon } from './pencil.svg'
+export { default as ChatIcon } from './chat.svg'
+export { default as NewIcon } from './new.svg'
+export { default as RocketIcon } from './rocket.svg'
+export { default as CogIcon } from './cog.svg'
