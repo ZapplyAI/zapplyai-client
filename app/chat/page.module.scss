@@ -12,7 +12,7 @@
   width: 100%;
 
   aside {
-    width: 16rem;
+    width: 24rem;
     background-color: var(--sidebar-background);
     padding: 20px;
     height: 100%;
@@ -30,10 +30,16 @@
   height: 100%;
   width: 100%;
   background-color: var(--foreground);
+  position: relative;
 
   nav {
     background-color: var(--navbar-background);
     padding: var(--navbar-padding-y);
+    border-bottom: {
+      width: 2px;
+      style: solid;
+      color: var(--primary-border-color);
+    }
 
     > div {
       display: flex;
@@ -45,4 +51,14 @@
       }
     }
   }
+}
+
+.messagesContainer {
+  --padding: 2rem;
+
+  height: calc(100% - (var(--padding) * 2));
+  padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

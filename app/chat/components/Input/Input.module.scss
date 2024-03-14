@@ -1,0 +1,40 @@
+.input {
+  --input-padding: 1rem;
+  --placeholder-color: #738189;
+
+  background: linear-gradient(to right, #5ED8FF, #DF5EFF);
+  padding: 0.1rem;
+  border-radius: var(--border-radius);
+  position: relative;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+
+  &:focus-within {
+    opacity: 1;
+  }
+
+  input {
+    padding: var(--input-padding);
+    padding-left: calc(var(--input-padding) * 4);
+    width: 100%;
+    background-color: var(--foreground);
+    border-radius: var(--border-radius);
+    border-width: 0;
+
+    &::placeholder {
+      color: var(--placeholder-color);
+      font-size: 0.8rem;
+      letter-spacing: 0.05rem;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.wizard {
+  position: absolute;
+  left: calc(var(--input-padding) * 0.5);
+}
