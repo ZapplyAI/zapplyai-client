@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Tabs } from '@/components/Tabs'
-import { Input } from '@/app/chat/components'
+import { Button, Tabs } from '@/components'
+import { Accordion, Input } from '@/app/chat/components'
 import { PencilIcon } from '@/assets/svgs'
 import styles from './page.module.scss'
 
@@ -11,17 +11,12 @@ const Chat = (): React.ReactNode => {
       <aside>
         <div>
           <Tabs
-            tabs={[
-              {
-                title: 'frontend',
-                content: null,
-              },
-              {
-                title: 'backend',
-                content: null,
-              },
-            ]}
+            tabs={{
+              frontend: <Accordion type={'frontend'} />,
+              backend: <Accordion type={'backend'} />,
+            }}
           />
+          <Button className={styles.chatButton}>Start new chat</Button>
         </div>
       </aside>
       <div className={styles.chatInterface}>

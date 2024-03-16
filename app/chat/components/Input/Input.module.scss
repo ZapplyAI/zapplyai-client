@@ -14,18 +14,21 @@
     opacity: 1;
   }
 
-  input {
+  textarea {
     padding: var(--input-padding);
-    padding-left: calc(var(--input-padding) * 4);
+    padding-left: calc(var(--input-padding) * 3.5);
     width: 100%;
     background-color: var(--foreground);
     border-radius: var(--border-radius);
     border-width: 0;
+    resize: none;
+    max-height: 25dvh;
+    overflow-y: hidden;
 
     &::placeholder {
       color: var(--placeholder-color);
-      font-size: 0.8rem;
-      letter-spacing: 0.05rem;
+      font-size: 1rem;
+      letter-spacing: 0.02rem;
     }
 
     &:focus {
