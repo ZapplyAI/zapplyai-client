@@ -1,0 +1,56 @@
+.accordionContainer {
+  margin-top: 1.2rem;
+}
+
+.triggerContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--secondary-text-color);
+  }
+
+  span {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--primary-text-color)
+  }
+}
+
+.accordionContent {
+  padding: 1.2rem 0;
+
+  ul {
+    list-style: none;
+    counter-reset: item-counter;
+
+    li {
+      font-size: 0.95rem;
+      color: var(--secondary-text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+
+      &:before, &:after {
+        display: inline-block;
+      }
+
+      &:before {
+        content: '-'
+      }
+
+      &:after {
+        content: counter(item-counter);
+        counter-increment: item-counter;
+      }
+    }
+  }
+}
