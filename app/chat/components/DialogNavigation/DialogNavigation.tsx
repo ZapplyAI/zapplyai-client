@@ -84,7 +84,7 @@ const DialogNavigation = () : React.ReactNode => {
                                     },
                                     {
                                         title: 'Calendar style',
-                                        pageTitle: 'main Calendar',
+                                        pageTitle: 'Main Calendar',
                                         selectedOptions: ['Small Animated Popup', 'Event type, Users included, Time, Length of event, Send invitation']
                                     },
                                 ]}/>

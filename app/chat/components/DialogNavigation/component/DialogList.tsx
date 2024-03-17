@@ -1,6 +1,7 @@
 import React from "react"
 import DialogOption from "@/app/chat/components/DialogNavigation/component/DialogOption"
 import map from "lodash/map"
+import {Divider, Stack} from "@mui/material";
 
 interface DialogListProps {
     dialogs: DialogProps[]
@@ -16,7 +17,6 @@ const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
     const [expandedId, setExpandedId] = React.useState(null)
 
     const handleExpansion = (id, expanded) => {
-        console.log('handleExpansion', id)
         if (!expanded) {
             setExpandedId(null)
             return
@@ -25,18 +25,18 @@ const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
     }
 
     return (
-        <div>
-            {map(dialogs, (dialog, index) => {
-                console.log(index, 'index')
-                return (
-                    <DialogOption index={index}
-                                  dialog={dialog}
-                                  onExpanded={handleExpansion}
-                                  isExpanded={expandedId === index}
-                    />
-                )
-            })}
-        </div>
+        <Stack direction="column"
+               spacing={0}
+               divider={<Divider orientation="horizontal" flexItem />}
+        >
+            {map(dialogs, (dialog, index) =>
+                <DialogOption index={index}
+                              dialog={dialog}
+                              onExpanded={handleExpansion}
+                              isExpanded={expandedId === index}
+                />
+            )}
+        </Stack>
     )
 }
 

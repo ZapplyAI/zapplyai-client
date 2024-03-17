@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import {IconButton, List} from '@mui/material';
+import {Divider, IconButton, List} from '@mui/material';
 import map from "lodash/map";
 
 import BackspaceIcon from '@mui/icons-material/Backspace';
@@ -36,7 +36,10 @@ const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOption
                    style={style.accordionContainer}
                    onChange={(event, expanded) => onExpanded(index, expanded)}
                    expanded={isExpanded}>
-            <AccordionSummary style={style.accordionSummary}
+            <AccordionSummary sx={{
+                '& .MuiAccordionSummary-content.Mui-expanded	': style.accordionSummary,
+                '& .MuiAccordionSummary-content	': style.accordionSummary
+            }}
                               expandIcon={<ExpandMoreIcon sx={{color: '#CFCED9'}}/>}>
                 <DialogIcon icon={"..."}/>
                 <div style={style.accordionSummaryTitles}>
@@ -47,18 +50,18 @@ const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOption
                 </div>
             </AccordionSummary>
             <AccordionDetails>
-                <Stack direction="column" spacing={0}>
+                <Stack direction="column"
+                       spacing={1}
+                style={{paddingLeft: '15px'}}>
                     {map(dialog.selectedOptions, (option) => {
                         return (
                             <FormControl fullWidth
                                          orientation="horizontal"
-                                         sx={{ gap: 1, flexDirection: 'row', justifyContent: 'end', }}>
-                                {/*<AirplanemodeActiveRoundedIcon fontSize="xl2" sx={{ mx: 1 }} />*/}
-                                <FormLabel style={style.optionLabel}>{option}</FormLabel>
-                                {/*<Switch size="sm" />*/}
+                                         sx={{ gap: 1, flexDirection: 'row', justifyContent: 'start', alignItems: 'center'}}>
                                 <IconButton style={style.removeOptionButton}>
-                                    <BackspaceIcon style={{height: '20px',}}/>
+                                    <BackspaceIcon style={{height: '18px',}}/>
                                 </IconButton>
+                                <FormLabel style={style.optionLabel}>{option}</FormLabel>
                             </FormControl>
                         )
                     })}
@@ -71,9 +74,11 @@ const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOption
 const style = {
     accordionContainer: {
         background: 'none',
-    },
+        boxShadow: "none"
+},
     accordionSummary: {
-        alignItems: 'center'
+        alignItems: 'center',
+        margin: '10px 0px'
     },
     accordionSummaryTitles: {
         display: 'flex',
@@ -92,11 +97,13 @@ const style = {
     },
     optionLabel: {
         fontSize: '12px',
-        color: '#6A7883'
+        color: '#6A7883',
+        // maxWidth: '60%'
     },
     removeOptionButton: {
         height: '22px',
-        color: '#6A7883'
+        color: '#6A7883',
+        transform: 'scaleX(-1)'
     }
 }
 
