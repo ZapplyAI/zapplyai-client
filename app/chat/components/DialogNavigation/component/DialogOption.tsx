@@ -49,7 +49,7 @@ const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOption
                     </Typography>
                 </div>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails style={{padding: '8px 16px'}}>
                 <Stack direction="column"
                        spacing={1}
                 style={{paddingLeft: '15px'}}>
