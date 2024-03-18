@@ -16,7 +16,7 @@ interface DialogProps {
 const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
     const [expandedId, setExpandedId] = React.useState(null)
 
-    const handleExpansion = (id, expanded) => {
+    const handleExpansion = (id: number, expanded: boolean) => {
         if (!expanded) {
             setExpandedId(null)
             return
@@ -31,6 +31,7 @@ const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
         >
             {map(dialogs, (dialog, index) =>
                 <DialogOption index={index}
+                              key={index}
                               dialog={dialog}
                               onExpanded={handleExpansion}
                               isExpanded={expandedId === index}

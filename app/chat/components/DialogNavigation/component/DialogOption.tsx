@@ -18,7 +18,7 @@ import { ListItem } from '@mui/material';
 
 
 interface DialogOptionProps {
-    key: number
+    index: number
     dialog: DialogProps
     onExpanded: any
     isExpanded: boolean
@@ -53,9 +53,10 @@ const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOption
                 <Stack direction="column"
                        spacing={1}
                 style={{paddingLeft: '15px'}}>
-                    {map(dialog.selectedOptions, (option) => {
+                    {map(dialog.selectedOptions, (option : string, key : number) => {
                         return (
                             <FormControl fullWidth
+                                         key={key}
                                          orientation="horizontal"
                                          sx={{ gap: 1, flexDirection: 'row', justifyContent: 'start', alignItems: 'center'}}>
                                 <IconButton style={style.removeOptionButton}>
