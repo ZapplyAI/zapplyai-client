@@ -5,15 +5,20 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import styles from './Avatar.module.scss'
 
 const Avatar = (): React.ReactNode => {
-  return <AvatarPrimitive.Root className={styles.avatar}>
-    <AvatarPrimitive.Image
-      alt="Avatar"
-      src="https://avatars.githubusercontent.com/u/58847378?v=4"
-    />
-    <AvatarPrimitive.Fallback className={styles.avatarFallback} delayMs={700}>
-      AI
-    </AvatarPrimitive.Fallback>
-  </AvatarPrimitive.Root>
+  return (
+      <div style={style.avatar}>
+
+      </div>
+  )
+}
+
+const style = {
+  avatar: {
+    height: '22px',
+    width: '22px',
+    borderRadius: '5px',
+    background: 'grey'
+  }
 }
 
 export default Avatar

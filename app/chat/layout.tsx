@@ -7,7 +7,7 @@ export default function ChatLayout({ children }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div style={{height: '100vh', display: 'flex', flexDirection: 'column'}}>
       <Navbar />
       <div className={styles.contentContainer}>
         <Sidebar />
