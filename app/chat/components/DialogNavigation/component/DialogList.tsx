@@ -5,15 +5,18 @@ import {Divider, Stack} from "@mui/material";
 
 interface DialogListProps {
     dialogs: DialogProps[]
+    openDialog: any
 }
 
 interface DialogProps {
+    id: number,
     title: string
     pageTitle: string
-    selectedOptions: string[]
+    selectedOptions: string[],
+    dialog: any
 }
 
-const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
+const DialogList = ( { dialogs, openDialog } : DialogListProps ) : React.ReactNode => {
     const [expandedId, setExpandedId] = React.useState(null)
 
     const handleExpansion = (id: number, expanded: boolean) => {
@@ -22,6 +25,7 @@ const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
             return
         }
         setExpandedId(id)
+        openDialog(id)
     }
 
     return (
@@ -29,12 +33,12 @@ const DialogList = ( { dialogs } : DialogListProps ) : React.ReactNode => {
                spacing={0}
                divider={<Divider orientation="horizontal" flexItem />}
         >
-            {map(dialogs, (dialog, index) =>
-                <DialogOption index={index}
-                              key={index}
+            {map(dialogs, (dialog) =>
+                <DialogOption index={dialog.id}
+                              key={dialog.id}
                               dialog={dialog}
                               onExpanded={handleExpansion}
-                              isExpanded={expandedId === index}
+                              isExpanded={expandedId === dialog.id}
                 />
             )}
         </Stack>
