@@ -5,18 +5,27 @@ import {Tabs, Box, Tab, Typography, Dialog} from "@mui/material"
 import DialogList from "@/app/chat/components/DialogNavigation/component/DialogList"
 
 interface DialogProps {
+    id: number,
     title: string
     pageTitle: string
-    selectedOptions: string[]
+    selectedOptions: string[],
+    dialog: any
 }
 
 interface TabPanelProps {
     value: number
     index: number
     dialogs: DialogProps[]
+    openDialog: any
 }
 
-const CustomTabPanel = ( { value, index, dialogs } : TabPanelProps) => {
+interface DialogNavigationProps {
+    frontend: DialogProps[]
+    backend: DialogProps[]
+    openDialog: any
+}
+
+const CustomTabPanel = ( { value, index, dialogs, openDialog } : TabPanelProps) => {
     return (
         <div
             role="tabpanel"
@@ -25,13 +34,14 @@ const CustomTabPanel = ( { value, index, dialogs } : TabPanelProps) => {
             aria-labelledby={`simple-tab-${index}`}
         >
             {value === index && (
-                <DialogList dialogs={dialogs}/>
+                <DialogList dialogs={dialogs}
+                            openDialog={openDialog}/>
             )}
         </div>
     )
 }
 
-const DialogNavigation = () : React.ReactNode => {
+const DialogNavigation = ( { frontend, backend, openDialog} : DialogNavigationProps ) : React.ReactNode => {
     const [selectedDialogLine, setDialogLine] = useState(0)
 
     const handleDialogLineChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -57,37 +67,12 @@ const DialogNavigation = () : React.ReactNode => {
             <Box>
                 <CustomTabPanel value={selectedDialogLine}
                                 index={0}
-                                dialogs={[
-                    {
-                        title: 'Top Navigation bar',
-                        pageTitle: 'Main Calendar',
-                        selectedOptions: ['Small Animated Popup', 'Event type, Users included, Time, Length of event, Send invitation']
-                    },
-                    {
-                        title: 'Main',
-                        pageTitle: 'Settings',
-                        selectedOptions: ['Small Animated Popup', 'Event type, Users included, Time, Length of event, Send invitation']
-                    },
-                    {
-                        title: 'Create Event',
-                        pageTitle: 'Main Calendar',
-                        selectedOptions: ['Small Animated Popup', 'Event type, Users included, Time, Length of event, Send invitation']
-                    }
-                ]}/>
+                                dialogs={frontend}
+                                openDialog={openDialog}/>
                 <CustomTabPanel value={selectedDialogLine}
                                 index={1}
-                                dialogs={[
-                                    {
-                                        title: 'Top Navigation bar',
-                                        pageTitle: 'Main Calendar',
-                                        selectedOptions: ['op1', 'op2']
-                                    },
-                                    {
-                                        title: 'Calendar style',
-                                        pageTitle: 'Main Calendar',
-                                        selectedOptions: ['Small Animated Popup', 'Event type, Users included, Time, Length of event, Send invitation']
-                                    },
-                                ]}/>
+                                dialogs={backend}
+                                openDialog={openDialog}/>
             </Box>
         </div>
     )

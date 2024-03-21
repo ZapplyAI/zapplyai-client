@@ -27,7 +27,8 @@ interface DialogOptionProps {
 interface DialogProps {
     title: string
     pageTitle: string
-    selectedOptions: string[]
+    selectedOptions: string[],
+    dialog: any
 }
 
 const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOptionProps ) : React.ReactNode => {
