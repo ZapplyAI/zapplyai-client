@@ -36,10 +36,17 @@ const DialogOption  = ( { index, dialog, onExpanded, isExpanded } : DialogOption
         <Accordion key={index}
                    style={style.accordionContainer}
                    onChange={(event, expanded) => onExpanded(index, expanded)}
-                   expanded={isExpanded}>
+                   expanded={isExpanded}
+                   sx={{
+                       '&.Mui-expanded': {
+                           margin: '0px',
+                       },
+                       padding: '0px',
+                   }}>
             <AccordionSummary sx={{
                 '& .MuiAccordionSummary-content.Mui-expanded	': style.accordionSummary,
-                '& .MuiAccordionSummary-content	': style.accordionSummary
+                '& .MuiAccordionSummary-content	': style.accordionSummary,
+                padding: '0px'
             }}
                               expandIcon={<ExpandMoreIcon sx={{color: '#CFCED9'}}/>}>
                 <DialogIcon icon={"..."}/>
@@ -80,7 +87,8 @@ const style = {
 },
     accordionSummary: {
         alignItems: 'center',
-        margin: '10px 0px'
+        margin:  '7px 0px',
+        padding: '0px'
     },
     accordionSummaryTitles: {
         display: 'flex',
@@ -89,12 +97,12 @@ const style = {
         paddingTop: '2px'
     },
     pageTitle: {
-        fontSize: '12px',
+        fontSize: '10px',
         color: '#6A7883',
         marginBottom: '5px'
     },
     dialogTitle: {
-        fontSize: '14px',
+        fontSize: '12px',
         color: '#CFCED9'
     },
     optionLabel: {

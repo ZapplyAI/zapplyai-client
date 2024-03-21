@@ -84,7 +84,7 @@ const style = {
         flexDirection: 'column',
         justifyContent: 'start',
         padding: '20px 12px',
-        width: '300px',
+        width: '268px',
         background: '#181818'
     },
     dialogTabsContainer: {
@@ -101,7 +101,8 @@ const style = {
         padding: '8px 35px',
         color: '#CFCED9',
         textTransform: 'none',
-        borderRadius: '5px'
+        borderRadius: '5px',
+        fontSize: '12px'
     }
 }
 
