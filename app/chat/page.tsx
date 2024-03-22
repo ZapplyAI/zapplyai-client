@@ -6,7 +6,7 @@ import styles from './page.module.scss'
 import DialogNavigation from "./components/DialogNavigation/DialogNavigation"
 import ChatWindow from "@/app/chat/components/ChatWindow/ChatWindow"
 
-const availableDialogs = {
+const availableDialogsInit = {
     frontend: [
         {
             id: 1,
@@ -155,6 +155,7 @@ const availableDialogs = {
 
 const Chat = (): React.ReactNode => {
     const [openedDialogId, selectOpenedDialogId] = useState(-1)
+    const [availableDialogs, changeDialogs] = useState(availableDialogsInit)
 
     const openDialog = (dialogId : number) => {
         selectOpenedDialogId(dialogId)
@@ -171,13 +172,39 @@ const Chat = (): React.ReactNode => {
         return null
     }
 
+    const onMessageSent = (message: string) => {
+        console.log('onMessageSent')
+        if (openedDialogId !== -1) {
+            const category = openedDialogId <= 3 ? 'frontend' : 'backend';
+            const updatedDialogs = {
+                ...availableDialogs,
+                [category]: availableDialogs[category].map((dialog) =>
+                    dialog.id === openedDialogId
+                        ? {
+                            ...dialog,
+                            dialog: [
+                                ...dialog.dialog,
+                                {
+                                    messageId: `mes${dialog.dialog.length + 1}`,
+                                    sender: 'user',
+                                    message: message,
+                                },
+                            ],
+                        }
+                        : dialog
+                ),
+            };
+            changeDialogs(updatedDialogs);
+        }
+    };
 
     return (
         <main className={styles.main}>
             <DialogNavigation frontend={availableDialogs.frontend}
                               backend={availableDialogs.backend}
                               openDialog={openDialog} />
-            <ChatWindow selectedDialog={findDialogById(openedDialogId)}/>
+            <ChatWindow selectedDialog={findDialogById(openedDialogId)}
+                        sendMessage={onMessageSent}/>
         </main>
     )
 }
