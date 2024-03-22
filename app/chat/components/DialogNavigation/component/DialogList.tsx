@@ -1,48 +1,53 @@
-import React from "react"
-import DialogOption from "@/app/chat/components/DialogNavigation/component/DialogOption"
-import map from "lodash/map"
-import {Divider, Stack} from "@mui/material";
+import React from 'react'
+import DialogOption from '@/app/chat/components/DialogNavigation/component/DialogOption'
+import map from 'lodash/map'
+import { Divider, Stack } from '@mui/material'
 
 interface DialogListProps {
-    dialogs: DialogProps[]
-    openDialog: any
+  dialogs: DialogProps[]
+  openDialog: any
 }
 
 interface DialogProps {
-    id: number,
-    title: string
-    pageTitle: string
-    selectedOptions: string[],
-    dialog: any
+  id: number
+  title: string
+  pageTitle: string
+  selectedOptions: string[]
+  dialog: any
 }
 
-const DialogList = ( { dialogs, openDialog } : DialogListProps ) : React.ReactNode => {
-    const [expandedId, setExpandedId] = React.useState(null)
+const DialogList = ({
+  dialogs,
+  openDialog,
+}: DialogListProps): React.ReactNode => {
+  const [expandedId, setExpandedId] = React.useState(null)
 
-    const handleExpansion = (id: number, expanded: boolean) => {
-        if (!expanded) {
-            setExpandedId(null)
-            return
-        }
-        setExpandedId(id)
-        openDialog(id)
+  const handleExpansion = (id: number, expanded: boolean) => {
+    if (!expanded) {
+      setExpandedId(null)
+      return
     }
+    setExpandedId(id)
+    openDialog(id)
+  }
 
-    return (
-        <Stack direction="column"
-               spacing={0}
-               divider={<Divider orientation="horizontal" flexItem />}
-        >
-            {map(dialogs, (dialog) =>
-                <DialogOption index={dialog.id}
-                              key={dialog.id}
-                              dialog={dialog}
-                              onExpanded={handleExpansion}
-                              isExpanded={expandedId === dialog.id}
-                />
-            )}
-        </Stack>
-    )
+  return (
+    <Stack
+      direction="column"
+      spacing={0}
+      divider={<Divider orientation="horizontal" flexItem />}
+    >
+      {map(dialogs, dialog => (
+        <DialogOption
+          index={dialog.id}
+          key={dialog.id}
+          dialog={dialog}
+          onExpanded={handleExpansion}
+          isExpanded={expandedId === dialog.id}
+        />
+      ))}
+    </Stack>
+  )
 }
 
 export default DialogList
