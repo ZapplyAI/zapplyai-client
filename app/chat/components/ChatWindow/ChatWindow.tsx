@@ -181,7 +181,6 @@ const ChatWindow = ({
           <ChatMessage key={messageObj.messageId} messageObject={messageObj} />
         ))}
       </Stack>
-      {JSON.stringify(prompt)}
       <div style={style.inputContainer}>
         <IconButton sx={{ p: '10px' }} aria-label="menu">
           <GrainIcon style={{ color: '#775EFF' }} />
