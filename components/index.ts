@@ -1,4 +1,6 @@
 export * from './Navigation'
+export * from './RightDrawer'
+export * from './Authentication'
 export * from './Logo'
 export * from './Avatar'
 export * from './Input'
