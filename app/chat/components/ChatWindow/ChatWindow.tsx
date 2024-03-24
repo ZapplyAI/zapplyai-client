@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
 import { Divider, IconButton, InputBase, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
 import SendIcon from '@mui/icons-material/Send'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { useImmer } from 'use-immer'
+import { useParams, useRouter } from 'next/navigation'
+import { session } from '@/services'
+import { sendPrompt } from '@/app/chat/actions'
 
 interface DialogProps {
   id: number
@@ -45,38 +49,116 @@ const ChatHeader = ({
   )
 }
 
+interface PromptState {
+  value: string
+  isProcessing: boolean
+  step: string
+}
+
 const ChatWindow = ({
   selectedDialog,
   sendMessage,
 }: ChatWindowProps): React.ReactNode => {
-  const [inputValue, setInputValue] = useState('')
+  const { ref = null } = useParams()
+  const router = useRouter()
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value)
-  }
+  const [prompt, setPrompt] = useImmer<PromptState>({
+    value: '',
+    isProcessing: false,
+    step: 'PROJECT_DESCRIPTION',
+  })
 
-  const handleEnterPress = event => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault() // Prevent default behavior (creating new line)
-      submitAction() // Perform action when Enter is pressed
+  React.useEffect(() => {
+    if (!ref) {
+      ;(async () => {
+        setPrompt(draft => {
+          draft.isProcessing = true
+        })
+        try {
+          const { success, response } = await session.initialize(
+            `Project ${Math.floor(Math.random() * 100)}`
+          )
+
+          if (success && !ref) {
+            router.push(`/chat/${response.ref}`)
+          }
+        } finally {
+          setPrompt(draft => {
+            draft.isProcessing = false
+          })
+        }
+      })()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const promptSession = async () => {
+    setPrompt(draft => {
+      draft.isProcessing = true
+    })
+    try {
+      const { success, response } = await sendPrompt({
+        ref: ref as string,
+        prompt: prompt.value,
+      })
+
+      if (success) {
+        console.log(response)
+      }
+    } finally {
+      setPrompt(draft => {
+        draft.isProcessing = false
+      })
     }
   }
 
-  const handleSendButtonClick = () => {
-    submitAction()
+  const handleInputChange = event => {
+    setPrompt(draft => {
+      draft.value = event.target.value
+    })
   }
 
-  const submitAction = () => {
-    console.log('Submitted:', inputValue)
-
-    sendMessage(inputValue)
-    // Clear input field after submission if needed
-    setInputValue('')
+  const handleEnterPress = async event => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault() // Prevent default behavior (creating new line)
+      await submitAction() // Perform action when Enter is pressed
+    }
   }
 
-  if (selectedDialog === null) {
-    return <div>empty</div>
+  const handleSendButtonClick = async () => {
+    await submitAction()
   }
+
+  const submitAction = async () => {
+    sendMessage(prompt.value)
+    setPrompt(draft => {
+      draft.isProcessing = true
+      draft.value = ''
+    })
+    try {
+      const { success, response } = await sendPrompt({
+        ref: ref as string,
+        prompt: prompt.value,
+      })
+
+      if (success) {
+        setPrompt(draft => {
+          draft.step = response.data.next_step
+
+          sendMessage(response.data.response)
+        })
+      }
+    } finally {
+      setPrompt(draft => {
+        draft.isProcessing = false
+      })
+    }
+  }
+
+  // if (selectedDialog === null) {
+  //   return <div>empty</div>
+  // }
 
   return (
     <div style={style.chatWindow}>
@@ -99,7 +181,7 @@ const ChatWindow = ({
           <ChatMessage key={messageObj.messageId} messageObject={messageObj} />
         ))}
       </Stack>
-
+      {JSON.stringify(prompt)}
       <div style={style.inputContainer}>
         <IconButton sx={{ p: '10px' }} aria-label="menu">
           <GrainIcon style={{ color: '#775EFF' }} />
@@ -109,9 +191,8 @@ const ChatWindow = ({
           autoFocus
           fullWidth
           multiline
-          placeholder="Tell me more about  your web app"
-          inputProps={{ 'aria-label': 'search google maps' }}
-          value={inputValue}
+          placeholder="Tell me more about your web app"
+          value={prompt.value}
           onChange={handleInputChange}
           onKeyDown={handleEnterPress}
         />
