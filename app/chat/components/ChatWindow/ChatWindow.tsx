@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
 import { useParams, useRouter } from 'next/navigation'
+
 import { session } from '@/services'
 import { sendPrompt } from '@/app/chat/actions'
 
@@ -55,17 +56,23 @@ interface PromptState {
   step: string
 }
 
+interface Dialog {
+  message: string
+  sender: 'USER' | 'AI'
+}
+
 const ChatWindow = ({
   selectedDialog,
   sendMessage,
 }: ChatWindowProps): React.ReactNode => {
+  const [dialogs, setDialogs] = React.useState<Dialog[]>([])
   const { ref = null } = useParams()
   const router = useRouter()
 
   const [prompt, setPrompt] = useImmer<PromptState>({
     value: '',
     isProcessing: false,
-    step: 'PROJECT_DESCRIPTION',
+    step: '',
   })
 
   React.useEffect(() => {
@@ -93,26 +100,6 @@ const ChatWindow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const promptSession = async () => {
-    setPrompt(draft => {
-      draft.isProcessing = true
-    })
-    try {
-      const { success, response } = await sendPrompt({
-        ref: ref as string,
-        prompt: prompt.value,
-      })
-
-      if (success) {
-        console.log(response)
-      }
-    } finally {
-      setPrompt(draft => {
-        draft.isProcessing = false
-      })
-    }
-  }
-
   const handleInputChange = event => {
     setPrompt(draft => {
       draft.value = event.target.value
@@ -131,7 +118,10 @@ const ChatWindow = ({
   }
 
   const submitAction = async () => {
-    sendMessage(prompt.value)
+    setDialogs(dialogs => [
+      ...dialogs,
+      { message: prompt.value, sender: 'USER' },
+    ])
     setPrompt(draft => {
       draft.isProcessing = true
       draft.value = ''
@@ -145,9 +135,11 @@ const ChatWindow = ({
       if (success) {
         setPrompt(draft => {
           draft.step = response.data.next_step
-
-          sendMessage(response.data.response)
         })
+        setDialogs(dialogs => [
+          ...dialogs,
+          { message: response.data.response, sender: 'AI' },
+        ])
       }
     } finally {
       setPrompt(draft => {
@@ -177,8 +169,9 @@ const ChatWindow = ({
         }
         style={style.dialogContainer}
       >
-        {selectedDialog.dialog.map(messageObj => (
-          <ChatMessage key={messageObj.messageId} messageObject={messageObj} />
+        {/*going with index for now*/}
+        {dialogs.map((dialog, index) => (
+          <ChatMessage key={index} messageObject={dialog} />
         ))}
       </Stack>
       <div style={style.inputContainer}>

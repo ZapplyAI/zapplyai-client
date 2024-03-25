@@ -14,7 +14,7 @@ interface MessageObject {
 const ChatMessage = ({ messageObject }: ChatMessageProps): React.ReactNode => {
   return (
     <div style={style.messageContainer}>
-      {messageObject.sender === 'ai' ? (
+      {messageObject.sender === 'AI' ? (
         <GrainIcon style={{ ...style.messageSenderIcon }} />
       ) : (
         <div style={{ ...style.messageSenderIcon, background: 'gray' }} />
