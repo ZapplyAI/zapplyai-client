@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Box, Tab, Tabs } from '@mui/material'
 import DialogList from '@/app/chat/components/DialogNavigation/component/DialogList'
+import { Button } from '@/components/Button'
 
 interface DialogProps {
   id: number
@@ -92,6 +93,16 @@ const DialogNavigation = ({
           openDialog={openDialog}
         />
       </Box>
+
+      <Button
+        label={'Start new dialog'}
+        fullWidth
+        variant={'contained'}
+        sx={{
+          marginTop: '10px'
+        }}
+        action={() => console.log('create new dialog')}
+      />
     </div>
   )
 }

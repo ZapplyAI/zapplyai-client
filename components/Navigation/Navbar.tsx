@@ -1,91 +1,102 @@
-"use client"
+'use client'
 
-import React from "react"
-import {Avatar, Logo} from "@/components"
-import {Button} from "@mui/material"
-import RightDrawer from "../RightDrawer/RightDrawer"
-import SignUp from "@/components/Authentication/SignUp"
-import LogIn from "@/components/Authentication/LogIn"
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import React from 'react'
+import { Avatar, Logo } from '@/components'
+import RightDrawer from '../RightDrawer/RightDrawer'
+import SignUp from '@/components/Authentication/SignUp'
+import LogIn from '@/components/Authentication/LogIn'
+import LockOpenIcon from '@mui/icons-material/LockOpen'
+import { Button } from '@/components/Button'
 
 const loggedIn = false
 
 const Navbar = (): React.ReactNode => {
-    const [drawerOpened, setDrawerOpen] = React.useState("")
+  const [drawerOpened, setDrawerOpen] = React.useState('')
 
-    const closeDrawer = () => {
-        setDrawerOpen('')
-    }
+  const closeDrawer = () => {
+    setDrawerOpen('')
+  }
 
-    const toggleSignUpDrawer = (open) => {
-        setDrawerOpen(open ? 'Sign Up' : '')
-    }
+  const toggleSignUpDrawer = open => {
+    setDrawerOpen(open ? 'Sign Up' : '')
+  }
 
-    const toggleLogInDrawer = (open) => {
-        setDrawerOpen(open ? 'Log In' : '')
-    }
+  const toggleLogInDrawer = open => {
+    setDrawerOpen(open ? 'Log In' : '')
+  }
 
-    return (
-        <nav style={style.nav}>
-            <Logo />
-            {loggedIn ? (<Avatar />) : (
-              <div>
-                  <Button style={{ marginRight: "10px" }}
-                          onClick={toggleSignUpDrawer}>
-                      Sign Up
-                  </Button>
-                  <Button style={{ marginRight: "10px" }}
-                          onClick={toggleLogInDrawer}>
-                      Log In
-                  </Button>
-              </div>
-            )}
+  return (
+    <nav style={style.nav}>
+      <Logo />
+      {loggedIn ? (
+        <Avatar />
+      ) : (
+        <div>
+          <Button
+            sx={{ marginRight: '10px' }}
+            action={toggleSignUpDrawer}
+            fullWidth={false}
+            label={'Sign Up'}
+            variant={'contained'}
+          />
+          <Button
+            sx={{ marginRight: '10px' }}
+            action={toggleLogInDrawer}
+            fullWidth={false}
+            label={'Log In'}
+            variant={'contained'}
+          />
+        </div>
+      )}
 
-            <div style={{ position: "absolute" }}>
-                <RightDrawer
-                  title={drawerOpened}
-                  icon={
-                        <div style={{
-                                ...style.headerIconStyle,
-                                borderRadius: 100,
-                                background: '#f50057'
-                            }}>
-                            <LockOpenIcon style={{
-                              ...style.headerIconStyle,
-                              color: '#FFFFFF',
-                              height: '65%',
-                              width: '65%'}}/>
-                        </div>
-                        }
-                  component={drawerOpened === 'Sign Up' ? <SignUp/> : <LogIn/> }
-                  isOpen={drawerOpened !== ''}
-                  closeDrawer={closeDrawer}
-                  />
-              </div>
-        </nav>
-
-
-    )
+      <div style={{ position: 'absolute' }}>
+        <RightDrawer
+          title={drawerOpened}
+          icon={
+            <div
+              style={{
+                ...style.headerIconStyle,
+                borderRadius: 100,
+                background: '#f50057',
+              }}
+            >
+              <LockOpenIcon
+                style={{
+                  ...style.headerIconStyle,
+                  color: '#FFFFFF',
+                  height: '65%',
+                  width: '65%',
+                }}
+              />
+            </div>
+          }
+          component={drawerOpened === 'Sign Up' ? <SignUp /> : <LogIn />}
+          isOpen={drawerOpened !== ''}
+          closeDrawer={closeDrawer}
+        />
+      </div>
+    </nav>
+  )
 }
 
 const style = {
-    nav: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '55px',
-        width: '100%',
-        padding: '0px 12px',
-        background: '#181818',
-        borderBottom: '1px solid #282636'
-    },
+  nav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '55px',
+    width: '100%',
+    padding: '0px 12px',
+    background: '#181818',
+    borderBottom: '1px solid #282636',
+  },
   headerIconStyle: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    width: '100%'
-  }
+    width: '100%',
+  },
 }
 
 export default Navbar

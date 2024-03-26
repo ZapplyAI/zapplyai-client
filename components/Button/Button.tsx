@@ -1,53 +1,44 @@
-'use client'
 import React from 'react'
-import { clsx } from 'clsx'
-
-import { Spinner } from '@/components'
-import styles from './Button.module.scss'
+import { Button as ButtonMUI } from '@mui/material'
 
 interface ButtonProps {
-  variant?: 'solid' | 'outlined' | 'ghost' | 'link'
-  size?: 'sm' | 'md' | 'lg'
-  isLoading?: boolean
-  isDisabled?: boolean
-  children: React.ReactNode
-  ariaLabel?: string
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
-  className?: string
+  label: string
+  fullWidth: boolean
+  variant: string
+  sx: object
+  action: any
 }
 
-type Props = ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>
-
-const Button = React.forwardRef<HTMLButtonElement, Props>((props, ref) => {
-  let {
-    ariaLabel = props.children as string,
-    variant = 'solid',
-    size = 'md',
-    isLoading = false,
-    isDisabled = false,
-    children,
-    onClick,
-    className,
-  } = props
-
-  if (isLoading && !isDisabled) {
-    isDisabled = true
-  }
-
+const Button = ({
+  label,
+  fullWidth,
+  variant = 'contained',
+  sx = {},
+  action
+}: ButtonProps): React.ReactNode => {
   return (
-    <button
-      ref={ref}
-      disabled={isDisabled}
-      aria-label={ariaLabel}
-      aria-busy={isLoading}
-      className={clsx(styles[size], styles[variant], className)}
-      onClick={onClick}
+    <ButtonMUI
+      fullWidth={fullWidth}
+      variant={variant}
+      style={style.button(variant)}
+      sx={sx}
+      onClick={action}
     >
-      {isLoading ? <Spinner /> : children}
-    </button>
+      <span style={style.buttonLabel}>{label}</span>
+    </ButtonMUI>
   )
-})
+}
 
-Button.displayName = 'Button'
+const style = {
+  button: variant => ({
+    background: variant === 'text' ? 'none' : '#282636',
+    boxShadow: 'none',
+  }),
+  buttonLabel: {
+    fontSize: '12px',
+    textTransform: 'none',
+    color: '#CFCED9',
+  },
+}
 
 export default Button
