@@ -1,4 +1,4 @@
-import React from "react"
+import React, {CSSProperties} from "react"
 import ExploreIcon from '@mui/icons-material/Explore';
 
 interface DialogIconProps {
@@ -13,7 +13,7 @@ const DialogIcon  = ( { iconName } : DialogIconProps ) : React.ReactNode => {
     )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
     iconContainer: {
         display: 'flex',
         justifyContent: 'center',

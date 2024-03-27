@@ -1,4 +1,4 @@
-import React from "react"
+import React, {CSSProperties} from "react"
 import {Avatar, Logo} from "@/components"
 import {Box, Drawer, IconButton} from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close'
@@ -55,7 +55,7 @@ const RightDrawer = ( { component, icon, title, isOpen, closeDrawer} : RightDraw
     )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   drawerContainer: {
     background: '#181818'
   },

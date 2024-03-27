@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { Grid, Link, TextField } from '@mui/material'
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 import SettingsIcon from '@mui/icons-material/Settings'
-import {Button} from "@/components/Button";
+import { Button } from '@/components/Button'
 
 const LogIn = (): React.ReactNode => {
   return (
@@ -40,7 +40,7 @@ const LogIn = (): React.ReactNode => {
           fullWidth
           label={'Log In'}
           variant={'contained'}
-          type="submit"
+          // type="submit"
         />
         <Grid container>
           <Grid item xs>
@@ -59,7 +59,7 @@ const LogIn = (): React.ReactNode => {
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   formContainer: {
     width: '350px',
   },
