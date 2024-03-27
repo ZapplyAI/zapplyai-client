@@ -1,4 +1,4 @@
-import React from "react"
+import React, {CSSProperties} from "react"
 import {AppBar, IconButton, Stack} from "@mui/material"
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
@@ -30,7 +30,7 @@ const Sidebar = (): React.ReactNode => {
     )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
     container: {
         height: '100%',
         display: 'flex',

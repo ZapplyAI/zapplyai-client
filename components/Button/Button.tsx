@@ -1,12 +1,12 @@
-import React from 'react'
+import React, {CSSProperties} from 'react'
 import { Button as ButtonMUI } from '@mui/material'
 
 interface ButtonProps {
   label: string
   fullWidth: boolean
-  variant: string
+  variant?: 'contained' | 'text' | 'outlined'
   sx: object
-  action: any
+  action?: () => void
 }
 
 const Button = ({
@@ -16,24 +16,34 @@ const Button = ({
   sx = {},
   action
 }: ButtonProps): React.ReactNode => {
+  const handleClick = () => {
+    if (action) {
+      action()
+    }
+  }
+
   return (
     <ButtonMUI
       fullWidth={fullWidth}
       variant={variant}
-      style={style.button(variant)}
+      style={variant === 'text' ? style.buttonNoBG : style.buttonBG}
       sx={sx}
-      onClick={action}
+      onClick={handleClick}
     >
       <span style={style.buttonLabel}>{label}</span>
     </ButtonMUI>
   )
 }
 
-const style = {
-  button: variant => ({
-    background: variant === 'text' ? 'none' : '#282636',
+const style: { [key: string]: CSSProperties } = {
+  buttonNoBG: {
+    background: 'none',
     boxShadow: 'none',
-  }),
+  },
+  buttonBG: {
+    background: '#282636',
+    boxShadow: 'none',
+  },
   buttonLabel: {
     fontSize: '12px',
     textTransform: 'none',

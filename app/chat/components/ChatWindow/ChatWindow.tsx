@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
 import { useParams, useRouter } from 'next/navigation'
+import { CSSProperties } from 'react';
 
 import { session } from '@/services'
 import { sendPrompt } from '@/app/chat/actions'
@@ -57,6 +58,7 @@ interface PromptState {
 }
 
 interface Dialog {
+  messageId: string
   message: string
   sender: 'USER' | 'AI'
 }
@@ -100,13 +102,13 @@ const ChatWindow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleInputChange = event => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(draft => {
       draft.value = event.target.value
     })
   }
 
-  const handleEnterPress = async event => {
+  const handleEnterPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault() // Prevent default behavior (creating new line)
       await submitAction() // Perform action when Enter is pressed
@@ -120,7 +122,7 @@ const ChatWindow = ({
   const submitAction = async () => {
     setDialogs(dialogs => [
       ...dialogs,
-      { message: prompt.value, sender: 'USER' },
+      { messageId: '', message: prompt.value, sender: 'USER' },
     ])
     setPrompt(draft => {
       draft.isProcessing = true
@@ -138,7 +140,7 @@ const ChatWindow = ({
         })
         setDialogs(dialogs => [
           ...dialogs,
-          { message: response.data.response, sender: 'AI' },
+          { messageId: '', message: response.data.response, sender: 'AI' },
         ])
       }
     } finally {
@@ -202,7 +204,7 @@ const ChatWindow = ({
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   chatWindow: {
     position: 'relative',
     display: 'flex',

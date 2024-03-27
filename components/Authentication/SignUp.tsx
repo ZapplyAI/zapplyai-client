@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {CSSProperties} from 'react'
 import {Grid, Link, TextField } from '@mui/material'
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
@@ -49,7 +49,7 @@ const SignUp = (): React.ReactNode => {
           fullWidth
           label={'Sign Up'}
           variant={'contained'}
-          type="submit"
+          // type="submit"
         />
 
         <Grid container>
@@ -69,7 +69,7 @@ const SignUp = (): React.ReactNode => {
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   formContainer: {
     width: '350px',
   },

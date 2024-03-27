@@ -20,11 +20,11 @@ const DialogList = ({
   dialogs,
   openDialog,
 }: DialogListProps): React.ReactNode => {
-  const [expandedId, setExpandedId] = React.useState(null)
+  const [expandedId, setExpandedId] = React.useState(-1)
 
   const handleExpansion = (id: number, expanded: boolean) => {
     if (!expanded) {
-      setExpandedId(null)
+      setExpandedId(-1)
       return
     }
     setExpandedId(id)

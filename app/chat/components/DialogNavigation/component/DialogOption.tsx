@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {CSSProperties} from 'react'
 import DialogIcon from '@/app/chat/components/DialogNavigation/component/DialogIcon'
 import Stack from '@mui/material/Stack'
 
@@ -14,19 +14,13 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import {DialogProps} from "@/app/types/chat"
 
 interface DialogOptionProps {
   index: number
   dialog: DialogProps
   onExpanded: any
   isExpanded: boolean
-}
-
-interface DialogProps {
-  title: string
-  pageTitle: string
-  selectedOptions: string[]
-  dialog: any
 }
 
 const DialogOption = ({
@@ -56,7 +50,7 @@ const DialogOption = ({
         }}
         expandIcon={<ExpandMoreIcon sx={{ color: '#CFCED9' }} />}
       >
-        <DialogIcon icon={'...'} />
+        <DialogIcon iconName={""}/>
         <div style={style.accordionSummaryTitles}>
           <h3 style={style.pageTitle}>{dialog.pageTitle}</h3>
           <Typography style={style.dialogTitle}>{dialog.title}</Typography>
@@ -69,7 +63,8 @@ const DialogOption = ({
               <FormControl
                 fullWidth
                 key={key}
-                orientation="horizontal"
+                component="div"
+                // orientation="horizontal"
                 sx={{
                   gap: 1,
                   flexDirection: 'row',
@@ -90,7 +85,7 @@ const DialogOption = ({
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   accordionContainer: {
     background: 'none',
     boxShadow: 'none',

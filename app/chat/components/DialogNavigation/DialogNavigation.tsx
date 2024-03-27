@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, {CSSProperties, useState} from 'react'
 import { Box, Tab, Tabs } from '@mui/material'
 import DialogList from '@/app/chat/components/DialogNavigation/component/DialogList'
 import { Button } from '@/components/Button'
@@ -107,7 +107,7 @@ const DialogNavigation = ({
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   navigationContainer: {
     display: 'flex',
     flexDirection: 'column',

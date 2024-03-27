@@ -1,5 +1,6 @@
 import React from 'react'
 import GrainIcon from '@mui/icons-material/Grain'
+type CSSProperties = React.CSSProperties
 
 interface ChatMessageProps {
   messageObject: MessageObject
@@ -24,7 +25,7 @@ const ChatMessage = ({ messageObject }: ChatMessageProps): React.ReactNode => {
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   messageContainer: {
     display: 'flex',
     flexDirection: 'row',

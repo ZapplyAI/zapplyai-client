@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { Avatar, Logo } from '@/components'
 import RightDrawer from '../RightDrawer/RightDrawer'
 import SignUp from '@/components/Authentication/SignUp'
@@ -17,12 +17,12 @@ const Navbar = (): React.ReactNode => {
     setDrawerOpen('')
   }
 
-  const toggleSignUpDrawer = open => {
-    setDrawerOpen(open ? 'Sign Up' : '')
+  const toggleSignUpDrawer = () => {
+    setDrawerOpen(open => (open ? 'Sign Up' : ''))
   }
 
-  const toggleLogInDrawer = open => {
-    setDrawerOpen(open ? 'Log In' : '')
+  const toggleLogInDrawer = () => {
+    setDrawerOpen(open => (open ? 'Log In' : ''))
   }
 
   return (
@@ -79,7 +79,7 @@ const Navbar = (): React.ReactNode => {
   )
 }
 
-const style = {
+const style: { [key: string]: CSSProperties } = {
   nav: {
     display: 'flex',
     justifyContent: 'space-between',
