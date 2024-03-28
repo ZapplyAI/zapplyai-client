@@ -8,9 +8,13 @@ import LogIn from '@/components/Authentication/LogIn'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { Button } from '@/components/Button'
 
+interface NavbarProps {
+  isLandingPage?: boolean
+}
+
 const loggedIn = false
 
-const Navbar = (): React.ReactNode => {
+const Navbar = ({ isLandingPage = false }: NavbarProps): React.ReactNode => {
   const [drawerOpened, setDrawerOpen] = React.useState('')
 
   const closeDrawer = () => {
@@ -26,11 +30,14 @@ const Navbar = (): React.ReactNode => {
   }
 
   return (
-    <nav style={style.nav}>
+    <nav style={isLandingPage ? {...style.nav, background: 'rgba(12,12,12,0.5)' } : style.nave}>
       <Logo />
       {loggedIn ? (
         <Avatar />
-      ) : (
+      ) : isLandingPage ? (
+          <Button label={'Request Access'}
+                  sx={{border: '1px #6551D1 solid'}}/>
+        ) : (
         <div>
           <Button
             sx={{ marginRight: '10px' }}
@@ -89,6 +96,7 @@ const style: { [key: string]: CSSProperties } = {
     padding: '0px 12px',
     background: '#181818',
     borderBottom: '1px solid #282636',
+    zIndex: 1000,
   },
   headerIconStyle: {
     display: 'flex',
