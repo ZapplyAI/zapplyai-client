@@ -3,24 +3,10 @@ import { Button as ButtonMUI } from '@mui/material'
 
 interface ButtonProps {
   label: string
-  fullWidth?: boolean
-  variant?: 'contained' | 'text' | 'outlined'
-  sx?: object
-  action?: () => void
+  variant?: 'left' | 'right'
 }
 
-const Button = ({
-  label,
-  fullWidth = false,
-  variant = 'contained',
-  sx = {},
-  action
-}: ButtonProps): React.ReactNode => {
-  const handleClick = () => {
-    if (action) {
-      action()
-    }
-  }
+const Button = ({ label, variant='left' }: ButtonProps): React.ReactNode => {
 
   return (
     <ButtonMUI

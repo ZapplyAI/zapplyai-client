@@ -1,0 +1,82 @@
+//:export {
+//  iconColor: var(--primary-color);
+//}
+
+.contentContainer {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+  border: none !important;
+  outline: none !important;
+}
+
+.image {
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  background-image: url("../../public/image/landingImageBG2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+//.main {
+//  display: flex;
+//  width: 100%;
+//
+//  aside {
+//    width: 24rem;
+//    background-color: var(--sidebar-background);
+//    padding: 20px;
+//    height: 100%;
+//    border-width: 0;
+//    border-style: solid;
+//    border-color: var(--primary-border-color);
+//    border: {
+//      left-width: 2px;
+//      right-width: 2px;
+//    }
+//  }
+//}
+//
+//.chatInterface {
+//  height: 100%;
+//  width: 100%;
+//  background-color: var(--foreground);
+//  position: relative;
+//
+//  nav {
+//    background-color: var(--navbar-background);
+//    padding: var(--navbar-padding-y);
+//    border-bottom: {
+//      width: 2px;
+//      style: solid;
+//      color: var(--primary-border-color);
+//    }
+//
+//    > div {
+//      display: flex;
+//      align-items: center;
+//      gap: 0.8rem;
+//
+//      span {
+//        font-weight: bold;
+//      }
+//    }
+//  }
+//}
+//
+//.chatButton {
+//  margin-top: 2rem !important;
+//}
+//
+//.messagesContainer {
+//  --padding: 2rem;
+//
+//  height: calc(100% - (var(--padding) * 2));
+//  padding: var(--padding);
+//  display: flex;
+//  flex-direction: column;
+//  justify-content: space-between;
+//}
