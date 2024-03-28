@@ -9,19 +9,32 @@
   "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
   "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
   --background: #775EFF;
+  --foreground: #FFFFFF;
   --sidebar-background: #FCFDFE;
   --navbar-background: var(--sidebar-background);
   --primary-color: #775EFF;
   --primary-text-color: #000000;
   --secondary-text-color: #6A7883;
+
+  --tab-list-background: #F0F5F9;
+
+  --navbar-padding-y: 1rem;
+
+  --sidebar-width: 3.5rem;
+  --primary-border-color: #DCE2EA;
+  --border-radius: 0.8rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+:root {
+  @media (prefers-color-scheme: dark) {
     --background: #282636;
+    --foreground: #212121;
     --sidebar-background: #181818;
-    --primary-text-color: #CFCED9;
     --navbar-background: var(--sidebar-background);
+    --primary-text-color: #CFCED9;
+    --primary-border-color: var(--background);
+
+    --tab-list-background: var(--background);
   }
 }
 
@@ -29,10 +42,8 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-}
-
-body {
-  background-color: var(--background);
+  font-family: "Inter", "Roboto", "Helvetica Neue", "Segoe UI", "Oxygen",
+  "Ubuntu", "Cantarell", "Open Sans", sans-serif !important;
 }
 
 a {
@@ -48,8 +59,13 @@ a {
 
 
 body {
+  background-color: var(--background);
   font-size: 16px;
 
   font-family: "SF PRO DISPLAY", "Helvetica Neue", "Segoe UI", "Oxygen",
   "Ubuntu", "Cantarell", "Open Sans", sans-serif;
+
+  .w-full {
+    width: 100% !important;
+  }
 }
