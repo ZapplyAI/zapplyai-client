@@ -9,12 +9,13 @@ import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { Button } from '@/components/Button'
 
 interface NavbarProps {
+  isMobile: boolean
   isLandingPage?: boolean
 }
 
 const loggedIn = false
 
-const Navbar = ({ isLandingPage = false }: NavbarProps): React.ReactNode => {
+const Navbar = ({ isMobile, isLandingPage = false }: NavbarProps): React.ReactNode => {
   const [drawerOpened, setDrawerOpen] = React.useState('')
 
   const closeDrawer = () => {
@@ -27,6 +28,30 @@ const Navbar = ({ isLandingPage = false }: NavbarProps): React.ReactNode => {
 
   const toggleLogInDrawer = () => {
     setDrawerOpen(open => (open ? 'Log In' : ''))
+  }
+
+  console.log('nav isMobile', isMobile)
+
+  const style: { [key: string]: CSSProperties } = {
+    nav: {
+      position: isMobile ? 'fixed' : 'static',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height: '55px',
+      width: '100%',
+      padding: '0px 12px',
+      background: '#181818',
+      borderBottom: '1px solid #282636',
+      zIndex: 1000,
+    },
+    headerIconStyle: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100%',
+      width: '100%',
+    },
   }
 
   return (
@@ -84,27 +109,6 @@ const Navbar = ({ isLandingPage = false }: NavbarProps): React.ReactNode => {
       </div>
     </nav>
   )
-}
-
-const style: { [key: string]: CSSProperties } = {
-  nav: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '55px',
-    width: '100%',
-    padding: '0px 12px',
-    background: '#181818',
-    borderBottom: '1px solid #282636',
-    zIndex: 1000,
-  },
-  headerIconStyle: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-    width: '100%',
-  },
 }
 
 export default Navbar

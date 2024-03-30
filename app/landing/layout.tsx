@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, {CSSProperties, useState} from 'react'
 import { Navbar } from '@/components'
 import styles from '@/app/landing/page.module.scss'
 import TextField from '@mui/material/TextField'
@@ -18,10 +18,10 @@ export default function LandingLayout({
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   console.log('isMobile', isMobile)
 
-  const style = {
+  const style: { [key: string]: CSSProperties } = {
     contentContainer: {
+      margin: isMobile ? '55px 0px' : '0px',
       display: 'flex',
-      padding: isMobile ? '0px 10px' : null,
       flexDirection: isMobile? 'column' : 'row',
       justifyContent: 'center',
       alignItems: 'center',
@@ -29,31 +29,35 @@ export default function LandingLayout({
     },
     mainImageContainer: {
       display: 'flex',
-      height: isMobile ? '500px' : '100%',
+      flexDirection: 'column',
+      height: '70%',
       width: isMobile ? '100%' : '65%',
       justifyContent: 'center',
       alignItems: 'center',
       zIndex: 20,
       overflow: 'hidden',
+      marginBottom: isMobile ? '320px' : 0
     },
     mainImage: {
-      width: isMobile ? '100vw' : '50vw',
-      height: isMobile ? '100vw' : '50vw',
+      position: isMobile ? 'absolute' : 'inherit',
+      top: isMobile ? '200px' : null,
+      width: isMobile ? '600px' : '50vw',
+      height: isMobile ? '600px' : '50vw',
     },
     topText: {
       height: '100%',
       display: 'flex',
-      background: '#0C0C0C',
-      width: '35%',
+      background: isMobile? null : '#0C0C0C',
+      width: isMobile ? '100%' : '35%',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
       zIndex: '100',
-      padding: '20px',
+      padding:'20px',
     },
     mockMessage: {
       padding: '10px',
-      maxWidth: '17vw',
+      maxWidth: isMobile ? '65vw' : '17vw',
       border: '1px #5C4ABB solid',
       borderRadius: '8px',
     },
@@ -69,76 +73,28 @@ export default function LandingLayout({
   return (
     <div
       style={{
-        height: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        height: isMobile ? 'auto' : '100vh',
+        width: '100vw',
         display: 'flex',
         flexDirection: 'column',
         background: '#0C0C0C',
       }}
     >
-      <Navbar isLandingPage />
+      <Navbar isMobile={isMobile}
+              isLandingPage />
       <div style={style.contentContainer}>
         <div style={style.mainImageContainer}>
+          { isMobile ? renderLandingHeader(isMobile) : null}
           <Image style={style.mainImage} src={mainImage} />
-          {/*<div className={styles.image} />*/}
         </div>
 
         <div style={style.topText}>
-          <div>
-            <div style={{ fontSize: '3.7vw' }}>
-              Unleash the power of Zapply AI
-            </div>
 
-            <div
-              style={{
-                fontSize: '1.2vw',
-                color: '#85839F',
-                fontWeight: '100',
-                zIndex: 100,
-                marginTop: '10px',
-              }}
-            >
-              Build web application in 3 minutes just using a text prompt
-            </div>
-          </div>
+          { isMobile ? null : renderLandingHeader(isMobile) }
 
-          <Stack
-            style={{ width: '100%', margin: '22px' }}
-            spacing={2}
-            direction="column"
-          >
-            <div style={{ ...style.mockMessage }}>
-              <p style={style.mockMessageText}>
-                Create a calendar app with user accounts and event scheduling
-              </p>
-            </div>
-            <div
-              style={{
-                ...style.mockMessage,
-                marginLeft: 'auto',
-              }}
-            >
-              <p style={{ ...style.mockMessageText }}>
-                Do you want to include date, time, and name of the event in the
-                event scheduling procedure, or more?
-              </p>
-            </div>
-            <div style={{ ...style.mockMessage }}>
-              <p style={style.mockMessageText}>
-                I also want to include the list of attendants and google meet
-                link!
-              </p>
-            </div>
-            <div
-              style={{
-                ...style.mockMessage,
-                marginLeft: 'auto',
-              }}
-            >
-              <p style={style.mockMessageText}>
-                Finished! (Took 2 min, 14 sec)
-              </p>
-            </div>
-          </Stack>
+          { renderMockMessages(isMobile, style) }
 
           <UpdateMeForm onFormSubmit={() => console.log('form submitted')}
                         isMobile/>
@@ -150,6 +106,77 @@ export default function LandingLayout({
   )
 }
 
+const renderLandingHeader = (isMobile : boolean) => {
+  return (
+    <div style={ isMobile ? {padding: '10px'} : {}}>
+      <div style={{ fontSize: isMobile ? '58px' : '3.7vw' }}>
+        Unleash the power of Zapply AI
+      </div>
+
+      <div
+        style={{
+          fontSize: isMobile ? '18px' : '1.2vw',
+          color: '#85839F',
+          fontWeight: '100',
+          zIndex: 100,
+          marginTop: '10px',
+        }}
+      >
+        Build web application in 3 minutes just using a text prompt
+      </div>
+    </div>
+  )
+}
+
+const renderMockMessages = (isMobile: boolean, style) => {
+  return(
+    <Stack
+      style={{
+        width: '100%',
+        margin: '22px',
+        ...{
+          position: 'relative'
+        }
+      }}
+      spacing={2}
+      direction="column"
+    >
+      <div style={{ ...style.mockMessage }}>
+        <p style={style.mockMessageText}>
+          Create a calendar app with user accounts and event scheduling
+        </p>
+      </div>
+      <div
+        style={{
+          ...style.mockMessage,
+          marginLeft: 'auto',
+        }}
+      >
+        <p style={{ ...style.mockMessageText }}>
+          Do you want to include date, time, and name of the event in the
+          event scheduling procedure, or more?
+        </p>
+      </div>
+      <div style={{ ...style.mockMessage }}>
+        <p style={style.mockMessageText}>
+          I also want to include the list of attendants and google meet
+          link!
+        </p>
+      </div>
+      <div
+        style={{
+          ...style.mockMessage,
+          marginLeft: 'auto',
+        }}
+      >
+        <p style={style.mockMessageText}>
+          Finished! (Took 2 min, 14 sec)
+        </p>
+      </div>
+    </Stack>
+  )
+}
+
 interface UpdateMeFormProps {
   onFormSubmit: any,
   isMobile: boolean
@@ -158,9 +185,10 @@ interface UpdateMeFormProps {
 const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
   const style = {
     updateMeContainer: {
-      width: '60%',
+      width: isMobile ? '100%' : '60%',
       marginRight: 'auto',
-    },
+      marginTop: isMobile ? '22px' : null
+    }
   }
 
   return (
@@ -168,7 +196,7 @@ const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
       <span
         style={{
           color: '#CFCED9',
-          fontSize: '1.5vw',
+          fontSize: '22px',
         }}
       >
         We will release soon!
@@ -183,7 +211,7 @@ const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
       />
       <span
         style={{
-          fontSize: '1vw',
+          fontSize: '14px',
           fontWeight: '100',
           color: '#85839F',
         }}
@@ -207,7 +235,10 @@ const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
         }}
       />
 
-      <Button label={'Notify me!'} action={() => console.log('submitted')} />
+      <Button label={'Notify me!'}
+              action={() => console.log('submitted')}
+              fullWidth
+      />
     </div>
   )
 }
