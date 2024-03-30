@@ -1,6 +1,6 @@
 'use client'
 
-import React, {CSSProperties, useState} from 'react'
+import React, { CSSProperties, useState } from 'react'
 import { Navbar } from '@/components'
 import styles from '@/app/landing/page.module.scss'
 import TextField from '@mui/material/TextField'
@@ -8,7 +8,7 @@ import mainImage from './../../public/image/landingImageBG.webp'
 import Image from 'next/image'
 import { Button } from '@/components/Button'
 import { Stack } from '@mui/material'
-import {useClientMediaQuery} from '@/helpers/IsMobile'
+import { useClientMediaQuery } from '@/helpers/IsMobile'
 
 export default function LandingLayout({
   children,
@@ -16,16 +16,15 @@ export default function LandingLayout({
   children: React.ReactNode
 }>) {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
-  console.log('isMobile', isMobile)
 
   const style: { [key: string]: CSSProperties } = {
     contentContainer: {
       margin: isMobile ? '55px 0px' : '0px',
       display: 'flex',
-      flexDirection: isMobile? 'column' : 'row',
+      flexDirection: isMobile ? 'column' : 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      height: isMobile? 'auto' : 'calc(100% - 55px)',
+      height: isMobile ? 'auto' : 'calc(100% - 55px)',
     },
     mainImageContainer: {
       display: 'flex',
@@ -35,25 +34,24 @@ export default function LandingLayout({
       justifyContent: 'center',
       alignItems: 'center',
       zIndex: 20,
-      overflow: 'hidden',
-      marginBottom: isMobile ? '320px' : 0
+      marginBottom: isMobile ? '320px' : 0,
     },
     mainImage: {
       position: isMobile ? 'absolute' : 'inherit',
-      top: isMobile ? '200px' : null,
+      top: isMobile ? '200px' : undefined,
       width: isMobile ? '600px' : '50vw',
       height: isMobile ? '600px' : '50vw',
     },
     topText: {
       height: '100%',
       display: 'flex',
-      background: isMobile? null : '#0C0C0C',
+      background: isMobile ? undefined : '#0C0C0C',
       width: isMobile ? '100%' : '35%',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'center',
       zIndex: '100',
-      padding:'20px',
+      padding: '20px',
     },
     mockMessage: {
       padding: '10px',
@@ -82,22 +80,22 @@ export default function LandingLayout({
         background: '#0C0C0C',
       }}
     >
-      <Navbar isMobile={isMobile}
-              isLandingPage />
+      <Navbar isMobile={isMobile} isLandingPage />
       <div style={style.contentContainer}>
         <div style={style.mainImageContainer}>
-          { isMobile ? renderLandingHeader(isMobile) : null}
-          <Image style={style.mainImage} src={mainImage} />
+          {isMobile ? renderLandingHeader(isMobile) : undefined}
+          <Image style={style.mainImage} src={mainImage} alt={'Zapply AI'} />
         </div>
 
         <div style={style.topText}>
+          {isMobile ? undefined : renderLandingHeader(isMobile)}
 
-          { isMobile ? null : renderLandingHeader(isMobile) }
+          {renderMockMessages(isMobile, style)}
 
-          { renderMockMessages(isMobile, style) }
-
-          <UpdateMeForm onFormSubmit={() => console.log('form submitted')}
-                        isMobile/>
+          <UpdateMeForm
+            onFormSubmit={() => console.log('form submitted')}
+            isMobile
+          />
         </div>
 
         <Circles isMobile={isMobile} />
@@ -106,9 +104,9 @@ export default function LandingLayout({
   )
 }
 
-const renderLandingHeader = (isMobile : boolean) => {
+const renderLandingHeader = (isMobile: boolean | null) => {
   return (
-    <div style={ isMobile ? {padding: '10px'} : {}}>
+    <div style={isMobile ? { padding: '10px' } : {}}>
       <div style={{ fontSize: isMobile ? '58px' : '3.7vw' }}>
         Unleash the power of Zapply AI
       </div>
@@ -128,15 +126,18 @@ const renderLandingHeader = (isMobile : boolean) => {
   )
 }
 
-const renderMockMessages = (isMobile: boolean, style) => {
-  return(
+const renderMockMessages = (
+  isMobile: boolean | null,
+  style: { [key: string]: CSSProperties }
+) => {
+  return (
     <Stack
       style={{
         width: '100%',
         margin: '22px',
         ...{
-          position: 'relative'
-        }
+          position: 'relative',
+        },
       }}
       spacing={2}
       direction="column"
@@ -153,14 +154,13 @@ const renderMockMessages = (isMobile: boolean, style) => {
         }}
       >
         <p style={{ ...style.mockMessageText }}>
-          Do you want to include date, time, and name of the event in the
-          event scheduling procedure, or more?
+          Do you want to include date, time, and name of the event in the event
+          scheduling procedure, or more?
         </p>
       </div>
       <div style={{ ...style.mockMessage }}>
         <p style={style.mockMessageText}>
-          I also want to include the list of attendants and google meet
-          link!
+          I also want to include the list of attendants and google meet link!
         </p>
       </div>
       <div
@@ -169,17 +169,15 @@ const renderMockMessages = (isMobile: boolean, style) => {
           marginLeft: 'auto',
         }}
       >
-        <p style={style.mockMessageText}>
-          Finished! (Took 2 min, 14 sec)
-        </p>
+        <p style={style.mockMessageText}>Finished! (Took 2 min, 14 sec)</p>
       </div>
     </Stack>
   )
 }
 
 interface UpdateMeFormProps {
-  onFormSubmit: any,
-  isMobile: boolean
+  onFormSubmit: any
+  isMobile: boolean | null
 }
 
 const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
@@ -187,8 +185,8 @@ const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
     updateMeContainer: {
       width: isMobile ? '100%' : '60%',
       marginRight: 'auto',
-      marginTop: isMobile ? '22px' : null
-    }
+      marginTop: isMobile ? '22px' : undefined,
+    },
   }
 
   return (
@@ -235,20 +233,21 @@ const UpdateMeForm = ({ onFormSubmit, isMobile }: UpdateMeFormProps) => {
         }}
       />
 
-      <Button label={'Notify me!'}
-              action={() => console.log('submitted')}
-              fullWidth
+      <Button
+        label={'Notify me!'}
+        action={() => console.log('submitted')}
+        fullWidth
       />
     </div>
   )
 }
 
 interface CirclesProps {
-  isMobile: boolean
+  isMobile: boolean | null
 }
 
-const Circles = ({ isMobile } : CirclesProps) => {
-  const style = {
+const Circles = ({ isMobile }: CirclesProps) => {
+  const style: { [key: string]: CSSProperties } = {
     circlesContainer: {
       position: 'absolute',
       zIndex: 1,

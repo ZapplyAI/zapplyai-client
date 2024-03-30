@@ -9,13 +9,16 @@ import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { Button } from '@/components/Button'
 
 interface NavbarProps {
-  isMobile: boolean
+  isMobile?: boolean | null
   isLandingPage?: boolean
 }
 
 const loggedIn = false
 
-const Navbar = ({ isMobile, isLandingPage = false }: NavbarProps): React.ReactNode => {
+const Navbar = ({
+  isMobile,
+  isLandingPage = false,
+}: NavbarProps): React.ReactNode => {
   const [drawerOpened, setDrawerOpen] = React.useState('')
 
   const closeDrawer = () => {
@@ -29,8 +32,6 @@ const Navbar = ({ isMobile, isLandingPage = false }: NavbarProps): React.ReactNo
   const toggleLogInDrawer = () => {
     setDrawerOpen(open => (open ? 'Log In' : ''))
   }
-
-  console.log('nav isMobile', isMobile)
 
   const style: { [key: string]: CSSProperties } = {
     nav: {
@@ -55,14 +56,19 @@ const Navbar = ({ isMobile, isLandingPage = false }: NavbarProps): React.ReactNo
   }
 
   return (
-    <nav style={isLandingPage ? {...style.nav, background: 'rgba(12,12,12,0.5)' } : style.nave}>
+    <nav
+      style={
+        isLandingPage
+          ? { ...style.nav, background: 'rgba(12,12,12,0.5)' }
+          : style.nave
+      }
+    >
       <Logo />
       {loggedIn ? (
         <Avatar />
       ) : isLandingPage ? (
-          <Button label={'Request Access'}
-                  sx={{border: '1px #6551D1 solid'}}/>
-        ) : (
+        <Button label={'Request Access'} sx={{ border: '1px #6551D1 solid' }} />
+      ) : (
         <div>
           <Button
             sx={{ marginRight: '10px' }}
