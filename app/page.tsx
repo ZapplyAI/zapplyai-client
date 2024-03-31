@@ -9,11 +9,7 @@ import { Button } from '@/components/Button'
 import { Stack } from '@mui/material'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 
-export default function LandingLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function Home() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
 
   const style: { [key: string]: CSSProperties } = {
