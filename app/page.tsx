@@ -3,7 +3,7 @@
 import React, { CSSProperties } from 'react'
 import { Navbar } from '@/components'
 import TextField from '@mui/material/TextField'
-import mainImage from './../../public/image/landingImageBG.webp'
+import mainImage from './../public/image/landingImageBG.webp'
 import Image from 'next/image'
 import { Button } from '@/components/Button'
 import { Stack } from '@mui/material'
