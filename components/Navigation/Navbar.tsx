@@ -1,6 +1,6 @@
 'use client'
 
-import React, { CSSProperties } from 'react'
+import React, {CSSProperties, useEffect} from 'react'
 import { Avatar, Logo } from '@/components'
 import RightDrawer from '../RightDrawer/RightDrawer'
 import SignUp from '@/components/Authentication/SignUp'
@@ -21,16 +21,20 @@ const Navbar = ({
 }: NavbarProps): React.ReactNode => {
   const [drawerOpened, setDrawerOpen] = React.useState('')
 
+  useEffect(() => {
+    console.log('drawerOpened', drawerOpened)
+  }, [drawerOpened]);
+
   const closeDrawer = () => {
     setDrawerOpen('')
   }
 
   const toggleSignUpDrawer = () => {
-    setDrawerOpen(open => (open ? 'Sign Up' : ''))
+    setDrawerOpen(drawerOpened ? 'Sign Up' : '')
   }
 
   const toggleLogInDrawer = () => {
-    setDrawerOpen(open => (open ? 'Log In' : ''))
+    setDrawerOpen(drawerOpened ? 'Log In' : '')
   }
 
   const style: { [key: string]: CSSProperties } = {
@@ -60,7 +64,7 @@ const Navbar = ({
       style={
         isLandingPage
           ? { ...style.nav, background: 'rgba(12,12,12,0.5)' }
-          : style.nave
+          : style.nav
       }
     >
       <Logo />
@@ -69,50 +73,52 @@ const Navbar = ({
       ) : isLandingPage ? (
         <Button label={'Request Access'} sx={{ border: '1px #6551D1 solid' }} />
       ) : (
-        <div>
-          <Button
-            sx={{ marginRight: '10px' }}
-            action={toggleSignUpDrawer}
-            fullWidth={false}
-            label={'Sign Up'}
-            variant={'contained'}
-          />
-          <Button
-            sx={{ marginRight: '10px' }}
-            action={toggleLogInDrawer}
-            fullWidth={false}
-            label={'Log In'}
-            variant={'contained'}
-          />
-        </div>
-      )}
+        <React.Fragment>
+          <div>
+            <Button
+              sx={{ marginRight: '10px' }}
+              action={toggleSignUpDrawer}
+              fullWidth={false}
+              label={'Sign Up'}
+              variant={'contained'}
+            />
+            <Button
+              sx={{ marginRight: '10px' }}
+              action={toggleLogInDrawer}
+              fullWidth={false}
+              label={'Log In'}
+              variant={'contained'}
+            />
+          </div>
 
-      <div style={{ position: 'absolute' }}>
-        <RightDrawer
-          title={drawerOpened}
-          icon={
-            <div
-              style={{
-                ...style.headerIconStyle,
-                borderRadius: 100,
-                background: '#f50057',
-              }}
-            >
-              <LockOpenIcon
-                style={{
-                  ...style.headerIconStyle,
-                  color: '#FFFFFF',
-                  height: '65%',
-                  width: '65%',
-                }}
-              />
-            </div>
-          }
-          component={drawerOpened === 'Sign Up' ? <SignUp /> : <LogIn />}
-          isOpen={drawerOpened !== ''}
-          closeDrawer={closeDrawer}
-        />
-      </div>
+          <div style={{ position: 'absolute' }}>
+            <RightDrawer
+              title={drawerOpened}
+              icon={
+                <div
+                  style={{
+                    ...style.headerIconStyle,
+                    borderRadius: 100,
+                    background: '#f50057',
+                  }}
+                >
+                  <LockOpenIcon
+                    style={{
+                      ...style.headerIconStyle,
+                      color: '#FFFFFF',
+                      height: '65%',
+                      width: '65%',
+                    }}
+                  />
+                </div>
+              }
+              component={drawerOpened === 'Sign Up' ? <SignUp /> : <LogIn />}
+              isOpen={drawerOpened !== ''}
+              closeDrawer={closeDrawer}
+            />
+          </div>
+        </React.Fragment>
+        )}
     </nav>
   )
 }

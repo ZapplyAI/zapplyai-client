@@ -5,8 +5,8 @@ import { Navbar, Sidebar } from '@/components'
 import styles from './page.module.scss'
 import DialogNavigation from './components/DialogNavigation/DialogNavigation'
 import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
-import {find} from "lodash"
-import {DialogProps} from "@/app/types/chat"
+import { find } from 'lodash'
+import { DialogProps } from '@/app/types/chat'
 
 const availableDialogsInit = {
   frontend: [
@@ -64,7 +64,8 @@ const availableDialogsInit = {
 
 const Chat = (): React.ReactNode => {
   const [openedDialogId, selectOpenedDialogId] = useState(-1)
-  const [availableDialogs, changeDialogs] = useState<typeof availableDialogsInit>(availableDialogsInit);
+  const [availableDialogs, changeDialogs] =
+    useState<typeof availableDialogsInit>(availableDialogsInit)
 
   const openDialog = (dialogId: number) => {
     selectOpenedDialogId(dialogId)
@@ -72,7 +73,9 @@ const Chat = (): React.ReactNode => {
 
   const findDialogById = (id: number): DialogProps => {
     for (const category in availableDialogs) {
-      const dialogsInCategory = (availableDialogs as any)[category] as DialogProps[];
+      const dialogsInCategory = (availableDialogs as any)[
+        category
+      ] as DialogProps[]
       const foundDialog = dialogsInCategory.find(dialog => dialog.id === id)
       if (foundDialog) {
         return foundDialog

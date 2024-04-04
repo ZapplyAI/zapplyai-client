@@ -1,9 +1,11 @@
 'use client'
 
-import React, {CSSProperties, useState} from 'react'
+import React, { CSSProperties, useState } from 'react'
 import { Box, Tab, Tabs } from '@mui/material'
 import DialogList from '@/app/chat/components/DialogNavigation/component/DialogList'
 import { Button } from '@/components/Button'
+import Divider from '@mui/material/Divider'
+import {LinearProgressWithLabel} from "@/components";
 
 interface DialogProps {
   id: number
@@ -99,16 +101,35 @@ const DialogNavigation = ({
         fullWidth
         variant={'contained'}
         sx={{
-          marginTop: '10px'
+          marginTop: '10px',
         }}
         action={() => console.log('create new dialog')}
       />
+
+      <Box style={style.statusBoxContainer}>
+        <h4 style={style.statusHeader}>Deployment</h4>
+        <p style={style.statusDescription}>
+          Your app is being deployed, we will let you know when it&apos;s finished.
+        </p>
+
+        <Divider
+          sx={{
+            margin: '12px 0px',
+            background: '#48474E',
+          }}
+        />
+
+        <div style={style.statusBody}>
+          <LinearProgressWithLabel value={62} />
+        </div>
+      </Box>
     </div>
   )
 }
 
 const style: { [key: string]: CSSProperties } = {
   navigationContainer: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
@@ -132,6 +153,28 @@ const style: { [key: string]: CSSProperties } = {
     textTransform: 'none',
     borderRadius: '5px',
     fontSize: '12px',
+  },
+  statusBoxContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    background: '#212121',
+    color: '#fff',
+    // width: 'calc(100% - (12px * 2))'
+    width: '100%',
+    padding: '12px',
+  },
+  statusHeader: {
+    fontSize: '12px',
+    marginBottom: '8px',
+  },
+  statusDescription: {
+    fontSize: '12px',
+    fontWeight: 'normal',
+  },
+  statusBody: {
+    fontSize: '12px',
+    fontWeight: 'normal',
   },
 }
 
