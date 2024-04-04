@@ -19,19 +19,21 @@ const Navbar = ({
   isMobile,
   isLandingPage = false,
 }: NavbarProps): React.ReactNode => {
-  const [drawerOpened, setDrawerOpen] = React.useState('')
+  const [isDrawerOpen, setDrawerOpen] = React.useState('')
 
   const closeDrawer = () => {
     setDrawerOpen('')
   }
 
   const toggleSignUpDrawer = () => {
-    setDrawerOpen(open => (open ? 'Sign Up' : ''))
+    setDrawerOpen(open => (!open ? 'Sign Up' : ''))
   }
 
   const toggleLogInDrawer = () => {
-    setDrawerOpen(open => (open ? 'Log In' : ''))
+    setDrawerOpen(open => (!open ? 'Log In' : ''))
   }
+
+  React.useEffect(() => console.log('not a rapgee'), [isDrawerOpen])
 
   const style: { [key: string]: CSSProperties } = {
     nav: {
@@ -70,6 +72,7 @@ const Navbar = ({
         <Button label={'Request Access'} sx={{ border: '1px #6551D1 solid' }} />
       ) : (
         <div>
+          {JSON.stringify(isDrawerOpen)}
           <Button
             sx={{ marginRight: '10px' }}
             action={toggleSignUpDrawer}
@@ -89,7 +92,7 @@ const Navbar = ({
 
       <div style={{ position: 'absolute' }}>
         <RightDrawer
-          title={drawerOpened}
+          title={isDrawerOpen}
           icon={
             <div
               style={{
@@ -108,8 +111,8 @@ const Navbar = ({
               />
             </div>
           }
-          component={drawerOpened === 'Sign Up' ? <SignUp /> : <LogIn />}
-          isOpen={drawerOpened !== ''}
+          component={isDrawerOpen === 'Sign Up' ? <SignUp /> : <LogIn />}
+          isOpen={!!isDrawerOpen}
           closeDrawer={closeDrawer}
         />
       </div>
