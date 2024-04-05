@@ -59,6 +59,7 @@ export default function Home() {
       wordWrap: 'break-word',
       textDecoration: 'none',
       width: '100%',
+      color: '#fff'
       // lineHeight: '-5px'
     },
   }
@@ -101,7 +102,7 @@ export default function Home() {
 const renderLandingHeader = (isMobile: boolean | null) => {
   return (
     <div style={isMobile ? { padding: '10px' } : {}}>
-      <div style={{ fontSize: isMobile ? '58px' : '3.7vw' }}>
+      <div style={{ fontSize: isMobile ? '58px' : '3.7vw', color: '#FFF' }}>
         Unleash the power of Zapply AI
       </div>
 
