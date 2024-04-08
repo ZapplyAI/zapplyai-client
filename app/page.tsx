@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { Button } from '@/components/Button'
 import { Stack } from '@mui/material'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
+import { useForm, ValidationError } from '@formspree/react'
 
 export default function Home() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -87,9 +88,7 @@ export default function Home() {
 
           {renderMockMessages(isMobile, style)}
 
-          <UpdateMeForm
-            onFormSubmit={() => console.log('form submitted')}
-            isMobile={true}/>
+          <ContactForm isMobile={true} />
         </div>
 
         <Circles />
@@ -170,11 +169,16 @@ const renderMockMessages = (
 }
 
 interface UpdateMeFormProps {
-  onFormSubmit: any
   isMobile: boolean | null
 }
 
-const UpdateMeForm = ({ isMobile }: UpdateMeFormProps) => {
+const ContactForm = ({ isMobile }: UpdateMeFormProps) => {
+  const [state, handleSubmit] = useForm('xvoevzav')
+
+  if (state.succeeded) {
+    return <p>Thanks for joining!</p>
+  }
+
   const style = {
     updateMeContainer: {
       width: isMobile ? '100%' : '60%',
@@ -183,8 +187,24 @@ const UpdateMeForm = ({ isMobile }: UpdateMeFormProps) => {
     },
   }
 
+  const handleFormSubmit = () => {
+    const emailField = document.getElementById('email') as HTMLInputElement
+    const email = emailField.value.trim()
+
+    if (email !== '') {
+      handleSubmit({ email })
+    }
+  }
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault() // Prevent form submission on Enter key press
+      handleFormSubmit() // Call your form submission function
+    }
+  }
+
   return (
-    <div style={style.updateMeContainer}>
+    <form style={style.updateMeContainer}>
       <span
         style={{
           color: '#CFCED9',
@@ -213,9 +233,13 @@ const UpdateMeForm = ({ isMobile }: UpdateMeFormProps) => {
       </span>
 
       <TextField
+        id="email"
+        type="email"
+        name="email"
         fullWidth
         variant="outlined"
         label="email"
+        onKeyDown={handleKeyPress}
         sx={{
           '& .MuiInputLabel-root': { color: '#CFCED9' },
           '& .MuiInputLabel-root.Mui-focused': { color: '#CFCED9' },
@@ -226,15 +250,13 @@ const UpdateMeForm = ({ isMobile }: UpdateMeFormProps) => {
           '& .MuiInputBase-root': { color: '#CFCED9' },
         }}
       />
+      <ValidationError prefix="Email" field="email" errors={state.errors} />
 
-      <Button
-        label={'Notify me!'}
-        action={() => console.log('submitted')}
-        fullWidth
-      />
-    </div>
+      <Button label={'Notify me!'} action={handleFormSubmit} fullWidth />
+    </form>
   )
 }
+
 const Circles = () => {
   const style: { [key: string]: CSSProperties } = {
     circlesContainer: {
