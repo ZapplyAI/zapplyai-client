@@ -6,6 +6,7 @@ import DialogList from '@/app/chat/components/DialogNavigation/component/DialogL
 import { Button } from '@/components/Button'
 import Divider from '@mui/material/Divider'
 import {LinearProgressWithLabel} from "@/components";
+import AppStatusBox from "@/app/chat/components/DialogNavigation/component/AppStatusBox";
 
 interface DialogProps {
   id: number
@@ -62,6 +63,8 @@ const DialogNavigation = ({
     setDialogLine(newValue)
   }
 
+  const isLoadingInProgress = false // TODO: add more dynamic logic
+
   return (
     <div style={style.navigationContainer}>
       <Tabs
@@ -106,23 +109,7 @@ const DialogNavigation = ({
         action={() => console.log('create new dialog')}
       />
 
-      <Box style={style.statusBoxContainer}>
-        <h4 style={style.statusHeader}>Deployment</h4>
-        <p style={style.statusDescription}>
-          Your app is being deployed, we will let you know when it&apos;s finished.
-        </p>
-
-        <Divider
-          sx={{
-            margin: '12px 0px',
-            background: '#48474E',
-          }}
-        />
-
-        <div style={style.statusBody}>
-          <LinearProgressWithLabel value={62} />
-        </div>
-      </Box>
+      {isLoadingInProgress ? <AppStatusBox /> : null}
     </div>
   )
 }
