@@ -7,6 +7,7 @@ import DialogNavigation from './components/DialogNavigation/DialogNavigation'
 import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
 import { find } from 'lodash'
 import { DialogProps } from '@/app/types/chat'
+import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
 
 const availableDialogsInit = {
   frontend: [
@@ -127,6 +128,7 @@ const Chat = (): React.ReactNode => {
         selectedDialog={findDialogById(openedDialogId)}
         sendMessage={onMessageSent}
       />
+      <MiniPromptInitializer />
     </main>
   )
 }
