@@ -1,10 +1,15 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Radio_Canada } from 'next/font/google'
 
 import '@/styles/main.scss'
 
 const inter = Inter({ subsets: ['latin'] })
+const radio_canada = Radio_Canada({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin']
+})
 
 export const metadata: Metadata = {
   title: 'ZapplyAI',
@@ -18,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <body className={inter.className}>{children}</body>
+    <body className={radio_canada.className}>{children}</body>
     </html>
   )
 }
