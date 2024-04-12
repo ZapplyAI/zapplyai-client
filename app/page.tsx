@@ -59,6 +59,7 @@ export default function Home() {
       wordWrap: 'break-word',
       textDecoration: 'none',
       width: '100%',
+      color: '#fff'
       // lineHeight: '-5px'
     },
   }

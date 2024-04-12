@@ -7,6 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import { Button } from '@/components/Button'
 
 const LogIn = (): React.ReactNode => {
+  console.log('login render')
   return (
     <div style={style.formContainer}>
       <form noValidate>

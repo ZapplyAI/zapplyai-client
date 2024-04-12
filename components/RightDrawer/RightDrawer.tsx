@@ -12,7 +12,7 @@ interface RightDrawerProps {
 }
 
 const RightDrawer = ( { component, icon, title, isOpen, closeDrawer} : RightDrawerProps): React.ReactNode => {
-
+  console.log('drawer opened', isOpen)
   const onDrawerClose = (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&

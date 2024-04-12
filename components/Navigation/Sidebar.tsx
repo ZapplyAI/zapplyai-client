@@ -4,6 +4,7 @@ import {AppBar, IconButton, Stack} from "@mui/material"
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 import SettingsIcon from '@mui/icons-material/Settings'
+import {GradientCircularProgress} from "@/components";
 
 const Sidebar = (): React.ReactNode => {
     return (
@@ -15,6 +16,9 @@ const Sidebar = (): React.ReactNode => {
                 </IconButton>
                 <IconButton href={'/'} style={style.navButton}>
                     <RocketLaunchIcon style={style.navIcon}/>
+                    {/*<GradientCircularProgress sx={{*/}
+                    {/*    position: 'absolute'*/}
+                    {/*}}/>*/}
                 </IconButton>
             </Stack>
 
