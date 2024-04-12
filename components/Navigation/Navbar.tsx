@@ -19,23 +19,25 @@ const Navbar = ({
   isMobile,
   isLandingPage = false,
 }: NavbarProps): React.ReactNode => {
-  const [drawerOpened, setDrawerOpen] = React.useState('')
+  const [isDrawerOpen, setDrawerOpen] = React.useState('')
 
   useEffect(() => {
-    console.log('drawerOpened', drawerOpened)
-  }, [drawerOpened]);
+    console.log('drawerOpened', isDrawerOpen)
+  }, [isDrawerOpen]);
 
   const closeDrawer = () => {
     setDrawerOpen('')
   }
 
   const toggleSignUpDrawer = () => {
-    setDrawerOpen(drawerOpened ? 'Sign Up' : '')
+    setDrawerOpen(open => (!open ? 'Sign Up' : ''))
   }
 
   const toggleLogInDrawer = () => {
-    setDrawerOpen(drawerOpened ? 'Log In' : '')
+    setDrawerOpen(open => (!open ? 'Log In' : ''))
   }
+
+  React.useEffect(() => console.log('not a rapgee'), [isDrawerOpen])
 
   const style: { [key: string]: CSSProperties } = {
     nav: {
@@ -93,7 +95,7 @@ const Navbar = ({
 
           <div style={{ position: 'absolute' }}>
             <RightDrawer
-              title={drawerOpened}
+              title={isDrawerOpen}
               icon={
                 <div
                   style={{
@@ -112,8 +114,8 @@ const Navbar = ({
                   />
                 </div>
               }
-              component={drawerOpened === 'Sign Up' ? <SignUp /> : <LogIn />}
-              isOpen={drawerOpened !== ''}
+              component={isDrawerOpen === 'Sign Up' ? <SignUp /> : <LogIn />}
+              isOpen={!!isDrawerOpen}
               closeDrawer={closeDrawer}
             />
           </div>
