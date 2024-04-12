@@ -81,8 +81,6 @@ const PromptStepper = ({
   steps,
   currentStep = 0,
 }: PromptStepperProps): React.ReactNode => {
-  // const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-
   return (
     <div style={style.stepperContainer}>
       <Stepper

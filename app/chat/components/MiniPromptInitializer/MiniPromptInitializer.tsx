@@ -1,38 +1,62 @@
 import React from 'react'
-import {Divider, Paper} from '@mui/material'
-import PromptPagination from "@/app/chat/components/MiniPromptInitializer/component/PromptStepper";
+import { Divider, Paper } from '@mui/material'
+import PromptPagination from '@/app/chat/components/MiniPromptInitializer/component/PromptStepper'
+import TextField from '@mui/material/TextField'
 type CSSProperties = React.CSSProperties
 
-interface MiniPromptInitializerProps {
+interface MiniPromptInitializerProps {}
 
-}
+const MiniPromptInitializer =
+  ({}: MiniPromptInitializerProps): React.ReactNode => {
+    return (
+      <div style={style.centricContainer}>
+        <Paper elevation={0} sx={style.promptContainer}>
+          <PromptPagination
+            steps={['Summary', 'Features', 'Styling']}
+            currentStep={1}
+          />
 
-const MiniPromptInitializer = ({
-}: MiniPromptInitializerProps): React.ReactNode => {
-  return (
-    <div style={style.centricContainer}>
-      <Paper elevation={0} sx={style.promptContainer}>
-        <PromptPagination
-          steps={['Summary', 'Features', 'Styling']}
-          currentStep={1}
-        />
+          <Divider
+            orientation="horizontal"
+            style={{ margin: '0px 22px', background: '#48474E' }}
+          />
 
-        <Divider
-          orientation="horizontal"
-          style={{ margin: '0px 22px', background: '#48474E' }}
-        />
+          <main style={style.mainContainer}>
+            <h2
+              style={{
+                color: '#CFCED9',
+                fontWeight: 500,
+                marginBottom: '30px',
+              }}
+            >
+              Summarize your web application
+            </h2>
 
-        <main style={style.mainContainer}>
+            <p
+              style={{
+                color: '#CFCED9',
+                fontWeight: 300,
+                marginBottom: '50px',
+              }}
+            >
+              Write 2-5 sentences about your web application. Who is the
+              audience? What features should it include? What is the typical use
+              case?
+            </p>
 
-          <h2 style={{
-            color: '#CFCED9',
-            fontWeight: 500
-          }}>Summarize your web application</h2>
-        </main>
-      </Paper>
-    </div>
-  )
-}
+            <TextField
+              id="outlined-multiline-static"
+              multiline
+              rows={4}
+              fullWidth
+              placeholder={'Tell me more about  your web app'}
+              style={style.inputPrompt}
+            />
+          </main>
+        </Paper>
+      </div>
+    )
+  }
 
 const style: { [key: string]: CSSProperties } = {
   centricContainer: {
@@ -46,17 +70,20 @@ const style: { [key: string]: CSSProperties } = {
     left: 0,
     zIndex: 1000,
     backdropFilter: 'blur(3px)',
-    backgroundColor: 'rgba(0,0,30,0.4)'
+    backgroundColor: 'rgba(0,0,30,0.4)',
   },
   promptContainer: {
-    height: '450px',
     width: '800px',
     background: '#181818',
-    borderRadius: '8px'
+    borderRadius: '8px',
   },
   mainContainer: {
-    padding: '22px'
-  }
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    padding: '32px',
+  },
+  inputPrompt: {},
 }
 
 export default MiniPromptInitializer
