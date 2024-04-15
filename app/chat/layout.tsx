@@ -65,6 +65,7 @@ const availableDialogsInit = {
 
 const Chat = (): React.ReactNode => {
   const [openedDialogId, selectOpenedDialogId] = useState(-1)
+  const [summaryEntered, setSummaryEntered] = useState(false)
   const [availableDialogs, changeDialogs] =
     useState<typeof availableDialogsInit>(availableDialogsInit)
 
@@ -117,6 +118,8 @@ const Chat = (): React.ReactNode => {
     }
   }
 
+  console.log('summaryEntered', summaryEntered)
+
   return (
     <main className={styles.main}>
       <DialogNavigation
@@ -128,7 +131,12 @@ const Chat = (): React.ReactNode => {
         selectedDialog={findDialogById(openedDialogId)}
         sendMessage={onMessageSent}
       />
-      <MiniPromptInitializer />
+
+      {!summaryEntered && (
+        <MiniPromptInitializer
+          onSummarySubmit={() => setSummaryEntered(true)}
+        />
+      )}
     </main>
   )
 }

@@ -6,10 +6,11 @@ import SendIcon from '@mui/icons-material/Send'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
 import { useParams, useRouter } from 'next/navigation'
-import { CSSProperties } from 'react';
+import { CSSProperties } from 'react'
 
 import { session } from '@/services'
 import { sendPrompt } from '@/app/chat/actions'
+import Input from '@/components/Input/Input'
 
 interface DialogProps {
   id: number
@@ -102,13 +103,19 @@ const ChatWindow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setPrompt(draft => {
       draft.value = event.target.value
     })
   }
 
-  const handleEnterPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleEnterPress = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault() // Prevent default behavior (creating new line)
       await submitAction() // Perform action when Enter is pressed
@@ -176,30 +183,14 @@ const ChatWindow = ({
           <ChatMessage key={index} messageObject={dialog} />
         ))}
       </Stack>
-      <div style={style.inputContainer}>
-        <IconButton sx={{ p: '10px' }} aria-label="menu">
-          <GrainIcon style={{ color: '#775EFF' }} />
-        </IconButton>
-        <InputBase
-          sx={{ ml: 1, flex: 1, color: '#CFCED9', fontSize: '14px' }}
-          autoFocus
-          fullWidth
-          multiline
-          placeholder="Tell me more about your web app"
-          value={prompt.value}
-          onChange={handleInputChange}
-          onKeyDown={handleEnterPress}
-        />
-        <IconButton
-          type="button"
-          sx={{ p: '10px' }}
-          aria-label="search"
-          onClick={handleSendButtonClick}
-        >
-          <SendIcon style={{ color: '#775EFF' }} />
-        </IconButton>
-        {/*<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />*/}
-      </div>
+      <Input
+        placeholder={'Tell me more about your web app'}
+        fullWidth
+        multiline
+        icon={<GrainIcon style={{ color: '#775EFF' }} />}
+        onSubmit={submitAction}
+        sx={{ width: '80%' }}
+      />
     </div>
   )
 }
@@ -228,21 +219,9 @@ const style: { [key: string]: CSSProperties } = {
     borderLeft: '1px solid #282636',
   },
   dialogContainer: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyContent: 'end',
-    // padding: '22px',
     overflow: 'hidden',
     width: '80%',
     flex: 1,
-  },
-  inputContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '30px 0px 12px 0px',
-    width: '80%',
-    border: '1px solid #423F59',
-    borderRadius: '5px',
   },
 }
 
