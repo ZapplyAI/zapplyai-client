@@ -7,7 +7,7 @@ import { Button, Input } from '@/components'
 import map from 'lodash/map'
 
 interface MiniPromptInitializerProps {
-  onSummarySubmit: () => Promise<void> | void
+  onSummarySubmit: (prompt: string) => void
 }
 
 interface FeatureListItemProps {
@@ -59,27 +59,35 @@ const MiniPromptInitializer = ({
   onSummarySubmit,
 }: MiniPromptInitializerProps): React.ReactNode => {
   const [currentStep, setCurrentStep] = useState<number>(0)
-
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
+  const [appDescription, setAppDescription] = useState<string>('')
+  const [appFeatures, setAppFeatures] = useState<string[]>([])
+  const [appStyle, setAppStyle] = useState<string>('')
 
   const moveStepForward = (step: number) => {
     setCurrentStep(step)
 
-    console.log('moveStepForward => currentStep', currentStep)
     if (currentStep >= PAGINATION_STEPS.length - 1) {
-      console.log('onSummarySubmit')
-      onSummarySubmit()
+      const prompt = `App Description: ${appDescription}\n\nApp Features: ${appFeatures.join(', ')}\n\nApp Style: ${appStyle}`
+      onSummarySubmit(prompt)
     }
   }
 
   const addNewFeature = (value: string): void => {
-    console.log('addNewFeature value', value)
-
-    if (value === '') {
+    if (value.trim() === '') {
       return
     }
 
-    setSelectedFeatures([...selectedFeatures, value])
+    setAppFeatures([...appFeatures, value.trim()])
+  }
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setAppDescription(event.target.value)
+  }
+
+  const handleStyleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAppStyle(event.target.value)
   }
 
   return (
@@ -132,6 +140,7 @@ const MiniPromptInitializer = ({
               fullWidth
               multiline
               onSubmit={() => moveStepForward(currentStep + 1)}
+              onChange={handleDescriptionChange}
             />
 
             {/*<TextField*/}
@@ -182,7 +191,7 @@ const MiniPromptInitializer = ({
               <li>Interractive map</li>
             </ul>
 
-            {selectedFeatures.length > 0 && (
+            {appFeatures.length > 0 && (
               <List
                 style={{
                   maxHeight: '220px',
@@ -191,7 +200,7 @@ const MiniPromptInitializer = ({
                   flex: 1,
                 }}
               >
-                {map(selectedFeatures, featureLabel => (
+                {map(appFeatures, featureLabel => (
                   <React.Fragment>
                     <FeatureListItem label={featureLabel} />
                     {/*<Divider*/}
@@ -252,6 +261,7 @@ const MiniPromptInitializer = ({
               fullWidth
               multiline
               onSubmit={() => moveStepForward(currentStep + 1)}
+              onChange={handleStyleChange}
             />
           </form>
         )}

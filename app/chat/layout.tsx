@@ -118,6 +118,12 @@ const Chat = (): React.ReactNode => {
     }
   }
 
+  const sendAppSummary = (prompt: string): void => {
+    // TODO: SOME API CALLING LOGIC
+    console.log('app summary : ', prompt)
+    setSummaryEntered(true)
+  }
+
   console.log('summaryEntered', summaryEntered)
 
   return (
@@ -133,9 +139,7 @@ const Chat = (): React.ReactNode => {
       />
 
       {!summaryEntered && (
-        <MiniPromptInitializer
-          onSummarySubmit={() => setSummaryEntered(true)}
-        />
+        <MiniPromptInitializer onSummarySubmit={sendAppSummary} />
       )}
     </main>
   )

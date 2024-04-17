@@ -4,8 +4,8 @@ import GrainIcon from '@mui/icons-material/Grain'
 import SendIcon from '@mui/icons-material/Send'
 import { useImmer } from 'use-immer'
 
-type AsyncFunction = (...args: any[]) => Promise<any>;
-type AnyFunction = (...args: any[]) => any;
+type AsyncFunction = (...args: any[]) => Promise<any>
+type AnyFunction = (...args: any[]) => any
 
 interface InputProps {
   icon?: React.ReactNode
@@ -48,6 +48,7 @@ const Input = ({
     setPrompt(draft => {
       draft.value = event.target.value
     })
+    onChange(event)
   }
 
   const handleEnterPress = async (
