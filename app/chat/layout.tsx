@@ -8,6 +8,8 @@ import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
 import { find } from 'lodash'
 import { DialogProps } from '@/app/types/chat'
 import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
+import { Fab } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 
 const availableDialogsInit = {
   frontend: [
@@ -65,7 +67,7 @@ const availableDialogsInit = {
 
 const Chat = (): React.ReactNode => {
   const [openedDialogId, selectOpenedDialogId] = useState(-1)
-  const [summaryEntered, setSummaryEntered] = useState(false)
+  const [summaryOpen, setSummaryOpen] = useState(false)
   const [availableDialogs, changeDialogs] =
     useState<typeof availableDialogsInit>(availableDialogsInit)
 
@@ -121,10 +123,8 @@ const Chat = (): React.ReactNode => {
   const sendAppSummary = (prompt: string): void => {
     // TODO: SOME API CALLING LOGIC
     console.log('app summary : ', prompt)
-    setSummaryEntered(true)
+    setSummaryOpen(false)
   }
-
-  console.log('summaryEntered', summaryEntered)
 
   return (
     <main className={styles.main}>
@@ -138,9 +138,27 @@ const Chat = (): React.ReactNode => {
         sendMessage={onMessageSent}
       />
 
-      {!summaryEntered && (
-        <MiniPromptInitializer onSummarySubmit={sendAppSummary} />
+      {summaryOpen && (
+        <MiniPromptInitializer
+          onSummarySubmit={sendAppSummary}
+          closeSummaryAction={() => setSummaryOpen(false)}
+        />
       )}
+
+      <Fab
+        aria-label="Edit summary"
+        style={{
+          position: 'absolute',
+          bottom: '22px',
+          right: '22px',
+          height: '45px',
+          width: '45px',
+          background: '#735FF6'
+        }}
+        onClick={() => setSummaryOpen(true)}
+      >
+        <EditIcon style={{color: '#fff'}}/>
+      </Fab>
     </main>
   )
 }

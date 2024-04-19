@@ -1,4 +1,4 @@
-import React, {CSSProperties} from 'react'
+import React, { CSSProperties } from 'react'
 import { Button as ButtonMUI } from '@mui/material'
 
 interface ButtonProps {
@@ -7,6 +7,7 @@ interface ButtonProps {
   variant?: 'contained' | 'text' | 'outlined'
   sx?: object
   action?: () => void
+  disabled?: boolean
 }
 
 const Button = ({
@@ -14,7 +15,8 @@ const Button = ({
   fullWidth = false,
   variant = 'contained',
   sx = {},
-  action
+  action,
+  disabled = false,
 }: ButtonProps): React.ReactNode => {
   const handleClick = () => {
     if (action) {
@@ -29,6 +31,7 @@ const Button = ({
       style={variant === 'text' ? style.buttonNoBG : style.buttonBG}
       sx={sx}
       onClick={handleClick}
+      disabled={disabled}
     >
       <span style={style.buttonLabel}>{label}</span>
     </ButtonMUI>
