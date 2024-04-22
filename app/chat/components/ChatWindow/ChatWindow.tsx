@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
 import { Divider, IconButton, InputBase, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
@@ -11,23 +11,25 @@ import { CSSProperties } from 'react'
 import { session } from '@/services'
 import { sendPrompt } from '@/app/chat/actions'
 import Input from '@/components/Input/Input'
-
-interface DialogProps {
-  id: number
-  title: string
-  pageTitle: string
-  selectedOptions: string[]
-  dialog: any
-}
+import { type Dialog, type Message, WebApp } from '@/lib/type'
+import { get } from 'lodash'
+import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
+import { useDispatch } from 'react-redux'
+import { createApp, selectApp } from '@/lib/reducer/webApp'
+import { updateAppInfo } from '@/lib/reducer/webApp'
+import { createDialog, selectDialogs } from '@/lib/reducer/chat'
+import { nanoid } from 'nanoid'
 
 interface ChatWindowProps {
-  selectedDialog: DialogProps
-  sendMessage: any
+  apps: WebApp[]
+  selectedAppId: string
+  initialAppSetup: boolean
+  selectedDialog: Dialog | null
 }
 
 interface ChatHeaderProps {
   icon: any
-  headerTitle: string
+  headerTitle: string | null
 }
 
 const ChatHeader = ({
@@ -58,19 +60,16 @@ interface PromptState {
   step: string
 }
 
-interface Dialog {
-  messageId: string
-  message: string
-  sender: 'USER' | 'AI'
-}
-
 const ChatWindow = ({
+  apps,
+  selectedAppId,
+  initialAppSetup = false,
   selectedDialog,
-  sendMessage,
 }: ChatWindowProps): React.ReactNode => {
-  const [dialogs, setDialogs] = React.useState<Dialog[]>([])
+  const [messages, setMessages] = React.useState<Message[]>([])
   const { ref = null } = useParams()
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const [prompt, setPrompt] = useImmer<PromptState>({
     value: '',
@@ -127,8 +126,8 @@ const ChatWindow = ({
   }
 
   const submitAction = async () => {
-    setDialogs(dialogs => [
-      ...dialogs,
+    setMessages(messages => [
+      ...messages,
       { messageId: '', message: prompt.value, sender: 'USER' },
     ])
     setPrompt(draft => {
@@ -145,8 +144,8 @@ const ChatWindow = ({
         setPrompt(draft => {
           draft.step = response.data.next_step
         })
-        setDialogs(dialogs => [
-          ...dialogs,
+        setMessages(messages => [
+          ...messages,
           { messageId: '', message: response.data.response, sender: 'AI' },
         ])
       }
@@ -157,40 +156,74 @@ const ChatWindow = ({
     }
   }
 
-  // if (selectedDialog === null) {
-  //   return <div>empty</div>
-  // }
+  const sendAppSummary = (
+    prompt: string,
+    appName: string,
+    appUrl: string
+  ): void => {
+    dispatch(
+      updateAppInfo({
+        name: appName,
+        url: appUrl,
+      })
+    )
+    dispatch(selectDialogs(selectedAppId))
+    dispatch(
+      createDialog({
+        id: nanoid(),
+        appId: selectedAppId,
+        messages: [],
+        pageTitle: 'General',
+        selectedOptions: [],
+        title: 'Initial dialog',
+      })
+    )
+  }
+
+  if (apps.length === 0) {
+    return null
+  }
 
   return (
     <div style={style.chatWindow}>
-      <ChatHeader icon={null} headerTitle={selectedDialog.title} />
-      <Stack
-        direction={'column'}
-        alignItems={'center'}
-        justifyContent={'flex-end'}
-        spacing={3}
-        divider={
-          <Divider
-            orientation="horizontal"
-            flexItem
-            style={{ background: '#48474E' }}
+      {initialAppSetup ? (
+        <MiniPromptInitializer onSummarySubmit={sendAppSummary} />
+      ) : (
+        <React.Fragment>
+          <ChatHeader
+            icon={null}
+            headerTitle={get(selectedDialog, 'title', '')}
           />
-        }
-        style={style.dialogContainer}
-      >
-        {/*going with index for now*/}
-        {dialogs.map((dialog, index) => (
-          <ChatMessage key={index} messageObject={dialog} />
-        ))}
-      </Stack>
-      <Input
-        placeholder={'Tell me more about your web app'}
-        fullWidth
-        multiline
-        icon={<GrainIcon style={{ color: '#775EFF' }} />}
-        onSubmit={submitAction}
-        sx={{ width: '80%' }}
-      />
+
+          <Stack
+            direction={'column'}
+            alignItems={'center'}
+            justifyContent={'flex-end'}
+            spacing={3}
+            divider={
+              <Divider
+                orientation="horizontal"
+                flexItem
+                style={{ background: '#48474E' }}
+              />
+            }
+            style={style.dialogContainer}
+          >
+            {/*going with index for now*/}
+            {messages.map((message, index) => (
+              <ChatMessage key={index} messageObject={message} />
+            ))}
+          </Stack>
+          <Input
+            placeholder={'Tell me more about your web app'}
+            fullWidth
+            multiline
+            icon={<GrainIcon style={{ color: '#775EFF' }} />}
+            onSubmit={submitAction}
+            sx={{ width: '80%' }}
+          />
+        </React.Fragment>
+      )}
     </div>
   )
 }

@@ -5,160 +5,149 @@ import { Navbar, Sidebar } from '@/components'
 import styles from './page.module.scss'
 import DialogNavigation from './components/DialogNavigation/DialogNavigation'
 import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
-import { find } from 'lodash'
-import { DialogProps } from '@/app/types/chat'
-import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
-import { Fab } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
+import { filter, find } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/lib/store'
+import { selectDialog, sendMessage } from '@/lib/reducer/chat'
+import { Dialog, Message } from '@/lib/type'
 
-const availableDialogsInit = {
-  frontend: [
-    {
-      id: 1,
-      title: 'Top Navigation bar',
-      pageTitle: 'Main Calendar',
-      selectedOptions: [
-        'Small Animated Popup',
-        'Event type, Users included, Time, Length of event, Send invitation',
-      ],
-      dialog: [],
-    },
-    {
-      id: 2,
-      title: 'Main',
-      pageTitle: 'Settings',
-      selectedOptions: [
-        'Small Animated Popup',
-        'Event type, Users included, Time, Length of event, Send invitation',
-      ],
-      dialog: [],
-    },
-    {
-      id: 3,
-      title: 'Create Event',
-      pageTitle: 'Main Calendar',
-      selectedOptions: [
-        'Small Animated Popup',
-        'Event type, Users included, Time, Length of event, Send invitation',
-      ],
-      dialog: [],
-    },
-  ],
-  backend: [
-    {
-      id: 4,
-      title: 'Top Navigation bar',
-      pageTitle: 'Main Calendar',
-      selectedOptions: ['op1', 'op2'],
-      dialog: [],
-    },
-    {
-      id: 5,
-      title: 'Calendar style',
-      pageTitle: 'Main Calendar',
-      selectedOptions: [
-        'Small Animated Popup',
-        'Event type, Users included, Time, Length of event, Send invitation',
-      ],
-      dialog: [],
-    },
-  ],
+// const availableDialogsInit = {
+//   frontend: [
+//     {
+//       id: 1,
+//       title: 'Top Navigation bar',
+//       pageTitle: 'Main Calendar',
+//       selectedOptions: [
+//         'Small Animated Popup',
+//         'Event type, Users included, Time, Length of event, Send invitation',
+//       ],
+//       dialog: [],
+//     },
+//     {
+//       id: 2,
+//       title: 'Main',
+//       pageTitle: 'Settings',
+//       selectedOptions: [
+//         'Small Animated Popup',
+//         'Event type, Users included, Time, Length of event, Send invitation',
+//       ],
+//       dialog: [],
+//     },
+//     {
+//       id: 3,
+//       title: 'Create Event',
+//       pageTitle: 'Main Calendar',
+//       selectedOptions: [
+//         'Small Animated Popup',
+//         'Event type, Users included, Time, Length of event, Send invitation',
+//       ],
+//       dialog: [],
+//     },
+//   ],
+//   backend: [
+//     {
+//       id: 4,
+//       title: 'Top Navigation bar',
+//       pageTitle: 'Main Calendar',
+//       selectedOptions: ['op1', 'op2'],
+//       dialog: [],
+//     },
+//     {
+//       id: 5,
+//       title: 'Calendar style',
+//       pageTitle: 'Main Calendar',
+//       selectedOptions: [
+//         'Small Animated Popup',
+//         'Event type, Users included, Time, Length of event, Send invitation',
+//       ],
+//       dialog: [],
+//     },
+//   ],
+// }
+
+const useReduxData = () => {
+  const apps = useSelector((state: RootState) => state.webApp.apps)
+  const selectedAppId = useSelector(
+    (state: RootState) => state.webApp.selectedId
+  )
+  const dialogs = useSelector((state: RootState) => state.chat.dialogs)
+  const selectedDialogId = useSelector(
+    (state: RootState) => state.chat.selectedId
+  )
+
+  const selectedDialog = find(dialogs, dialog => dialog.id === selectedDialogId)
+  const selectedApp = find(apps, app => app.id === selectedAppId)
+
+  return {
+    apps,
+    selectedAppId,
+    dialogs,
+    selectedDialogId,
+    selectedDialog,
+    selectedApp,
+  }
 }
 
 const Chat = (): React.ReactNode => {
-  const [openedDialogId, selectOpenedDialogId] = useState(-1)
-  const [summaryOpen, setSummaryOpen] = useState(false)
-  const [availableDialogs, changeDialogs] =
-    useState<typeof availableDialogsInit>(availableDialogsInit)
+  const {
+    apps,
+    selectedAppId,
+    selectedApp,
+    dialogs,
+    selectedDialogId,
+    selectedDialog,
+  } = useReduxData()
 
-  const openDialog = (dialogId: number) => {
-    selectOpenedDialogId(dialogId)
-  }
+  const dispatch = useDispatch()
 
-  const findDialogById = (id: number): DialogProps => {
-    for (const category in availableDialogs) {
-      const dialogsInCategory = (availableDialogs as any)[
-        category
-      ] as DialogProps[]
-      const foundDialog = dialogsInCategory.find(dialog => dialog.id === id)
-      if (foundDialog) {
-        return foundDialog
-      }
-    }
-
-    return {
-      id: -1,
-      title: 'New Chat',
-      pageTitle: '...',
-      selectedOptions: [],
-      dialog: [],
-    }
+  const findDialogById = (requestedId: string): Dialog => {
+    const dialogFound = find(dialogs, dialog => dialog.id === requestedId)
+    return dialogFound === undefined
+      ? {
+          id: '-1',
+          title: 'New Chat',
+          pageTitle: '...',
+          selectedOptions: [],
+          messages: [],
+        }
+      : dialogFound
   }
 
   const onMessageSent = (message: string) => {
-    if (openedDialogId !== -1) {
-      const category = openedDialogId <= 3 ? 'frontend' : 'backend'
-      const updatedDialogs = {
-        ...availableDialogs,
-        [category]: availableDialogs[category].map(dialog =>
-          dialog.id === openedDialogId
-            ? {
-                ...dialog,
-                dialog: [
-                  ...dialog.dialog,
-                  {
-                    messageId: `mes${dialog.dialog.length + 1}`,
-                    sender: 'user',
-                    message: message,
-                  },
-                ],
-              }
-            : dialog
-        ),
-      }
-      changeDialogs(updatedDialogs)
-    }
-  }
-
-  const sendAppSummary = (prompt: string): void => {
-    // TODO: SOME API CALLING LOGIC
-    console.log('app summary : ', prompt)
-    setSummaryOpen(false)
+    // if (openedDialogId !== -1) {
+    //   const category = openedDialogId <= 3 ? 'frontend' : 'backend'
+    //   const updatedDialogs = {
+    //     ...availableDialogs,
+    //     [category]: availableDialogs[category].map(dialog =>
+    //       dialog.id === openedDialogId
+    //         ? {
+    //           ...dialog,
+    //           dialog: [
+    //             ...dialog.dialog,
+    //             {
+    //               messageId: `mes${dialog.dialog.length + 1}`,
+    //               sender: 'user',
+    //               message: message,
+    //             },
+    //           ],
+    //         }
+    //         : dialog
+    //     ),
+    //   }
+    //   changeDialogs(updatedDialogs)
+    // }
   }
 
   return (
     <main className={styles.main}>
-      <DialogNavigation
-        frontend={availableDialogs.frontend}
-        backend={availableDialogs.backend}
-        openDialog={openDialog}
-      />
+      <DialogNavigation/>
       <ChatWindow
-        selectedDialog={findDialogById(openedDialogId)}
-        sendMessage={onMessageSent}
+        apps={apps}
+        initialAppSetup={!selectedApp || selectedApp.url === ''}
+        selectedDialog={
+          selectedDialogId === null ? null : findDialogById(selectedDialogId)
+        }
       />
-
-      {summaryOpen && (
-        <MiniPromptInitializer
-          onSummarySubmit={sendAppSummary}
-          closeSummaryAction={() => setSummaryOpen(false)}
-        />
-      )}
-
-      <Fab
-        aria-label="Edit summary"
-        style={{
-          position: 'absolute',
-          bottom: '22px',
-          right: '22px',
-          height: '45px',
-          width: '45px',
-          background: '#735FF6'
-        }}
-        onClick={() => setSummaryOpen(true)}
-      >
-        <EditIcon style={{color: '#fff'}}/>
-      </Fab>
     </main>
   )
 }

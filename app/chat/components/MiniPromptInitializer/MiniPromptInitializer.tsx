@@ -14,11 +14,10 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { Button, Input } from '@/components'
 import map from 'lodash/map'
 import StepperController from './component/StepperController'
-import CloseIcon from '@mui/icons-material/Close'
+import {AppOverview} from "@/lib/type";
 
 interface MiniPromptInitializerProps {
-  onSummarySubmit: (prompt: string) => void
-  closeSummaryAction: () => void
+  onSummarySubmit: (prompt: string, appName: string, appUrl: string) => void
 }
 
 interface FeatureListItemProps {
@@ -29,7 +28,7 @@ interface FeatureListInputProps {
   onSubmit: any
 }
 
-const PAGINATION_STEPS = ['Summary', 'Features']
+const PAGINATION_STEPS = ['Summary', 'Features', 'App overview']
 
 const FeatureListItem = ({ label }: FeatureListItemProps): React.ReactNode => {
   return (
@@ -67,16 +66,11 @@ const FeatureListInput = ({
 }
 
 interface FormPageProps {
-  currentStep: number
   setStep: (step: number) => void
   handleChange: (...args: any[]) => void
 }
 
-const FormSummaryPage = ({
-  currentStep,
-  setStep,
-  handleChange,
-}: FormPageProps) => {
+const FormSummaryPage = ({ setStep, handleChange }: FormPageProps) => {
   return (
     <form style={style.mainContainer}>
       <h2
@@ -93,7 +87,6 @@ const FormSummaryPage = ({
         style={{
           color: '#CFCED9',
           fontWeight: 300,
-          // marginBottom: '36px',
         }}
       >
         Write 2-5 sentences about your web application
@@ -116,7 +109,6 @@ const FormSummaryPage = ({
         placeholder={'Tell me more about your web app'}
         fullWidth
         multiline
-        // onSubmit={() => setStep(currentStep + 1)}
         onChange={handleChange}
       />
 
@@ -127,11 +119,7 @@ const FormSummaryPage = ({
   )
 }
 
-const FormFeaturesPage = ({
-  currentStep,
-  setStep,
-  handleChange,
-}: FormPageProps) => {
+const FormFeaturesPage = ({ setStep, handleChange }: FormPageProps) => {
   const [appFeatures, setAppFeatures] = useState<string[]>([])
 
   const addNewFeature = (value: string): void => {
@@ -139,8 +127,9 @@ const FormFeaturesPage = ({
       return
     }
 
-    setAppFeatures([...appFeatures, value.trim()])
-    handleChange()
+    const updatedAppFeatures = [...appFeatures, value.trim()]
+    setAppFeatures(updatedAppFeatures)
+    handleChange(updatedAppFeatures)
   }
 
   return (
@@ -159,7 +148,6 @@ const FormFeaturesPage = ({
         style={{
           color: '#CFCED9',
           fontWeight: 300,
-          // marginBottom: '22px',
         }}
       >
         For example
@@ -192,11 +180,6 @@ const FormFeaturesPage = ({
           {map(appFeatures, featureLabel => (
             <React.Fragment>
               <FeatureListItem label={featureLabel} />
-              {/*<Divider*/}
-              {/*  orientation="horizontal"*/}
-              {/*  flexItem*/}
-              {/*  style={{ background: '#48474E' }}*/}
-              {/*/>*/}
             </React.Fragment>
           ))}
         </List>
@@ -211,25 +194,67 @@ const FormFeaturesPage = ({
   )
 }
 
+const AppOverviewPage = ({ setStep, handleChange }: FormPageProps) => {
+  const [appName, setAppName] = useState<string>()
+  const [appUrl, setAppUrl] = useState<string>()
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAppName(event.target.value)
+    handleChange({
+      name: event.target.value,
+      url: appUrl,
+    })
+  }
+
+  const handleUrlChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAppUrl(event.target.value)
+    handleChange({
+      name: appName,
+      url: event.target.value,
+    })
+  }
+
+  return (
+    <form style={style.mainContainer}>
+      <h2
+        style={{
+          color: '#CFCED9',
+          fontWeight: 500,
+          marginBottom: '22px',
+        }}
+      >
+        Provide the overview of your web-app
+      </h2>
+
+      <Input placeholder={'App name'} onChange={handleNameChange} />
+
+      <Input placeholder={'App url'} onChange={handleUrlChange} />
+
+      <div style={style.stepperControllerContainer}>
+        <StepperController lastPage setStepAction={setStep} />
+      </div>
+    </form>
+  )
+}
+
 const MiniPromptInitializer = ({
   onSummarySubmit,
-  closeSummaryAction,
 }: MiniPromptInitializerProps): React.ReactNode => {
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [appDescription, setAppDescription] = useState<string>('')
+  const [appSummary, setAppSummary] = useState<string>('')
   const [appFeatures, setAppFeatures] = useState<string[]>([])
-  const [appStyle, setAppStyle] = useState<string>('')
+  const [appOverview, setAppOverview] = useState<AppOverview>()
   const [formErrors, setFormErrors] = useState<string[]>([])
 
   const setStep = (stepChange: number) => {
     if (currentStep + stepChange >= PAGINATION_STEPS.length) {
       const errorsFound: boolean = checkFormErrors()
 
-      if (errorsFound) {
+      if (errorsFound || !appOverview) {
         return
       }
-      const prompt = `App Description: ${appDescription}\n\nApp Features: ${appFeatures.join(', ')}\n\nApp Style: ${appStyle}`
-      onSummarySubmit(prompt)
+      const prompt = `App Description: ${appSummary}\n\nApp Features: ${appFeatures.join(', ')}\n\nApp Overview: ${appOverview}`
+      onSummarySubmit(prompt, appOverview.name, appOverview.url)
     }
 
     setCurrentStep(currentStep + stepChange)
@@ -238,7 +263,7 @@ const MiniPromptInitializer = ({
   const checkFormErrors = (): boolean => {
     let thisFormErrors: string[] = []
 
-    if (appDescription === '' || appDescription.length < 20) {
+    if (appSummary === '' || appSummary.length < 20) {
       thisFormErrors = [...thisFormErrors, 'Summary too short']
     }
 
@@ -246,33 +271,23 @@ const MiniPromptInitializer = ({
     return thisFormErrors.length !== 0
   }
 
-  const addNewFeature = (value: string): void => {
-    if (value.trim() === '') {
-      return
-    }
-
-    setAppFeatures([...appFeatures, value.trim()])
-  }
-
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setAppDescription(event.target.value)
+    setAppSummary(event.target.value)
   }
 
-  const handleStyleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAppStyle(event.target.value)
+  const handleFeaturesChange = (features: string[]) => {
+    setAppFeatures(features)
+  }
+
+  const handleOverviewChange = (overview: AppOverview) => {
+    setAppOverview(overview)
   }
 
   return (
     <div style={style.centricContainer}>
       <Paper elevation={0} sx={style.promptContainer}>
-        <IconButton
-          style={style.closeButton}
-          onClick={() => closeSummaryAction()}
-        >
-          <CloseIcon />
-        </IconButton>
         <PromptPagination steps={PAGINATION_STEPS} currentStep={currentStep} />
 
         <Divider
@@ -286,7 +301,6 @@ const MiniPromptInitializer = ({
 
         {currentStep === 0 && (
           <FormSummaryPage
-            currentStep={currentStep}
             setStep={setStep}
             handleChange={handleDescriptionChange}
           />
@@ -294,9 +308,15 @@ const MiniPromptInitializer = ({
 
         {currentStep === 1 && (
           <FormFeaturesPage
-            currentStep={currentStep}
             setStep={setStep}
-            handleChange={handleDescriptionChange}
+            handleChange={handleFeaturesChange}
+          />
+        )}
+
+        {currentStep === 2 && (
+          <AppOverviewPage
+            setStep={setStep}
+            handleChange={handleOverviewChange}
           />
         )}
       </Paper>
@@ -306,21 +326,14 @@ const MiniPromptInitializer = ({
 
 const style: { [key: string]: CSSProperties } = {
   centricContainer: {
-    height: '100vh',
-    width: '100vw',
+    height: '100%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1000,
-    backdropFilter: 'blur(3px)',
-    backgroundColor: 'rgba(0,0,30,0.4)',
   },
   promptContainer: {
-    position: 'relative',
-    width: '55vw',
+    width: '65vw',
     maxWidth: '1000px',
     // height: '82vh',
     maxHeight: '800px',
@@ -333,7 +346,6 @@ const style: { [key: string]: CSSProperties } = {
     justifyContent: 'space-between',
     padding: '32px',
   },
-  inputPrompt: {},
   stepperControllerContainer: {
     position: 'relative',
     bottom: '0',

@@ -14,11 +14,11 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {DialogProps} from "@/app/types/chat"
+import {Dialog} from "@/lib/type";
 
 interface DialogOptionProps {
   index: number
-  dialog: DialogProps
+  dialog: Dialog
   onExpanded: any
   isExpanded: boolean
 }

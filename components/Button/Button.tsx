@@ -28,8 +28,11 @@ const Button = ({
     <ButtonMUI
       fullWidth={fullWidth}
       variant={variant}
-      style={variant === 'text' ? style.buttonNoBG : style.buttonBG}
-      sx={sx}
+      style={
+        variant === 'text'
+          ? { ...style.buttonNoBG, ...sx }
+          : { ...style.buttonBG, ...sx }
+      }
       onClick={handleClick}
       disabled={disabled}
     >

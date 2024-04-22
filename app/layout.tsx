@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material/styles'
 
 import '@/styles/main.scss'
 import darkTheme from '@/styles/theme'
+import StoreProvider from '@/app/StoreProvider'
 
 export const metadata: Metadata = {
   title: 'ZapplyAI',
@@ -19,11 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <AppRouterCacheProvider>
-        <ThemeProvider theme={darkTheme}>
-          <body>{children}</body>
-        </ThemeProvider>
-      </AppRouterCacheProvider>
+      <StoreProvider>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={darkTheme}>
+            <body>{children}</body>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
+      </StoreProvider>
     </html>
   )
 }
