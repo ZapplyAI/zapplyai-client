@@ -162,7 +162,6 @@ const ChatWindow = ({
     appName: string,
     appUrl: string
   ): void => {
-    console.log(prompt, summary,  appName, 'during 1');
     await submitAction(summary);
 
     dispatch(
