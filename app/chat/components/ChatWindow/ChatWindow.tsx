@@ -125,10 +125,10 @@ const ChatWindow = ({
     await submitAction()
   }
 
-  const submitAction = async () => {
+  const submitAction = async (_message: string = '') => {
     setMessages(messages => [
       ...messages,
-      { messageId: '', message: prompt.value, sender: 'USER' },
+      { messageId: '', message: _message || prompt.value, sender: 'USER' },
     ])
     setPrompt(draft => {
       draft.isProcessing = true
@@ -156,11 +156,15 @@ const ChatWindow = ({
     }
   }
 
-  const sendAppSummary = (
+  const sendAppSummary = async (
     prompt: string,
+    summary: string,
     appName: string,
     appUrl: string
   ): void => {
+    console.log(prompt, summary,  appName, 'during 1');
+    await submitAction(summary);
+
     dispatch(
       updateAppInfo({
         name: appName,
