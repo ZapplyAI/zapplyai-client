@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { CSSProperties } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
-import { Divider, IconButton, InputBase, Stack } from '@mui/material'
+import { Divider, IconButton, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
-import SendIcon from '@mui/icons-material/Send'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
 import { useParams, useRouter } from 'next/navigation'
-import { CSSProperties } from 'react'
 
 import { session } from '@/services'
 import { sendPrompt } from '@/app/chat/actions'
@@ -15,7 +13,6 @@ import { type Dialog, type Message, WebApp } from '@/lib/type'
 import { get } from 'lodash'
 import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
 import { useDispatch } from 'react-redux'
-import { createApp, selectApp } from '@/lib/reducer/webApp'
 import { updateAppInfo } from '@/lib/reducer/webApp'
 import { createDialog, selectDialogs } from '@/lib/reducer/chat'
 import { nanoid } from 'nanoid'
@@ -161,8 +158,8 @@ const ChatWindow = ({
     summary: string,
     appName: string,
     appUrl: string
-  ): void => {
-    await submitAction(summary);
+  ) => {
+    await submitAction(summary)
 
     dispatch(
       updateAppInfo({
