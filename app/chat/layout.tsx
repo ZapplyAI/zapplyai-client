@@ -1,15 +1,14 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Navbar, Sidebar } from '@/components'
 import styles from './page.module.scss'
 import DialogNavigation from './components/DialogNavigation/DialogNavigation'
 import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
-import { filter, find } from 'lodash'
+import { find } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
-import { selectDialog, sendMessage } from '@/lib/reducer/chat'
-import { Dialog, Message } from '@/lib/type'
+import { Dialog } from '@/lib/type'
 
 // const availableDialogsInit = {
 //   frontend: [
@@ -105,6 +104,7 @@ const Chat = (): React.ReactNode => {
     return dialogFound === undefined
       ? {
           id: '-1',
+          appId: '-1',
           title: 'New Chat',
           pageTitle: '...',
           selectedOptions: [],
@@ -140,7 +140,7 @@ const Chat = (): React.ReactNode => {
 
   return (
     <main className={styles.main}>
-      <DialogNavigation/>
+      <DialogNavigation />
       <ChatWindow
         apps={apps}
         initialAppSetup={!selectedApp || selectedApp.url === ''}

@@ -19,7 +19,7 @@ import { nanoid } from 'nanoid'
 
 interface ChatWindowProps {
   apps: WebApp[]
-  selectedAppId: string
+  selectedAppId?: string
   initialAppSetup: boolean
   selectedDialog: Dialog | null
 }
@@ -167,11 +167,11 @@ const ChatWindow = ({
         url: appUrl,
       })
     )
-    dispatch(selectDialogs(selectedAppId))
+    dispatch(selectDialogs(selectedAppId as any))
     dispatch(
       createDialog({
         id: nanoid(),
-        appId: selectedAppId,
+        appId: selectedAppId as string,
         messages: [],
         pageTitle: 'General',
         selectedOptions: [],
