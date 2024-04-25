@@ -32,11 +32,11 @@ const DialogList = ({
     >
       {map(dialogs, dialog => (
         <DialogOption
-          index={dialog.id}
+          index={Number(dialog.id)}
           key={dialog.id}
           dialog={dialog}
           onExpanded={handleExpansion}
-          isExpanded={expandedId === dialog.id}
+          isExpanded={expandedId === Number(dialog.id)}
         />
       ))}
     </Stack>
