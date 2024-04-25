@@ -105,6 +105,7 @@ const Chat = (): React.ReactNode => {
     return dialogFound === undefined
       ? {
           id: '-1',
+          appId: '-1',
           title: 'New Chat',
           pageTitle: '...',
           selectedOptions: [],
@@ -140,9 +141,10 @@ const Chat = (): React.ReactNode => {
 
   return (
     <main className={styles.main}>
-      <DialogNavigation/>
+      <DialogNavigation />
       <ChatWindow
         apps={apps}
+        selectedAppId={selectedAppId as string}
         initialAppSetup={!selectedApp || selectedApp.url === ''}
         selectedDialog={
           selectedDialogId === null ? null : findDialogById(selectedDialogId)

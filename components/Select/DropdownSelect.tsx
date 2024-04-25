@@ -1,32 +1,24 @@
 import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
 import Typography from '@mui/material/Typography'
 import find from 'lodash/find'
 import { CSSProperties } from 'react'
-import { Button } from '@/components'
-import {InputBase, Stack} from '@mui/material'
-import {WebApp} from "@/lib/type";
+import { WebApp } from '@/lib/type'
 
 type AnyFunction = (...args: any[]) => any
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      // width: 250,
-      padding: '0px 8px',
+      maxHeight: '250px',
+      overflow: 'scroll',
       border: '0px',
       background: '#352F5A',
       borderRadius: '7px',
-      borderTopLeftRadius: '0',
-      borderTopRightRadius: '0',
+      // borderTopLeftRadius: '0',
+      // borderTopRightRadius: '0',
     },
   },
 }
@@ -42,17 +34,18 @@ const DropdownSelect = ({
   selectedApp,
   allApps,
   selectApp,
-  bottomComponent
+  bottomComponent,
 }: DropdownSelectProps): React.ReactNode => {
   const style: { [key: string]: CSSProperties } = {
-    menuItem: {
+    menuItemMain: {
       display: 'flex',
       justifyContent: 'left',
+      alignItems: 'center',
     },
     menuItemIcon: {
       width: '22px',
       height: '22px',
-      background: '#552CF6',
+      background: '#800E52',
       color: '#fff',
       marginRight: '10px',
       textAlign: 'center',
@@ -64,6 +57,16 @@ const DropdownSelect = ({
       alignItems: 'center',
       overflow: 'hidden',
     },
+    menuItemText: {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      color: '#CFCED9',
+      fontSize: '14px',
+      fontWeight: 400,
+      // color: '#E8E7F4'
+    },
+    menuItem: { margin: '3px 6px', borderRadius: '4px', padding: '5px 6px' },
   }
 
   const onSelectChange = (event: SelectChangeEvent) => {
@@ -75,74 +78,46 @@ const DropdownSelect = ({
   console.log('appApps.id', allApps)
 
   return (
-    <FormControl fullWidth sx={{ height: '40px' }}>
-      <Select
-        displayEmpty
-        value={selectedApp.id}
-        onChange={onSelectChange}
-        input={<InputBase style={{ paddingLeft: '14px' }} />}
-        IconComponent={() => (
-          <UnfoldMoreIcon
-            style={{ height: '22px', marginRight: '5px', color: '#CFCED9' }}
-          />
-        )}
-        sx={{
-          height: '40px',
-          border: '2px #5443B1 solid',
-          background: 'none',
-          color: '#CFCED9',
-          borderRadius: '7px',
-        }}
-        renderValue={selected => {
-          const selectedApp = find(allApps, thisApp => thisApp.id === selected)
+    <Select
+      fullWidth
+      value={selectedApp.id}
+      onChange={onSelectChange}
+      IconComponent={() => <UnfoldMoreIcon style={{ color: '#CFCED9' }} />}
+      renderValue={selected => {
+        const selectedApp = find(allApps, thisApp => thisApp.id === selected)
 
-          if (selectedApp === undefined) {
-            return (
-              <Typography
-                style={{
-                  color: '#CFCED9',
-                  fontSize: '14px',
-                  fontWeight: '400',
-                  // fontStyle: 'regular',
-                  overflow: 'hidden',
-                }}
-              >
-                Select App
-              </Typography>
-            )
-          }
+        if (selectedApp === undefined) {
+          return <Typography style={style.menuItemText}>Select App</Typography>
+        }
 
-          return (
-            <div style={style.menuItem}>
-              <div style={style.menuItemIcon}>
-                {selectedApp.name.charAt(0)}
-              </div>
-              <Typography
-                style={{
-                  fontSize: '14px',
-                  fontWeight: '400',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {selectedApp.name}
-              </Typography>
-            </div>
-          )
-        }}
-        MenuProps={MenuProps}
-        inputProps={{ 'aria-label': 'Without label' }}
-      >
-          {allApps.map(app => (
-            <MenuItem key={app.id} value={app.id}>
-              <div style={style.menuItemIcon}>{app.name.charAt(0)}</div>
-              {app.name}
-            </MenuItem>
-          ))}
-          {bottomComponent}
-      </Select>
-    </FormControl>
+        return (
+          <div style={style.menuItemMain}>
+            <div style={style.menuItemIcon}>{selectedApp.name.charAt(0)}</div>
+            <Typography style={style.menuItemText}>
+              {selectedApp.name}
+            </Typography>
+          </div>
+        )
+      }}
+      MenuProps={MenuProps}
+      sx={{
+        '& .MuiSelect-select': {
+          padding: '6px 4px',
+        },
+        '& .MuiOutlinedInput-notchedOutline': { border: 0 },
+        background: '#5443B1',
+        border: '0px solid',
+        padding: '0px 8px',
+      }}
+    >
+      {allApps.map(app => (
+        <MenuItem key={app.id} value={app.id} style={style.menuItem}>
+          <div style={style.menuItemIcon}>{app.name.charAt(0)}</div>
+          <span style={style.menuItemText}>{app.name}</span>
+        </MenuItem>
+      ))}
+      {bottomComponent}
+    </Select>
   )
 }
 

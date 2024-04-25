@@ -116,15 +116,10 @@ const DialogNavigation = (): React.ReactNode => {
           selectApp={(appId :string) => dispatch(selectApp(appId))}
           selectedApp={selectedApp}
           bottomComponent={
-            <MenuItem key={'100000'} value={'100000'} sx={{ padding: '0' }}>
+            <MenuItem key={'100000'} value={'100000'} sx={{ margin: '2px 6px', marginTop: '10px', borderRadius: '4px', padding: '0px' }}>
               <Button
                 label={'Create new app'}
                 fullWidth
-                sx={{
-                  background: '#5443B1',
-                  color: '#fff',
-                  borderRadius: '9px',
-                }}
                 action={createNewApp}
               />
             </MenuItem>
@@ -138,15 +133,10 @@ const DialogNavigation = (): React.ReactNode => {
           selectApp={() => {}}
           selectedApp={selectedApp}
           bottomComponent={
-            <MenuItem key={'100000'} value={'1000'} sx={{ padding: '0' }}>
+            <MenuItem key={'100000'} value={'100000'} sx={{ margin: '2px 6px', marginTop: '10px', borderRadius: '4px', padding: '0px' }}>
               <Button
                 label={'Create new app'}
                 fullWidth
-                sx={{
-                  background: '#5443B1',
-                  color: '#fff',
-                  borderRadius: '9px',
-                }}
                 action={createNewApp}
               />
             </MenuItem>

@@ -178,6 +178,7 @@ const ChatWindow = ({
         title: 'Initial dialog',
       })
     )
+    // apiCall('./sendMessage', prompt, )
   }
 
   if (apps.length === 0) {
