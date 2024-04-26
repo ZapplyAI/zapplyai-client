@@ -15,7 +15,7 @@ import { Button, Input } from '@/components'
 import map from 'lodash/map'
 import StepperController from './component/StepperController'
 import { AppOverview } from '@/lib/type'
-import { filter } from 'lodash'
+import { filter, get } from 'lodash'
 import { nanoid } from 'nanoid'
 
 type AnyFunction = (...args: any[]) => any
@@ -152,7 +152,11 @@ const FormSummaryPage = ({
   )
 }
 
-const FormFeaturesPage = ({ setStep, handleChange, initialValue }: FormPageProps) => {
+const FormFeaturesPage = ({
+  setStep,
+  handleChange,
+  initialValue,
+}: FormPageProps) => {
   const [appFeatures, setAppFeatures] = useState<Feature[]>(initialValue || [])
   const [inputValue, setInputValue] = useState('')
 
@@ -161,7 +165,10 @@ const FormFeaturesPage = ({ setStep, handleChange, initialValue }: FormPageProps
       return
     }
 
-    const updatedAppFeatures: Feature[] = [...appFeatures, {id: nanoid(), label: value.trim()}]
+    const updatedAppFeatures: Feature[] = [
+      ...appFeatures,
+      { id: nanoid(), label: value.trim() },
+    ]
     setAppFeatures(updatedAppFeatures)
     handleChange(updatedAppFeatures)
   }
@@ -250,9 +257,13 @@ const FormFeaturesPage = ({ setStep, handleChange, initialValue }: FormPageProps
   )
 }
 
-const AppOverviewPage = ({ setStep, handleChange }: FormPageProps) => {
-  const [appName, setAppName] = useState<string>()
-  const [appUrl, setAppUrl] = useState<string>()
+const AppOverviewPage = ({
+  setStep,
+  handleChange,
+  initialValue,
+}: FormPageProps) => {
+  const [appName, setAppName] = useState<string>(get(initialValue, 'name', ''))
+  const [appUrl, setAppUrl] = useState<string>(get(initialValue, 'url', ''))
 
   const handleNameChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAppName(event.target.value)
@@ -279,12 +290,21 @@ const AppOverviewPage = ({ setStep, handleChange }: FormPageProps) => {
           marginBottom: '22px',
         }}
       >
-        Provide the overview of your web-app
+        Overview
       </h2>
 
-      <Input placeholder={'App name'} onChange={handleNameChange} />
-
-      <Input placeholder={'App url'} onChange={handleUrlChange} />
+      <div style={{ width: '60%}', marginBottom: '55px' }}>
+        <Input
+          placeholder={'App name'}
+          value={appName}
+          onChange={handleNameChange}
+        />
+        <Input
+          placeholder={'App url'}
+          value={appUrl}
+          onChange={handleUrlChange}
+        />
+      </div>
 
       <div style={style.stepperControllerContainer}>
         <StepperController lastPage setStepAction={setStep} />
@@ -375,6 +395,7 @@ const MiniPromptInitializer = ({
           <AppOverviewPage
             setStep={setStep}
             handleChange={handleOverviewChange}
+            initialValue={appOverview}
           />
         )}
       </Paper>
