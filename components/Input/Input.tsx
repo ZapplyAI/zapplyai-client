@@ -16,6 +16,7 @@ interface InputProps {
   sx?: object
   onChange?: AnyFunction | AsyncFunction
   onSubmit?: AnyFunction | AsyncFunction
+  value?: string
 }
 
 interface PromptState {
@@ -31,11 +32,12 @@ const Input = ({
   multiline = false,
   submitButton = false,
   sx = {},
-  onSubmit = async () => {},
+  value = '',
+  onSubmit = (prompt: string) => {},
   onChange = async () => {},
 }: InputProps): React.ReactNode => {
   const [prompt, setPrompt] = useImmer<PromptState>({
-    value: '',
+    value: value,
     isProcessing: false,
     step: '',
   })

@@ -123,6 +123,7 @@ const ChatWindow = ({
   }
 
   const submitAction = async (_message: string = '') => {
+    console.log(_message, prompt.value, 'heaven');
     setMessages(messages => [
       ...messages,
       { messageId: '', message: _message || prompt.value, sender: 'USER' },
@@ -134,7 +135,7 @@ const ChatWindow = ({
     try {
       const { success, response } = await sendPrompt({
         ref: ref as string,
-        prompt: prompt.value,
+        prompt: _message || prompt.value,
       })
 
       if (success) {
@@ -218,8 +219,10 @@ const ChatWindow = ({
             placeholder={'Tell me more about your web app'}
             fullWidth
             multiline
+            value={prompt.value}
+            onChange={handleInputChange}
             icon={<GrainIcon style={{ color: '#775EFF' }} />}
-            onSubmit={submitAction}
+            onSubmit={() => submitAction(prompt.value)}
             sx={{ width: '80%' }}
           />
         </React.Fragment>
