@@ -293,13 +293,15 @@ const AppOverviewPage = ({
         Overview
       </h2>
 
-      <div style={{ width: '60%}', marginBottom: '55px' }}>
+      <div style={{ width: '60%', marginBottom: '145px' }}>
         <Input
+          sx={{marginTop: '0px'}}
           placeholder={'App name'}
           value={appName}
           onChange={handleNameChange}
         />
         <Input
+          sx={{marginTop: '0px'}}
           placeholder={'App url'}
           value={appUrl}
           onChange={handleUrlChange}
