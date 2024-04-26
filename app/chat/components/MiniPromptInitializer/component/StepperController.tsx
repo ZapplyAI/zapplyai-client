@@ -17,10 +17,12 @@ const StepperController = ({
       <Button
         label={'Back'}
         disabled={firstPage}
+        sx={{width: '49%'}}
         action={() => setStepAction(-1)}
       />
       <Button
         label={lastPage ? 'Complete' : 'Next'}
+        sx={{width: '49%', background: '#775EFF'}}
         action={() => setStepAction(1)}
       />
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Alert,
   Divider,
@@ -14,13 +14,23 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { Button, Input } from '@/components'
 import map from 'lodash/map'
 import StepperController from './component/StepperController'
-import {AppOverview} from "@/lib/type";
+import { AppOverview } from '@/lib/type'
+import { filter } from 'lodash'
+import { nanoid } from 'nanoid'
+
+type AnyFunction = (...args: any[]) => any
 
 interface MiniPromptInitializerProps {
   onSummarySubmit: (prompt: string, appName: string, appUrl: string) => void
 }
 
 interface FeatureListItemProps {
+  feature: Feature
+  removeFeature: AnyFunction
+}
+
+type Feature = {
+  id: string
   label: string
 }
 
@@ -30,7 +40,10 @@ interface FeatureListInputProps {
 
 const PAGINATION_STEPS = ['Summary', 'Features', 'App overview']
 
-const FeatureListItem = ({ label }: FeatureListItemProps): React.ReactNode => {
+const FeatureListItem = ({
+  feature,
+  removeFeature,
+}: FeatureListItemProps): React.ReactNode => {
   return (
     <div
       style={{
@@ -38,12 +51,17 @@ const FeatureListItem = ({ label }: FeatureListItemProps): React.ReactNode => {
         justifyContent: 'start',
         alignItems: 'center',
         flexDirection: 'row',
-        marginRight: '22px',
+        background: '#775EFF',
+        borderRadius: '22px',
+        padding: '2px 5px 2px 12px',
       }}
     >
-      <p>{label}</p>
+      <p style={{ fontSize: '12px' }}>{feature.label}</p>
       <IconButton>
-        <ClearIcon />
+        <ClearIcon
+          onClick={() => removeFeature(feature.id)}
+          style={{ color: '#282636', height: '15px', width: '15px' }}
+        />
       </IconButton>
     </div>
   )
@@ -68,9 +86,21 @@ const FeatureListInput = ({
 interface FormPageProps {
   setStep: (step: number) => void
   handleChange: (...args: any[]) => void
+  initialValue?: any
 }
 
-const FormSummaryPage = ({ setStep, handleChange }: FormPageProps) => {
+const FormSummaryPage = ({
+  setStep,
+  handleChange,
+  initialValue,
+}: FormPageProps) => {
+  const [inputValue, setInputValue] = useState(initialValue || '')
+
+  // Update the input value when initialValue changes
+  useEffect(() => {
+    setInputValue(initialValue || '')
+  }, [initialValue])
+
   return (
     <form style={style.mainContainer}>
       <h2
@@ -80,7 +110,7 @@ const FormSummaryPage = ({ setStep, handleChange }: FormPageProps) => {
           marginBottom: '22px',
         }}
       >
-        List apps core features
+        Summarise your app
       </h2>
 
       <p
@@ -110,6 +140,9 @@ const FormSummaryPage = ({ setStep, handleChange }: FormPageProps) => {
         fullWidth
         multiline
         onChange={handleChange}
+        sendIcon={false}
+        value={inputValue}
+        onSubmit={() => setStep(1)}
       />
 
       <div style={style.stepperControllerContainer}>
@@ -119,17 +152,26 @@ const FormSummaryPage = ({ setStep, handleChange }: FormPageProps) => {
   )
 }
 
-const FormFeaturesPage = ({ setStep, handleChange }: FormPageProps) => {
-  const [appFeatures, setAppFeatures] = useState<string[]>([])
+const FormFeaturesPage = ({ setStep, handleChange, initialValue }: FormPageProps) => {
+  const [appFeatures, setAppFeatures] = useState<Feature[]>(initialValue || [])
+  const [inputValue, setInputValue] = useState('')
 
   const addNewFeature = (value: string): void => {
     if (value.trim() === '') {
       return
     }
 
-    const updatedAppFeatures = [...appFeatures, value.trim()]
+    const updatedAppFeatures: Feature[] = [...appFeatures, {id: nanoid(), label: value.trim()}]
     setAppFeatures(updatedAppFeatures)
     handleChange(updatedAppFeatures)
+  }
+
+  const removeFeature = (id: string) => {
+    const featureUpdated = filter(
+      appFeatures,
+      appFeature => appFeature.id !== id
+    )
+    setAppFeatures(featureUpdated)
   }
 
   return (
@@ -141,7 +183,7 @@ const FormFeaturesPage = ({ setStep, handleChange }: FormPageProps) => {
           marginBottom: '22px',
         }}
       >
-        List the features you want your web-app to have
+        List the features you want to include in your web-app
       </h2>
 
       <p
@@ -160,6 +202,8 @@ const FormFeaturesPage = ({ setStep, handleChange }: FormPageProps) => {
           color: '#CFCED9',
           fontWeight: 300,
           marginBottom: '36px',
+          maxHeight: '400px',
+          overflow: 'scroll',
         }}
       >
         <li>Shopping cart</li>
@@ -169,23 +213,35 @@ const FormFeaturesPage = ({ setStep, handleChange }: FormPageProps) => {
       </ul>
 
       {appFeatures.length > 0 && (
-        <List
-          style={{
-            maxHeight: '220px',
-            overflow: 'scroll',
-            width: '50%',
-            flex: 1,
-          }}
+        <Stack
+          spacing={{ xs: 0, sm: 1 }}
+          direction="row"
+          useFlexGap
+          flexWrap="wrap"
         >
           {map(appFeatures, featureLabel => (
-            <React.Fragment>
-              <FeatureListItem label={featureLabel} />
-            </React.Fragment>
+            <FeatureListItem
+              key={featureLabel.id}
+              feature={{ id: featureLabel.id, label: featureLabel.label }}
+              removeFeature={removeFeature}
+            />
           ))}
-        </List>
+        </Stack>
       )}
 
-      <FeatureListInput onSubmit={addNewFeature} />
+      <Input
+        placeholder={'Add feature'}
+        fullWidth
+        value={inputValue}
+        submitButton
+        onChange={async event => {
+          setInputValue(event.value)
+        }}
+        onSubmit={async event => {
+          addNewFeature(event.value)
+          setInputValue('')
+        }}
+      />
 
       <div style={style.stepperControllerContainer}>
         <StepperController lastPage setStepAction={setStep} />
@@ -303,6 +359,7 @@ const MiniPromptInitializer = ({
           <FormSummaryPage
             setStep={setStep}
             handleChange={handleDescriptionChange}
+            initialValue={appSummary}
           />
         )}
 
@@ -310,6 +367,7 @@ const MiniPromptInitializer = ({
           <FormFeaturesPage
             setStep={setStep}
             handleChange={handleFeaturesChange}
+            initialValue={appFeatures}
           />
         )}
 
