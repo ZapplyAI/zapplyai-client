@@ -7,21 +7,26 @@ import {
   Paper,
   Stack,
   StepperContext,
-} from '@mui/material'
-import PromptPagination from '@/app/chat/components/MiniPromptInitializer/component/PromptStepper'
-type CSSProperties = React.CSSProperties
+} from '@mui/material'import PromptPagination from '@/app/chat/components/MiniPromptInitializer/component/PromptStepper'
 import ClearIcon from '@mui/icons-material/Clear'
-import { Button, Input } from '@/components'
+import { Input } from '@/components'
 import map from 'lodash/map'
 import StepperController from './component/StepperController'
 import { AppOverview } from '@/lib/type'
+
+type CSSProperties = React.CSSProperties
 import { filter, get } from 'lodash'
 import { nanoid } from 'nanoid'
 
 type AnyFunction = (...args: any[]) => any
 
 interface MiniPromptInitializerProps {
-  onSummarySubmit: (prompt: string, appName: string, appUrl: string) => void
+  onSummarySubmit: (
+    prompt: string,
+    summary: string,
+    appName: string,
+    appUrl: string
+  ) => void
 }
 
 interface FeatureListItemProps {
@@ -331,8 +336,11 @@ const MiniPromptInitializer = ({
       if (errorsFound || !appOverview) {
         return
       }
-      const prompt = `App Description: ${appSummary}\n\nApp Features: ${appFeatures.join(', ')}\n\nApp Overview: ${appOverview}`
-      onSummarySubmit(prompt, appOverview.name, appOverview.url)
+      const prompt = `App Description: ${appSummary}\n\nApp Features: ${appFeatures.join(
+        ', '
+      )}\n\nApp Overview: ${appOverview}`
+
+      onSummarySubmit(prompt, appSummary, appOverview.name, appOverview.url)
     }
 
     setCurrentStep(currentStep + stepChange)

@@ -47,7 +47,7 @@ const session = {
         success: false,
       }
     } catch (e) {
-      console.log(e)
+      console.log(e?.data?.response)
 
       return {
         success: false,

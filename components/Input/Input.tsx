@@ -34,12 +34,12 @@ const Input = ({
   multiline = false,
   submitButton = false,
   sx = {},
-  value,
-  onSubmit = async () => {},
+  value = '',
+  onSubmit = (prompt: string) => {},
   onChange = async () => {},
 }: InputProps): React.ReactNode => {
   const [prompt, setPrompt] = useImmer<PromptState>({
-    value: '',
+    value: value,
     isProcessing: false,
     step: '',
   })

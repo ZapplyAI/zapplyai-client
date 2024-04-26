@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { CSSProperties } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
-import { Divider, IconButton, InputBase, Stack } from '@mui/material'
+import { Divider, IconButton, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
-import SendIcon from '@mui/icons-material/Send'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
 import { useParams, useRouter } from 'next/navigation'
-import { CSSProperties } from 'react'
 
 import { session } from '@/services'
 import { sendPrompt } from '@/app/chat/actions'
@@ -15,14 +13,13 @@ import { type Dialog, type Message, WebApp } from '@/lib/type'
 import { get } from 'lodash'
 import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
 import { useDispatch } from 'react-redux'
-import { createApp, selectApp } from '@/lib/reducer/webApp'
 import { updateAppInfo } from '@/lib/reducer/webApp'
 import { createDialog, selectDialogs } from '@/lib/reducer/chat'
 import { nanoid } from 'nanoid'
 
 interface ChatWindowProps {
   apps: WebApp[]
-  selectedAppId: string
+  selectedAppId?: string
   initialAppSetup: boolean
   selectedDialog: Dialog | null
 }
@@ -125,10 +122,11 @@ const ChatWindow = ({
     await submitAction()
   }
 
-  const submitAction = async () => {
+  const submitAction = async (_message: string = '') => {
+    console.log(_message, prompt.value, 'heaven');
     setMessages(messages => [
       ...messages,
-      { messageId: '', message: prompt.value, sender: 'USER' },
+      { messageId: '', message: _message || prompt.value, sender: 'USER' },
     ])
     setPrompt(draft => {
       draft.isProcessing = true
@@ -137,7 +135,7 @@ const ChatWindow = ({
     try {
       const { success, response } = await sendPrompt({
         ref: ref as string,
-        prompt: prompt.value,
+        prompt: _message || prompt.value,
       })
 
       if (success) {
@@ -156,22 +154,25 @@ const ChatWindow = ({
     }
   }
 
-  const sendAppSummary = (
+  const sendAppSummary = async (
     prompt: string,
+    summary: string,
     appName: string,
     appUrl: string
-  ): void => {
+  ) => {
+    await submitAction(summary)
+
     dispatch(
       updateAppInfo({
         name: appName,
         url: appUrl,
       })
     )
-    dispatch(selectDialogs(selectedAppId))
+    dispatch(selectDialogs(selectedAppId as any))
     dispatch(
       createDialog({
         id: nanoid(),
-        appId: selectedAppId,
+        appId: selectedAppId as string,
         messages: [],
         pageTitle: 'General',
         selectedOptions: [],
@@ -219,8 +220,10 @@ const ChatWindow = ({
             placeholder={'Tell me more about your web app'}
             fullWidth
             multiline
+            value={prompt.value}
+            onChange={handleInputChange}
             icon={<GrainIcon style={{ color: '#775EFF' }} />}
-            onSubmit={submitAction}
+            onSubmit={() => submitAction(prompt.value)}
             sx={{ width: '80%' }}
           />
         </React.Fragment>
