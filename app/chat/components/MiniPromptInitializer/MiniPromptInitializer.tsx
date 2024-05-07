@@ -7,7 +7,8 @@ import {
   Paper,
   Stack,
   StepperContext,
-} from '@mui/material'import PromptPagination from '@/app/chat/components/MiniPromptInitializer/component/PromptStepper'
+} from '@mui/material'
+import PromptPagination from '@/app/chat/components/MiniPromptInitializer/component/PromptStepper'
 import ClearIcon from '@mui/icons-material/Clear'
 import { Input } from '@/components'
 import map from 'lodash/map'
@@ -300,13 +301,13 @@ const AppOverviewPage = ({
 
       <div style={{ width: '60%', marginBottom: '145px' }}>
         <Input
-          sx={{marginTop: '0px'}}
+          sx={{ marginTop: '0px' }}
           placeholder={'App name'}
           value={appName}
           onChange={handleNameChange}
         />
         <Input
-          sx={{marginTop: '0px'}}
+          sx={{ marginTop: '0px' }}
           placeholder={'App url'}
           value={appUrl}
           onChange={handleUrlChange}
@@ -325,7 +326,7 @@ const MiniPromptInitializer = ({
 }: MiniPromptInitializerProps): React.ReactNode => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [appSummary, setAppSummary] = useState<string>('')
-  const [appFeatures, setAppFeatures] = useState<string[]>([])
+  const [appFeatures, setAppFeatures] = useState<Feature[]>([])
   const [appOverview, setAppOverview] = useState<AppOverview>()
   const [formErrors, setFormErrors] = useState<string[]>([])
 
@@ -336,9 +337,7 @@ const MiniPromptInitializer = ({
       if (errorsFound || !appOverview) {
         return
       }
-      const prompt = `App Description: ${appSummary}\n\nApp Features: ${appFeatures.join(
-        ', '
-      )}\n\nApp Overview: ${appOverview}`
+      const prompt = `App Description: ${appSummary}. App Features: ${JSON.stringify(map(appFeatures, (feature) => feature.label))}. App name: ${appOverview.name}`;
 
       onSummarySubmit(prompt, appSummary, appOverview.name, appOverview.url)
     }
@@ -349,7 +348,7 @@ const MiniPromptInitializer = ({
   const checkFormErrors = (): boolean => {
     let thisFormErrors: string[] = []
 
-    if (appSummary === '' || appSummary.length < 20) {
+    if (appSummary === '' || appSummary.length < 0) {
       thisFormErrors = [...thisFormErrors, 'Summary too short']
     }
 
@@ -363,7 +362,7 @@ const MiniPromptInitializer = ({
     setAppSummary(event.target.value)
   }
 
-  const handleFeaturesChange = (features: string[]) => {
+  const handleFeaturesChange = (features: Feature[]) => {
     setAppFeatures(features)
   }
 

@@ -70,12 +70,8 @@ const DropdownSelect = ({
   }
 
   const onSelectChange = (event: SelectChangeEvent) => {
-    console.log('selecting apps value, event:', event)
     selectApp(event.target.value)
   }
-
-  console.log('selectedApp.id', selectedApp.id)
-  console.log('appApps.id', allApps)
 
   return (
     <Select

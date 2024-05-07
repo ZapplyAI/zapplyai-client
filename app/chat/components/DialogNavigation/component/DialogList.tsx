@@ -13,11 +13,11 @@ const DialogList = ({
   dialogs,
   openDialog,
 }: DialogListProps): React.ReactNode => {
-  const [expandedId, setExpandedId] = React.useState(-1)
+  const [expandedId, setExpandedId] = React.useState('')
 
-  const handleExpansion = (id: number, expanded: boolean) => {
+  const handleExpansion = (id: string, expanded: boolean) => {
     if (!expanded) {
-      setExpandedId(-1)
+      setExpandedId('')
       return
     }
     setExpandedId(id)
@@ -32,11 +32,10 @@ const DialogList = ({
     >
       {map(dialogs, dialog => (
         <DialogOption
-          index={Number(dialog.id)}
           key={dialog.id}
           dialog={dialog}
           onExpanded={handleExpansion}
-          isExpanded={expandedId === Number(dialog.id)}
+          isExpanded={expandedId === dialog.id}
         />
       ))}
     </Stack>

@@ -125,4 +125,6 @@ const style: { [key: string]: CSSProperties } = {
   },
 }
 
+export type InputChangeEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+
 export default Input
