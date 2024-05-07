@@ -2,29 +2,22 @@ import React from 'react'
 import DialogOption from '@/app/chat/components/DialogNavigation/component/DialogOption'
 import map from 'lodash/map'
 import { Divider, Stack } from '@mui/material'
+import { Dialog } from '@/lib/type'
 
 interface DialogListProps {
-  dialogs: DialogProps[]
+  dialogs: Dialog[]
   openDialog: any
-}
-
-interface DialogProps {
-  id: number
-  title: string
-  pageTitle: string
-  selectedOptions: string[]
-  dialog: any
 }
 
 const DialogList = ({
   dialogs,
   openDialog,
 }: DialogListProps): React.ReactNode => {
-  const [expandedId, setExpandedId] = React.useState(-1)
+  const [expandedId, setExpandedId] = React.useState('')
 
-  const handleExpansion = (id: number, expanded: boolean) => {
+  const handleExpansion = (id: string, expanded: boolean) => {
     if (!expanded) {
-      setExpandedId(-1)
+      setExpandedId('')
       return
     }
     setExpandedId(id)
@@ -39,7 +32,6 @@ const DialogList = ({
     >
       {map(dialogs, dialog => (
         <DialogOption
-          index={dialog.id}
           key={dialog.id}
           dialog={dialog}
           onExpanded={handleExpansion}

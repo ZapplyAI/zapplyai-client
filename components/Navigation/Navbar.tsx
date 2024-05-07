@@ -22,7 +22,6 @@ const Navbar = ({
   const [isDrawerOpen, setDrawerOpen] = React.useState('')
 
   useEffect(() => {
-    console.log('drawerOpened', isDrawerOpen)
   }, [isDrawerOpen]);
 
   const closeDrawer = () => {
