@@ -37,8 +37,6 @@ const Navbar = ({
     setDrawerOpen(open => (!open ? 'Log In' : ''))
   }
 
-  React.useEffect(() => console.log('not a rapgee'), [isDrawerOpen])
-
   const style: { [key: string]: CSSProperties } = {
     nav: {
       position: isMobile ? 'fixed' : 'static',

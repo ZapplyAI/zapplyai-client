@@ -99,6 +99,34 @@ const ChatWindow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  React.useEffect(() => {
+    if (ref) {
+      const ws = new WebSocket(
+        `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${ref}/`
+      )
+
+      ws.onmessage = event => {
+        const message = JSON.parse(event.data)
+        setMessages(messages => [
+          ...messages,
+          { messageId: '', message: message, sender: 'AI' },
+        ])
+      }
+
+      ws.onopen = () => {
+        console.log('WebSocket connection established')
+      }
+
+      ws.onerror = error => {
+        console.log(`WebSocket error: ${error}`)
+      }
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed')
+      }
+    }
+  }, [ref])
+
   const handleInputChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -123,7 +151,6 @@ const ChatWindow = ({
   }
 
   const submitAction = async (_message: string = '') => {
-    console.log(_message, prompt.value, 'heaven');
     setMessages(messages => [
       ...messages,
       { messageId: '', message: _message || prompt.value, sender: 'USER' },
