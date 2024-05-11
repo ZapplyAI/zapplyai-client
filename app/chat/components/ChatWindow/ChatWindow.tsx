@@ -63,6 +63,7 @@ const ChatWindow = ({
   initialAppSetup = false,
   selectedDialog,
 }: ChatWindowProps): React.ReactNode => {
+  const [previewCode, setPreviewCode] = React.useState<string>('')
   const [messages, setMessages] = React.useState<Message[]>([])
   const { ref = null } = useParams()
   const router = useRouter()
@@ -97,34 +98,6 @@ const ChatWindow = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  React.useEffect(() => {
-    if (ref) {
-      const ws = new WebSocket(
-        `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${ref}/`
-      )
-
-      ws.onmessage = event => {
-        const message = JSON.parse(event.data)
-        setMessages(messages => [
-          ...messages,
-          { messageId: '', message: message, sender: 'AI' },
-        ])
-      }
-
-      ws.onopen = () => {
-        console.log('WebSocket connection established')
-      }
-
-      ws.onerror = error => {
-        console.log(`WebSocket error: ${error}`)
-      }
-
-      ws.onclose = () => {
-        console.log('WebSocket connection closed')
-      }
-    }
   }, [ref])
 
   const handleInputChange = (
@@ -151,6 +124,7 @@ const ChatWindow = ({
   }
 
   const submitAction = async (_message: string = '') => {
+    console.log('here then')
     setMessages(messages => [
       ...messages,
       { messageId: '', message: _message || prompt.value, sender: 'USER' },
@@ -173,6 +147,62 @@ const ChatWindow = ({
           ...messages,
           { messageId: '', message: response.data.response, sender: 'AI' },
         ])
+
+        if (response.data.response.length >= 1500) {
+          const { success: buildSuccess, response } = await session.build({
+            ref: ref as string,
+          })
+
+          if (buildSuccess) {
+            const ws = new WebSocket(
+              `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${ref}/`
+            )
+
+            setMessages(messages => [
+              ...messages,
+              { messageId: '', message: 'Build started', sender: 'AI' },
+            ])
+
+            ws.onmessage = async event => {
+              let _messages = ''
+              _messages = `${_messages}\n >>>${event.data}`
+
+              setMessages(messages => {
+                const updatedMessages = [...messages]
+                updatedMessages[updatedMessages.length - 1] = {
+                  ...updatedMessages[updatedMessages.length - 1],
+                  message: _messages,
+                }
+                return updatedMessages
+              })
+
+              if (
+                event.data.toUpperCase().includes('UPDATE: FRONTEND_BUILD_DONE')
+              ) {
+                const { success: appSuccess, response } = await session.getApp({
+                  ref: ref as string,
+                })
+
+                if (appSuccess) {
+                  setPreviewCode(response?.front_end)
+                  console.log(response, 'app code')
+                }
+              }
+            }
+
+            ws.onopen = () => {
+              console.log('WebSocket connection established')
+            }
+
+            ws.onerror = error => {
+              console.log(`WebSocket error: ${error}`)
+            }
+
+            ws.onclose = () => {
+              console.log('WebSocket connection closed')
+            }
+          }
+        }
       }
     } finally {
       setPrompt(draft => {
@@ -241,6 +271,13 @@ const ChatWindow = ({
             {messages.map((message, index) => (
               <ChatMessage key={index} messageObject={message} />
             ))}
+            {!!previewCode && (
+              <iframe
+                srcDoc={previewCode}
+                title="Example Iframe"
+                style={{ width: '100%', height: '70vh', border: 'none' }}
+              />
+            )}
           </Stack>
           <Input
             placeholder={'Tell me more about your web app'}

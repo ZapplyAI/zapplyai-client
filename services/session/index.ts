@@ -47,13 +47,53 @@ const session = {
         success: false,
       }
     } catch (e) {
-      console.log(e?.data?.response)
-
       return {
         success: false,
       }
     }
   },
+  build: async ({ ref }: { ref: string }): Promise<Response> => {
+    try {
+      const { status, data: response } = await axios.post('/projects/build/', {
+        app_ref: ref,
+      })
+
+      if (status >= 200) {
+        return {
+          success: true,
+          response,
+        }
+      }
+
+      return {
+        success: false,
+      }
+    } catch (e) {
+      return {
+        success: false,
+      }
+    }
+  },
+  getApp: async ({ref}: {ref: string}): Promise<Response> => {
+    try {
+      const { status, data: response } = await axios.get(`/projects/app/${ref}/`)
+
+      if (status === 200) {
+        return {
+          success: true,
+          response,
+        }
+      }
+
+      return {
+        success: false,
+      }
+    } catch (e) {
+      return {
+        success: false,
+      }
+    }
+  }
 }
 
 export default session

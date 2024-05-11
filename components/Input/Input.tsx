@@ -1,6 +1,5 @@
 import React, { CSSProperties } from 'react'
 import { IconButton, InputBase } from '@mui/material'
-import GrainIcon from '@mui/icons-material/Grain'
 import SendIcon from '@mui/icons-material/Send'
 import { useImmer } from 'use-immer'
 
@@ -54,15 +53,22 @@ const Input = ({
   }
 
   const handleEnterPress = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: any,
+    prompt: any
   ) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault() // Prevent default behavior (creating new line)
+      setPrompt(draft => {
+        draft.value = ''
+      })
       await onSubmit(prompt) // Perform action when Enter is pressed
     }
   }
 
-  const handleSendButtonClick = async () => {
+  const handleSendButtonClick = async (prompt: any) => {
+    setPrompt(draft => {
+      draft.value = ''
+    })
     await onSubmit(prompt)
   }
 
@@ -89,13 +95,13 @@ const Input = ({
         placeholder={placeholder}
         value={prompt.value}
         onChange={handleInputChange}
-        onKeyDown={handleEnterPress}
+        onKeyDown={event => handleEnterPress(event, prompt.value)}
       />
       <IconButton
         type="button"
         sx={{ padding: '10px', marginTop: 'auto' }}
         aria-label="search"
-        onClick={handleSendButtonClick}
+        onClick={() => handleSendButtonClick(prompt.value)}
       >
         <SendIcon style={{ color: '#775EFF' }} />
       </IconButton>
