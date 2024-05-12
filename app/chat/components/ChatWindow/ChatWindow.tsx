@@ -13,9 +13,11 @@ import { type Dialog, type Message, WebApp } from '@/lib/type'
 import { get } from 'lodash'
 import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
 import { useDispatch } from 'react-redux'
-import { updateAppInfo } from '@/lib/reducer/webApp'
+import { createApp, selectApp, updateAppInfo } from '@/lib/reducer/webApp'
 import { createDialog, selectDialogs } from '@/lib/reducer/chat'
 import { nanoid } from 'nanoid'
+import { Button } from '@/components'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 
 interface ChatWindowProps {
   apps: WebApp[]
@@ -239,7 +241,39 @@ const ChatWindow = ({
   }
 
   if (apps.length === 0) {
-    return null
+    return (
+      <div style={style.centricContainer}>
+        <AutoAwesomeIcon
+          sx={{
+            height: '55px',
+            width: '55px',
+            color: '#5443B1',
+            marginBottom: '22px',
+          }}
+        />
+        <span
+          style={{
+            fontWeight: '300',
+            textAlign: 'center',
+            color: '#738189',
+            marginBottom: '22px',
+          }}
+        >
+          This is where your web-app idea can become a reality.
+          <br />
+          Click ‘start’ to summarise your idea
+        </span>
+        <Button
+          label={'Start'}
+          sx={{background: '#5443B1', width: '190px'}}
+          action={() => {
+            const appId = nanoid()
+            dispatch(createApp({ id: appId, name: 'New app', url: '' }))
+            dispatch(selectApp(appId))
+          }}
+        />
+      </div>
+    )
   }
 
   return (
@@ -296,6 +330,14 @@ const ChatWindow = ({
 }
 
 const style: { [key: string]: CSSProperties } = {
+  centricContainer: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   chatWindow: {
     position: 'relative',
     display: 'flex',

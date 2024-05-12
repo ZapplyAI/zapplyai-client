@@ -12,8 +12,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createApp, selectApp } from '@/lib/reducer/webApp'
 import { RootState } from '@/lib/store'
 import { filter, find } from 'lodash'
-import {createDialog, selectDialog} from '@/lib/reducer/chat'
-import {nanoid} from "nanoid";
+import { createDialog, selectDialog } from '@/lib/reducer/chat'
+import { nanoid } from 'nanoid'
 
 interface TabPanelProps {
   value: number
@@ -113,7 +113,7 @@ const DialogNavigation = (): React.ReactNode => {
       <div style={style.navigationContainer}>
         <DropdownSelect
           allApps={apps}
-          selectApp={(appId :string) => dispatch(selectApp(appId))}
+          selectApp={(appId: string) => dispatch(selectApp(appId))}
           selectedApp={selectedApp}
           bottomComponent={
             <MenuItem key={'100000'} value={'100000'} sx={{ padding: '0' }}>
@@ -193,14 +193,18 @@ const DialogNavigation = (): React.ReactNode => {
           sx={{
             marginTop: '10px',
           }}
-          action={() => dispatch(createDialog({
-            appId: selectedAppId || '',
-            id: nanoid(),
-            messages: [],
-            pageTitle: "...",
-            selectedOptions: [],
-            title: "..."
-          }))}
+          action={() =>
+            dispatch(
+              createDialog({
+                appId: selectedAppId || '',
+                id: nanoid(),
+                messages: [],
+                pageTitle: '...',
+                selectedOptions: [],
+                title: '...',
+              })
+            )
+          }
         />
 
         {isLoadingInProgress ? <AppStatusBox /> : null}
