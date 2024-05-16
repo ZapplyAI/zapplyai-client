@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
-import { Divider, IconButton, Stack } from '@mui/material'
+import { Divider, IconButton, List, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
@@ -265,7 +265,7 @@ const ChatWindow = ({
         </span>
         <Button
           label={'Start'}
-          sx={{background: '#5443B1', width: '190px'}}
+          sx={{ background: '#5443B1', width: '190px' }}
           action={() => {
             const appId = nanoid()
             dispatch(createApp({ id: appId, name: 'New app', url: '' }))
@@ -287,24 +287,22 @@ const ChatWindow = ({
             headerTitle={get(selectedDialog, 'title', '')}
           />
 
-          <Stack
-            direction={'column'}
-            alignItems={'center'}
-            justifyContent={'flex-end'}
-            spacing={3}
-            divider={
-              <Divider
-                orientation="horizontal"
-                flexItem
-                style={{ background: '#48474E' }}
-              />
-            }
-            style={style.dialogContainer}
-          >
+          <List style={style.dialogContainer}>
             {/*going with index for now*/}
-            {messages.map((message, index) => (
-              <ChatMessage key={index} messageObject={message} />
-            ))}
+            {messages.map((message, index) =>
+              index === messages.length - 1 ? (
+                <ChatMessage key={index} messageObject={message} />
+              ) : (
+                <React.Fragment key={index}>
+                  <ChatMessage key={index} messageObject={message} />
+                  <Divider
+                    orientation="horizontal"
+                    flexItem
+                    style={{ background: '#48474E' }}
+                  />
+                </React.Fragment>
+              )
+            )}
             {!!previewCode && (
               <iframe
                 srcDoc={previewCode}
@@ -312,7 +310,7 @@ const ChatWindow = ({
                 style={{ width: '100%', height: '70vh', border: 'none' }}
               />
             )}
-          </Stack>
+          </List>
           <Input
             placeholder={'Tell me more about your web app'}
             fullWidth
@@ -361,9 +359,9 @@ const style: { [key: string]: CSSProperties } = {
     borderLeft: '1px solid #282636',
   },
   dialogContainer: {
-    overflow: 'hidden',
+    overflow: 'scroll',
+    maxHeight: '600px',
     width: '80%',
-    flex: 1,
   },
 }
 
