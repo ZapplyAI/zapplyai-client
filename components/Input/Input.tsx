@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { IconButton, InputBase } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import { useImmer } from 'use-immer'
@@ -8,24 +8,26 @@ type AnyFunction = (...args: any[]) => any
 
 interface InputProps {
   icon?: React.ReactNode
+  sendIcon?: boolean
   placeholder?: string
   fullWidth?: boolean
   multiline?: boolean
   submitButton?: boolean
+  value?: string
   sx?: object
   onChange?: AnyFunction | AsyncFunction
   onSubmit?: AnyFunction | AsyncFunction
-  value?: string
 }
 
 interface PromptState {
-  value: string
+  value?: string
   isProcessing: boolean
   step: string
 }
 
 const Input = ({
   icon,
+  sendIcon = true,
   placeholder = '',
   fullWidth = false,
   multiline = false,
@@ -72,6 +74,14 @@ const Input = ({
     await onSubmit(prompt)
   }
 
+  useEffect(() => {
+    setPrompt({
+      value: value,
+      isProcessing: false,
+      step: '',
+    });
+  }, [value]);
+
   return (
     <div style={{ ...style.inputContainer, ...sx }}>
       {icon && (
@@ -87,6 +97,7 @@ const Input = ({
           fontSize: '14px',
           maxHeight: '150px',
           overflow: 'scroll',
+          margin: '5px 12px',
           marginLeft: icon ? '0' : '12px',
         }}
         autoFocus
@@ -99,11 +110,11 @@ const Input = ({
       />
       <IconButton
         type="button"
-        sx={{ padding: '10px', marginTop: 'auto' }}
+        sx={{ height: '60%', padding: '5px', margin: 'auto', marginRight: '5px' }}
         aria-label="search"
         onClick={() => handleSendButtonClick(prompt.value)}
       >
-        <SendIcon style={{ color: '#775EFF' }} />
+        {sendIcon && <SendIcon style={{ color: '#775EFF' }} />}
       </IconButton>
     </div>
   )
@@ -119,5 +130,7 @@ const style: { [key: string]: CSSProperties } = {
     maxHeight: '550px',
   },
 }
+
+export type InputChangeEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
 
 export default Input

@@ -1,23 +1,25 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useState } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
 import { Divider, IconButton, List, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { useImmer } from 'use-immer'
-import { useParams, useRouter } from 'next/navigation'
 
 import { session } from '@/services'
-import { sendPrompt } from '@/app/chat/actions'
-import Input from '@/components/Input/Input'
-import { type Dialog, type Message, WebApp } from '@/lib/type'
-import { get } from 'lodash'
+import Input, { InputChangeEvent } from '@/components/Input/Input'
+import { type Dialog, type WebApp } from '@/lib/type'
+import { find, get } from 'lodash'
 import MiniPromptInitializer from '@/app/chat/components/MiniPromptInitializer/MiniPromptInitializer'
-import { useDispatch } from 'react-redux'
-import { createApp, selectApp, updateAppInfo } from '@/lib/reducer/webApp'
-import { createDialog, selectDialogs } from '@/lib/reducer/chat'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateAppInfo } from '@/lib/reducer/webApp'
+import {
+  createDialog,
+  selectDialog,
+  selectDialogs,
+  updateDialogSessionState,
+  sendMessage,
+} from '@/lib/reducer/chat'
 import { nanoid } from 'nanoid'
-import { Button } from '@/components'
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import { RootState } from '@/lib/store'
 
 interface ChatWindowProps {
   apps: WebApp[]
@@ -53,12 +55,6 @@ const ChatHeader = ({
   )
 }
 
-interface PromptState {
-  value: string
-  isProcessing: boolean
-  step: string
-}
-
 const ChatWindow = ({
   apps,
   selectedAppId,
@@ -71,75 +67,71 @@ const ChatWindow = ({
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const [prompt, setPrompt] = useImmer<PromptState>({
-    value: '',
-    isProcessing: false,
-    step: '',
-  })
-
-  React.useEffect(() => {
-    if (!ref) {
-      ;(async () => {
-        setPrompt(draft => {
-          draft.isProcessing = true
-        })
-        try {
-          const { success, response } = await session.initialize(
-            `Project ${Math.floor(Math.random() * 100)}`
-          )
-
-          if (success && !ref) {
-            router.push(`/chat/${response.ref}`)
-          }
-        } finally {
-          setPrompt(draft => {
-            draft.isProcessing = false
-          })
-        }
-      })()
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref])
-
-  const handleInputChange = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setPrompt(draft => {
-      draft.value = event.target.value
-    })
+  const handleInputChange = (event: InputChangeEvent) => {
+    setPrompt(event.target.value)
   }
 
-  const handleEnterPress = async (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault() // Prevent default behavior (creating new line)
-      await submitAction() // Perform action when Enter is pressed
+  const handleInputSubmit = async (message: string) => {
+    if (selectedDialog?.sessionState.referenceId === undefined) {
+      const newReferenceId = await initialiseSession()
+      await sendUserMessage(message, newReferenceId)
+    } else {
+      await sendUserMessage(message, selectedDialog.sessionState.referenceId)
     }
   }
 
-  const handleSendButtonClick = async () => {
-    await submitAction()
-  }
+  const initialiseSession = async () => {
+    const { success, response } = await session.initialize(
+      `Project ${selectedDialog?.id}`
+    )
 
-  const submitAction = async (_message: string = '') => {
-    console.log('here then')
-    setMessages(messages => [
-      ...messages,
-      { messageId: '', message: _message || prompt.value, sender: 'USER' },
-    ])
-    setPrompt(draft => {
-      draft.isProcessing = true
-      draft.value = ''
-    })
-    try {
-      const { success, response } = await sendPrompt({
-        ref: ref as string,
-        prompt: _message || prompt.value,
+    if (!success) {
+      return
+    }
+
+    console.log(' Session initialised, response:', response)
+    // PROJECT_DESCRIPTION
+    dispatch(
+      updateDialogSessionState({
+        referenceId: response.ref,
+        state: 'pending',
+        currentStep: 'PROJECT_DESCRIPTION',
       })
+    )
+
+    return response.ref
+  }
+
+  const sendUserMessage = async (message: string, dialogId: string) => {
+    dispatch(
+      sendMessage({
+        messageId: nanoid(),
+        message: message,
+        sender: 'USER',
+      })
+    )
+
+    const { success, response } = await session.prompt(
+      message,
+      dialogId,
+      get(
+        selectedDialog,
+        'sessionState.currentStep',
+        'PROJECT_DESCRIPTION'
+      ) as string
+    )
+
+    if (!success) {
+      return
+    }
+
+    dispatch(
+      updateDialogSessionState({
+        referenceId: 'same',
+        state: 'pending',
+        currentStep: response.data.next_step,
+      })
+    )
 
       if (success) {
         setPrompt(draft => {
@@ -211,16 +203,17 @@ const ChatWindow = ({
         draft.isProcessing = false
       })
     }
+    dispatch(
+      sendMessage({messageId: nanoid(), message: response.data.response, sender: 'AI', })
+    )
   }
 
-  const sendAppSummary = async (
+  const handleSubmitAppSummary = async (
     prompt: string,
     summary: string,
     appName: string,
     appUrl: string
   ) => {
-    await submitAction(summary)
-
     dispatch(
       updateAppInfo({
         name: appName,
@@ -228,17 +221,23 @@ const ChatWindow = ({
       })
     )
     dispatch(selectDialogs(selectedAppId as any))
+
+    const newDialogId = nanoid()
     dispatch(
       createDialog({
-        id: nanoid(),
+        id: newDialogId,
         appId: selectedAppId as string,
         messages: [],
         pageTitle: 'General',
         selectedOptions: [],
         title: 'Initial dialog',
+        sessionState: {
+          referenceId: undefined,
+          state: 'none',
+          currentStep: 'PROJECT_DESCRIPTION',
+        },
       })
     )
-  }
 
   if (apps.length === 0) {
     return (
@@ -276,10 +275,12 @@ const ChatWindow = ({
     )
   }
 
+  console.log('selectedDialog', selectedDialog)
+
   return (
     <div style={style.chatWindow}>
       {initialAppSetup ? (
-        <MiniPromptInitializer onSummarySubmit={sendAppSummary} />
+        <MiniPromptInitializer onSummarySubmit={handleSubmitAppSummary} />
       ) : (
         <React.Fragment>
           <ChatHeader
@@ -315,10 +316,10 @@ const ChatWindow = ({
             placeholder={'Tell me more about your web app'}
             fullWidth
             multiline
-            value={prompt.value}
+            value={prompt}
             onChange={handleInputChange}
             icon={<GrainIcon style={{ color: '#775EFF' }} />}
-            onSubmit={() => submitAction(prompt.value)}
+            onSubmit={async () => await handleInputSubmit(prompt)}
             sx={{ width: '80%' }}
           />
         </React.Fragment>
@@ -347,6 +348,7 @@ const style: { [key: string]: CSSProperties } = {
   },
   headerContainer: {
     position: 'absolute',
+    zIndex: 1000,
     top: 0,
     display: 'flex',
     justifyContent: 'space-between',

@@ -5,7 +5,14 @@ type Dialog = {
   type?: string // 'frontend' or 'backend' TODO: enum
   pageTitle: string
   selectedOptions: string[]
-  messages: Message[] // ex. 'dialog'
+  messages: Message[] // ex. 'dialog',
+  sessionState: SessionState
+}
+
+type SessionState = {
+  referenceId: string | undefined,
+  state: 'pending' | 'none',
+  currentStep: string | undefined
 }
 
 type Message = {
@@ -25,4 +32,4 @@ type AppOverview = {
   url: string
 }
 
-export { type Dialog, type WebApp, type Message, type AppOverview }
+export { type Dialog, type WebApp, type Message, type AppOverview, type SessionState }
