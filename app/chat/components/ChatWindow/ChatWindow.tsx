@@ -360,7 +360,7 @@ const style: { [key: string]: CSSProperties } = {
   },
   dialogContainer: {
     overflow: 'scroll',
-    maxHeight: '600px',
+    marginTop: '55px',
     width: '80%',
   },
 }
