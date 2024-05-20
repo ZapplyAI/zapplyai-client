@@ -16,6 +16,7 @@
     "@mui/joy": "^5.0.0-beta.31",
     "@mui/material": "^5.15.13",
     "@mui/material-nextjs": "^5.15.11",
+    "@n8tb1t/use-scroll-position": "^2.0.3",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-tabs": "^1.0.4",

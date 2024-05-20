@@ -8,7 +8,7 @@ const kanit = Kanit({
   subsets: ['latin'],
 })
 
-const themeTypography = {
+const themeTypography = ({
   h1: {
     fontWeight: 700,
     fontSize: '5.5vw',
@@ -29,6 +29,18 @@ const themeTypography = {
     color: 'transparent',
     fontFamily: kanit.style.fontFamily,
   },
+  h1_gradient_mobile: {
+    fontWeight: 700,
+    fontSize: '36px',
+    lineHeight: '36px',
+    textTransform: 'uppercase',
+    display: 'inline-block',
+    backgroundImage:
+      'linear-gradient(135deg, #D0D0D0 0%, #6A6A6A 77%, #000000 100%)',
+    WebkitBackgroundClip: 'text',
+    color: 'transparent',
+    fontFamily: kanit.style.fontFamily,
+  },
   h2: {
     fontWeight: 700,
     fontSize: '56px',
@@ -38,6 +50,18 @@ const themeTypography = {
     fontWeight: 700,
     fontSize: '4.0vw',
     lineHeight: '4.0vw',
+    textTransform: 'uppercase',
+    display: 'inline-block',
+    backgroundImage:
+      'linear-gradient(135deg, #D0D0D0 0%, #6A6A6A 77%, #000000 100%)',
+    WebkitBackgroundClip: 'text',
+    color: 'transparent',
+    fontFamily: kanit.style.fontFamily,
+  },
+  h2_gradient_mobile: {
+    fontWeight: 700,
+    fontSize: '28px',
+    lineHeight: '28px',
     textTransform: 'uppercase',
     display: 'inline-block',
     backgroundImage:
@@ -65,13 +89,20 @@ const themeTypography = {
     color: '#D0D0D0',
     fontFamily: kanit.style.fontFamily,
   },
+  h5_mobile: {
+    fontWeight: 200,
+    fontSize: '14px',
+    lineHeight: '20px',
+    color: '#D0D0D0',
+    fontFamily: kanit.style.fontFamily,
+  },
   h6: {
     fontWeight: 300,
     fontSize: '14px',
     color: '#D0D0D0',
     fontFamily: kanit.style.fontFamily,
   },
-}
+})
 
 const darkTheme = createTheme({
   typography: {
