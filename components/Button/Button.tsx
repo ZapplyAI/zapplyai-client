@@ -45,15 +45,17 @@ const style: { [key: string]: CSSProperties } = {
   buttonNoBG: {
     background: 'none',
     boxShadow: 'none',
+    fontSize: '12px',
+    color: '#CFCED9',
   },
   buttonBG: {
     background: '#282636',
     boxShadow: 'none',
+    fontSize: '12px',
+    color: '#CFCED9',
   },
   buttonLabel: {
-    fontSize: '12px',
     textTransform: 'none',
-    color: '#CFCED9',
   },
 }
 

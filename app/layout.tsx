@@ -23,7 +23,7 @@ export default function RootLayout({
       <StoreProvider>
         <AppRouterCacheProvider>
           <ThemeProvider theme={darkTheme}>
-            <body>{children}</body>
+            <body style={{ background: '#000' }}>{children}</body>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </StoreProvider>

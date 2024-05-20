@@ -1,6 +1,6 @@
 'use client'
 
-import React, {CSSProperties, useEffect} from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { Avatar, Logo } from '@/components'
 import RightDrawer from '../RightDrawer/RightDrawer'
 import SignUp from '@/components/Authentication/SignUp'
@@ -21,8 +21,7 @@ const Navbar = ({
 }: NavbarProps): React.ReactNode => {
   const [isDrawerOpen, setDrawerOpen] = React.useState('')
 
-  useEffect(() => {
-  }, [isDrawerOpen]);
+  useEffect(() => {}, [isDrawerOpen])
 
   const closeDrawer = () => {
     setDrawerOpen('')
@@ -40,7 +39,7 @@ const Navbar = ({
 
   const style: { [key: string]: CSSProperties } = {
     nav: {
-      position: isMobile ? 'fixed' : 'static',
+      position: 'fixed',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -64,7 +63,14 @@ const Navbar = ({
     <nav
       style={
         isLandingPage
-          ? { ...style.nav, background: 'rgba(12,12,12,0.5)' }
+          ? {
+              ...style.nav,
+              background: 'rgba(0,0,0,0.5)',
+              // filter: 'blur(25px)',
+              // backdropFilter: 'blur(80px)',
+              WebkitBackdropFilter: 'blur(25px)',
+              backdropFilter: 'blur(25px)',
+            }
           : style.nav
       }
     >
@@ -119,7 +125,7 @@ const Navbar = ({
             />
           </div>
         </React.Fragment>
-        )}
+      )}
     </nav>
   )
 }
