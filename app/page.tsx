@@ -391,7 +391,7 @@ export default function Home() {
                 <Typography variant="h3_empty">Design</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
                   Zapply will be your personal web-designer. It builds your UI
-                  and UX to provide best experience for your app's users. Zapply
+                  and UX to provide best experience for your app&apos;s users. Zapply
                   always tries to deliver the best experience for you. After
                   your web-app is built you can still ask Zapply to edit it in
                   any way you like.
