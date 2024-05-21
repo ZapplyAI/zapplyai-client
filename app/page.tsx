@@ -1,6 +1,6 @@
 'use client'
 
-import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import React, { CSSProperties } from 'react'
 import { Logo, Navbar } from '@/components'
 import landingGradient from './../public/image/home/landingGradient_BG.png'
 import landingGradient_Mobile from './../public/image/home/landingGradient_BG_Mobile.png'
@@ -19,8 +19,6 @@ import Marquee from 'react-fast-marquee'
 import FaceIcon from '@mui/icons-material/Face'
 import Face2Icon from '@mui/icons-material/Face2'
 import Face4Icon from '@mui/icons-material/Face4'
-
-import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 
 export default function Home() {
   // const containerRef = useRef(null)
@@ -165,11 +163,13 @@ export default function Home() {
         }}
       >
         <div style={style.topOfferLeft}>
-          <Typography variant={isMobile ? 'h1_gradient_mobile' : 'h1_gradient'}>
+          <Typography
+            variant={isMobile ? 'h1_gradient_mobile' : ('h1_gradient' as any)}
+          >
             Discover new way to build web apps
           </Typography>
           <Typography
-            variant={isMobile ? 'h5_mobile' : 'h5'}
+            variant={isMobile ? 'h5_mobile' : ('h5' as any)}
             style={{
               marginTop: isMobile ? '22px' : '50px',
               paddingRight: isMobile ? 0 : '27%',
@@ -304,13 +304,13 @@ export default function Home() {
 
         <div style={style.secondSectionRight}>
           <Typography
-            variant={isMobile ? 'h1_gradient_mobile' : 'h2_gradient'}
+            variant={isMobile ? 'h1_gradient_mobile' : ('h2_gradient' as any)}
             style={{ textAlign: isMobile ? 'left' : 'right' }}
           >
             Explore potential of Zapply UI
           </Typography>
           <Typography
-            variant={isMobile ? 'h5_mobile' : 'h5'}
+            variant={isMobile ? 'h5_mobile' : ('h5' as any)}
             style={{
               marginTop: isMobile ? '22px' : '50px',
               paddingLeft: isMobile ? '0' : '27%',
@@ -368,7 +368,9 @@ export default function Home() {
       {/* ------------------------------------------- */}
       <div style={{ ...style.limitWidthContainer, ...style.topOfferContainer }}>
         <div style={style.thirdSectionLeft}>
-          <Typography variant={isMobile ? 'h1_gradient_mobile' : 'h2_gradient'}>
+          <Typography
+            variant={isMobile ? 'h1_gradient_mobile' : ('h2_gradient' as any)}
+          >
             Relax. Sit back. Zapply will do everything for you
           </Typography>
 
@@ -382,32 +384,32 @@ export default function Home() {
           >
             <div style={{ ...style.zapplyHelpfulStep, marginBottom: '22px' }}>
               <Typography
-                variant="h3_empty"
+                variant={'h3_empty' as any}
                 style={{ WebkitTextStroke: '1px #775EFF' }}
               >
                 01
               </Typography>
               <div style={style.helpfulTextRight}>
-                <Typography variant="h3_empty">Design</Typography>
+                <Typography variant={'h3_empty' as any}>Design</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
                   Zapply will be your personal web-designer. It builds your UI
-                  and UX to provide best experience for your app&apos;s users. Zapply
-                  always tries to deliver the best experience for you. After
-                  your web-app is built you can still ask Zapply to edit it in
-                  any way you like.
+                  and UX to provide best experience for your app&apos;s users.
+                  Zapply always tries to deliver the best experience for you.
+                  After your web-app is built you can still ask Zapply to edit
+                  it in any way you like.
                 </Typography>
               </div>
             </div>
-  
+
             <div style={{ ...style.zapplyHelpfulStep, marginBottom: '22px' }}>
               <Typography
-                variant="h3_empty"
+                variant={'h3_empty' as any}
                 style={{ WebkitTextStroke: '1px #775EFF' }}
               >
                 02
               </Typography>
               <div style={style.helpfulTextRight}>
-                <Typography variant="h3_empty">Development</Typography>
+                <Typography variant={'h3_empty' as any}>Development</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
                   Zapply is the most experienced software engineer you can ever
                   find. We trained Zapply especially for web development. It
@@ -420,13 +422,13 @@ export default function Home() {
 
             <div style={style.zapplyHelpfulStep}>
               <Typography
-                variant="h3_empty"
+                variant={'h3_empty' as any}
                 style={{ WebkitTextStroke: '1px #775EFF' }}
               >
                 03
               </Typography>
               <div style={style.helpfulTextRight}>
-                <Typography variant="h3_empty">Deployment</Typography>
+                <Typography variant={'h3_empty' as any}>Deployment</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
                   Instantly deploy your web-app when you are ready. No more
                   headaches trying to set-up everything yourself. Zapply is good

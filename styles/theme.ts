@@ -105,6 +105,7 @@ const themeTypography = ({
 })
 
 const darkTheme = createTheme({
+  // @ts-ignore
   typography: {
     ...themeTypography,
   },
