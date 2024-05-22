@@ -159,6 +159,18 @@ export default function Home() {
       >
         <div style={style.topOfferLeft}>
           <Typography
+            variant={isMobile ? 'h2_gradient_mobile' : ('h2_gradient' as any)}
+            style={{
+              fontSize: isMobile ? '5vw' : '2.2vw',
+              lineHeight: isMobile ? '5vw' : '2.2vw',
+              marginBottom: '22px',
+              backgroundImage:
+                'linear-gradient(135deg, #A348FF 0%, #48B2FF 100%)',
+            }}
+          >
+            no knowledge in web development ?
+          </Typography>
+          <Typography
             variant={isMobile ? 'h1_gradient_mobile' : ('h1_gradient' as any)}
           >
             Discover new way to build web apps
