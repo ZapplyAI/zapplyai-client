@@ -12,7 +12,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { InputLabel } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
 
-export default function requestAccessPage() {
+export default function RequestAccessPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const router = useRouter()
 

@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useForm, ValidationError } from '@formspree/react'
 import { useRouter } from 'next/navigation'
 
-export default function requestAccessPage() {
+export default function RequestAccessPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const router = useRouter()
 
