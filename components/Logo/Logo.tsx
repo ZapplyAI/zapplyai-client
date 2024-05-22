@@ -1,14 +1,20 @@
 import React, { CSSProperties } from 'react'
 import Image from 'next/image'
 
-const Logo = (): React.ReactNode => {
+interface LogoProps {
+  sx?: object
+  height?: number,
+  width?: number
+}
+
+const Logo = ({sx={}, height=22, width=130} : LogoProps): React.ReactNode => {
   return (
-    <div style={style.logoIcon}>
+    <div style={{ ...style.logoIcon, ...sx }}>
       <Image
         src="/image/brand/zapplyAI_io_logo.svg"
         alt="An SVG of an eye"
-        height={22}
-        width={130}
+        height={height}
+        width={width}
       />
     </div>
   )

@@ -7,6 +7,7 @@ import SignUp from '@/components/Authentication/SignUp'
 import LogIn from '@/components/Authentication/LogIn'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { Button } from '@/components/Button'
+import { useRouter } from 'next/navigation'
 
 interface NavbarProps {
   isMobile?: boolean | null
@@ -19,6 +20,7 @@ const Navbar = ({
   isMobile,
   isLandingPage = false,
 }: NavbarProps): React.ReactNode => {
+  const router = useRouter()
   const [isDrawerOpen, setDrawerOpen] = React.useState('')
 
   useEffect(() => {}, [isDrawerOpen])
@@ -78,7 +80,11 @@ const Navbar = ({
       {loggedIn ? (
         <Avatar />
       ) : isLandingPage ? (
-        <Button label={'Request Access'} sx={{ border: '1px #6551D1 solid' }} />
+        <Button
+          label={'Request Access'}
+          sx={{ border: '1px #6551D1 solid' }}
+          action={() => router.push('/requestAccess')}
+        />
       ) : (
         <React.Fragment>
           <div>

@@ -1,7 +1,7 @@
 'use client'
 
-import React, { CSSProperties } from 'react'
-import { Logo, Navbar } from '@/components'
+import React, { CSSProperties, useRef } from 'react'
+import { Input, Logo, Navbar } from '@/components'
 import landingGradient from './../public/image/home/landingGradient_BG.png'
 import landingGradient_Mobile from './../public/image/home/landingGradient_BG_Mobile.png'
 import topOfferPictures from './../public/image/home/topOfferPictures.png'
@@ -9,6 +9,8 @@ import topOfferPictures_Mobile from './../public/image/home/topOfferPictures_Mob
 import screensExamples from './../public/image/home/screensExamples.png'
 import doubleScreenExample from './../public/image/home/doubleScreenExample.png'
 import tabletPhone_horizontal from './../public/image/home/tablet&phone_horizontal.png'
+
+import { useForm, ValidationError } from '@formspree/react'
 
 import Image from 'next/image'
 import { Button } from '@/components/Button'
@@ -19,35 +21,28 @@ import Marquee from 'react-fast-marquee'
 import FaceIcon from '@mui/icons-material/Face'
 import Face2Icon from '@mui/icons-material/Face2'
 import Face4Icon from '@mui/icons-material/Face4'
+import EmailIcon from '@mui/icons-material/Email'
+import { Stack } from '@mui/material'
+import { get } from 'lodash'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
-  // const containerRef = useRef(null)
-
-  // const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
-  // const [currentSecondImagePosition, setCurrentSecondImagePosition] =
-  //   useState(0)
-
   const isMobile = useClientMediaQuery('(max-width: 600px)')
+  const router = useRouter()
 
-  // useScrollPosition(({ prevPos, currPos }) => {
-  //   // setCurrentScrollPosition(currPos.y)
-  //
-  //   if (isMobile && containerRef.current) {
-  //     const { offsetTop } = containerRef.current
-  //     const aimPosition = offsetTop + window.innerHeight
-  //     // console.log('aimPosition = ', aimPosition, ' (currPos.y * (-1)) = ', currPos.y * (-1))
-  //
-  //     if (currPos.y * -1 > aimPosition) {
-  //       // console.log('setCurrentSecondImagePosition ('+(currPos.y * (-1)) - aimPosition+')')
-  //       setCurrentSecondImagePosition(currPos.y * -1 - aimPosition)
-  //     }
-  //
-  //     console.log('\n\n\n')
-  //
-  //     // console.log('currPos', currPos.y)
-  //     // console.log('\n')
-  //   }
-  // })
+  const [formState, handleSubmit] = useForm('xvoevzav')
+  const newsletterRef = useRef(null)
+
+  const handleFormSubmit = (prompt: string) => {
+    // const emailField = document.getElementById('email') as HTMLInputElement
+    // const email = emailField.value.trim()
+
+    console.log('email : ', prompt)
+
+    if (prompt !== '') {
+      handleSubmit({ prompt })
+    }
+  }
 
   const style: { [key: string]: CSSProperties } = {
     limitWidthContainer: {
@@ -130,7 +125,7 @@ export default function Home() {
       justifyContent: 'flex-left',
     },
     thirdSectionPictures: {
-      width: isMobile ? '95vw' : '53vw',
+      width: isMobile ? '95vw' : '50vw',
       marginLeft: isMobile ? 0 : '22px',
       height: 'fit-content',
     },
@@ -149,7 +144,7 @@ export default function Home() {
   }
 
   return (
-    <React.Fragment>
+    <div style={{ height: '100%', width: '100%', background: '#000' }}>
       <Navbar isMobile={isMobile} isLandingPage />
 
       {/* ----------------------------------------- */}
@@ -205,11 +200,16 @@ export default function Home() {
             }
           >
             <Button
+              action={() => {
+                // @ts-ignore
+                newsletterRef.current.scrollIntoView({ behavior: 'smooth' })
+              }}
               label={'Sign up for newsletter'}
               variant={'contained'}
               sx={style.topActionButtonContained}
             />
             <Button
+              action={() => router.push('/talkToUs')}
               label={'Talk to us'}
               variant={'outlined'}
               sx={
@@ -446,27 +446,72 @@ export default function Home() {
         />
       </div>
 
-      <footer
+      <Stack
+        ref={newsletterRef}
+        direction={isMobile ? 'column' : 'row'}
+        spacing={isMobile ? 6 : 4}
         style={{
-          display: 'flex',
-          position: 'relative',
           flexDirection: isMobile ? 'column' : 'row',
-          justifyContent: isMobile ? 'center' : 'flex-start',
-          alignItems: 'center',
+          justifyContent: isMobile ? 'center' : 'center',
+          alignItems: 'flex-start',
           borderTop: 'solid 1px #322c55',
-          marginTop: '70px',
-          padding: '22px 48px',
+          marginTop: isMobile ? '50px' : '100px',
+          padding: '48px 48px',
         }}
       >
+        {isMobile && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+            }}
+          >
+            <div style={{ marginBottom: '12px' }}>
+              <Typography
+                variant={'h2_gradient' as any}
+                style={{ fontSize: '36px', lineHeight: '36px' }}
+              >
+                Subscribe to newsletter
+              </Typography>
+            </div>
+            <Typography variant="h6">
+              Stay up to date with our updates. Be the first one to use Zapply
+            </Typography>
+            {!get(formState, 'succeeded', false) ? (
+              <Input
+                // id="email"
+                // type="email"
+                onSubmit={handleFormSubmit}
+                placeholder="example@email.com"
+                fullWidth={isMobile}
+                sx={{ margin: '10px 0px 0px 0px' }}
+              />
+            ) : (
+              <div>Thank you</div>
+            )}
+
+            <ValidationError
+              prefix="Email"
+              field="email"
+              errors={formState.errors}
+            />
+          </div>
+        )}
+
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            marginRight: '48px',
+            marginRight: isMobile ? 0 : '100px',
           }}
         >
-          <div style={{ height: '48px' }}>
-            <Logo />
+          <div>
+            <Logo
+              sx={{ height: '50px', marginBottom: isMobile ? '12px' : '22px' }}
+              height={50}
+              width={150}
+            />
           </div>
           <Typography variant="h6">
             © 2024 ZapplyAI Inc. All rights reserved.
@@ -474,37 +519,68 @@ export default function Home() {
         </div>
 
         {!isMobile && (
-          <React.Fragment>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ height: '48px' }}>
-                <Typography variant="h4" style={{ color: '#775EFF' }}>
-                  Sections
-                </Typography>
-              </div>
-              <Typography variant="h6">
-                Section 1, Section 2, Section 3
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              marginRight: '100px',
+            }}
+          >
+            <div style={{ marginBottom: '22px' }}>
+              <Typography
+                variant={'h2_gradient' as any}
+                style={{
+                  color: '#D0D0D0',
+                  fontSize: '36px',
+                  lineHeight: '36px',
+                }}
+              >
+                Subscribe to newsletter
               </Typography>
             </div>
+            <Typography variant="h6">
+              Stay up to date with our updates. Be the first one to use Zapply
+            </Typography>
 
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'absolute',
-                right: '48px',
-              }}
-            >
-              <div style={{ height: '48px' }}>
-                <Typography variant="h4" style={{ color: '#775EFF' }}>
-                  Contacts
-                </Typography>
-              </div>
-              <Typography variant="h6">support@zapplyai.io</Typography>
-            </div>
-          </React.Fragment>
+            {!get(formState, 'succeeded', false) ? (
+              <Input
+                // id="email"
+                // type="email"
+                onSubmit={handleFormSubmit}
+                placeholder="example@email.com"
+                fullWidth={isMobile}
+                sx={{ margin: '10px 0px 0px 0px' }}
+              />
+            ) : (
+              <div>Thank you</div>
+            )}
+            <ValidationError
+              prefix="Email"
+              field="email"
+              errors={formState.errors}
+            />
+          </div>
         )}
-      </footer>
-    </React.Fragment>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div style={{ marginBottom: isMobile ? '12px' : '22px' }}>
+            <Typography variant="h4" style={{ color: '#775EFF' }}>
+              Contacts
+            </Typography>
+          </div>
+          <div style={{ display: 'flex' }}>
+            <EmailIcon style={{ color: '#D0D0D0', marginRight: '12px' }} />
+            <Typography variant="h6">andrii@zapplyai.io</Typography>
+          </div>
+        </div>
+      </Stack>
+    </div>
   )
 }
 

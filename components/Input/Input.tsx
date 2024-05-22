@@ -8,6 +8,7 @@ type AsyncFunction = (...args: any[]) => Promise<any>
 type AnyFunction = (...args: any[]) => any
 
 interface InputProps {
+  isMobile?: boolean,
   icon?: React.ReactNode
   sendIcon?: boolean
   placeholder?: string
@@ -27,6 +28,7 @@ interface PromptState {
 }
 
 const Input = ({
+  isMobile = false,
   icon,
   sendIcon = true,
   placeholder = '',
@@ -73,8 +75,8 @@ const Input = ({
       value: value,
       isProcessing: false,
       step: '',
-    });
-  }, [value]);
+    })
+  }, [value])
 
   return (
     <div style={{ ...style.inputContainer, ...sx }}>
@@ -88,7 +90,7 @@ const Input = ({
         style={{
           flex: 1,
           color: '#CFCED9',
-          fontSize: '14px',
+          fontSize: isMobile ? '22px' : '14px',
           maxHeight: '150px',
           overflow: 'scroll',
           margin: '5px 12px',
@@ -104,7 +106,12 @@ const Input = ({
       />
       <IconButton
         type="button"
-        sx={{ height: '60%', padding: '5px', margin: 'auto', marginRight: '5px' }}
+        sx={{
+          height: '60%',
+          padding: '5px',
+          margin: 'auto',
+          marginRight: '5px',
+        }}
         aria-label="search"
         onClick={handleSendButtonClick}
       >
