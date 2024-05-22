@@ -41,7 +41,7 @@ const Navbar = ({
 
   const style: { [key: string]: CSSProperties } = {
     nav: {
-      position: 'fixed',
+      position: 'static',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -67,6 +67,7 @@ const Navbar = ({
         isLandingPage
           ? {
               ...style.nav,
+              position: 'fixed',
               background: 'rgba(0,0,0,0.5)',
               // filter: 'blur(25px)',
               // backdropFilter: 'blur(80px)',
