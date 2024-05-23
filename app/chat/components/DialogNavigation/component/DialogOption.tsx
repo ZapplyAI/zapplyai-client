@@ -1,4 +1,4 @@
-import React, {CSSProperties} from 'react'
+import React, { CSSProperties } from 'react'
 import DialogIcon from '@/app/chat/components/DialogNavigation/component/DialogIcon'
 import Stack from '@mui/material/Stack'
 
@@ -14,26 +14,24 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {Dialog} from "@/lib/type";
+import { Dialog } from '@/lib/type'
 
 interface DialogOptionProps {
-  index: number
   dialog: Dialog
   onExpanded: any
   isExpanded: boolean
 }
 
 const DialogOption = ({
-  index,
   dialog,
   onExpanded,
   isExpanded,
 }: DialogOptionProps): React.ReactNode => {
   return (
     <Accordion
-      key={index}
+      key={dialog.id}
       style={style.accordionContainer}
-      onChange={(event, expanded) => onExpanded(index, expanded)}
+      onChange={(event, expanded) => onExpanded(dialog.id, expanded)}
       expanded={isExpanded}
       sx={{
         '&.Mui-expanded': {
@@ -50,7 +48,7 @@ const DialogOption = ({
         }}
         expandIcon={<ExpandMoreIcon sx={{ color: '#CFCED9' }} />}
       >
-        <DialogIcon iconName={""}/>
+        <DialogIcon iconName={''} />
         <div style={style.accordionSummaryTitles}>
           <h3 style={style.pageTitle}>{dialog.pageTitle}</h3>
           <Typography style={style.dialogTitle}>{dialog.title}</Typography>

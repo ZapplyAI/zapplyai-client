@@ -71,7 +71,7 @@ const useReduxData = () => {
   )
   const dialogs = useSelector((state: RootState) => state.chat.dialogs)
   const selectedDialogId = useSelector(
-    (state: RootState) => state.chat.selectedId
+    (state: RootState) => state.chat.openDialogId
   )
 
   const selectedDialog = find(dialogs, dialog => dialog.id === selectedDialogId)
@@ -99,19 +99,24 @@ const Chat = (): React.ReactNode => {
 
   const dispatch = useDispatch()
 
-  const findDialogById = (requestedId: string): Dialog => {
-    const dialogFound = find(dialogs, dialog => dialog.id === requestedId)
-    return dialogFound === undefined
-      ? {
-          id: '-1',
-          appId: '-1',
-          title: 'New Chat',
-          pageTitle: '...',
-          selectedOptions: [],
-          messages: [],
-        }
-      : dialogFound
-  }
+  // const findDialogById = (requestedId: string): Dialog => {
+  //   const dialogFound = find(dialogs, dialog => dialog.id === requestedId)
+  //   return dialogFound === undefined
+  //     ? {
+  //         id: '-1',
+  //         appId: '-1',
+  //         title: 'New Chat',
+  //         pageTitle: '...',
+  //         selectedOptions: [],
+  //         messages: [],
+  //         sessionState: {
+  //           referenceId: undefined,
+  //           state: 'none',
+  //           currentStep: undefined
+  //         },
+  //       }
+  //     : dialogFound
+  // }
 
   const onMessageSent = (message: string) => {
     // if (openedDialogId !== -1) {
@@ -141,13 +146,14 @@ const Chat = (): React.ReactNode => {
   return (
     <main className={styles.main}>
       <DialogNavigation />
-      <ChatWindow
-        apps={apps}
-        initialAppSetup={!selectedApp || selectedApp.url === ''}
-        selectedDialog={
-          selectedDialogId === null ? null : findDialogById(selectedDialogId)
-        }
-      />
+      {selectedApp !== undefined && (
+        <ChatWindow
+          apps={apps}
+          selectedAppId={selectedAppId as string}
+          initialAppSetup={selectedApp.url === ''}
+          selectedDialog={selectedDialog as Dialog}
+        />
+      )}
     </main>
   )
 }

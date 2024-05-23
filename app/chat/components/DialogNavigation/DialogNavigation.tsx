@@ -49,7 +49,7 @@ const useReduxData = () => {
   )
   const dialogs = useSelector((state: RootState) => state.chat.dialogs)
   const selectedDialogId = useSelector(
-    (state: RootState) => state.chat.selectedId
+    (state: RootState) => state.chat.openDialogId
   )
 
   const selectedDialog = find(dialogs, dialog => dialog.id === selectedDialogId)
@@ -116,15 +116,19 @@ const DialogNavigation = (): React.ReactNode => {
           selectApp={(appId: string) => dispatch(selectApp(appId))}
           selectedApp={selectedApp}
           bottomComponent={
-            <MenuItem key={'100000'} value={'100000'} sx={{ padding: '0' }}>
+            <MenuItem
+              key={'100000'}
+              value={'100000'}
+              sx={{
+                margin: '2px 6px',
+                marginTop: '10px',
+                borderRadius: '4px',
+                padding: '0px',
+              }}
+            >
               <Button
                 label={'Create new app'}
                 fullWidth
-                sx={{
-                  background: '#5443B1',
-                  color: '#fff',
-                  borderRadius: '9px',
-                }}
                 action={createNewApp}
               />
             </MenuItem>
@@ -138,15 +142,19 @@ const DialogNavigation = (): React.ReactNode => {
           selectApp={() => {}}
           selectedApp={selectedApp}
           bottomComponent={
-            <MenuItem key={'100000'} value={'1000'} sx={{ padding: '0' }}>
+            <MenuItem
+              key={'100000'}
+              value={'100000'}
+              sx={{
+                margin: '2px 6px',
+                marginTop: '10px',
+                borderRadius: '4px',
+                padding: '0px',
+              }}
+            >
               <Button
                 label={'Create new app'}
                 fullWidth
-                sx={{
-                  background: '#5443B1',
-                  color: '#fff',
-                  borderRadius: '9px',
-                }}
                 action={createNewApp}
               />
             </MenuItem>
@@ -193,18 +201,25 @@ const DialogNavigation = (): React.ReactNode => {
           sx={{
             marginTop: '10px',
           }}
-          action={() =>
+          action={() => {
+            const dialogId = nanoid()
             dispatch(
               createDialog({
                 appId: selectedAppId || '',
-                id: nanoid(),
+                id: dialogId,
                 messages: [],
                 pageTitle: '...',
                 selectedOptions: [],
                 title: '...',
+                sessionState: {
+                  referenceId: undefined,
+                  state: 'none',
+                  currentStep: undefined,
+                },
               })
             )
-          }
+            dispatch(selectDialog(dialogId))
+          }}
         />
 
         {isLoadingInProgress ? <AppStatusBox /> : null}
