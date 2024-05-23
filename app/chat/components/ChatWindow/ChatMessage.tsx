@@ -1,5 +1,6 @@
 import React from 'react'
 import GrainIcon from '@mui/icons-material/Grain'
+import { ListItem } from '@mui/material'
 type CSSProperties = React.CSSProperties
 
 interface ChatMessageProps {
@@ -14,14 +15,14 @@ interface MessageObject {
 
 const ChatMessage = ({ messageObject }: ChatMessageProps): React.ReactNode => {
   return (
-    <div style={style.messageContainer}>
+    <ListItem style={style.messageContainer}>
       {messageObject.sender === 'AI' ? (
         <GrainIcon style={{ ...style.messageSenderIcon }} />
       ) : (
         <div style={{ ...style.messageSenderIcon, background: 'gray' }} />
       )}
       <div style={style.messageText}>{messageObject.message}</div>
-    </div>
+    </ListItem>
   )
 }
 
