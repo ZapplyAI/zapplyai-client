@@ -1,6 +1,8 @@
 import { axios } from '@/lib'
 import { Response } from '@/services'
 
+import { Session } from '../types'
+
 const session = {
   initialize: async (name: string): Promise<Response> => {
     try {
@@ -25,14 +27,18 @@ const session = {
       }
     }
   },
-  prompt: async (message : string, dialogId: string, currentStep: string): Promise<Response> => {
+  prompt: async (
+    message: Session,
+    currentStep?: string
+  ): Promise<Response> => {
+
     try {
       const { status, data: response } = await axios.post(
         '/projects/interact/',
         {
-          app_ref: dialogId,
-          response: message,
-          current_step: currentStep,
+          app_ref: message.ref,
+          response: message.prompt,
+          current_step: 'PROJECT_DESCRIPTION',
         }
       )
 
@@ -74,9 +80,11 @@ const session = {
       }
     }
   },
-  getApp: async ({ref}: {ref: string}): Promise<Response> => {
+  getApp: async ({ ref }: { ref: string }): Promise<Response> => {
     try {
-      const { status, data: response } = await axios.get(`/projects/app/${ref}/`)
+      const { status, data: response } = await axios.get(
+        `/projects/app/${ref}/`
+      )
 
       if (status === 200) {
         return {
@@ -93,7 +101,7 @@ const session = {
         success: false,
       }
     }
-  }
+  },
 }
 
 export default session

@@ -232,12 +232,17 @@ const ChatWindow = ({
     dispatch(selectDialogs(selectedAppId as any))
     dispatch(
       createDialog({
+        sessionState: {
+          referenceId: undefined,
+          state: 'none',
+          currentStep: undefined,
+        },
         id: nanoid(),
         appId: selectedAppId as string,
         messages: [],
         pageTitle: 'General',
         selectedOptions: [],
-        title: 'Initial dialog',
+        title: 'Initial dialog'
       })
     )
   }
