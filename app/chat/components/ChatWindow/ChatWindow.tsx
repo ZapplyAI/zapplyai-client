@@ -1,6 +1,6 @@
 import React, { CSSProperties, useRef, useState } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
-import { Divider, IconButton, List, Stack } from '@mui/material'
+import { Divider, IconButton, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useImmer } from 'use-immer'
@@ -309,7 +309,6 @@ const ChatWindow = ({
       {initialAppSetup ? (
         <MiniPromptInitializer onSummarySubmit={sendAppSummary} />
       ) : (
-<<<<<<< HEAD
         <>
           <div style={{ ...style.chatWindow, width: previewCode ? leftWidth : '100%' }}>
             <React.Fragment>
@@ -324,21 +323,6 @@ const ChatWindow = ({
                 justifyContent={'flex-end'}
                 spacing={3}
                 divider={
-=======
-        <React.Fragment>
-          <ChatHeader
-            icon={null}
-            headerTitle={get(selectedDialog, 'title', '')}
-          />
-
-          <List style={style.dialogContainer}>
-            {/*going with index for now*/}
-            {messages.map((message, index) =>
-              index === messages.length - 1 ? (
-                <ChatMessage key={index} messageObject={message} />
-              ) : (
-                <React.Fragment key={index}>
-                  <ChatMessage key={index} messageObject={message} />
                   <Divider
                     orientation="horizontal"
                     flexItem
@@ -450,9 +434,9 @@ const style: { [key: string]: CSSProperties } = {
     borderLeft: '1px solid #282636',
   },
   dialogContainer: {
-    overflow: 'scroll',
-    marginTop: '55px',
+    overflow: 'hidden',
     width: '80%',
+    flex: 1,
   },
 }
 
