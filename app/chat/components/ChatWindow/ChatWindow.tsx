@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useRef, useState } from 'react'
 import ChatMessage from '@/app/chat/components/ChatWindow/ChatMessage'
 import { Divider, IconButton, Stack } from '@mui/material'
 import GrainIcon from '@mui/icons-material/Grain'
@@ -70,6 +70,8 @@ const ChatWindow = ({
   const { ref = null } = useParams()
   const router = useRouter()
   const dispatch = useDispatch()
+  const dividerRef = useRef<HTMLDivElement>(null)
+  const [leftWidth, setLeftWidth] = useState('50%')
 
   const [prompt, setPrompt] = useImmer<PromptState>({
     value: '',
@@ -116,8 +118,8 @@ const ChatWindow = ({
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault() // Prevent default behavior (creating new line)
-      await submitAction() // Perform action when Enter is pressed
+      event.preventDefault()
+      await submitAction()
     }
   }
 
@@ -240,6 +242,27 @@ const ChatWindow = ({
     )
   }
 
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+  }
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (dividerRef.current) {
+      const sidebarWidth = document.querySelector('.sidebar')?.clientWidth || 0
+      const appbarWidth = document.querySelector('.appbar')?.clientWidth || 0
+      const newLeftWidth = `${
+        ((e.clientX - (sidebarWidth + appbarWidth)) / window.innerWidth) * 100
+      }%`
+      setLeftWidth(newLeftWidth)
+    }
+  }
+
+  const handleMouseUp = () => {
+    document.removeEventListener('mousemove', handleMouseMove)
+    document.removeEventListener('mouseup', handleMouseUp)
+  }
+
   if (apps.length === 0) {
     return (
       <div style={style.centricContainer}>
@@ -265,7 +288,7 @@ const ChatWindow = ({
         </span>
         <Button
           label={'Start'}
-          sx={{background: '#5443B1', width: '190px'}}
+          sx={{ background: '#5443B1', width: '190px' }}
           action={() => {
             const appId = nanoid()
             dispatch(createApp({ id: appId, name: 'New app', url: '' }))
@@ -277,59 +300,104 @@ const ChatWindow = ({
   }
 
   return (
-    <div style={style.chatWindow}>
+    <div style={style.mainWindow}>
       {initialAppSetup ? (
         <MiniPromptInitializer onSummarySubmit={sendAppSummary} />
       ) : (
-        <React.Fragment>
-          <ChatHeader
-            icon={null}
-            headerTitle={get(selectedDialog, 'title', '')}
-          />
+        <>
+          <div style={{ ...style.chatWindow, width: previewCode ? leftWidth : '100%' }}>
+            <React.Fragment>
+              <ChatHeader
+                icon={null}
+                headerTitle={get(selectedDialog, 'title', '')}
+              />
 
-          <Stack
-            direction={'column'}
-            alignItems={'center'}
-            justifyContent={'flex-end'}
-            spacing={3}
-            divider={
-              <Divider
-                orientation="horizontal"
-                flexItem
-                style={{ background: '#48474E' }}
+              <Stack
+                direction={'column'}
+                alignItems={'center'}
+                justifyContent={'flex-end'}
+                spacing={3}
+                divider={
+                  <Divider
+                    orientation="horizontal"
+                    flexItem
+                    style={{ background: '#48474E' }}
+                  />
+                }
+                style={style.dialogContainer}
+              >
+                {/*going with index for now*/}
+                {messages.map((message, index) => (
+                  <ChatMessage key={index} messageObject={message} />
+                ))}
+              </Stack>
+              <Input
+                placeholder={'Tell me more about your web app'}
+                fullWidth
+                multiline
+                value={prompt.value}
+                onChange={handleInputChange}
+                icon={<GrainIcon style={{ color: '#775EFF' }} />}
+                onSubmit={() => submitAction(prompt.value)}
+                sx={{ width: '80%' }}
               />
-            }
-            style={style.dialogContainer}
-          >
-            {/*going with index for now*/}
-            {messages.map((message, index) => (
-              <ChatMessage key={index} messageObject={message} />
-            ))}
-            {!!previewCode && (
-              <iframe
-                srcDoc={previewCode}
-                title="Example Iframe"
-                style={{ width: '100%', height: '70vh', border: 'none' }}
-              />
-            )}
-          </Stack>
-          <Input
-            placeholder={'Tell me more about your web app'}
-            fullWidth
-            multiline
-            value={prompt.value}
-            onChange={handleInputChange}
-            icon={<GrainIcon style={{ color: '#775EFF' }} />}
-            onSubmit={() => submitAction(prompt.value)}
-            sx={{ width: '80%' }}
-          />
-        </React.Fragment>
+            </React.Fragment>
+          </div>
+          {!!previewCode && (
+            <>
+              <div
+                ref={dividerRef}
+                style={style.divider}
+                onMouseDown={handleMouseDown}
+              >
+                <div style={style.dividerHandle}></div>
+              </div>
+              <div
+                style={{
+                  ...style.iframeWindow,
+                  width: `calc(100% - ${leftWidth})`,
+                }}
+              >
+                <iframe
+                  srcDoc={previewCode}
+                  style={{ width: '100%', height: '100vh', border: 'none' }}
+                />
+              </div>
+            </>
+          )}
+        </>
       )}
     </div>
   )
 }
 
 const style: { [key: string]: CSSProperties } = {
+  divider: {
+    height: '100%',
+    background: '#000',
+    width: '5px',
+    position: 'relative',
+    cursor: 'col-resize',
+  },
+  dividerHandle: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '12px',
+    height: '60px',
+    background: '#CFCED9',
+    border: '4px solid #000',
+    borderRadius: '25px',
+    cursor: 'col-resize',
+  },
+  mainWindow: {
+    display: 'flex',
+    width: '100%',
+  },
+  iframeWindow: {
+    height: '100%',
+  },
   centricContainer: {
     height: '100%',
     width: '100%',
@@ -344,8 +412,8 @@ const style: { [key: string]: CSSProperties } = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'end',
-    width: '100%',
     height: '100%',
+    userSelect: 'none'
   },
   headerContainer: {
     position: 'absolute',
