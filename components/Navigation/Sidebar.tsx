@@ -8,7 +8,7 @@ import {GradientCircularProgress} from "@/components";
 
 const Sidebar = (): React.ReactNode => {
     return (
-        <AppBar style={style.container} position={'static'}>
+        <AppBar style={style.container} position={'static'} className={'appbar'}>
             <Stack direction="column"
                    spacing={2}>
                 <IconButton href={'/'} style={style.navButton}>

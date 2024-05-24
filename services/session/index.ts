@@ -1,6 +1,8 @@
 import { axios } from '@/lib'
 import { Response } from '@/services'
 
+import { Session } from '../types'
+
 const session = {
   initialize: async (name: string): Promise<Response> => {
     try {
@@ -25,19 +27,18 @@ const session = {
       }
     }
   },
-  prompt: async (message : string, dialogId: string, currentStep: string): Promise<Response> => {
+  prompt: async (
+    message: Session,
+    currentStep?: string
+  ): Promise<Response> => {
+
     try {
-      console.log('calling /projects/interact/', {
-        app_ref: dialogId,
-        response: message,
-        current_step: currentStep,
-      })
       const { status, data: response } = await axios.post(
         '/projects/interact/',
         {
-          app_ref: dialogId,
-          response: message,
-          current_step: currentStep,
+          app_ref: message.ref,
+          response: message.prompt,
+          current_step: 'PROJECT_DESCRIPTION',
         }
       )
 
@@ -52,8 +53,50 @@ const session = {
         success: false,
       }
     } catch (e) {
-      console.log(e)
+      return {
+        success: false,
+      }
+    }
+  },
+  build: async ({ ref }: { ref: string }): Promise<Response> => {
+    try {
+      const { status, data: response } = await axios.post('/projects/build/', {
+        app_ref: ref,
+      })
 
+      if (status >= 200) {
+        return {
+          success: true,
+          response,
+        }
+      }
+
+      return {
+        success: false,
+      }
+    } catch (e) {
+      return {
+        success: false,
+      }
+    }
+  },
+  getApp: async ({ ref }: { ref: string }): Promise<Response> => {
+    try {
+      const { status, data: response } = await axios.get(
+        `/projects/app/${ref}/`
+      )
+
+      if (status === 200) {
+        return {
+          success: true,
+          response,
+        }
+      }
+
+      return {
+        success: false,
+      }
+    } catch (e) {
       return {
         success: false,
       }

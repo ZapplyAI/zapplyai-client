@@ -1,6 +1,5 @@
 import React, { CSSProperties, useEffect } from 'react'
 import { IconButton, InputBase } from '@mui/material'
-import GrainIcon from '@mui/icons-material/Grain'
 import SendIcon from '@mui/icons-material/Send'
 import { useImmer } from 'use-immer'
 
@@ -8,6 +7,7 @@ type AsyncFunction = (...args: any[]) => Promise<any>
 type AnyFunction = (...args: any[]) => any
 
 interface InputProps {
+  isMobile?: boolean,
   icon?: React.ReactNode
   sendIcon?: boolean
   placeholder?: string
@@ -27,6 +27,7 @@ interface PromptState {
 }
 
 const Input = ({
+  isMobile = false,
   icon,
   sendIcon = true,
   placeholder = '',
@@ -56,15 +57,22 @@ const Input = ({
   }
 
   const handleEnterPress = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: any,
+    prompt: any
   ) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault() // Prevent default behavior (creating new line)
+      setPrompt(draft => {
+        draft.value = ''
+      })
       await onSubmit(prompt) // Perform action when Enter is pressed
     }
   }
 
-  const handleSendButtonClick = async () => {
+  const handleSendButtonClick = async (prompt: any) => {
+    setPrompt(draft => {
+      draft.value = ''
+    })
     await onSubmit(prompt)
   }
 
@@ -73,8 +81,8 @@ const Input = ({
       value: value,
       isProcessing: false,
       step: '',
-    });
-  }, [value]);
+    })
+  }, [value])
 
   return (
     <div style={{ ...style.inputContainer, ...sx }}>
@@ -88,7 +96,7 @@ const Input = ({
         style={{
           flex: 1,
           color: '#CFCED9',
-          fontSize: '14px',
+          fontSize: isMobile ? '22px' : '14px',
           maxHeight: '150px',
           overflow: 'scroll',
           margin: '5px 12px',
@@ -100,13 +108,18 @@ const Input = ({
         placeholder={placeholder}
         value={prompt.value}
         onChange={handleInputChange}
-        onKeyDown={handleEnterPress}
+        onKeyDown={event => handleEnterPress(event, prompt.value)}
       />
       <IconButton
         type="button"
-        sx={{ height: '60%', padding: '5px', margin: 'auto', marginRight: '5px' }}
+        sx={{
+          height: '60%',
+          padding: '5px',
+          margin: 'auto',
+          marginRight: '5px',
+        }}
         aria-label="search"
-        onClick={handleSendButtonClick}
+        onClick={() => handleSendButtonClick(prompt.value)}
       >
         {sendIcon && <SendIcon style={{ color: '#775EFF' }} />}
       </IconButton>

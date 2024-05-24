@@ -96,7 +96,7 @@ const DialogNavigation = (): React.ReactNode => {
 
   if (apps.length === 0) {
     return (
-      <div style={style.navigationContainer}>
+      <div style={style.navigationContainer} className={'sidebar'}>
         <Button
           label={'Create new app'}
           fullWidth
@@ -110,7 +110,7 @@ const DialogNavigation = (): React.ReactNode => {
       return null
     }
     return selectedApp.url === '' ? (
-      <div style={style.navigationContainer}>
+      <div style={style.navigationContainer} className={'sidebar'}>
         <DropdownSelect
           allApps={apps}
           selectApp={(appId: string) => dispatch(selectApp(appId))}

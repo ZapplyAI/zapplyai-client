@@ -1,12 +1,13 @@
 'use client'
 
-import React, {CSSProperties, useEffect} from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { Avatar, Logo } from '@/components'
 import RightDrawer from '../RightDrawer/RightDrawer'
 import SignUp from '@/components/Authentication/SignUp'
 import LogIn from '@/components/Authentication/LogIn'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { Button } from '@/components/Button'
+import { useRouter } from 'next/navigation'
 
 interface NavbarProps {
   isMobile?: boolean | null
@@ -19,10 +20,10 @@ const Navbar = ({
   isMobile,
   isLandingPage = false,
 }: NavbarProps): React.ReactNode => {
+  const router = useRouter()
   const [isDrawerOpen, setDrawerOpen] = React.useState('')
 
-  useEffect(() => {
-  }, [isDrawerOpen]);
+  useEffect(() => {}, [isDrawerOpen])
 
   const closeDrawer = () => {
     setDrawerOpen('')
@@ -36,11 +37,9 @@ const Navbar = ({
     setDrawerOpen(open => (!open ? 'Log In' : ''))
   }
 
-  React.useEffect(() => console.log('not a rapgee'), [isDrawerOpen])
-
   const style: { [key: string]: CSSProperties } = {
     nav: {
-      position: isMobile ? 'fixed' : 'static',
+      position: 'static',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -64,7 +63,15 @@ const Navbar = ({
     <nav
       style={
         isLandingPage
-          ? { ...style.nav, background: 'rgba(12,12,12,0.5)' }
+          ? {
+              ...style.nav,
+              position: 'fixed',
+              background: 'rgba(0,0,0,0.5)',
+              // filter: 'blur(25px)',
+              // backdropFilter: 'blur(80px)',
+              WebkitBackdropFilter: 'blur(25px)',
+              backdropFilter: 'blur(25px)',
+            }
           : style.nav
       }
     >
@@ -72,7 +79,11 @@ const Navbar = ({
       {loggedIn ? (
         <Avatar />
       ) : isLandingPage ? (
-        <Button label={'Request Access'} sx={{ border: '1px #6551D1 solid' }} />
+        <Button
+          label={'Request Access'}
+          sx={{ border: '1px #6551D1 solid' }}
+          action={() => router.push('/requestAccess')}
+        />
       ) : (
         <React.Fragment>
           <div>
@@ -119,7 +130,7 @@ const Navbar = ({
             />
           </div>
         </React.Fragment>
-        )}
+      )}
     </nav>
   )
 }

@@ -3,9 +3,8 @@
 }
 
 .contentContainer {
-  height: 100%;
+  height: calc(100% - 55px);
   display: flex;
-
 }
 
 .main {
