@@ -2,6 +2,8 @@ import React from 'react'
 import GrainIcon from '@mui/icons-material/Grain'
 import { ListItem } from '@mui/material'
 type CSSProperties = React.CSSProperties
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface ChatMessageProps {
   messageObject: MessageObject
@@ -21,7 +23,11 @@ const ChatMessage = ({ messageObject }: ChatMessageProps): React.ReactNode => {
       ) : (
         <div style={{ ...style.messageSenderIcon, background: 'gray' }} />
       )}
-      <div style={style.messageText}>{messageObject.message}</div>
+      <div style={style.messageText}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {messageObject.message}
+        </ReactMarkdown>
+      </div>
     </ListItem>
   )
 }
