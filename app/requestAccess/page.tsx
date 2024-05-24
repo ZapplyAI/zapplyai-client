@@ -89,16 +89,21 @@ export default function RequestAccessPage() {
               router.push('/')
             }}
           >
-            <CloseIcon style={{ color: '#D0D0D0', height: '15px' }} />
-            <Typography variant="h5" style={{ textTransform: 'none' }}>
+            <Typography
+              variant={'h5_mobile' as any}
+              style={{ textTransform: 'none', color: '#D0D0D0' }}
+            >
               Close
             </Typography>
+            <CloseIcon
+              style={{ color: '#D0D0D0', height: '15px', marginTop: '2px'}}
+            />
           </MUI_Button>
         </div>
 
         <div style={style.formContainer}>
           <Typography
-            variant={isMobile ? 'h2_gradient_mobile' : ('h2_gradient' as any)}
+            variant={isMobile ? 'h2_gradient_mobile' : 'h2_gradient' as any}
             style={{ marginBottom: '25px', textAlign: 'center' }}
           >
             Need early access?
@@ -128,7 +133,7 @@ export default function RequestAccessPage() {
               <Input
                 onChange={e => setTitle(e.target.value)}
                 isMobile={isMobile}
-                placeholder={'Title'}
+                placeholder={'Title (Mr,Ms)'}
                 sendIcon={false}
                 sx={{ margin: '20px 0 0 0' }}
               />

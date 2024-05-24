@@ -22,8 +22,12 @@ export default function RequestAccessPage() {
   const [failedSubmition, setFailedSubmition] = useState(false)
 
   const handleFormSubmit = () => {
-
-    console.log('Form : ', { Name: name, Title: title, Email: email, Message: message })
+    console.log('Form : ', {
+      Name: name,
+      Title: title,
+      Email: email,
+      Message: message,
+    })
 
     if (name === '' || email === '' || message === '') {
       setFailedSubmition(true)
@@ -69,14 +73,22 @@ export default function RequestAccessPage() {
       <div style={style.mainContainer}>
         <div style={style.headerContainer}>
           <Logo />
-          <MUI_Button variant={'text'} onClick={() => {
-            console.log('pushing router button')
-            router.push('/')
-          }}>
-            <CloseIcon style={{ color: '#D0D0D0', height: '15px' }} />
-            <Typography variant="h5" style={{ textTransform: 'none' }}>
+          <MUI_Button
+            variant={'text'}
+            onClick={() => {
+              console.log('pushing router button')
+              router.push('/')
+            }}
+          >
+            <Typography
+              variant={'h5_mobile' as any}
+              style={{ textTransform: 'none', color: '#D0D0D0' }}
+            >
               Close
             </Typography>
+            <CloseIcon
+              style={{ color: '#D0D0D0', height: '15px', marginTop: '2px'}}
+            />
           </MUI_Button>
         </div>
 
@@ -102,14 +114,14 @@ export default function RequestAccessPage() {
           >
             <div style={{ display: 'flex', marginBottom: '20px' }}>
               <Input
-                onChange={(e) => setName(e.target.value)}
+                onChange={e => setName(e.target.value)}
                 isMobile={isMobile}
                 placeholder={'Name*'}
                 sendIcon={false}
                 sx={{ margin: '20px 0 0 0', marginRight: '22px' }}
               />
               <Input
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={e => setTitle(e.target.value)}
                 isMobile={isMobile}
                 placeholder={'Title'}
                 sendIcon={false}
@@ -117,21 +129,26 @@ export default function RequestAccessPage() {
               />
             </div>
             <Input
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               isMobile={isMobile}
               placeholder={'Email*'}
               sendIcon={false}
               sx={{ margin: '20px 0px' }}
             />
             <Input
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={e => setMessage(e.target.value)}
               isMobile={isMobile}
               placeholder={'Message*'}
               sendIcon={false}
               multiline
               sx={{ margin: '20px 0px' }}
             />
-            <Button label={'Submit'} action={handleFormSubmit} fullWidth sx={ failedSubmition ? { border: '1px red' } : {} }/>
+            <Button
+              label={'Submit'}
+              action={handleFormSubmit}
+              fullWidth
+              sx={failedSubmition ? { border: '1px red' } : {}}
+            />
           </div>
         </div>
 
@@ -140,7 +157,6 @@ export default function RequestAccessPage() {
           field="email"
           errors={formState.errors}
         />
-
       </div>
     </div>
   )
