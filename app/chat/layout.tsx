@@ -1,7 +1,7 @@
 'use client'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 
-import { Navbar, Sidebar } from '@/components'
+import { Button, Navbar, Sidebar } from '@/components'
 import styles from './page.module.scss'
 import DialogNavigation from './components/DialogNavigation/DialogNavigation'
 import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
@@ -9,6 +9,9 @@ import { find } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
 import { Dialog } from '@/lib/type'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import { nanoid } from 'nanoid'
+import { createApp, selectApp } from '@/lib/reducer/webApp'
 
 // const availableDialogsInit = {
 //   frontend: [
@@ -143,10 +146,53 @@ const Chat = (): React.ReactNode => {
     // }
   }
 
+  const style: { [key: string]: CSSProperties } = {
+    centricContainer: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+    },
+  }
+
   return (
     <main className={styles.main}>
       <DialogNavigation />
-      {selectedApp !== undefined && (
+      {selectedApp === undefined ? (
+        <div style={style.centricContainer}>
+          <AutoAwesomeIcon
+            sx={{
+              height: '55px',
+              width: '55px',
+              color: '#5443B1',
+              marginBottom: '22px',
+            }}
+          />
+          <span
+            style={{
+              fontWeight: '300',
+              textAlign: 'center',
+              color: '#738189',
+              marginBottom: '22px',
+            }}
+          >
+          This is where your web-app idea can become a reality.
+          <br />
+          Click ‘start’ to summarise your idea
+        </span>
+          <Button
+            label={'Start'}
+            sx={{ background: '#5443B1', width: '190px' }}
+            action={() => {
+              const appId = nanoid()
+              dispatch(createApp({ id: appId, name: 'New app', url: '' }))
+              dispatch(selectApp(appId))
+            }}
+          />
+        </div>
+      ) :(
         <ChatWindow
           apps={apps}
           selectedAppId={selectedAppId as string}
@@ -159,8 +205,8 @@ const Chat = (): React.ReactNode => {
 }
 
 export default function ChatLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode
 }>) {
   return (

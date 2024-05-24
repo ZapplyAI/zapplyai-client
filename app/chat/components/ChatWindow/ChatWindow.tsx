@@ -268,42 +268,7 @@ const ChatWindow = ({
     document.removeEventListener('mouseup', handleMouseUp)
   }
 
-  if (apps.length === 0) {
-    return (
-      <div style={style.centricContainer}>
-        <AutoAwesomeIcon
-          sx={{
-            height: '55px',
-            width: '55px',
-            color: '#5443B1',
-            marginBottom: '22px',
-          }}
-        />
-        <span
-          style={{
-            fontWeight: '300',
-            textAlign: 'center',
-            color: '#738189',
-            marginBottom: '22px',
-          }}
-        >
-          This is where your web-app idea can become a reality.
-          <br />
-          Click ‘start’ to summarise your idea
-        </span>
-        <Button
-          label={'Start'}
-          sx={{ background: '#5443B1', width: '190px' }}
-          action={() => {
-            const appId = nanoid()
-            dispatch(createApp({ id: appId, name: 'New app', url: '' }))
-            dispatch(selectApp(appId))
-          }}
-        />
-      </div>
-    )
-  }
-
+  console.log('apps.length', apps.length)
   return (
     <div style={style.mainWindow}>
       {initialAppSetup ? (
@@ -402,14 +367,6 @@ const style: { [key: string]: CSSProperties } = {
   },
   iframeWindow: {
     height: '100%',
-  },
-  centricContainer: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
   },
   chatWindow: {
     position: 'relative',
