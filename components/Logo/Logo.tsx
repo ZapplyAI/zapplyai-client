@@ -14,7 +14,7 @@ const Logo = ({sx={}, height=22, width=130, mini=false} : LogoProps): React.Reac
   return mini ? (
     <div style={{ ...style.logoIcon, ...sx }}>
       <Image
-        src="/image/brand/zapplyLogo.svg"
+        src="/image/brand/zapplyLogo.png"
         alt="LOGO"
         height={height}
         width={width}
