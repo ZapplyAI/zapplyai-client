@@ -1,7 +1,7 @@
 'use client'
 import React, { CSSProperties } from 'react'
 
-export default function ChatPageLayout({
+export default function PreviewPageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode

@@ -1,8 +1,6 @@
 import { axios } from '@/lib'
 import { Response } from '@/services'
 
-import { Session } from '../types'
-
 const session = {
   initialize: async (name: string): Promise<Response> => {
     try {
@@ -27,18 +25,19 @@ const session = {
       }
     }
   },
-  prompt: async (
-    message: Session,
-    currentStep?: string
-  ): Promise<Response> => {
-
+  prompt: async (message : string, dialogId: string, currentStep: string): Promise<Response> => {
     try {
+      console.log('calling /projects/interact/', {
+        app_ref: dialogId,
+        response: message,
+        current_step: currentStep,
+      })
       const { status, data: response } = await axios.post(
         '/projects/interact/',
         {
-          app_ref: message.ref,
-          response: message.prompt,
-          current_step: 'PROJECT_DESCRIPTION',
+          app_ref: dialogId,
+          response: message,
+          current_step: currentStep,
         }
       )
 
@@ -53,6 +52,8 @@ const session = {
         success: false,
       }
     } catch (e) {
+      console.log(e)
+
       return {
         success: false,
       }
@@ -77,6 +78,7 @@ const session = {
     } catch (e) {
       return {
         success: false,
+        response: e
       }
     }
   },
