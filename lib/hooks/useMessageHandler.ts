@@ -221,7 +221,7 @@ export const useMessageHandler = () => {
       updateDialogSessionState({
         referenceId: 'same',
         state: 'pending',
-        currentStep: response.data.next_step,
+        currentStep: 'PROJECT_DESCRIPTION',
       })
     )
 
@@ -282,6 +282,7 @@ export const useMessageHandler = () => {
         console.log('\n\n\n\n')
         console.log('setProgress -> ', { title: 'build', description: event.data })
         setProgress({ title: 'build', description: event.data })
+        console.log(event.data);
         // dispatch(
         //   addMessageToFeed({
         //     messageId: nanoid(),
