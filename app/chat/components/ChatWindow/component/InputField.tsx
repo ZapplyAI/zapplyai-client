@@ -1,3 +1,5 @@
+'use client'
+
 import React, { CSSProperties, useRef, useState } from 'react'
 import { Input, Logo } from '@/components'
 import { nanoid } from 'nanoid'

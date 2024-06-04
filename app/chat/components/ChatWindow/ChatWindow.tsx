@@ -1,3 +1,5 @@
+'use client'
+
 import React, { CSSProperties, useEffect } from 'react'
 import {
   APP_STATE,

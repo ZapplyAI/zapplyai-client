@@ -1,3 +1,5 @@
+'use client'
+
 import React, { CSSProperties } from 'react'
 import { AnyFunction, APP_STATE, Dialog, Message } from '@/lib/type'
 import { List, ListItem } from '@mui/material'

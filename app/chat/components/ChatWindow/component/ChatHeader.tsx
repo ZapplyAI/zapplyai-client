@@ -1,3 +1,5 @@
+'use client'
+
 import React, { CSSProperties } from 'react'
 import GrainIcon from '@mui/icons-material/Grain'
 import { IconButton } from '@mui/material'

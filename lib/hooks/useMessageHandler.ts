@@ -282,14 +282,14 @@ export const useMessageHandler = () => {
         console.log('\n\n\n\n')
         console.log('setProgress -> ', { title: 'build', description: event.data })
         setProgress({ title: 'build', description: event.data })
-        dispatch(
-          addMessageToFeed({
-            messageId: nanoid(),
-            message: `>>>${event.data}`,
-            sender: 'AI',
-            attachments: [],
-          })
-        )
+        // dispatch(
+        //   addMessageToFeed({
+        //     messageId: nanoid(),
+        //     message: `>>>${event.data}`,
+        //     sender: 'AI',
+        //     attachments: [],
+        //   })
+        // )
         console.log('added progress to feed')
 
         if (event.data.toUpperCase().includes('UPDATE: FRONTEND_BUILD_DONE')) {
