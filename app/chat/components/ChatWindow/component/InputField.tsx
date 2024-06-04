@@ -17,7 +17,7 @@ const InputField = ({ sendAction }: InputFieldProps): React.ReactNode => {
       fullWidth
       placeholder={'Your message to Zapply'}
       onSubmit={(message: string) =>
-        sendAction({ messageId: nanoid(), message: message, sender: 'USER' })
+        sendAction({ messageId: nanoid(), message: message, sender: 'USER', attachments: [] })
       }
     />
   )

@@ -10,59 +10,69 @@ const dialog1: Dialog = {
       message:
         'Hello, how can I assist you in building your web application today?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm2hasj387znn6q0sc',
       message: "I'm looking to create a web application for my new business.",
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm3hasj387znn6q0sc',
       message:
         'Great! Can you provide more details about the type of business and the features you need in your web application?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm4hasj387znn6q0sc',
       message:
         "It's an online store that sells handmade crafts. I need a user-friendly interface with product listings, a shopping cart, and a secure payment gateway.",
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm5hasj387znn6q0sc',
       message:
         'That sounds like a wonderful project. Do you have any specific design preferences or existing branding elements you want to incorporate?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm6hasj387znn6q0sc',
       message:
         "Yes, I have a logo and a color scheme in mind. I'd also like to include a blog section to share crafting tips and news.",
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm7hasj387znn6q0sc',
       message:
         'Perfect. I can help with that. Do you need any user registration and login features?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm8hasj387znn6q0sc',
       message:
         "Yes, I'd like users to create accounts so they can save their shopping carts and view their order history.",
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm9hasj387znn6q0sc',
       message:
         'Understood. Would you like to integrate any specific payment gateways or shipping options?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm10hasj387znn6q0sc',
       message:
         "I prefer using PayPal and Stripe for payments, and I'd like to offer standard and express shipping options.",
       sender: 'USER',
+      attachments: []
     },
   ],
   sessionState: {
@@ -82,48 +92,56 @@ const dialog2: Dialog = {
       message:
         'What project management features are you looking to include in your web application?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm2702y3nr9aesujk',
       message:
         "I'm building an app to manage my team's projects. We need task assignments, progress tracking, and a calendar.",
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm3702y3nr9aesujk',
       message:
         'Got it. Would you like to have any collaboration tools like chat or file sharing integrated?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm4702y3nr9aesujk',
       message:
         'Yes, a chat feature for team communication and a file sharing system would be very helpful.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm5702y3nr9aesujk',
       message:
         'Understood. How about notifications and reminders for deadlines and important updates?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm6702y3nr9aesujk',
       message:
         'Absolutely, notifications and reminders are essential to keep everyone on track.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm7702y3nr9aesujk',
       message:
         'Are there any specific third-party integrations or tools that you currently use and want to link with this application?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm8702y3nr9aesujk',
       message:
         'We use Google Drive and Slack a lot, so integration with those would be great.',
       sender: 'USER',
+      attachments: []
     },
   ],
   sessionState: {
@@ -143,59 +161,69 @@ const dialog3: Dialog = {
       message:
         'Hi! How can I help you with your event planning application today?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm2390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'I want to create an app to manage events, including guest lists, RSVPs, and schedules.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm3390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'That sounds interesting. Do you need any additional features like ticketing or vendor management?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm4390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'Yes, ticketing would be great. And I’d like to manage vendors and their services as well.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm5390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'Got it. How about integration with social media for event promotion?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm6390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'Yes, integrating with social media platforms for promotion would be very useful.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm7390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'Do you have any specific design or branding guidelines that we should follow?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm8390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'I have a branding guide and some design templates that I’d like to use.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm9390y8nr[vrg0-[mscdnhudwigcery8o',
       message:
         'Perfect. Is there anything else you’d like to include or any other requirements?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm10390y8nr[vrg0-[mscdnhudwigcery8o',
       message: "That's all for now. Thank you!",
       sender: 'USER',
+      attachments: []
     },
   ],
   sessionState: {
@@ -277,51 +305,61 @@ const dialog5: Dialog = {
       messageId: 'm1784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Hello! What can I assist you with regarding your event app today?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm2784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'I’m looking to add a feature for sending reminders to guests.',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm3784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Reminders are a great idea. Would you like these to be email, SMS, or both?',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm4784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Both email and SMS would be ideal. Can we customize the messages?',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm5784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Absolutely. You can fully customize the reminder messages.',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm6784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'That’s perfect. Can we also schedule these reminders?',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm7784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Yes, you can schedule reminders to be sent at specific times.',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm8784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Great. Are there any analytics on how many guests open these reminders?',
       sender: 'USER',
+      attachments: []
     },
     {
       messageId: 'm9784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'Yes, you will have access to analytics for tracking engagement.',
       sender: 'AI',
+      attachments: []
     },
     {
       messageId: 'm10784y8nr[vrg0-[mscdnhudwigcery8o',
       message: 'That’s all I need for now. Thanks!',
       sender: 'USER',
+      attachments: []
     },
   ],
   sessionState: {
