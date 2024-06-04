@@ -12,7 +12,7 @@ interface LogoProps {
 
 const Logo = ({sx={}, height=22, width=130, mini=false} : LogoProps): React.ReactNode => {
   return mini ? (
-    <div style={{ ...style.logoIcon, ...sx }}>
+    <div style={{ ...style.logoIcon }}>
       <Image
         src="/image/brand/zapplyLogo.svg"
         alt="LOGO"
