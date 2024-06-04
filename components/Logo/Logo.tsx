@@ -15,7 +15,7 @@ const Logo = ({sx={}, height=22, width=130, mini=false} : LogoProps): React.Reac
     <div style={{ ...style.logoIcon, ...sx }}>
       <Image
         src="/image/brand/zapplyLogo.svg"
-        alt="An SVG of an eye"
+        alt="LOGO"
         height={height}
         width={width}
       />
@@ -24,7 +24,7 @@ const Logo = ({sx={}, height=22, width=130, mini=false} : LogoProps): React.Reac
     <div style={{ ...style.logoIcon, ...sx }}>
       <Image
         src="/image/brand/zapplyAI_io_logo.svg"
-        alt="An SVG of an eye"
+        alt="LOGO"
         height={height}
         width={width}
       />
