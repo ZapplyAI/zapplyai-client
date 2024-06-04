@@ -1,13 +1,5 @@
-import { useState, useEffect } from 'react'
-import {
-  AnyFunction,
-  APP_STATE,
-  CurrentProgress,
-  Dialog,
-  Message,
-  SessionState,
-  WebApp,
-} from '@/lib/type'
+import { useState } from 'react'
+import { AnyFunction, APP_STATE, Dialog, Message, WebApp } from '@/lib/type'
 import { addMessageToFeed, updateDialogSessionState } from '@/lib/reducer/chat'
 import { find, get } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
@@ -235,7 +227,7 @@ export const useMessageHandler = () => {
     )
 
     console.log('checking for final architecture')
-    if (response.data.response.startsWith('Final architecture:')) {
+    if (response.data.response.length >= 1500) {
       console.log(' -- > true')
       dispatch(
         updateAppState({
@@ -280,9 +272,12 @@ export const useMessageHandler = () => {
 
       ws.onmessage = async event => {
         console.log('\n\n\n\n')
-        console.log('setProgress -> ', { title: 'build', description: event.data })
+        console.log('setProgress -> ', {
+          title: 'build',
+          description: event.data,
+        })
         setProgress({ title: 'build', description: event.data })
-        console.log(event.data);
+        console.log(event.data)
         // dispatch(
         //   addMessageToFeed({
         //     messageId: nanoid(),
@@ -295,6 +290,14 @@ export const useMessageHandler = () => {
 
         if (event.data.toUpperCase().includes('UPDATE: FRONTEND_BUILD_DONE')) {
           console.log('UPDATE: FRONTEND_BUILD_DONE')
+          dispatch(
+            addMessageToFeed({
+              messageId: nanoid(),
+              message: 'UI build finished',
+              sender: 'AI',
+              attachments: [],
+            })
+          )
           const { success: appSuccess, response } = await session.getApp({
             ref: selectedDialog.sessionState.referenceId as string,
           })
