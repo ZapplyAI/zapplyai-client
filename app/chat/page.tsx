@@ -118,13 +118,14 @@ export default function ChatPage(): React.ReactNode {
     setNavDrawerOpen(isOpen)
   }
 
-  const { progress, handleSendMessage, frontendCode } = useMessageHandler()
+  const { progress, handleSendMessage } = useMessageHandler({
+    updateFrontendCode: code => dispatch(updateFrontendCode(code)),
+  })
 
   const [currentProgress, setCurrentProgress] = useState<CurrentProgress>({})
 
   useEffect(() => {
     console.log('\n USE EFFECT () ...')
-    console.log('frontendCode', frontendCode)
     console.log('selectedApp', selectedApp)
 
     if (selectedApp?.appState.label === APP_STATE.guided_start) {
@@ -150,21 +151,7 @@ export default function ChatPage(): React.ReactNode {
         progress: 50,
       })
     }
-    if (
-      frontendCode &&
-      frontendCode !== '' &&
-      get(selectedApp, 'data.frontendCode', '') === ''
-    ) {
-      // console.log('  -- setting currentProgress to  none')
-      // setCurrentProgress({
-      //   title: '',
-      //   isLoading: false,
-      //   progress: 100,
-      // })
-      console.log('  -- updateFrontendCode(frontendCode) code: ', frontendCode)
-      dispatch(updateFrontendCode(frontendCode))
-    }
-  }, [progress, frontendCode, selectedApp])
+  }, [progress, selectedApp])
 
   const changeMessageAttachmentState = (id: string, updatedState: string) => {
     const selectedAppIdString = selectedAppId as string

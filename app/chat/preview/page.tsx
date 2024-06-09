@@ -105,7 +105,10 @@ export default function PreviewPage(): React.ReactNode {
           selectedDialogId as string
         )}
 
-        {renderPreviewSection(isMobile)}
+        {renderPreviewSection(
+          isMobile,
+          get(selectedApp, 'data.frontendCode', '')
+        )}
       </main>
     </div>
   )
@@ -165,7 +168,7 @@ const renderSideNavSection = (
   )
 }
 
-const renderPreviewSection = (isMobile: boolean) => {
+const renderPreviewSection = (isMobile: boolean, htmlContent: string) => {
   return (
     <div
       style={{
@@ -176,11 +179,11 @@ const renderPreviewSection = (isMobile: boolean) => {
         width: '100%',
         flexGrow: 1,
         background: '#282636',
-        position: 'relative'
+        position: 'relative',
         // borderLeft: '1px solid #423F59',
       }}
     >
-      <PreviewFrame isMobile={isMobile} />
+      <PreviewFrame isMobile={isMobile} htmlContent={htmlContent} />
     </div>
   )
 }

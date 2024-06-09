@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { AnyFunction, APP_STATE, Dialog, Message, WebApp } from '@/lib/type'
 import { addMessageToFeed, updateDialogSessionState } from '@/lib/reducer/chat'
-import { find, get } from 'lodash'
+import { filter, find, get, takeRight } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
-import { updateAppState } from '@/lib/reducer/webApp'
+import { updateAppState, updateFrontendCode } from '@/lib/reducer/webApp'
 import { nanoid } from 'nanoid'
 import { session } from '@/services'
 import CustomWebSocket from '@/services/util/CustomWebSocket'
@@ -32,17 +32,23 @@ const useReduxData = () => {
   return {
     selectedDialog,
     selectedApp,
+    dialogs
   }
 }
 
-export const useMessageHandler = () => {
-  const { selectedApp, selectedDialog } = useReduxData()
+interface MessageHandlerProps {
+  updateFrontendCode: AnyFunction
+}
+
+export const useMessageHandler = ({
+  updateFrontendCode,
+}: MessageHandlerProps) => {
+  const { selectedApp, selectedDialog, dialogs } = useReduxData()
 
   const dispatch = useDispatch()
 
   // const [error, setError] = useState<any>(null)
   const [progress, setProgress] = useState<any>({})
-  const [frontendCode, setFrontendCode] = useState('')
 
   const handleSendMessage = async ({
     message,
@@ -127,15 +133,15 @@ export const useMessageHandler = () => {
         }
         case 3: {
           console.log('   -- guided start step 3')
-          dispatch(
-            addMessageToFeed({
-              messageId: nanoid(),
-              message:
-                'Thank you for completing the "Guided start" section, please proceed with chatting about your web-app!',
-              sender: 'AI',
-              attachments: [],
-            })
-          )
+          // dispatch(
+          //   addMessageToFeed({
+          //     messageId: nanoid(),
+          //     message:
+          //       'Thank you for completing the "Guided start" section, please proceed with chatting about your web-app!',
+          //     sender: 'AI',
+          //     attachments: [],
+          //   })
+          // )
           incrementStateSteps()
           dispatch(
             updateAppState({
@@ -144,8 +150,29 @@ export const useMessageHandler = () => {
               lastStep: undefined,
             })
           )
+          const userMessages = filter(selectedDialog?.messages, { sender: 'USER' });
+          // Get the last three USER messages
+          const lastThreeMessages = takeRight(userMessages, 3);
+          // Destructure the messages
+          const [object1, object2, object3] = lastThreeMessages;
+          // Format the string
+          const formattedString = `Summary of the app: ${object1?.message || ''}. \n Main features of the app: ${object2?.message || ''}. \n  Example of using this app: ${object3?.message || ''}`;
+          console.log('formattedString', formattedString)
+
+          dispatch(
+            addMessageToFeed({
+              messageId: nanoid(),
+              message:
+                'Thank you for completing the "Guided start" section. Below are the details you provided... \n\n' +
+                formattedString + '\n' +
+                'Please proceed with chatting about your web-app!',
+              sender: 'AI',
+              attachments: [],
+            })
+          )
+
           // TODO: only select all of user's messages in this dialog
-          await sendUserMessage(selectedDialog as Dialog, message.message)
+          await sendUserMessage(selectedDialog as Dialog, formattedString)
           break
         }
       }
@@ -304,7 +331,7 @@ export const useMessageHandler = () => {
           })
 
           console.log('appSuccess, response', success, response)
-          setFrontendCode(response?.front_end)
+          updateFrontendCode(get(response, 'front_end', ''))
           setProgress({ title: 'build finished' })
           // setLoadingProgress({ isLoading: false, title: 'building finished' })
         }
@@ -318,7 +345,7 @@ export const useMessageHandler = () => {
   //   }
   // }, [router.isReady, router.locale, ...dependencies])
 
-  return { progress, handleSendMessage, frontendCode }
+  return { progress, handleSendMessage }
 }
 
 const appStateStepsCompleted = (selectedApp: WebApp) => {

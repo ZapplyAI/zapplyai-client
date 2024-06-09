@@ -16,39 +16,6 @@ interface PreviewFrameProps {
   htmlContent?: string
 }
 
-// const htmlContent = `
-//     <!DOCTYPE html>
-//     <html lang="en">
-//       <head>
-//         <meta charset="UTF-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>Test Frame</title>
-//         <style>
-//           body {
-//             font-family: Arial, sans-serif;
-//             margin: 0;
-//             padding: 20px;
-//             background-color: #f0f0f0;
-//           }
-//           .container {
-//             height: 100vh;
-//             width: 100vw;
-//             background: #fff;
-//             padding: 20px;
-//             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-//             border-radius: 8px;
-//           }
-//         </style>
-//       </head>
-//       <body>
-//         <div class="container">
-//           <h1>Hello, World!</h1>
-//           <p>This is a simple HTML and CSS example inside an iframe.</p>
-//         </div>
-//       </body>
-//     </html>
-//   `
-
 const PreviewFrame = ({
   isMobile = false,
   htmlContent = `<div></div>`,
@@ -152,11 +119,16 @@ const PreviewFrame = ({
 
     div
       .append('iframe')
-      .attr('srcdoc', htmlContent)
+      .attr(
+        'srcdoc',
+        htmlContent === ''
+          ? '<div>Unable to display frontend code</div>'
+          : htmlContent
+      )
       .style('width', '100%')
       .style('height', '100%')
       .style('border', 'none')
-  }, [previewSize])
+  }, [previewSize, htmlContent])
 
   return (
     <React.Fragment>
