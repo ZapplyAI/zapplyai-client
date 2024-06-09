@@ -1,23 +1,13 @@
 import { axios } from '@/lib'
-import { Response } from '@/services'
+import { customFetch, Response } from '@/services'
 
 const session = {
   initialize: async (name: string): Promise<Response> => {
     try {
-      const { status, data: response } = await axios.post('/projects/start/', {
+      console.log('SESSION -> /projects/start/')
+      return await customFetch('/projects/start/', 'post', {
         name,
       })
-
-      if (status === 200) {
-        return {
-          success: response.success,
-          response: response.data,
-        }
-      }
-
-      return {
-        success: false,
-      }
     } catch (e) {
       console.log(e)
       return {
@@ -25,32 +15,18 @@ const session = {
       }
     }
   },
-  prompt: async (message : string, dialogId: string, currentStep: string): Promise<Response> => {
+  prompt: async (
+    message: string,
+    dialogId: string,
+    currentStep: string
+  ): Promise<Response> => {
     try {
-      console.log('calling /projects/interact/', {
+      console.log('SESSION -> /projects/interact/')
+      return await customFetch('/projects/interact/', 'post', {
         app_ref: dialogId,
         response: message,
         current_step: currentStep,
       })
-      const { status, data: response } = await axios.post(
-        '/projects/interact/',
-        {
-          app_ref: dialogId,
-          response: message,
-          current_step: currentStep,
-        }
-      )
-
-      if (status === 200) {
-        return {
-          success: true,
-          response,
-        }
-      }
-
-      return {
-        success: false,
-      }
     } catch (e) {
       console.log(e)
 
@@ -61,43 +37,23 @@ const session = {
   },
   build: async ({ ref }: { ref: string }): Promise<Response> => {
     try {
-      const { status, data: response } = await axios.post('/projects/build/', {
+      return await customFetch('/projects/build/', 'post', {
         app_ref: ref,
       })
-
-      if (status >= 200) {
-        return {
-          success: true,
-          response,
-        }
-      }
-
-      return {
-        success: false,
-      }
     } catch (e) {
       return {
         success: false,
-        response: e
+        response: e,
       }
     }
   },
   getApp: async ({ ref }: { ref: string }): Promise<Response> => {
     try {
-      const { status, data: response } = await axios.get(
-        `/projects/app/${ref}/`
+      return await customFetch(
+        `/projects/app/${ref}/`,
+        'get'
       )
 
-      if (status === 200) {
-        return {
-          success: true,
-          response,
-        }
-      }
-
-      return {
-        success: false,
-      }
     } catch (e) {
       return {
         success: false,

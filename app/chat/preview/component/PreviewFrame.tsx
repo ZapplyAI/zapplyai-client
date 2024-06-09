@@ -53,7 +53,7 @@ const PreviewFrame = ({
   isMobile = false,
   htmlContent = `<div></div>`,
 }: PreviewFrameProps) => {
-  console.log('PreviewFrameProps htmlContent', htmlContent)
+  // console.log('PreviewFrameProps htmlContent', htmlContent)
   const [previewSize, setPreviewSize] = useState('smartphone')
 
   const style: { [key: string]: CSSProperties } = {

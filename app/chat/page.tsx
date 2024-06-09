@@ -387,7 +387,7 @@ const renderChatSection = (
 }
 
 const renderPreviewSection = (isMobile: boolean, htmlContent: string) => {
-  console.log('html content', htmlContent)
+  // console.log('html content', htmlContent)
   return (
     <div
       style={{

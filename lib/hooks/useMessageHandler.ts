@@ -7,6 +7,7 @@ import { RootState } from '@/lib/store'
 import { updateAppState } from '@/lib/reducer/webApp'
 import { nanoid } from 'nanoid'
 import { session } from '@/services'
+import CustomWebSocket from '@/services/util/CustomWebSocket'
 
 interface handleSendMessageProps {
   message: Message
@@ -220,14 +221,14 @@ export const useMessageHandler = () => {
     dispatch(
       addMessageToFeed({
         messageId: nanoid(),
-        message: response.data.response,
+        message: response.response,
         sender: 'AI',
         attachments: [],
       })
     )
 
     console.log('checking for final architecture')
-    if (response.data.response.length >= 1500) {
+    if (response.response.length >= 1500) {
       console.log(' -- > true')
       dispatch(
         updateAppState({
@@ -243,20 +244,20 @@ export const useMessageHandler = () => {
 
   const establishBuildingSocket = async (selectedDialog: Dialog) => {
     console.log('  establishBuildingSocket')
-    const { success: buildSuccess, response } = await session.build({
+    const { success, response } = await session.build({
       ref: selectedDialog.sessionState.referenceId as string,
     })
 
-    console.log('buildSuccess:', buildSuccess, 'response', response)
-    if (!buildSuccess) {
+    console.log('Build successful:', success, 'response', response)
+    if (!success) {
       setProgress({
         title: 'build',
         description: ' !!! Error occurred. Build unsuccessful',
       })
     }
 
-    if (buildSuccess) {
-      const ws = new WebSocket(
+    if (success) {
+      const ws = new CustomWebSocket(
         `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${selectedDialog.sessionState.referenceId}/`
       )
       dispatch(
@@ -298,11 +299,11 @@ export const useMessageHandler = () => {
               attachments: [],
             })
           )
-          const { success: appSuccess, response } = await session.getApp({
+          const { success, response } = await session.getApp({
             ref: selectedDialog.sessionState.referenceId as string,
           })
 
-          console.log('appSuccess, response', appSuccess, response)
+          console.log('appSuccess, response', success, response)
           setFrontendCode(response?.front_end)
           setProgress({ title: 'build finished' })
           // setLoadingProgress({ isLoading: false, title: 'building finished' })
