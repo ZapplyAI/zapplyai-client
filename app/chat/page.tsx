@@ -171,7 +171,7 @@ export default function ChatPage(): React.ReactNode {
   return (
     <div
       style={{
-        height: '100vh',
+        height: '100svh',
         display: 'flex',
         flexDirection: 'column',
         minHeight: 0,
