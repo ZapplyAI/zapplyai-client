@@ -285,7 +285,7 @@ export const useMessageHandler = ({
 
     if (success) {
       const ws = new CustomWebSocket(
-        `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${selectedDialog.sessionState.referenceId}/`
+        `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${dialogId}/`
       )
       dispatch(
         addMessageToFeed({
@@ -327,7 +327,7 @@ export const useMessageHandler = ({
             })
           )
           const { success, response } = await session.getApp({
-            ref: selectedDialog.sessionState.referenceId as string,
+            ref: dialogId as string,
           })
 
           console.log('appSuccess, response', success, response)
