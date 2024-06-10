@@ -265,14 +265,14 @@ export const useMessageHandler = ({
         })
       )
       // setProgress({ isLoading: true, title: 'building started' })
-      await establishBuildingSocket(selectedDialog)
+      await establishBuildingSocket(selectedDialog, dialogId)
     }
   }
 
-  const establishBuildingSocket = async (selectedDialog: Dialog) => {
+  const establishBuildingSocket = async (selectedDialog: Dialog, dialogId: string) => {
     console.log('  establishBuildingSocket')
     const { success, response } = await session.build({
-      ref: selectedDialog.sessionState.referenceId as string,
+      ref: dialogId as string,
     })
 
     console.log('Build successful:', success, 'response', response)
