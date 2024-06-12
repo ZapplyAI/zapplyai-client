@@ -58,8 +58,9 @@ const processUrl = async (
   if (method === 'get') {
     const response = await axios.get(url, body)
     console.log('response from processUrl()', response)
-    return { success: response.data.success, response: response.data.data }
-  }
+    return { success: true /*response.data.success*/, response: response.data }
+  } // TODO: Improve the get app endpoint later.
+    // TODO: It should return in the same format as other endpoints
 
   return { success: false, response: null }
 }
