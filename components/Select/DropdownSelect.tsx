@@ -1,118 +1,48 @@
-import * as React from 'react'
-import MenuItem from '@mui/material/MenuItem'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore'
-import Typography from '@mui/material/Typography'
-import find from 'lodash/find'
-import { CSSProperties } from 'react'
-import { WebApp } from '@/lib/type'
+'use client'
 
-type AnyFunction = (...args: any[]) => any
-
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: '250px',
-      overflow: 'scroll',
-      border: '0px',
-      background: '#352F5A',
-      borderRadius: '7px',
-      // borderTopLeftRadius: '0',
-      // borderTopRightRadius: '0',
-    },
-  },
-}
+import React from 'react'
+import { Select, MenuItem } from '@mui/material'
+import map from 'lodash/map'
 
 interface DropdownSelectProps {
-  selectedApp: WebApp
-  allApps: WebApp[]
-  selectApp: AnyFunction
-  bottomComponent?: React.ReactNode
+  allValues: { value: string | number; label: string }[]
+  currentValue: string | number | null
+  onChange: (value: string | number | null) => void
 }
 
 const DropdownSelect = ({
-  selectedApp,
-  allApps,
-  selectApp,
-  bottomComponent,
-}: DropdownSelectProps): React.ReactNode => {
-  const style: { [key: string]: CSSProperties } = {
-    menuItemMain: {
-      display: 'flex',
-      justifyContent: 'left',
-      alignItems: 'center',
-    },
-    menuItemIcon: {
-      width: '22px',
-      height: '22px',
-      background: '#800E52',
-      color: '#fff',
-      marginRight: '10px',
-      textAlign: 'center',
-      borderRadius: '5px',
-      fontSize: '12px',
-      display: 'flex',
-      flexShrink: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      overflow: 'hidden',
-    },
-    menuItemText: {
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      color: '#CFCED9',
-      fontSize: '14px',
-      fontWeight: 400,
-      // color: '#E8E7F4'
-    },
-    menuItem: { margin: '3px 6px', borderRadius: '4px', padding: '5px 6px' },
-  }
-
-  const onSelectChange = (event: SelectChangeEvent) => {
-    selectApp(event.target.value)
-  }
-
+  allValues,
+  currentValue,
+  onChange,
+}: DropdownSelectProps) => {
   return (
     <Select
-      fullWidth
-      value={selectedApp.id}
-      onChange={onSelectChange}
-      IconComponent={() => <UnfoldMoreIcon style={{ color: '#CFCED9' }} />}
-      renderValue={selected => {
-        const selectedApp = find(allApps, thisApp => thisApp.id === selected)
-
-        if (selectedApp === undefined) {
-          return <Typography style={style.menuItemText}>Select App</Typography>
-        }
-
-        return (
-          <div style={style.menuItemMain}>
-            <div style={style.menuItemIcon}>{selectedApp.name.charAt(0)}</div>
-            <Typography style={style.menuItemText}>
-              {selectedApp.name}
-            </Typography>
-          </div>
-        )
-      }}
-      MenuProps={MenuProps}
+      value={currentValue}
+      onChange={event => {
+        console.log('Selecting id',event.target.value)
+        onChange(event.target.value)}}
+      // IconComponent={(props) => (<UilAngleRightB {...props} sx={{transform: 'rotate(90deg)'}}/>)}
+      displayEmpty
+      inputProps={{ 'aria-label': 'Select' }}
       sx={{
         '& .MuiSelect-select': {
           padding: '6px 4px',
         },
-        '& .MuiOutlinedInput-notchedOutline': { border: 0 },
-        background: '#5443B1',
+        '& .MuiOutlinedInput-notchedOutline': { border: '0px solid' },
+        background: 'transparent',
         border: '0px solid',
         padding: '0px 8px',
+        '&:focus': {
+          outline: 'none',
+          boxShadow: 'none',
+        },
       }}
     >
-      {allApps.map(app => (
-        <MenuItem key={app.id} value={app.id} style={style.menuItem}>
-          <div style={style.menuItemIcon}>{app.name.charAt(0)}</div>
-          <span style={style.menuItemText}>{app.name}</span>
+      {map(allValues, item => (
+        <MenuItem key={item.value} value={item.value}>
+          {item.label}
         </MenuItem>
       ))}
-      {bottomComponent}
     </Select>
   )
 }
