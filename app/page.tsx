@@ -26,7 +26,7 @@ import { Stack } from '@mui/material'
 import { get } from 'lodash'
 import { useRouter } from 'next/navigation'
 
-export default function Home() {
+export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const router = useRouter()
 

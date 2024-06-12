@@ -1,13 +1,11 @@
-import React, { CSSProperties, useEffect } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { IconButton, InputBase } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send'
-import { useImmer } from 'use-immer'
-
-type AsyncFunction = (...args: any[]) => Promise<any>
-type AnyFunction = (...args: any[]) => any
+// @ts-ignore
+import { UilArrowCircleUp } from '@iconscout/react-unicons'
+import { AnyFunction, AsyncFunction } from '@/lib/type'
 
 interface InputProps {
-  isMobile?: boolean,
+  isMobile?: boolean
   icon?: React.ReactNode
   sendIcon?: boolean
   placeholder?: string
@@ -18,12 +16,6 @@ interface InputProps {
   sx?: object
   onChange?: AnyFunction | AsyncFunction
   onSubmit?: AnyFunction | AsyncFunction
-}
-
-interface PromptState {
-  value?: string
-  isProcessing: boolean
-  step: string
 }
 
 const Input = ({
@@ -39,56 +31,37 @@ const Input = ({
   onSubmit = (prompt: string) => {},
   onChange = async () => {},
 }: InputProps): React.ReactNode => {
-  const [prompt, setPrompt] = useImmer<PromptState>({
-    value: value,
-    isProcessing: false,
-    step: '',
-  })
+  const [prompt, setPrompt] = useState('')
 
   const handleInputChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setPrompt(draft => {
-      draft.value = event.target.value
-    })
-    onChange(event)
+    setPrompt(event.target.value)
+    onChange(event.target.value)
   }
 
-  const handleEnterPress = async (
-    event: any,
-    prompt: any
-  ) => {
+  const handleEnterPress = (event: any) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault() // Prevent default behavior (creating new line)
-      setPrompt(draft => {
-        draft.value = ''
-      })
-      await onSubmit(prompt) // Perform action when Enter is pressed
+      setPrompt('')
+      onSubmit(prompt) // Perform action when Enter is pressed
     }
   }
 
-  const handleSendButtonClick = async (prompt: any) => {
-    setPrompt(draft => {
-      draft.value = ''
-    })
-    await onSubmit(prompt)
+  const handleSendButtonClick = (event: any) => {
+    setPrompt('')
+    onSubmit(prompt)
   }
-
-  useEffect(() => {
-    setPrompt({
-      value: value,
-      isProcessing: false,
-      step: '',
-    })
-  }, [value])
 
   return (
     <div style={{ ...style.inputContainer, ...sx }}>
       {icon && (
-        <IconButton sx={{ p: '10px', marginBottom: 'auto' }} aria-label="menu">
-          {/*<GrainIcon style={{ color: '#775EFF' }} />*/}
+        <IconButton
+          sx={{ p: '10px 16px', marginBottom: 'auto' }}
+          aria-label="menu"
+        >
           {icon}
         </IconButton>
       )}
@@ -97,6 +70,7 @@ const Input = ({
           flex: 1,
           color: '#CFCED9',
           fontSize: isMobile ? '22px' : '14px',
+          fontWeight: '200',
           maxHeight: '150px',
           overflow: 'scroll',
           margin: '5px 12px',
@@ -106,9 +80,9 @@ const Input = ({
         fullWidth={fullWidth}
         multiline={multiline}
         placeholder={placeholder}
-        value={prompt.value}
+        value={prompt}
         onChange={handleInputChange}
-        onKeyDown={event => handleEnterPress(event, prompt.value)}
+        onKeyDown={event => handleEnterPress(event)}
       />
       <IconButton
         type="button"
@@ -119,9 +93,9 @@ const Input = ({
           marginRight: '5px',
         }}
         aria-label="search"
-        onClick={() => handleSendButtonClick(prompt.value)}
+        onClick={(event) => handleSendButtonClick(event)}
       >
-        {sendIcon && <SendIcon style={{ color: '#775EFF' }} />}
+        {sendIcon && <UilArrowCircleUp style={{ color: '#775EFF' }} />}
       </IconButton>
     </div>
   )
@@ -138,6 +112,8 @@ const style: { [key: string]: CSSProperties } = {
   },
 }
 
-export type InputChangeEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+export type InputChangeEvent =
+  | React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>
 
 export default Input

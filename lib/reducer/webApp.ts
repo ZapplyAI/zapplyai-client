@@ -1,18 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { AppOverview, WebApp } from '@/lib/type'
+import { APP_STATE, AppOverview, AppPage, WebApp, WebAppState } from '@/lib/type'
 import { filter, find } from 'lodash'
 import map from 'lodash/map'
+import { nanoid } from 'nanoid'
+import { mockWebApps } from '@/testing'
 
-interface WebAppState {
+interface WebApp_State {
   apps: WebApp[]
   selectedId: string | null
 }
 
-const initialState = {
-  apps: [],
-  selectedId: null,
-} satisfies WebAppState as WebAppState
+const initialState = () : WebApp_State => {
+  // const initialAppId = nanoid()
+  return {
+    // apps: mockWebApps,
+    selectedId: null,
+    apps: [],
+    // selectedId: null
+  }
+}
 
 const webAppSlice = createSlice({
   name: 'counter',
@@ -31,7 +38,7 @@ const webAppSlice = createSlice({
       state.apps = map(state.apps, app => {
         if (app.id === state.selectedId) {
           return {
-            id: state.selectedId,
+            ...app,
             name: action.payload.name,
             url: action.payload.url,
           }
@@ -39,9 +46,47 @@ const webAppSlice = createSlice({
         return app
       })
     },
-  },
+    updateAppState(state, action: PayloadAction<WebAppState>) {
+      state.apps = map(state.apps, app => {
+        if (app.id === state.selectedId) {
+          return {
+            ...app,
+            appState: action.payload,
+          }
+        }
+        return app
+      })
+    },
+    createPage(state, action: PayloadAction<AppPage>) {
+      state.apps = map(state.apps, (app) => {
+        if (app.id === state.selectedId) {
+          return {
+            ...app,
+            data: {
+              pages: [...app.data.pages, action.payload]
+            }
+          }
+        }
+        return app
+      })
+    },
+    updateFrontendCode(state, action: PayloadAction<string>) {
+      state.apps = map(state.apps, (app) => {
+        if (app.id === state.selectedId) {
+          return {
+            ...app,
+            data: {
+              ...app.data,
+              frontendCode: action.payload
+            }
+          }
+        }
+        return app
+      })
+    }
+  }
 })
 
-export const { createApp, deleteApp, selectApp, updateAppInfo } =
+export const { createApp, deleteApp, selectApp, updateAppInfo, updateAppState, createPage, updateFrontendCode } =
   webAppSlice.actions
 export default webAppSlice.reducer
