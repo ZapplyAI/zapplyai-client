@@ -140,6 +140,13 @@ export default function HomePage() {
       alignItems: 'flex-start',
       marginLeft: '26px',
       marginRight: '26px',
+    mockMessageText: {
+      fontSize: '12px',
+      wordWrap: 'break-word',
+      textDecoration: 'none',
+      width: '100%',
+      color: '#fff'
+      // lineHeight: '-5px'
     },
   }
 
