@@ -34,7 +34,7 @@ const ChatHeader = ({
         currentValue={openDialogId}
         onChange={selectDialog}
       />
-      <span>Tokens : 25</span>
+      <span style={{color: '#D0D0D0'}}>Tokens : 25</span>
     </div>
   )
 }

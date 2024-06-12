@@ -178,7 +178,7 @@ const renderPreviewSection = (isMobile: boolean, htmlContent: string) => {
         height: '100%',
         width: '100%',
         flexGrow: 1,
-        background: '#282636',
+        background: '#1B1A21',
         position: 'relative',
         // borderLeft: '1px solid #423F59',
       }}

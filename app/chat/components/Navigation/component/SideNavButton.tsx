@@ -46,14 +46,14 @@ const SideNavButton = ({
       marginTop: '2px',
     },
     iconStyle: {
-      height: isMobile ? '35px' : isBigScreen ? '1.1vw' : '20px',
+      height: isMobile ? '28px' : isBigScreen ? '1.1vw' : '20px',
       width: 'auto',
       color: isHovered ? '#D9D9D9' : '#858585',
     },
     textStyle: {
       marginLeft: '15px',
       color: isHovered ? '#FFFFFF' : '#D0D0D0',
-      fontSize: isMobile ? '15px' : isBigScreen ? '0.65vw' : '13px',
+      fontSize: isMobile ? '14px' : isBigScreen ? '0.65vw' : '13px',
       fontWeight: isMobile ? '400' : '300',
       textTransform: 'none',
     },

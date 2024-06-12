@@ -35,7 +35,7 @@ const PreviewFrame = ({
       opacity: '0.8',
       width: 'calc(100% - 16px)',
       minHeight: 0,
-      padding: '8px 12px',
+      padding: isMobile ? '5px 9px' : '8px 12px',
       margin: '8px 8px',
       borderRadius: '8px',
     },
@@ -46,10 +46,10 @@ const PreviewFrame = ({
     },
     iconButton: {
       padding: '6px',
-      margin: '0px 5px',
+      margin: isMobile ? '0px 8px' : '0px 8px',
     },
     icon: {
-      height: isMobile ? '35px' : '20px',
+      height: isMobile ? '28px' : '20px',
       width: 'auto',
       color: '#858585',
       padding: '0px',

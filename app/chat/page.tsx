@@ -381,7 +381,7 @@ const renderPreviewSection = (isMobile: boolean, htmlContent: string) => {
         height: '100%',
         width: '100%',
         background: '#181818',
-        borderLeft: '1px solid #423F59',
+        borderLeft: '1px solid #282636',
       }}
     >
       <PreviewFrame isMobile={isMobile} htmlContent={htmlContent} />
