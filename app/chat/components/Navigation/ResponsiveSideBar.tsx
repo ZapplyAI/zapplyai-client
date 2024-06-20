@@ -35,6 +35,7 @@ import { CurrentProgress, WebApp } from '@/lib/type'
 import { createDialog, selectDialog } from '@/lib/reducer/chat'
 import { usePathname, useRouter } from 'next/navigation'
 import ProgressDisplay from '@/app/chat/components/ProgressDisplay'
+import SettingsDropdown from '@/app/chat/components/Navigation/component/SettingsDropdown'
 
 interface ResponsiveSideBarProps {
   closeNavDrawer?: () => void
@@ -163,14 +164,8 @@ const ResponsiveSideBar = ({
             secondaryIconAlwaysVisible={true}
             isActive={openDialogId === '0'}
           />
-          <SideNavButton
+          <SettingsDropdown
             screenType={screenType}
-            onClick={() => {}}
-            label={'Settings'}
-            primaryIcon={ToggleOnIcon}
-            secondaryIcon={UilAngleRightB}
-            sx_secondaryIcon={{ transform: 'rotate(90deg)' }}
-            secondaryIconAlwaysVisible={true}
           />
         </div>
 
