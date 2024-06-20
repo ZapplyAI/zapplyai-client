@@ -19,6 +19,7 @@ interface ChatWindowProps {
   allPages: AppPage[]
   selectedDialog: Dialog
   selectDialog: any
+  openGetTokensForm: any
   sendMessage: (message: Message) => {}
   appState: WebAppState
   changeAppState: (state: WebAppState) => void
@@ -30,6 +31,7 @@ const ChatWindow = ({
   allPages,
   selectedDialog,
   selectDialog,
+                      openGetTokensForm,
   sendMessage,
   appState,
   changeAppState,
@@ -88,6 +90,7 @@ const ChatWindow = ({
           allPages={allPages}
           openDialogId={get(selectedDialog, 'pageId', '0')}
           selectDialog={selectDialog}
+          openGetTokensForm={openGetTokensForm}
         />
       )}
       <div style={style.messageFeedContainer}>

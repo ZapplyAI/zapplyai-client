@@ -31,6 +31,7 @@ interface ResponsiveNavBarProps {
   selectedAppId: string
   openDialogId: string
   selectDialog: any
+  openGetTokensForm?: any
 }
 
 const ResponsiveNavBar = ({
@@ -40,6 +41,7 @@ const ResponsiveNavBar = ({
   selectedAppId,
   openDialogId,
   selectDialog,
+  openGetTokensForm,
 }: ResponsiveNavBarProps): React.ReactNode => {
   const router = useRouter()
   const currentPathname = usePathname()
