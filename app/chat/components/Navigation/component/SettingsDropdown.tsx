@@ -12,12 +12,15 @@ import {
 import { SvgIconProps } from '@mui/material/SvgIcon'
 import Typography from '@mui/material/Typography'
 import ToggleOnIcon from '@mui/icons-material/ToggleOn'
+// @ts-ignore
 import { UilAngleRightB, UilArrowRight } from '@iconscout/react-unicons'
 import { StarBorder } from '@mui/icons-material'
+// @ts-ignore
 import { UilImage } from '@iconscout/react-unicons'
 import { selectDialog } from '@/lib/reducer/chat'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import SideNavButton from '@/app/chat/components/Navigation/component/SideNavButton'
+// @ts-ignore
 import { UilPause } from '@iconscout/react-unicons'
 
 interface SettingsDropdownProps {
