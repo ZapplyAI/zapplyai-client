@@ -37,6 +37,7 @@ import {
 import { updateMessageAttachmentState } from '@/lib/reducer/chat'
 import { nanoid } from 'nanoid'
 import { useMessageHandler } from '@/lib/hooks/useMessageHandler'
+import GetTokensForm from '@/app/chat/components/GetTokensForm'
 
 const useReduxData = () => {
   const apps = useSelector((state: RootState) => state.webApp.apps)
@@ -112,6 +113,7 @@ export default function ChatPage(): React.ReactNode {
   }, [apps, dispatch])
 
   const [navDrawerOpen, setNavDrawerOpen] = React.useState(false)
+  const [getTokensFormOpen, setGetTokensFormOpen] = React.useState(false)
   const [paneSizes, setPaneSizes] = useState(['80%', '20%'])
 
   const changeDrawerState = (isOpen: boolean) => {
@@ -177,6 +179,9 @@ export default function ChatPage(): React.ReactNode {
         minHeight: 0,
       }}
     >
+
+      {getTokensFormOpen && (<GetTokensForm open={getTokensFormOpen} onClose={() => setGetTokensFormOpen(false)} />)}
+
       {/* NAVIGATION */}
 
       <ResponsiveNavBar
@@ -188,6 +193,7 @@ export default function ChatPage(): React.ReactNode {
         selectDialog={(dialogId: string) => {
           dispatch(selectDialog(dialogId))
         }}
+        openGetTokensForm={() => setGetTokensFormOpen(true)}
       />
 
       {/* MAIN */}
@@ -221,7 +227,8 @@ export default function ChatPage(): React.ReactNode {
             },
             selectedApp.appState,
             state => dispatch(updateAppState(state)),
-            changeMessageAttachmentState
+            changeMessageAttachmentState,
+            () => setGetTokensFormOpen(true)
           )}
         </main>
       ) : (
@@ -275,7 +282,8 @@ export default function ChatPage(): React.ReactNode {
                 },
                 selectedApp.appState,
                 state => dispatch(updateAppState(state)),
-                changeMessageAttachmentState
+                changeMessageAttachmentState,
+                () => setGetTokensFormOpen(true)
               )}
             </Pane>
             <Pane>
@@ -357,7 +365,8 @@ const renderChatSection = (
   sendMessage: any,
   appState: WebAppState,
   changeAppState: (state: WebAppState) => void,
-  changeMessageAttachmentState: (id: string, updatedState: string) => void
+  changeMessageAttachmentState: (id: string, updatedState: string) => void,
+openGetTokensForm: any
 ) => {
   return (
     <ChatWindow
@@ -369,6 +378,7 @@ const renderChatSection = (
       appState={appState}
       changeAppState={changeAppState}
       changeMessageAttachmentState={changeMessageAttachmentState}
+      openGetTokensForm={openGetTokensForm}
     />
   )
 }
