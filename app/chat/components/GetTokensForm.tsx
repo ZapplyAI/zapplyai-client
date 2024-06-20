@@ -81,6 +81,7 @@ const GetTokensForm = ({
               description={'Create basic app'}
               price={10}
               tokens={10}
+              onClick={() => {}}
             />
           </Grid>
 
@@ -92,6 +93,7 @@ const GetTokensForm = ({
               price={23}
               oldPrice={25}
               tokens={25}
+              onClick={() => {}}
             />
           </Grid>
 
@@ -103,6 +105,7 @@ const GetTokensForm = ({
               price={36}
               oldPrice={40}
               tokens={40}
+              onClick={() => {}}
             />
           </Grid>
 
@@ -114,6 +117,7 @@ const GetTokensForm = ({
               price={90}
               oldPrice={100}
               tokens={100}
+              onClick={() => {}}
             />
           </Grid>
         </Grid>
@@ -196,11 +200,11 @@ const BuyTokenOption = ({ tokens, price, oldPrice, description, onClick } : ButT
     },
   }
 
-  const handleMouseEnter = e => {
+  const handleMouseEnter = (e: any) => {
     e.currentTarget.style.borderColor = '#4E4969'
   }
 
-  const handleMouseLeave = e => {
+  const handleMouseLeave = (e: any) => {
     e.currentTarget.style.borderColor = '#383644'
   }
 
