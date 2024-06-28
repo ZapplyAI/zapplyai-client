@@ -1,7 +1,7 @@
 import { Middleware } from '@reduxjs/toolkit'
 // import { initializeWebAppState, selectApp } from '@/lib/reducer/webApp'
 
-export const initializeMiddleware: Middleware =
+export const initializeReduxMiddleware: Middleware =
   store => next => action => {
 
     const result = next(action)

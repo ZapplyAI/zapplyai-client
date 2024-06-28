@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import webAppReducer from './reducer/webApp'
 import chatReducer from './reducer/chat'
-import profileReducer from './reducer/profile'
-import { initializeMiddleware } from '@/lib/middleware/initializeMiddleware'
+import userReducer from './reducer/user'
+import { initializeReduxMiddleware } from '@/lib/middleware/initializeReduxMiddleware'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       webApp: webAppReducer,
       chat: chatReducer,
-      profile: profileReducer
+      user: userReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(initializeMiddleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(initializeReduxMiddleware),
   })
 }
 

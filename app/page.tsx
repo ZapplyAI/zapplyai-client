@@ -14,7 +14,7 @@ import { useForm, ValidationError } from '@formspree/react'
 
 import Image from 'next/image'
 import { Button } from '@/components/Button'
-import { useClientMediaQuery } from '@/helpers/IsMobile'
+import { useClientMediaQuery } from '@/lib/util/IsMobile'
 import Typography from '@mui/material/Typography'
 import Marquee from 'react-fast-marquee'
 

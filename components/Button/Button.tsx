@@ -1,12 +1,13 @@
 import React, { CSSProperties } from 'react'
 import { Button as ButtonMUI } from '@mui/material'
+import { AnyFunction, AsyncFunction } from '@/lib/type'
 
 interface ButtonProps {
   label: string
   fullWidth?: boolean
   variant?: 'contained' | 'text' | 'outlined'
   sx?: object
-  action?: () => void
+  action?: AnyFunction | AsyncFunction
   disabled?: boolean
 }
 

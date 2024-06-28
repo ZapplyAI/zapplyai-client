@@ -1,7 +1,7 @@
 'use client'
 
 import React, { CSSProperties, useRef, useState } from 'react'
-import { useClientMediaQuery } from '@/helpers/IsMobile'
+import { useClientMediaQuery } from '@/lib/util/IsMobile'
 import { Button, Input, Logo } from '@/components'
 import Typography from '@mui/material/Typography'
 import MUI_Button from '@mui/material/Button'

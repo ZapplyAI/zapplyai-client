@@ -3,6 +3,7 @@ import { IconButton, InputBase } from '@mui/material'
 // @ts-ignore
 import { UilArrowCircleUp } from '@iconscout/react-unicons'
 import { AnyFunction, AsyncFunction } from '@/lib/type'
+import { repeat } from 'lodash'
 
 interface InputProps {
   isMobile?: boolean
@@ -16,6 +17,7 @@ interface InputProps {
   sx?: object
   onChange?: AnyFunction | AsyncFunction
   onSubmit?: AnyFunction | AsyncFunction
+  hiddenText?: boolean
 }
 
 const Input = ({
@@ -30,6 +32,7 @@ const Input = ({
   value = '',
   onSubmit = (prompt: string) => {},
   onChange = async () => {},
+                 hiddenText = false
 }: InputProps): React.ReactNode => {
   const [prompt, setPrompt] = useState('')
 
@@ -80,7 +83,7 @@ const Input = ({
         fullWidth={fullWidth}
         multiline={multiline}
         placeholder={placeholder}
-        value={prompt}
+        value={hiddenText ? repeat('*', prompt.length) : prompt}
         onChange={handleInputChange}
         onKeyDown={event => handleEnterPress(event)}
       />

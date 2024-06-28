@@ -79,11 +79,18 @@ const Navbar = ({
       {loggedIn ? (
         <Avatar />
       ) : isLandingPage ? (
-        <Button
-          label={'Request Access'}
-          sx={{ border: '1px #6551D1 solid' }}
-          action={() => router.push('/requestAccess')}
-        />
+        <div>
+          <Button
+            label={'Sign in'}
+            sx={{ border: '1px #6551D1 solid', marginRight: '12px' }}
+            action={() => router.push('/auth')}
+          />
+          <Button
+            label={'Request Access'}
+            sx={{ border: '1px #6551D1 solid' }}
+            action={() => router.push('/requestAccess')}
+          />
+        </div>
       ) : (
         <React.Fragment>
           <div>

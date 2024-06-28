@@ -69,7 +69,7 @@ type User = {
   id: string
   name: string
   email: string
-  tokensLeft: number
+  tokensLeft: number | undefined
   lastTokenTransactions: any[]
 }
 
