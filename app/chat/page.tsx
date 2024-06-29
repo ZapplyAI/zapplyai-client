@@ -167,7 +167,19 @@ export default function ChatPage(): React.ReactNode {
   }
 
   if (apps.length === 0 || !selectedApp) {
-    return <div>...Loading</div>
+    return (
+      <div
+        style={{
+          height: '100svh',
+          width: '100svw',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        Loading ...
+      </div>
+    )
   }
 
   return (
