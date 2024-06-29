@@ -16,11 +16,13 @@ import MUI_Button from '@mui/material/Button'
 import { Button, Input } from '@/components'
 
 interface GetTokensFormProps {
+  isMobile: boolean
   open: boolean
   onClose: () => void
 }
 
 const GetTokensForm = ({
+  isMobile,
   open,
   onClose,
 }: GetTokensFormProps): React.ReactNode => {
@@ -49,6 +51,7 @@ const GetTokensForm = ({
       PaperProps={{
         style: {
           // backdropFilter: 'blur(5px)', // Add blur effect to the backdrop
+          borderRadius: isMobile ? '10px' : '6px',
           background: '#1B1A21',
           zIndex: '200',
         },
@@ -78,6 +81,7 @@ const GetTokensForm = ({
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <BuyTokenOption
+              isMobile={isMobile}
               description={'Create basic app'}
               price={10}
               tokens={10}
@@ -87,6 +91,7 @@ const GetTokensForm = ({
 
           <Grid item xs={6}>
             <BuyTokenOption
+              isMobile={isMobile}
               description={
                 'Create simple app, edit it and share it with your future users'
               }
@@ -99,6 +104,7 @@ const GetTokensForm = ({
 
           <Grid item xs={6}>
             <BuyTokenOption
+              isMobile={isMobile}
               description={
                 'Create fully-functional web application, edit it and share it globally'
               }
@@ -111,6 +117,7 @@ const GetTokensForm = ({
 
           <Grid item xs={6}>
             <BuyTokenOption
+              isMobile={isMobile}
               description={
                 'Build a business-level applications, add payments, etc... Edit your app and share it globally'
               }
@@ -125,24 +132,35 @@ const GetTokensForm = ({
         <Typography variant="h6" style={style.mainHeader}>
           Or choose custom amount
         </Typography>
-        <Input sx={{ margin: '0' }} fullWidth placeholder={'Enter amount'} />
+        <Input sx={{ margin: '0' }} fullWidth placeholder={'Enter amount'} sendIcon={false}/>
 
         <div
           style={{
-            marginTop: '32px',
+            marginTop: isMobile ? '12px' : '32px',
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: isMobile ? 'column-reverse' : 'row',
             justifyContent: 'flex-end',
           }}
         >
           <Button
             label={'Cancel'}
-            sx={{ marginRight: '10px', fontWeight: '300' }}
+            sx={
+              isMobile
+                ? { fontWeight: '300', marginTop: '12px', height: '45px' }
+                : { marginRight: '10px', fontWeight: '300' }
+            }
             action={onClose}
+            fullWidth={isMobile}
+
           />
           <Button
             label={'Proceed to payment'}
-            sx={{ background: '#4D3CAA', fontWeight: '300' }}
+            sx={
+              isMobile
+                ? { background: '#4D3CAA', fontWeight: '300', marginTop: '12px', height: '45px' }
+                : { background: '#4D3CAA', fontWeight: '300' }
+            }
+            fullWidth={isMobile}
           />
         </div>
       </DialogContent>
@@ -174,6 +192,7 @@ const displayHeader = (style: any, onClose: any) => {
 }
 
 interface ButTokenOptionProps {
+  isMobile: boolean
   tokens: number
   price: number
   oldPrice?: number
@@ -181,7 +200,14 @@ interface ButTokenOptionProps {
   onClick: any
 }
 
-const BuyTokenOption = ({ tokens, price, oldPrice, description, onClick } : ButTokenOptionProps) => {
+const BuyTokenOption = ({
+  isMobile,
+  tokens,
+  price,
+  oldPrice,
+  description,
+  onClick,
+}: ButTokenOptionProps) => {
   const style: { [key: string]: React.CSSProperties } = {
     mainContainer: {
       display: 'flex',
@@ -189,7 +215,7 @@ const BuyTokenOption = ({ tokens, price, oldPrice, description, onClick } : ButT
       justifyContent: 'space-between',
       alignItems: 'flex-start',
       padding: '12px',
-      height: '160px',
+      height: isMobile ? '200px' : '160px',
       border: '1px solid #383644',
       borderRadius: '8px',
       cursor: 'pointer',
@@ -242,7 +268,8 @@ const BuyTokenOption = ({ tokens, price, oldPrice, description, onClick } : ButT
           </Typography>
           {oldPrice && (
             <Typography
-              variant="h5"
+              // @ts-ignore
+              variant={isMobile ? 'h5_mobile' : 'h5'}
               color="textSecondary"
               sx={{
                 marginLeft: 1,

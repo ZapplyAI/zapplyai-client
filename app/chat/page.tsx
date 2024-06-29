@@ -179,8 +179,13 @@ export default function ChatPage(): React.ReactNode {
         minHeight: 0,
       }}
     >
-
-      {getTokensFormOpen && (<GetTokensForm open={getTokensFormOpen} onClose={() => setGetTokensFormOpen(false)} />)}
+      {getTokensFormOpen && (
+        <GetTokensForm
+          isMobile={isMobile}
+          open={getTokensFormOpen}
+          onClose={() => setGetTokensFormOpen(false)}
+        />
+      )}
 
       {/* NAVIGATION */}
 
@@ -213,7 +218,8 @@ export default function ChatPage(): React.ReactNode {
             apps,
             selectedAppId as string,
             selectedDialogId as string,
-            currentProgress
+            currentProgress,
+            () => setGetTokensFormOpen(true)
           )}
           {renderChatSection(
             isMobile,
@@ -247,7 +253,8 @@ export default function ChatPage(): React.ReactNode {
             apps,
             selectedAppId as string,
             selectedDialogId as string,
-            currentProgress
+            currentProgress,
+            () => setGetTokensFormOpen(true)
           )}
 
           <SplitPane
@@ -306,7 +313,8 @@ const renderSideNavSection = (
   allApps: WebApp[],
   selectedAppId: string,
   openDialogId: string,
-  currentProgress: CurrentProgress
+  currentProgress: CurrentProgress,
+  openGetTokensForm: AnyFunction
 ) => {
   // console.log('render side nav currentProgress', currentProgress)
   return screenType === 'mobile' ? (
@@ -334,6 +342,7 @@ const renderSideNavSection = (
         selectedAppId={selectedAppId as string}
         openDialogId={openDialogId}
         currentProgress={currentProgress}
+        openGetTokensForm={openGetTokensForm}
       />
     </Drawer>
   ) : (
@@ -352,6 +361,7 @@ const renderSideNavSection = (
         selectedAppId={selectedAppId as string}
         openDialogId={openDialogId as string}
         currentProgress={currentProgress}
+        openGetTokensForm={openGetTokensForm}
       />
     </div>
   )
@@ -366,7 +376,7 @@ const renderChatSection = (
   appState: WebAppState,
   changeAppState: (state: WebAppState) => void,
   changeMessageAttachmentState: (id: string, updatedState: string) => void,
-openGetTokensForm: any
+  openGetTokensForm: any
 ) => {
   return (
     <ChatWindow
