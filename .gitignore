@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+.yarn
 yarn.lock
 package-lock.json
 .yarn/
@@ -37,7 +38,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-<<<<<<< HEAD
 .editorconfig
 .gitattributes
 _env
