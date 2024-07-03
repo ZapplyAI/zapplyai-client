@@ -11,20 +11,11 @@ import ChatWindow from '@/app/chat/components/ChatWindow/ChatWindow'
 import {
   AnyFunction,
   APP_STATE,
-  AppPage,
-  CurrentProgress,
   Dialog,
   Message,
-  SessionState,
   WebApp,
-  WebAppState,
 } from '@/lib/type'
-import {
-  addMessageToFeed,
-  createDialog,
-  selectDialog,
-  updateDialogSessionState,
-} from '@/lib/reducer/chat'
+import { createDialog, selectDialog } from '@/lib/reducer/chat'
 import SplitPane, { Pane } from 'split-pane-react'
 import 'split-pane-react/esm/themes/default.css'
 import PreviewFrame from '@/app/chat/preview/component/PreviewFrame'
@@ -38,6 +29,7 @@ import { updateMessageAttachmentState } from '@/lib/reducer/chat'
 import { nanoid } from 'nanoid'
 import { useMessageHandler } from '@/lib/hooks/useMessageHandler'
 import GetTokensForm from '@/app/chat/components/GetTokensForm'
+import LoadingDisplay from '@/app/chat/components/LoadingDisplay'
 
 const useReduxData = () => {
   const apps = useSelector((state: RootState) => state.webApp.apps)
@@ -82,33 +74,7 @@ export default function ChatPage(): React.ReactNode {
 
   useEffect(() => {
     if (apps.length === 0) {
-      const newAppId = nanoid()
-
-      dispatch(
-        createApp({
-          id: newAppId,
-          name: 'New App',
-          url: 'newapp.zapp.com',
-          appState: {
-            label: APP_STATE.none,
-          },
-          data: {
-            pages: [],
-          },
-        })
-      )
-      dispatch(selectApp(newAppId))
-
-      dispatch(
-        createDialog({
-          id: '0',
-          appId: newAppId,
-          pageId: '0',
-          messages: [],
-          sessionState: { state: 'none' },
-        })
-      )
-      dispatch(selectDialog('0')) // not necessary because we have this in our initialState
+      initializeNewApp(dispatch)
     }
   }, [apps, dispatch])
 
@@ -120,40 +86,18 @@ export default function ChatPage(): React.ReactNode {
     setNavDrawerOpen(isOpen)
   }
 
-  const { progress, handleSendMessage } = useMessageHandler({
+  const { handleSendMessage } = useMessageHandler({
+    selectedApp,
+    selectedDialog,
+    dialogs,
     updateFrontendCode: code => dispatch(updateFrontendCode(code)),
   })
 
-  const [currentProgress, setCurrentProgress] = useState<CurrentProgress>({})
+  // const [currentProgress, setCurrentProgress] = useState<CurrentProgress>({})
 
-  useEffect(() => {
-    console.log('\n USE EFFECT () ...')
-    console.log('selectedApp', selectedApp)
-
-    if (selectedApp?.appState.label === APP_STATE.guided_start) {
-      console.log('  -- setting currentProgress to  APP_STATE.guided_start')
-      setCurrentProgress({
-        title: 'Guided start',
-        isLoading: true,
-        progress: 0,
-      })
-    } else if (selectedApp?.appState.label === APP_STATE.normal) {
-      console.log('  -- setting currentProgress to  APP_STATE.normal')
-      setCurrentProgress({
-        title: '',
-        isLoading: false,
-        progress: 100,
-      })
-    } else if (selectedApp?.appState.label === APP_STATE.building) {
-      console.log('  -- setting currentProgress to  APP_STATE.building')
-      setCurrentProgress({
-        title: 'Building you app',
-        description: progress.description,
-        isLoading: true,
-        progress: 50,
-      })
-    }
-  }, [progress, selectedApp])
+  // useEffect(() => {
+  //   manageCurrentProgressState(progress, selectedApp, setCurrentProgress)
+  // }, [progress, selectedApp])
 
   const changeMessageAttachmentState = (id: string, updatedState: string) => {
     const selectedAppIdString = selectedAppId as string
@@ -166,31 +110,27 @@ export default function ChatPage(): React.ReactNode {
     )
   }
 
+  const style: { [key: string]: CSSProperties } = {
+    pageContainer: {
+      height: '100svh',
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: 0,
+    },
+    mainContainer: {
+      display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
+      flexGrow: 1,
+      minHeight: '0',
+    },
+  }
+
   if (apps.length === 0 || !selectedApp) {
-    return (
-      <div
-        style={{
-          height: '100svh',
-          width: '100svw',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        Loading ...
-      </div>
-    )
+    return <LoadingDisplay />
   }
 
   return (
-    <div
-      style={{
-        height: '100svh',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: 0,
-      }}
-    >
+    <div style={style.pageContainer}>
       {getTokensFormOpen && (
         <GetTokensForm
           isMobile={isMobile}
@@ -215,67 +155,37 @@ export default function ChatPage(): React.ReactNode {
 
       {/* MAIN */}
 
-      {isMobile ? (
-        <main
-          style={{
-            display: 'flex',
-            flexGrow: 1,
-            minHeight: '0',
-          }}
-        >
-          {renderSideNavSection(
-            screenType,
-            navDrawerOpen,
-            () => changeDrawerState(false),
-            apps,
-            selectedAppId as string,
-            selectedDialogId as string,
-            currentProgress,
-            () => setGetTokensFormOpen(true)
-          )}
-          {renderChatSection(
-            isMobile,
-            selectedApp.data.pages,
-            selectedDialog as Dialog,
-            (dialogId: string) => {
-              dispatch(selectDialog(dialogId))
-            },
-            async (message: Message, callback: AnyFunction) => {
-              await handleSendMessage({ message, callback })
-            },
-            selectedApp.appState,
-            state => dispatch(updateAppState(state)),
-            changeMessageAttachmentState,
-            () => setGetTokensFormOpen(true)
-          )}
-        </main>
-      ) : (
-        <main
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            flexGrow: 1,
-            minHeight: '0',
-          }}
-        >
-          {renderSideNavSection(
-            screenType,
-            navDrawerOpen,
-            () => changeDrawerState(false),
-            apps,
-            selectedAppId as string,
-            selectedDialogId as string,
-            currentProgress,
-            () => setGetTokensFormOpen(true)
-          )}
+      <main style={style.mainContainer}>
+        {renderSideNavSection(
+          screenType,
+          navDrawerOpen,
+          () => changeDrawerState(false),
+          apps,
+          selectedAppId as string,
+          selectedDialogId as string,
+          () => setGetTokensFormOpen(true)
+        )}
 
-          <SplitPane
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flexGrow: '1',
-              minHeight: '0',
+        {isMobile ? (
+          <ChatWindow
+            isMobile={isMobile}
+            allPages={selectedApp.data.pages}
+            selectedDialog={selectedDialog as Dialog}
+            selectDialog={(id: string) => dispatch(selectDialog(id))}
+            sendMessage={async (message: Message) => {
+              await handleSendMessage({
+                message,
+                appState: get(selectedApp, 'appState.label', APP_STATE.none),
+                callback: () => {},
+              })
             }}
+            appState={selectedApp.appState}
+            changeAppState={state => dispatch(updateAppState(state))}
+            changeMessageAttachmentState={changeMessageAttachmentState}
+            openGetTokensForm={() => setGetTokensFormOpen(true)}
+          />
+        ) : (
+          <SplitPane
             split="vertical"
             sizes={paneSizes}
             // @ts-ignore
@@ -289,21 +199,27 @@ export default function ChatPage(): React.ReactNode {
                 minHeight: '0',
               }}
             >
-              {renderChatSection(
-                isMobile,
-                selectedApp.data.pages,
-                selectedDialog as Dialog,
-                (dialogId: string) => {
-                  dispatch(selectDialog(dialogId))
-                },
-                async (message: Message, callback: AnyFunction) => {
-                  await handleSendMessage({ message, callback })
-                },
-                selectedApp.appState,
-                state => dispatch(updateAppState(state)),
-                changeMessageAttachmentState,
-                () => setGetTokensFormOpen(true)
-              )}
+              <ChatWindow
+                isMobile={isMobile}
+                allPages={selectedApp.data.pages}
+                selectedDialog={selectedDialog as Dialog}
+                selectDialog={(id: string) => dispatch(selectDialog(id))}
+                sendMessage={async (message: Message) => {
+                  await handleSendMessage({
+                    message,
+                    appState: get(
+                      selectedApp,
+                      'appState.label',
+                      APP_STATE.none
+                    ),
+                    callback: () => {},
+                  })
+                }}
+                appState={selectedApp.appState}
+                changeAppState={state => dispatch(updateAppState(state))}
+                changeMessageAttachmentState={changeMessageAttachmentState}
+                openGetTokensForm={() => setGetTokensFormOpen(true)}
+              />
             </Pane>
             <Pane>
               {renderPreviewSection(
@@ -312,8 +228,8 @@ export default function ChatPage(): React.ReactNode {
               )}
             </Pane>
           </SplitPane>
-        </main>
-      )}
+        )}
+      </main>
     </div>
   )
 }
@@ -325,10 +241,8 @@ const renderSideNavSection = (
   allApps: WebApp[],
   selectedAppId: string,
   openDialogId: string,
-  currentProgress: CurrentProgress,
   openGetTokensForm: AnyFunction
 ) => {
-  // console.log('render side nav currentProgress', currentProgress)
   return screenType === 'mobile' ? (
     <Drawer
       variant="temporary"
@@ -353,7 +267,6 @@ const renderSideNavSection = (
         allApps={allApps}
         selectedAppId={selectedAppId as string}
         openDialogId={openDialogId}
-        currentProgress={currentProgress}
         openGetTokensForm={openGetTokensForm}
       />
     </Drawer>
@@ -372,36 +285,9 @@ const renderSideNavSection = (
         allApps={allApps}
         selectedAppId={selectedAppId as string}
         openDialogId={openDialogId as string}
-        currentProgress={currentProgress}
         openGetTokensForm={openGetTokensForm}
       />
     </div>
-  )
-}
-
-const renderChatSection = (
-  isMobile: boolean,
-  allPages: AppPage[],
-  selectedDialog: Dialog,
-  selectDialog: any,
-  sendMessage: any,
-  appState: WebAppState,
-  changeAppState: (state: WebAppState) => void,
-  changeMessageAttachmentState: (id: string, updatedState: string) => void,
-  openGetTokensForm: any
-) => {
-  return (
-    <ChatWindow
-      isMobile={isMobile}
-      allPages={allPages}
-      selectedDialog={selectedDialog}
-      selectDialog={selectDialog}
-      sendMessage={sendMessage}
-      appState={appState}
-      changeAppState={changeAppState}
-      changeMessageAttachmentState={changeMessageAttachmentState}
-      openGetTokensForm={openGetTokensForm}
-    />
   )
 }
 
@@ -419,4 +305,64 @@ const renderPreviewSection = (isMobile: boolean, htmlContent: string) => {
       <PreviewFrame isMobile={isMobile} htmlContent={htmlContent} />
     </div>
   )
+}
+
+// const manageCurrentProgressState = (
+//   progress: CurrentProgress,
+//   selectedApp: WebApp | undefined,
+//   setCurrentProgress: AnyFunction
+// ) => {
+//   if (selectedApp?.appState.label === APP_STATE.guided_start) {
+//     console.log('  -- setting currentProgress to  APP_STATE.guided_start')
+//     setCurrentProgress({
+//       title: 'Guided start',
+//       isLoading: true,
+//       progress: 0,
+//     })
+//   } else if (selectedApp?.appState.label === APP_STATE.normal) {
+//     console.log('  -- setting currentProgress to  APP_STATE.normal')
+//     setCurrentProgress({
+//       title: '',
+//       isLoading: false,
+//       progress: 100,
+//     })
+//   } else if (selectedApp?.appState.label === APP_STATE.building) {
+//     console.log('  -- setting currentProgress to  APP_STATE.building')
+//     setCurrentProgress({
+//       title: 'Building you app',
+//       description: progress.description,
+//       isLoading: true,
+//       progress: 50,
+//     })
+//   }
+// }
+
+const initializeNewApp = (dispatch: AnyFunction) => {
+  const newAppId = nanoid()
+
+  dispatch(
+    createApp({
+      id: newAppId,
+      name: 'New App',
+      url: 'newapp.zapp.com',
+      appState: {
+        label: APP_STATE.none,
+      },
+      data: {
+        pages: [],
+      },
+    })
+  )
+  dispatch(selectApp(newAppId))
+
+  dispatch(
+    createDialog({
+      id: '0',
+      appId: newAppId,
+      pageId: '0',
+      messages: [],
+      sessionState: { state: 'none' },
+    })
+  )
+  dispatch(selectDialog('0')) // not necessary because we have this in our initialState
 }

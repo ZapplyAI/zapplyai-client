@@ -5,6 +5,8 @@ type CSSProperties = React.CSSProperties
 import { type MessageAttachment, type AnyFunction, APP_STATE } from '@/lib/type'
 import { Button } from '@/components'
 import { nanoid } from 'nanoid'
+import { addProcess } from '@/lib/reducer/global'
+import { useDispatch } from 'react-redux'
 
 interface MessageAttachmentProps {
   attachment: MessageAttachment
@@ -13,14 +15,22 @@ interface MessageAttachmentProps {
   changeMessageAttachmentState: AnyFunction
 }
 
-const MessageAttachment = ({ attachment, sendMessage, changeAppState, changeMessageAttachmentState }: MessageAttachmentProps): React.ReactNode => {
+const MessageAttachment = ({
+  attachment,
+  sendMessage,
+  changeAppState,
+  changeMessageAttachmentState,
+}: MessageAttachmentProps): React.ReactNode => {
+  const dispatch = useDispatch()
 
   switch (attachment.element) {
     case 'guided_start':
       return (
         <Button
           key={0}
-          disabled={attachment.state === 'disabled' || attachment.state === 'clicked'}
+          disabled={
+            attachment.state === 'disabled' || attachment.state === 'clicked'
+          }
           variant={'outlined'}
           action={() => {
             changeAppState({
@@ -45,18 +55,30 @@ const MessageAttachment = ({ attachment, sendMessage, changeAppState, changeMess
               lastStep: 3,
             })
             changeMessageAttachmentState(attachment.id, 'clicked')
+            dispatch(addProcess({
+              id: nanoid(),
+              name: 'Guided Start',
+              isLoading: false,
+              displayPriority: 10,
+              progressType: 'STEP',
+              step: 0,
+              maxStep: 3,
+            }))
           }}
           label={'Guided start'}
-          sx={{border: attachment.state === 'clicked' ? '1px solid green' : '1px solid #775EFF', marginTop: '12px', marginRight: '12px'}}
+          sx={{
+            border:
+              attachment.state === 'clicked'
+                ? '1px solid green'
+                : '1px solid #775EFF',
+            marginTop: '12px',
+            marginRight: '12px',
+          }}
         />
       )
-
   }
-
 }
 
-const style: { [key: string]: CSSProperties } = {
-
-}
+const style: { [key: string]: CSSProperties } = {}
 
 export default MessageAttachment

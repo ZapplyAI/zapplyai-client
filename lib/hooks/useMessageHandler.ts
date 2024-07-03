@@ -8,59 +8,51 @@ import { updateAppState, updateFrontendCode } from '@/lib/reducer/webApp'
 import { nanoid } from 'nanoid'
 import { session } from '@/services'
 import CustomWebSocket from '@/services/util/CustomWebSocket'
+import App from 'next/app'
+import { addProcess, progressProcess, stopProcess } from '@/lib/reducer/global'
 
 interface handleSendMessageProps {
   message: Message
+  appState: APP_STATE
   callback?: AnyFunction
 }
 
-const useReduxData = () => {
-  const apps = useSelector((state: RootState) => state.webApp.apps)
-  const selectedAppId = useSelector(
-    (state: RootState) => state.webApp.selectedId
-  )
-  const dialogs = useSelector((state: RootState) => state.chat.dialogs)
-  const selectedDialogId = useSelector(
-    (state: RootState) => state.chat.openDialogId
-  )
-
-  const selectedDialog = find(dialogs, dialog => {
-    return dialog.pageId === selectedDialogId
-  })
-  const selectedApp = find(apps, app => app.id === selectedAppId)
-
-  return {
-    selectedDialog,
-    selectedApp,
-    dialogs
-  }
-}
-
 interface MessageHandlerProps {
+  selectedApp: WebApp | undefined
+  selectedDialog: Dialog | undefined
+  dialogs: Dialog[] | undefined
   updateFrontendCode: AnyFunction
 }
 
 export const useMessageHandler = ({
+  selectedApp,
+  selectedDialog,
+  dialogs,
   updateFrontendCode,
 }: MessageHandlerProps) => {
-  const { selectedApp, selectedDialog, dialogs } = useReduxData()
-
   const dispatch = useDispatch()
 
   // const [error, setError] = useState<any>(null)
-  const [progress, setProgress] = useState<any>({})
 
   const handleSendMessage = async ({
     message,
+    appState,
     callback = () => {},
   }: handleSendMessageProps) => {
-    console.log('\n\n\n')
-    console.log('handleSendMessage')
     dispatch(addMessageToFeed(message))
-    if (message.sender === 'AI') return
 
-    const currentAppState = get(selectedApp, 'appState.label', APP_STATE.none)
+    switch (message.sender) {
+      case 'AI':
+        return
+      case 'USER':
+        await sendMessageAccordingToAppState(appState, message)
+    }
+  }
 
+  const sendMessageAccordingToAppState = async (
+    currentAppState: APP_STATE,
+    message: Message
+  ) => {
     switch (currentAppState) {
       case APP_STATE.none:
         await sendUserMessage(selectedDialog as Dialog, message.message)
@@ -89,6 +81,13 @@ export const useMessageHandler = ({
         step: selectedApp.appState.step + 1,
       })
     )
+    dispatch(
+      progressProcess({
+        searchBy: 'name',
+        name: 'Guided Start',
+        progressSize: 1,
+      })
+    )
   }
 
   const sendUserMessage_GuidedStart = async (message: Message) => {
@@ -96,11 +95,9 @@ export const useMessageHandler = ({
       return
     }
 
-    console.log('selectedApp.appState.step', selectedApp.appState.step)
     if (!appStateStepsCompleted(selectedApp)) {
       switch (selectedApp.appState.step) {
         case 1: {
-          console.log('   -- guided start step 1')
           dispatch(
             addMessageToFeed({
               messageId: nanoid(),
@@ -118,7 +115,6 @@ export const useMessageHandler = ({
           break
         }
         case 2: {
-          console.log('   -- guided start step 2')
           dispatch(
             addMessageToFeed({
               messageId: nanoid(),
@@ -132,16 +128,6 @@ export const useMessageHandler = ({
           break
         }
         case 3: {
-          console.log('   -- guided start step 3')
-          // dispatch(
-          //   addMessageToFeed({
-          //     messageId: nanoid(),
-          //     message:
-          //       'Thank you for completing the "Guided start" section, please proceed with chatting about your web-app!',
-          //     sender: 'AI',
-          //     attachments: [],
-          //   })
-          // )
           incrementStateSteps()
           dispatch(
             updateAppState({
@@ -150,13 +136,22 @@ export const useMessageHandler = ({
               lastStep: undefined,
             })
           )
-          const userMessages = filter(selectedDialog?.messages, { sender: 'USER' });
+          dispatch(
+            stopProcess({
+              searchBy: 'name',
+              name: 'Guided Start',
+            })
+          )
+
+          const userMessages = filter(selectedDialog?.messages, {
+            sender: 'USER',
+          })
           // Get the last three USER messages
-          const lastThreeMessages = takeRight(userMessages, 3);
+          const lastThreeMessages = takeRight(userMessages, 3)
           // Destructure the messages
-          const [object1, object2, object3] = lastThreeMessages;
+          const [object1, object2, object3] = lastThreeMessages
           // Format the string
-          const formattedString = `Summary of the app: ${object1?.message || ''}. \n Main features of the app: ${object2?.message || ''}. \n  Example of using this app: ${object3?.message || ''}`;
+          const formattedString = `Summary of the app: ${object1?.message || ''}. \n Main features of the app: ${object2?.message || ''}. \n  Example of using this app: ${object3?.message || ''}`
           console.log('formattedString', formattedString)
 
           dispatch(
@@ -164,7 +159,8 @@ export const useMessageHandler = ({
               messageId: nanoid(),
               message:
                 'Thank you for completing the "Guided start" section. Below are the details you provided... \n\n' +
-                formattedString + '\n' +
+                formattedString +
+                '\n' +
                 'Please proceed with chatting about your web-app!',
               sender: 'AI',
               attachments: [],
@@ -182,9 +178,9 @@ export const useMessageHandler = ({
   const sendUserMessage = async (selectedDialog: Dialog, message: string) => {
     if (!get(selectedDialog, 'sessionState.referenceId', undefined)) {
       const newReferenceId = await initialiseSession(selectedDialog)
-      await sendMessageDirectly(selectedDialog, message, newReferenceId)
+      await sendMessageUsingSession(selectedDialog, message, newReferenceId)
     } else {
-      await sendMessageDirectly(
+      await sendMessageUsingSession(
         selectedDialog,
         message,
         selectedDialog.sessionState.referenceId as string
@@ -214,7 +210,7 @@ export const useMessageHandler = ({
     return response.ref
   }
 
-  const sendMessageDirectly = async (
+  const sendMessageUsingSession = async (
     selectedDialog: Dialog,
     message: string,
     dialogId: string
@@ -233,10 +229,14 @@ export const useMessageHandler = ({
       return
     }
 
-    console.log('Dispatch updateDialogSessionState')
-    console.log('selectedDialog', selectedDialog)
-    console.log('response', response)
+    await manageMessageRespose(response.response, selectedDialog, dialogId)
+  }
 
+  const manageMessageRespose = async (
+    response: string,
+    selectedDialog: Dialog,
+    dialogId: string
+  ) => {
     dispatch(
       updateDialogSessionState({
         referenceId: 'same',
@@ -248,15 +248,14 @@ export const useMessageHandler = ({
     dispatch(
       addMessageToFeed({
         messageId: nanoid(),
-        message: response.response,
+        message: response,
         sender: 'AI',
         attachments: [],
       })
     )
 
-    console.log('checking for final architecture')
-    if (response.response.length >= 1500) {
-      console.log(' -- > true')
+    //  -- FINAL ARCHITECTURE --
+    if (response.length >= 1500) {
       dispatch(
         updateAppState({
           label: APP_STATE.building,
@@ -264,26 +263,32 @@ export const useMessageHandler = ({
           lastStep: undefined,
         })
       )
-      // setProgress({ isLoading: true, title: 'building started' })
-      await establishBuildingSocket(selectedDialog, dialogId)
+      await startProjectBuild(dialogId)
     }
   }
 
-  const establishBuildingSocket = async (selectedDialog: Dialog, dialogId: string) => {
-    console.log('  establishBuildingSocket')
+  const startProjectBuild = async (dialogId: string) => {
     const { success, response } = await session.build({
       ref: dialogId as string,
     })
 
     console.log('Build successful:', success, 'response', response)
     if (!success) {
-      setProgress({
-        title: 'build',
-        description: ' !!! Error occurred. Build unsuccessful',
-      })
+      const buildProcessId = nanoid()
+      dispatch(
+        addProcess({
+          id: buildProcessId,
+          name: 'Building Unsuccessful',
+          isLoading: true,
+          displayPriority: 20,
+          progressType: 'PERCENT',
+          progress: 100,
+        })
+      )
     }
 
     if (success) {
+      // Establish Building Socket
       const ws = new CustomWebSocket(
         `wss://duality-core-api-5apq7.ondigitalocean.app/ws/app/${dialogId}/`
       )
@@ -296,46 +301,60 @@ export const useMessageHandler = ({
         })
       )
 
-      console.log('building in progress, ws:', ws)
+      const buildProcessId = nanoid()
+      dispatch(
+        addProcess({
+          id: buildProcessId,
+          name: 'Building App',
+          isLoading: true,
+          displayPriority: 15,
+          progressType: 'PERCENT',
+          progress: 0,
+        })
+      )
 
       ws.onmessage = async event => {
-        console.log('\n\n\n\n')
-        console.log('setProgress -> ', {
-          title: 'build',
-          description: event.data,
-        })
-        setProgress({ title: 'build', description: event.data })
-        console.log(event.data)
-        // dispatch(
-        //   addMessageToFeed({
-        //     messageId: nanoid(),
-        //     message: `>>>${event.data}`,
-        //     sender: 'AI',
-        //     attachments: [],
-        //   })
-        // )
-        console.log('added progress to feed')
-
-        if (event.data.toUpperCase().includes('UPDATE: FRONTEND_BUILD_DONE')) {
-          console.log('UPDATE: FRONTEND_BUILD_DONE')
-          dispatch(
-            addMessageToFeed({
-              messageId: nanoid(),
-              message: 'UI build finished',
-              sender: 'AI',
-              attachments: [],
-            })
-          )
-          const { success, response } = await session.getApp({
-            ref: dialogId as string,
-          })
-
-          console.log('appSuccess, response', success, response)
-          updateFrontendCode(get(response, 'front_end', ''))
-          setProgress({ title: 'build finished' })
-          // setLoadingProgress({ isLoading: false, title: 'building finished' })
-        }
+        await processBuildUpdates(event, dialogId, buildProcessId)
       }
+    }
+  }
+
+  const processBuildUpdates = async (
+    event: MessageEvent<any>,
+    dialogId: string,
+    buildProcessId: string
+  ) => {
+    dispatch(
+      progressProcess({
+        searchBy: 'id',
+        id: buildProcessId,
+        description: event.data,
+        progressSize: 0,
+      })
+    )
+
+    if (event.data.toUpperCase().includes('UPDATE: FRONTEND_BUILD_DONE')) {
+      console.log('UPDATE: FRONTEND_BUILD_DONE')
+      dispatch(
+        addMessageToFeed({
+          messageId: nanoid(),
+          message: 'UI build finished',
+          sender: 'AI',
+          attachments: [],
+        })
+      )
+      const { success, response } = await session.getApp({
+        ref: dialogId as string,
+      })
+
+      console.log('appSuccess, response', success, response)
+      updateFrontendCode(get(response, 'front_end', ''))
+      dispatch(
+        stopProcess({
+          searchBy: 'id',
+          id: buildProcessId,
+        })
+      )
     }
   }
 
@@ -345,7 +364,7 @@ export const useMessageHandler = ({
   //   }
   // }, [router.isReady, router.locale, ...dependencies])
 
-  return { progress, handleSendMessage }
+  return { handleSendMessage }
 }
 
 const appStateStepsCompleted = (selectedApp: WebApp) => {

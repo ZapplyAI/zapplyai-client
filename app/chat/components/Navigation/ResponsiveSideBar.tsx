@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { Button, DropdownSelect } from '@/components'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/lib/store'
-import { find, get } from 'lodash'
+import { filter, find, get, maxBy } from 'lodash'
 import { nanoid } from 'nanoid'
 import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
@@ -33,7 +33,7 @@ import {
   // @ts-ignore
 } from '@iconscout/react-unicons'
 import map from 'lodash/map'
-import { AnyFunction, CurrentProgress, WebApp } from '@/lib/type'
+import { AnyFunction, CurrentProgress, Process, WebApp } from '@/lib/type'
 import { createDialog, selectDialog } from '@/lib/reducer/chat'
 import { usePathname, useRouter } from 'next/navigation'
 import ProgressDisplay from '@/app/chat/components/ProgressDisplay'
@@ -45,8 +45,32 @@ interface ResponsiveSideBarProps {
   allApps: WebApp[]
   selectedAppId: string
   openDialogId: string
-  currentProgress?: CurrentProgress
   openGetTokensForm: AnyFunction
+}
+
+const useReduxData = () => {
+  const processes = useSelector(
+    (state: RootState) => state.global.currentProcesses
+  )
+  console.log('processes', processes)
+
+  let currentProcess = maxBy(
+    filter(processes, process => process.isLoading),
+    process => process.displayPriority
+  ) // find highest priority loading process
+
+  if (!currentProcess) {
+    currentProcess = maxBy(
+      processes,
+      process => process.displayPriority
+    ) // find highest priority loading process
+  }
+
+  console.log('currentProcess', currentProcess)
+
+  return {
+    currentProcess,
+  }
 }
 
 const ResponsiveSideBar = ({
@@ -55,11 +79,12 @@ const ResponsiveSideBar = ({
   allApps,
   selectedAppId,
   openDialogId,
-  currentProgress,
   openGetTokensForm,
 }: ResponsiveSideBarProps): React.ReactNode => {
   const isMobile = screenType === 'mobile'
   const isBigScreen = screenType === 'big'
+
+  const { currentProcess } = useReduxData()
 
   const selectedApp = find(allApps, app => app.id === selectedAppId)
 
@@ -299,9 +324,9 @@ const ResponsiveSideBar = ({
           />
         </div>
 
-        {get(currentProgress, 'isLoading', false) && (
+        {currentProcess && (
           <ProgressDisplay
-            currentProgress={currentProgress as CurrentProgress}
+            displayedProcess={currentProcess as Process}
           />
         )}
       </div>

@@ -82,6 +82,20 @@ type CurrentProgress = {
   description?: string
 }
 
+type Process = {
+  id: string,
+  name: string,
+  isLoading: boolean,
+  description?: string,
+  // In case if we can only display one
+  // process at once - we will display the one with highest priority
+  displayPriority: number,
+  progressType?: 'PERCENT' | 'STEP',
+  progress?: number // 0 to 100
+  step?: number,
+  maxStep?: number
+}
+
 export {
   type Dialog,
   APP_STATE,
@@ -96,5 +110,6 @@ export {
   type User,
   type AsyncFunction,
   type AnyFunction,
-  type CurrentProgress
+  type CurrentProgress,
+  type Process
 }

@@ -1,11 +1,5 @@
 import React, { CSSProperties } from 'react'
-import {
-  AnyFunction,
-  APP_STATE,
-  CurrentProgress,
-  Dialog,
-  Message,
-} from '@/lib/type'
+import { AnyFunction, APP_STATE, Process, Dialog, Message } from '@/lib/type'
 import { Box, Card, CardContent, List, ListItem } from '@mui/material'
 import map from 'lodash/map'
 import Typography from '@mui/material/Typography'
@@ -20,24 +14,24 @@ import { styled } from '@mui/material/styles'
 
 interface ProgressDisplayProps {
   isMobile?: boolean
-  currentProgress: CurrentProgress
+  displayedProcess: Process
 }
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   // height: 10,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: '#282636'
+    backgroundColor: '#282636',
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: '#775EFF'
+    backgroundColor: '#775EFF',
   },
 }))
 
 const ProgressDisplay = ({
   isMobile = false,
-  currentProgress,
+  displayedProcess,
 }: ProgressDisplayProps): React.ReactNode => {
   const style: { [key: string]: CSSProperties } = {
     progressCard: {
@@ -66,15 +60,32 @@ const ProgressDisplay = ({
     },
   }
 
+  let progress = 0
+
+  if (displayedProcess.progressType === 'STEP') {
+    if (displayedProcess.step === undefined || displayedProcess.maxStep === undefined) {
+      return null
+    }
+    progress = displayedProcess.step / displayedProcess.maxStep * 100
+  }
+  if (displayedProcess.progressType === 'PERCENT') {
+    if (displayedProcess.progress === undefined) {
+      return null
+    }
+    progress = displayedProcess.progress
+  }
+
   return (
     <Card sx={style.progressCard}>
       <Typography style={style.progressTitle} variant="h4">
-        {currentProgress.title}
+        {displayedProcess.name}
       </Typography>
       <Typography style={style.progressDescription} variant="h6">
-        {currentProgress.description}
+        {displayedProcess.description}
       </Typography>
-      <LinearProgressWithLabel value={currentProgress.progress as number} />
+      <LinearProgressWithLabel
+        value={progress}
+      />
     </Card>
   )
 }

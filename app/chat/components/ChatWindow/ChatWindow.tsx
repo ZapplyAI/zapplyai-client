@@ -31,7 +31,7 @@ const ChatWindow = ({
   allPages,
   selectedDialog,
   selectDialog,
-                      openGetTokensForm,
+  openGetTokensForm,
   sendMessage,
   appState,
   changeAppState,
@@ -98,11 +98,18 @@ const ChatWindow = ({
           isMobile={isMobile}
           activeDialog={selectedDialog as Dialog}
           sendMessage={sendMessage}
-          changeAppState={changeAppState}
+          changeAppState={(state) => {
+            console.log('changing state', state)
+            changeAppState(state)
+          }}
           changeMessageAttachmentState={changeMessageAttachmentState}
         />
         <div
-          style={{ background: '1B1A21', width: isMobile ? '90%' : '70%', paddingBottom: '12px' }}
+          style={{
+            background: '1B1A21',
+            width: isMobile ? '90%' : '70%',
+            paddingBottom: '12px',
+          }}
         >
           <InputField sendAction={sendMessage} />
         </div>

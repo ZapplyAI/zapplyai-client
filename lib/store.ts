@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import webAppReducer from './reducer/webApp'
 import chatReducer from './reducer/chat'
 import profileReducer from './reducer/profile'
+import globalReducer from './reducer/global'
 import { initializeMiddleware } from '@/lib/middleware/initializeMiddleware'
 
 export const makeStore = () => {
@@ -9,7 +10,8 @@ export const makeStore = () => {
     reducer: {
       webApp: webAppReducer,
       chat: chatReducer,
-      profile: profileReducer
+      profile: profileReducer,
+      global: globalReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(initializeMiddleware),
   })
