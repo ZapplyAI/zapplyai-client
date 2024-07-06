@@ -13,6 +13,7 @@ import ChatHeader from './component/ChatHeader'
 import MessagesFeed from '@/app/chat/components/ChatWindow/component/MessagesFeed'
 import InputField from '@/app/chat/components/ChatWindow/component/InputField'
 import { nanoid } from 'nanoid'
+import ProgressDisplay from '@/app/chat/components/ProgressDisplay'
 
 interface ChatWindowProps {
   isMobile?: boolean
@@ -94,11 +95,12 @@ const ChatWindow = ({
         />
       )}
       <div style={style.messageFeedContainer}>
+        {isMobile && <ProgressDisplay isMobile={isMobile} />}
         <MessagesFeed
           isMobile={isMobile}
           activeDialog={selectedDialog as Dialog}
           sendMessage={sendMessage}
-          changeAppState={(state) => {
+          changeAppState={state => {
             console.log('changing state', state)
             changeAppState(state)
           }}

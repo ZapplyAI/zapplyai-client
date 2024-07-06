@@ -48,31 +48,6 @@ interface ResponsiveSideBarProps {
   openGetTokensForm: AnyFunction
 }
 
-const useReduxData = () => {
-  const processes = useSelector(
-    (state: RootState) => state.global.currentProcesses
-  )
-  console.log('processes', processes)
-
-  let currentProcess = maxBy(
-    filter(processes, process => process.isLoading),
-    process => process.displayPriority
-  ) // find highest priority loading process
-
-  if (!currentProcess) {
-    currentProcess = maxBy(
-      processes,
-      process => process.displayPriority
-    ) // find highest priority loading process
-  }
-
-  console.log('currentProcess', currentProcess)
-
-  return {
-    currentProcess,
-  }
-}
-
 const ResponsiveSideBar = ({
   closeNavDrawer = () => {},
   screenType,
@@ -83,8 +58,6 @@ const ResponsiveSideBar = ({
 }: ResponsiveSideBarProps): React.ReactNode => {
   const isMobile = screenType === 'mobile'
   const isBigScreen = screenType === 'big'
-
-  const { currentProcess } = useReduxData()
 
   const selectedApp = find(allApps, app => app.id === selectedAppId)
 
@@ -324,11 +297,7 @@ const ResponsiveSideBar = ({
           />
         </div>
 
-        {currentProcess && (
-          <ProgressDisplay
-            displayedProcess={currentProcess as Process}
-          />
-        )}
+        {!isMobile && <ProgressDisplay isMobile={isMobile} />}
       </div>
     </Box>
   )
