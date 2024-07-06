@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Select, MenuItem } from '@mui/material'
+import { MenuItem, Select } from '@mui/material'
 import map from 'lodash/map'
 
 interface DropdownSelectProps {
@@ -19,8 +19,9 @@ const DropdownSelect = ({
     <Select
       value={currentValue}
       onChange={event => {
-        console.log('Selecting id',event.target.value)
-        onChange(event.target.value)}}
+        console.log('Selecting id', event.target.value)
+        onChange(event.target.value)
+      }}
       // IconComponent={(props) => (<UilAngleRightB {...props} sx={{transform: 'rotate(90deg)'}}/>)}
       displayEmpty
       inputProps={{ 'aria-label': 'Select' }}
@@ -39,7 +40,11 @@ const DropdownSelect = ({
       }}
     >
       {map(allValues, item => (
-        <MenuItem key={item.value} value={item.value}>
+        <MenuItem
+          key={item.value}
+          value={item.value}
+          sx={{ display: 'flex', alignItems: 'center', backgroundColor: 'red' }}
+        >
           {item.label}
         </MenuItem>
       ))}
