@@ -46,7 +46,7 @@ interface ResponsiveSideBarProps {
   selectedAppId: string
   openDialogId: string
   currentProgress?: CurrentProgress
-  openGetTokensForm: AnyFunction
+  openGetTokensForm?: AnyFunction
 }
 
 const ResponsiveSideBar = ({
@@ -127,7 +127,7 @@ const ResponsiveSideBar = ({
               }}
             >
               <IconButton
-                onClick={() => openGetTokensForm()}
+                onClick={() => openGetTokensForm?.()}
                 sx={{
                   ...style.headerIconMobile,
                   background: '#201F29',

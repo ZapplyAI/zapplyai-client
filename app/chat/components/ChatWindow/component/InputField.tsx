@@ -17,7 +17,7 @@ const InputField = ({ sendAction }: InputFieldProps): React.ReactNode => {
       icon={<Logo mini height={22} width={22} />}
       sx={{ margin: '0' }}
       fullWidth
-      placeholder={'Your message to Zapply'}
+      placeholder={'Your message to Elastic AI'}
       onSubmit={(message: string) =>
         sendAction({ messageId: nanoid(), message: message, sender: 'USER', attachments: [] })
       }
