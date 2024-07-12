@@ -67,9 +67,9 @@ const ChatWindow = ({
       sendMessage({
         messageId: nanoid(),
         message:
-          'Hi, I am Zapply AI !\n' +
+          'Hi, I am Elastic AI !\n' +
           'To start building write a short summary of your idea  in the text field.\n' +
-          'If it’s your first time using Zapply, I recommend you to start with pressing “Guided start” below.',
+          'If it’s your first time using Elastic AI, I recommend you to start with pressing “Guided start” below.',
         sender: 'AI',
         attachments: [
           {

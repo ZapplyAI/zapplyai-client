@@ -1,28 +1,24 @@
 'use client'
 
 import React, { CSSProperties, useState } from 'react'
-
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import { DropdownSelect } from '@/components/Select'
-import { Button } from '@/components/Button'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@/lib/store'
+import { useDispatch } from 'react-redux'
 import { find, get } from 'lodash'
-import { createApp, selectApp } from '@/lib/reducer/webApp'
-import MenuItem from '@mui/material/MenuItem'
 import { nanoid } from 'nanoid'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 import Person2Icon from '@mui/icons-material/Person2'
 import MUI_Button from '@mui/material/Button'
-import { AppPage, WebApp } from '@/lib/type'
+import { WebApp } from '@/lib/type'
 import map from 'lodash/map'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import Typography from '@mui/material/Typography'
 import UndoIcon from '@mui/icons-material/Undo'
 import { usePathname, useRouter } from 'next/navigation'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { ExpandLess } from '@mui/icons-material'
+import { Box, Menu, MenuItem } from '@mui/material'
 
 interface ResponsiveNavBarProps {
   mobileDrawerOpen: boolean
@@ -61,6 +57,18 @@ const ResponsiveNavBar = ({
     'data.pages',
     []
   )
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   return isMobile ? (
     <nav
@@ -146,40 +154,102 @@ const ResponsiveNavBar = ({
         borderBottom: '1px solid #282636',
       }}
     >
-      <div
-        style={{
-          width: '15vw',
-          minWidth: '230px',
-          maxWidth: 'calc(350px - 24px)',
-        }}
-      >
-        <DropdownSelect
-          allValues={map(allApps, app => ({
-            value: app.id,
-            label: app.name,
-          }))}
-          onChange={value => {}}
-          currentValue={selectedAppId as any}
-          //   bottomComponent={
-          //     <MenuItem
-          //       key={'100000'}
-          //       value={'100000'}
-          //       sx={{
-          //         margin: '2px 6px',
-          //         marginTop: '10px',
-          //         borderRadius: '4px',
-          //         padding: '0px',
-          //       }}
-          //     >
-          //       <Button
-          //         label={'Create new app'}
-          //         fullWidth
-          //         action={createNewApp}
-          //       />
-          //     </MenuItem>
-          //   }
-        />
-      </div>
+      <Box sx={{ width: '234px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '36px',
+            backgroundColor: '#201F29',
+            borderRadius: '8px',
+            padding: '0 12px',
+            cursor: 'pointer',
+          }}
+          onClick={handleClick}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box
+              component="img"
+              src="/image/brand/zapplyLogo.png"
+              alt="Productlike icon"
+              sx={{
+                width: '16px',
+                height: '15px',
+                marginRight: '8px',
+              }}
+            />
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#FFFFFF',
+                fontSize: '14px',
+                fontWeight: 500,
+              }}
+            >
+              Productlike.app
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '24px' }}>
+            <ExpandLess sx={{ color: '#FFFFFF', fontSize: '16px', marginBottom: '-4px' }} />
+            <ExpandMoreIcon sx={{ color: '#FFFFFF', fontSize: '16px', marginTop: '-4px' }} />
+          </Box>
+        </Box>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          PaperProps={{
+            style: {
+              width: '234px',
+            },
+          }}
+        >
+          <MenuItem onClick={handleClose}>New App</MenuItem>
+        </Menu>
+      </Box>
+      {/*<div*/}
+      {/*  style={{*/}
+      {/*    width: '15vw',*/}
+      {/*    minWidth: '230px',*/}
+      {/*    maxWidth: 'calc(350px - 24px)',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <DropdownSelect*/}
+      {/*    allValues={map(allApps, app => ({*/}
+      {/*      value: app.id,*/}
+      {/*      label: app.name,*/}
+      {/*    }))}*/}
+      {/*    onChange={value => {}}*/}
+      {/*    currentValue={selectedAppId as any}*/}
+      {/*    //   bottomComponent={*/}
+      {/*    //     <MenuItem*/}
+      {/*    //       key={'100000'}*/}
+      {/*    //       value={'100000'}*/}
+      {/*    //       sx={{*/}
+      {/*    //         margin: '2px 6px',*/}
+      {/*    //         marginTop: '10px',*/}
+      {/*    //         borderRadius: '4px',*/}
+      {/*    //         padding: '0px',*/}
+      {/*    //       }}*/}
+      {/*    //     >*/}
+      {/*    //       <Button*/}
+      {/*    //         label={'Create new app'}*/}
+      {/*    //         fullWidth*/}
+      {/*    //         action={createNewApp}*/}
+      {/*    //       />*/}
+      {/*    //     </MenuItem>*/}
+      {/*    //   }*/}
+      {/*  />*/}
+      {/*</div>*/}
 
       <MUI_Button
         sx={{

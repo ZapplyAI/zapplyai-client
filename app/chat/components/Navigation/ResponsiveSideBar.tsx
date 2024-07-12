@@ -11,7 +11,7 @@ import { RootState } from '@/lib/store'
 import { find, get } from 'lodash'
 import { nanoid } from 'nanoid'
 import CloseIcon from '@mui/icons-material/Close'
-import { IconButton } from '@mui/material'
+import { IconButton, InputBase } from '@mui/material'
 import SideNavButton from './component/SideNavButton'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -38,6 +38,7 @@ import { createDialog, selectDialog } from '@/lib/reducer/chat'
 import { usePathname, useRouter } from 'next/navigation'
 import ProgressDisplay from '@/app/chat/components/ProgressDisplay'
 import SettingsDropdown from '@/app/chat/components/Navigation/component/SettingsDropdown'
+import { Search } from '@mui/icons-material'
 
 interface ResponsiveSideBarProps {
   closeNavDrawer?: () => void
@@ -46,7 +47,7 @@ interface ResponsiveSideBarProps {
   selectedAppId: string
   openDialogId: string
   currentProgress?: CurrentProgress
-  openGetTokensForm: AnyFunction
+  openGetTokensForm?: AnyFunction
 }
 
 const ResponsiveSideBar = ({
@@ -127,7 +128,7 @@ const ResponsiveSideBar = ({
               }}
             >
               <IconButton
-                onClick={() => openGetTokensForm()}
+                onClick={() => openGetTokensForm?.()}
                 sx={{
                   ...style.headerIconMobile,
                   background: '#201F29',
@@ -199,6 +200,49 @@ const ResponsiveSideBar = ({
           height: '100%',
         }}
       >
+        <Box
+          sx={{
+            width: '234px',
+            height: '34px',
+            position: 'relative',
+            borderRadius: '6px',
+            backgroundColor: '#1E1E1E',
+            border: '0.3px solid #7C7C7C',
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '1rem',
+            '&:hover': {
+              border: '0.3px solid #A0A0A0',
+            },
+          }}
+        >
+          <Search
+            sx={{
+              color: '#7C7C7C',
+              position: 'absolute',
+              left: '8px',
+              fontSize: '16px',
+            }}
+          />
+          <InputBase
+            placeholder="Quick search"
+            sx={{
+              color: '#7C7C7C',
+              fontSize: '13px',
+              fontWeight: 400,
+              lineHeight: '16px',
+              paddingLeft: '32px',
+              width: '100%',
+              height: '100%',
+              '& input': {
+                '&::placeholder': {
+                  color: '#7C7C7C',
+                  opacity: 1,
+                },
+              },
+            }}
+          />
+        </Box>
         <div style={{ padding: '0px 8px', width: '100%' }}>
           <SideNavButton
             screenType={screenType}
