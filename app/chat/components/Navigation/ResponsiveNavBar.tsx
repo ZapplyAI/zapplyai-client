@@ -58,17 +58,16 @@ const ResponsiveNavBar = ({
     []
   )
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+    setAnchorEl(null)
+  }
 
   return isMobile ? (
     <nav
@@ -190,9 +189,24 @@ const ResponsiveNavBar = ({
               Productlike.app
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '24px' }}>
-            <ExpandLess sx={{ color: '#FFFFFF', fontSize: '16px', marginBottom: '-4px' }} />
-            <ExpandMoreIcon sx={{ color: '#FFFFFF', fontSize: '16px', marginTop: '-4px' }} />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              height: '24px',
+            }}
+          >
+            <ExpandLess
+              sx={{
+                color: '#FFFFFF',
+                fontSize: '16px',
+                marginBottom: '-4px',
+              }}
+            />
+            <ExpandMoreIcon
+              sx={{ color: '#FFFFFF', fontSize: '16px', marginTop: '-4px' }}
+            />
           </Box>
         </Box>
         <Menu
@@ -216,46 +230,10 @@ const ResponsiveNavBar = ({
           <MenuItem onClick={handleClose}>New App</MenuItem>
         </Menu>
       </Box>
-      {/*<div*/}
-      {/*  style={{*/}
-      {/*    width: '15vw',*/}
-      {/*    minWidth: '230px',*/}
-      {/*    maxWidth: 'calc(350px - 24px)',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <DropdownSelect*/}
-      {/*    allValues={map(allApps, app => ({*/}
-      {/*      value: app.id,*/}
-      {/*      label: app.name,*/}
-      {/*    }))}*/}
-      {/*    onChange={value => {}}*/}
-      {/*    currentValue={selectedAppId as any}*/}
-      {/*    //   bottomComponent={*/}
-      {/*    //     <MenuItem*/}
-      {/*    //       key={'100000'}*/}
-      {/*    //       value={'100000'}*/}
-      {/*    //       sx={{*/}
-      {/*    //         margin: '2px 6px',*/}
-      {/*    //         marginTop: '10px',*/}
-      {/*    //         borderRadius: '4px',*/}
-      {/*    //         padding: '0px',*/}
-      {/*    //       }}*/}
-      {/*    //     >*/}
-      {/*    //       <Button*/}
-      {/*    //         label={'Create new app'}*/}
-      {/*    //         fullWidth*/}
-      {/*    //         action={createNewApp}*/}
-      {/*    //       />*/}
-      {/*    //     </MenuItem>*/}
-      {/*    //   }*/}
-      {/*  />*/}
-      {/*</div>*/}
 
       <MUI_Button
         sx={{
           display: {
-            // xs: 'none',
-            // sm: 'block',
             background: '#201F29',
             padding: '6px 12px',
           },
