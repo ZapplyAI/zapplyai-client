@@ -57,12 +57,20 @@ const Divider = styled('div')({
   margin: '0 0.8rem',
 })
 
-const PageSelect = ({ options, value, onChange }) => {
+const PageSelect = ({
+  options,
+  value,
+  onChange,
+}: {
+  options: any
+  value: any
+  onChange: (option: any) => void
+}) => {
   const [open, setOpen] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget)
+  const handleClick = (event: any) => {
+    setAnchorEl(event?.currentTarget)
     setOpen(prev => !prev)
   }
 
@@ -70,7 +78,7 @@ const PageSelect = ({ options, value, onChange }) => {
     setOpen(false)
   }
 
-  const handleMenuItemClick = option => {
+  const handleMenuItemClick = (option: any) => {
     onChange(option)
     handleClose()
   }
@@ -102,7 +110,7 @@ const PageSelect = ({ options, value, onChange }) => {
       >
         <ClickAwayListener onClickAway={handleClose}>
           <DropdownContainer>
-            {options.map((option, index) => (
+            {options.map((option: any, index: number) => (
               <React.Fragment key={option.value}>
                 <StyledMenuItem onClick={() => handleMenuItemClick(option)}>
                   <InsertDriveFileIcon fontSize="small" />
