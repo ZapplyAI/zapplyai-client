@@ -1,27 +1,21 @@
 'use client'
 
 import React, { CSSProperties, useState } from 'react'
-import {
-  Button as MUI_Button,
-  Collapse,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material'
-import { SvgIconProps } from '@mui/material/SvgIcon'
+import { Button as MUI_Button, Collapse } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import ToggleOnIcon from '@mui/icons-material/ToggleOn'
-// @ts-ignore
-import { UilAngleRightB, UilArrowRight } from '@iconscout/react-unicons'
-import { StarBorder } from '@mui/icons-material'
-// @ts-ignore
-import { UilImage } from '@iconscout/react-unicons'
-import { selectDialog } from '@/lib/reducer/chat'
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
+import {
+  // @ts-ignore
+  UilAngleRightB,
+  // @ts-ignore
+  UilArrowRight,
+  // @ts-ignore
+  UilImage,
+  // @ts-ignore
+  UilPause,
+  // @ts-ignore
+} from '@iconscout/react-unicons'
 import SideNavButton from '@/app/chat/components/Navigation/component/SideNavButton'
-// @ts-ignore
-import { UilPause } from '@iconscout/react-unicons'
 
 interface SettingsDropdownProps {
   screenType: 'mobile' | 'big' | 'normal'

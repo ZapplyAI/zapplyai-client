@@ -6,7 +6,7 @@
 .pnp.js
 .yarn/install-state.gz
 yarn.lock
-
+.yarn/
 # testing
 /coverage
 
@@ -36,3 +36,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.editorconfig
+.gitattributes
