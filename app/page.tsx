@@ -1,6 +1,6 @@
 'use client'
 
-import React, { CSSProperties, useRef } from 'react'
+import React, { CSSProperties, useRef, Suspense } from 'react'
 import { Input, Logo, Navbar } from '@/components'
 import landingGradient from './../public/image/home/landingGradient_BG.png'
 import landingGradient_Mobile from './../public/image/home/landingGradient_BG_Mobile.png'
@@ -17,14 +17,19 @@ import { Button } from '@/components/Button'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 import Typography from '@mui/material/Typography'
 import Marquee from 'react-fast-marquee'
+import CircularProgress from '@mui/material/CircularProgress'
+import { Canvas } from '@react-three/fiber'
+import { Environment } from '@react-three/drei'
 
 import FaceIcon from '@mui/icons-material/Face'
 import Face2Icon from '@mui/icons-material/Face2'
 import Face4Icon from '@mui/icons-material/Face4'
 import EmailIcon from '@mui/icons-material/Email'
-import { Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { get } from 'lodash'
 import { useRouter } from 'next/navigation'
+
+const RotatingModel = React.lazy(() => import('@/components/3D/RotatingModel'))
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -146,6 +151,13 @@ export default function HomePage() {
   return (
     <div style={{ height: '100%', width: '100%', background: '#000' }}>
       <Navbar isMobile={isMobile} isLandingPage />
+
+      {/*<Canvas>*/}
+      {/*  <Suspense fallback={null}>*/}
+          <RotatingModel />
+          {/*<Environment preset="sunset" background />*/}
+        {/*</Suspense>*/}
+      {/*</Canvas>*/}
 
       {/* ----------------------------------------- */}
       {/* -------------- TOP SECTION -------------- */}
