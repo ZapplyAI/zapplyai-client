@@ -84,56 +84,84 @@ const columns: MRT_ColumnDef<YourWebApp>[] = [
   {
     accessorKey: 'actions',
     header: 'Actions',
-    Cell: ({ row }) => (
-      <Stack direction="row" spacing={1}>
-        <Button
-          startIcon={<PowerSettingsNew />}
-          sx={{
-            backgroundColor: '#282636',
-            color: '#D9D9D9',
-            borderRadius: '4px',
-            padding: '4px 8px',
-            textTransform: 'none',
-            '&:hover': {
-              backgroundColor: '#3b3b48',
-            },
-          }}
-        >
-          Turn off
-        </Button>
-        <Button
-          startIcon={<Archive />}
-          sx={{
-            backgroundColor: '#282636',
-            color: '#D9D9D9',
-            borderRadius: '4px',
-            padding: '4px 8px',
-            textTransform: 'none',
-            '&:hover': {
-              backgroundColor: '#3b3b48',
-            },
-          }}
-        >
-          Archive
-        </Button>
-        <Button
-          startIcon={<Delete />}
-          sx={{
-            backgroundColor: '#282636',
-            color: '#D9D9D9',
-            borderRadius: '4px',
-            padding: '4px 8px',
-            textTransform: 'none',
-            '&:hover': {
-              backgroundColor: '#3b3b48',
-            },
-          }}
-        >
-          Delete
-        </Button>
-      </Stack>
-    ),
+    Cell: ({ row }) => {
+      const status = row.original.status;
+
+      return (
+        <Stack direction="row" spacing={1}>
+          {status === 'Built' && (
+            <Button
+              startIcon={<PowerSettingsNew />}
+              sx={{
+                backgroundColor: '#282636',
+                color: '#D9D9D9',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#3b3b48',
+                },
+              }}
+            >
+              Deploy
+            </Button>
+          )}
+          {status === 'Active' && (
+            <Button
+              startIcon={<PowerSettingsNew />}
+              sx={{
+                backgroundColor: '#282636',
+                color: '#D9D9D9',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#3b3b48',
+                },
+              }}
+            >
+              Turn off
+            </Button>
+          )}
+          {(status === 'Built' || status === 'Active' || status === 'Building') && (
+            <>
+              <Button
+                startIcon={<Archive />}
+                sx={{
+                  backgroundColor: '#282636',
+                  color: '#D9D9D9',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#3b3b48',
+                  },
+                }}
+              >
+                Archive
+              </Button>
+              <Button
+                startIcon={<Delete />}
+                sx={{
+                  backgroundColor: '#282636',
+                  color: '#D9D9D9',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  textTransform: 'none',
+                  '&:hover': {
+                    backgroundColor: '#3b3b48',
+                  },
+                }}
+              >
+                Delete
+              </Button>
+            </>
+          )}
+        </Stack>
+      );
+    },
   },
+
   {
     accessorKey: 'url',
     header: 'Access url',
