@@ -30,5 +30,11 @@ export const data: YourWebApp[] = [
     url: '',
     lastModified: '2024-08-27T08:05:18.994U',
     status: 'Built',
+  },{
+    id: nanoid(),
+    name: 'Zeroverse',
+    url: 'https://zeroverse.elasticapp.ai/',
+    lastModified: '2024-08-22T10:01:23.811K',
+    status: 'Active',
   },
 ]
