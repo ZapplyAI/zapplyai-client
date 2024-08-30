@@ -22,11 +22,9 @@ const fragmentShader = `
         vec2 T1 = vUv + vec2( 1.5, - 1.5 ) * time * 0.02;
         vec2 T2 = vUv + vec2( - 0.5, 2.0 ) * time * 0.01;
 
-        // Adjust UV coordinates based on noise
-        T1.x += noise.x * 2.0;
-        T1.y += noise.y * 2.0;
-        T2.x -= noise.y * 0.2;
-        T2.y += noise.z * 0.2;
+        // Ensure UVs are within the [0,1] range to avoid wrapping issues
+        T1 = clamp(T1, 0.0, 1.0);
+        T2 = clamp(T2, 0.0, 1.0);
 
         // Sample textures
         float p = texture2D( texture1, T1 ).a;
@@ -48,7 +46,8 @@ const fragmentShader = `
 
         gl_FragColor = mix( temp, vec4( fogColor, temp.w ), fogFactor );
     }
-`
+`;
+
 
 const vertexShader = `
     uniform vec2 uvScale;
