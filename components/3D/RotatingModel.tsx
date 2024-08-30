@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { CircularProgress } from '@mui/material'
 
 const Model = () => {
-  const { scene } = useGLTF('/3D/VoxelDrawing.glb')
+  const { scene } = useGLTF('/3D/BlackHole3D.glb')
   const ref = useRef<THREE.Group>(null!)
 
   useFrame(() => {

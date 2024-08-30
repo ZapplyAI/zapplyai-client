@@ -28,6 +28,8 @@ import EmailIcon from '@mui/icons-material/Email'
 import { Box, Stack } from '@mui/material'
 import { get } from 'lodash'
 import { useRouter } from 'next/navigation'
+import LavaShaderSphere from '@/components/3D/LavaShaderSphere'
+import RotatingRedSphere from '@/components/3D/RotatingRedSphere'
 
 const RotatingModel = React.lazy(() => import('@/components/3D/RotatingModel'))
 
@@ -152,11 +154,15 @@ export default function HomePage() {
     <div style={{ height: '100%', width: '100%', background: '#000' }}>
       <Navbar isMobile={isMobile} isLandingPage />
 
+      <div style={{ height: '100vh', width: '100vw' }}>
+        <RotatingRedSphere />
+      </div>
+
       {/*<Canvas>*/}
       {/*  <Suspense fallback={null}>*/}
-          <RotatingModel />
-          {/*<Environment preset="sunset" background />*/}
-        {/*</Suspense>*/}
+      {/*<RotatingModel />*/}
+      {/*<Environment preset="sunset" background />*/}
+      {/*</Suspense>*/}
       {/*</Canvas>*/}
 
       {/* ----------------------------------------- */}
