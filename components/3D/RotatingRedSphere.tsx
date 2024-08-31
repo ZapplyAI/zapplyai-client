@@ -1,72 +1,67 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { OrbitControls } from '@react-three/drei'
 
 const fragmentShader = `
-    uniform float time;
-    uniform float fogDensity;
-    uniform vec3 fogColor;
-    uniform sampler2D texture1;
-    uniform sampler2D texture2;
-
+    varying vec3 vNormal;
     varying vec2 vUv;
+    
+    uniform vec3 color;
+    uniform sampler2D colorTexture;
+    
+    void main() {
+    
+    vec3 light = vec3( 0.5, 0.2, 1.0 );
+    light = normalize( light );
+    
+    float dProd = dot( vNormal, light ) * 0.5 + 0.5;
+    
+    vec4 tcolor = texture2D( colorTexture, vUv );
+    vec4 gray = vec4( vec3( tcolor.r * 0.3 + tcolor.g * 0.59 + tcolor.b * 0.11 ), 1.0 );
+    
+    gl_FragColor = gray * vec4( vec3( dProd ) * vec3( color ), 1.0 );
 
-    void main( void ) {
-        vec2 position = - 1.0 + 2.0 * vUv;
+  }
 
-        // Sample noise texture
-        vec4 noise = texture2D( texture1, vUv );
-        
-        // Modify UV coordinates based on noise and time
-        vec2 T1 = vUv + vec2( 1.5, - 1.5 ) * time * 0.02;
-        vec2 T2 = vUv + vec2( - 0.5, 2.0 ) * time * 0.01;
-
-        // Ensure UVs are within the [0,1] range to avoid wrapping issues
-        T1 = clamp(T1, 0.0, 1.0);
-        T2 = clamp(T2, 0.0, 1.0);
-
-        // Sample textures
-        float p = texture2D( texture1, T1 ).a;
-        vec4 color = texture2D( texture2, T2 );
-
-        // Combine colors with some effects
-        vec4 temp = color * ( vec4( p, p, p, p ) * 2.0 ) + ( color * color - 0.1 );
-
-        // Ensure color values are clamped
-        temp.r = min(temp.r, 1.0);
-        temp.g = min(temp.g, 1.0);
-        temp.b = min(temp.b, 1.0);
-
-        // Apply fog effect
-        float depth = gl_FragCoord.z / gl_FragCoord.w;
-        const float LOG2 = 1.442695;
-        float fogFactor = exp2( - fogDensity * fogDensity * depth * depth * LOG2 );
-        fogFactor = 1.0 - clamp( fogFactor, 0.0, 1.0 );
-
-        gl_FragColor = mix( temp, vec4( fogColor, temp.w ), fogFactor );
-    }
-`;
-
+`
 
 const vertexShader = `
-    uniform vec2 uvScale;
+    uniform float amplitude;
+
+    attribute float displacement;
+
+    varying vec3 vNormal;
     varying vec2 vUv;
 
-    void main()
-    {
-        vUv = uvScale * uv;
-        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-        gl_Position = projectionMatrix * mvPosition;
-    }
+    void main() {
+    
+    vNormal = normal;
+    vUv = ( 0.5 + amplitude ) * uv + vec2( amplitude );
+    
+    vec3 newPosition = position + amplitude * normal * vec3( displacement );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+  }
 `
 
 const RotatingRedSphere: React.FC = () => {
   const meshRef = useRef<THREE.Mesh>(null)
+  const geometryRef = useRef<THREE.BufferGeometry>(null)
 
-  const textureLoader = new THREE.TextureLoader()
-  const cloudTexture = textureLoader.load('/3D/textures/cloud.png')
-  const lavaTexture = textureLoader.load('/3D/textures/lavatile.jpg')
+  useEffect(() => {
+    if (geometryRef.current) {
+      const geometry = geometryRef.current
+      const displacement = new Float32Array(geometry.attributes.position.count)
+      for (let i = 0; i < displacement.length; i++) {
+        displacement[i] = Math.random() * 5
+      }
+      geometry.setAttribute(
+        'displacement',
+        new THREE.BufferAttribute(displacement, 1)
+      )
+    }
+  }, [])
 
   useFrame(() => {
     if (meshRef.current) {
@@ -76,17 +71,18 @@ const RotatingRedSphere: React.FC = () => {
 
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[1, 32, 32]} />
+      <sphereGeometry ref={geometryRef} args={[1, 32, 32]} />
       <shaderMaterial
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}
         uniforms={{
-          fogDensity: { value: 0.45 },
-          fogColor: { value: new THREE.Vector3(0, 0, 0) },
+          amplitude: { value: 1.0 },
+          color: { value: new THREE.Color(0xff2200) },
+          colorTexture: {
+            value: new THREE.TextureLoader().load('/3D/textures/cloud.png'),
+          },
           time: { value: 1.0 },
           uvScale: { value: new THREE.Vector2(1.0, 1.0) },
-          texture1: { value: cloudTexture },
-          texture2: { value: lavaTexture },
         }}
         // wireframe
       />

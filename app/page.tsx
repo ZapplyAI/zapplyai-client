@@ -17,9 +17,6 @@ import { Button } from '@/components/Button'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 import Typography from '@mui/material/Typography'
 import Marquee from 'react-fast-marquee'
-import CircularProgress from '@mui/material/CircularProgress'
-import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
 
 import FaceIcon from '@mui/icons-material/Face'
 import Face2Icon from '@mui/icons-material/Face2'
@@ -28,8 +25,7 @@ import EmailIcon from '@mui/icons-material/Email'
 import { Box, Stack } from '@mui/material'
 import { get } from 'lodash'
 import { useRouter } from 'next/navigation'
-import LavaShaderSphere from '@/components/3D/LavaShaderSphere'
-import RotatingRedSphere from '@/components/3D/RotatingRedSphere'
+import Background3D from '@/components/3D/Background3D'
 
 const RotatingModel = React.lazy(() => import('@/components/3D/RotatingModel'))
 
@@ -155,7 +151,7 @@ export default function HomePage() {
       <Navbar isMobile={isMobile} isLandingPage />
 
       <div style={{ height: '100vh', width: '100vw' }}>
-        <RotatingRedSphere />
+        <Background3D />
       </div>
 
       {/*<Canvas>*/}
