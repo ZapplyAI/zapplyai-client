@@ -7,6 +7,7 @@ import { Debug, Physics } from '@react-three/cannon'
 import Lighting from './Lighting'
 import TextComponent from '@/components/3D/Text'
 import Floor from '@/components/3D/Floor'
+import Ring from '@/components/3D/Ring'
 
 function Background3D() {
   const [loaded, setLoaded] = useState(false)
@@ -29,14 +30,16 @@ function Background3D() {
         <color args={['#020014']} attach="background" />
 
         <Suspense fallback={null}>
-          <Physics>
-            <Bounds fit>
-              {/*<TextComponent />*/}
-            </Bounds>
+          {/*<Physics>*/}
+          {/*  <Bounds fit>*/}
+          {/*    <TextComponent />*/}
+          {/*  </Bounds>*/}
 
-            {/*<Floor />*/}
-            {/*<Marble setLoaded={setLoaded} />*/}
-          </Physics>
+          {/*  <Floor />*/}
+          {/*  <Marble setLoaded={setLoaded} />*/}
+          {/*</Physics>*/}
+
+          <Ring />
 
           <Blob position={[-2, -0.5, -3]} />
           <Blob position={[-2, 1.5, 0]} />
