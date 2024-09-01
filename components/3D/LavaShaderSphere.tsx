@@ -1,34 +1,34 @@
-import React, { useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
-import { ShaderMaterial } from 'three';
+import React, { useRef, useEffect } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import * as THREE from 'three'
+import { ShaderMaterial } from 'three'
 
 interface LavaShaderMaterialProps {}
 
 const LavaShaderMaterial: React.FC<LavaShaderMaterialProps> = () => {
-  const materialRef = useRef<ShaderMaterial>(null);
+  const materialRef = useRef<ShaderMaterial>(null)
 
   useEffect(() => {
-    const textureLoader = new THREE.TextureLoader();
-    const cloudTexture = textureLoader.load('/3D/textures/cloud.png');
-    const lavaTexture = textureLoader.load('/3D/textures/lavatile.jpg');
+    const textureLoader = new THREE.TextureLoader()
+    const cloudTexture = textureLoader.load('/3D/textures/cloud.png')
+    const lavaTexture = textureLoader.load('/3D/textures/lavatile.jpg')
 
-    cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping;
-    lavaTexture.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping;
-    lavaTexture.colorSpace = THREE.SRGBColorSpace;
+    cloudTexture.wrapS = cloudTexture.wrapT = THREE.RepeatWrapping
+    lavaTexture.wrapS = lavaTexture.wrapT = THREE.RepeatWrapping
+    lavaTexture.colorSpace = THREE.SRGBColorSpace
 
     if (materialRef.current) {
-      materialRef.current.uniforms.texture1.value = cloudTexture;
-      materialRef.current.uniforms.texture2.value = lavaTexture;
+      materialRef.current.uniforms.texture1.value = cloudTexture
+      materialRef.current.uniforms.texture2.value = lavaTexture
     }
-  }, []);
+  }, [])
 
   useFrame(({ clock }) => {
-    const delta = clock.getDelta();
+    const delta = clock.getDelta()
     if (materialRef.current) {
-      materialRef.current.uniforms.time.value += 0.2 * delta;
+      materialRef.current.uniforms.time.value += 0.2 * delta
     }
-  });
+  })
 
   return (
     <shaderMaterial
@@ -94,8 +94,8 @@ const LavaShaderMaterial: React.FC<LavaShaderMaterialProps> = () => {
         },
       ]}
     />
-  );
-};
+  )
+}
 
 const LavaShaderSphere: React.FC = () => {
   return (
@@ -107,8 +107,7 @@ const LavaShaderSphere: React.FC = () => {
         <LavaShaderMaterial />
       </mesh>
     </Canvas>
+  )
+}
 
-  );
-};
-
-export default LavaShaderSphere;
+export default LavaShaderSphere

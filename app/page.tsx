@@ -26,6 +26,8 @@ import { Box, Stack } from '@mui/material'
 import { get } from 'lodash'
 import { useRouter } from 'next/navigation'
 import Background3D from '@/components/3D/Background3D'
+import RotatingRedSphere from '@/components/3D/RotatingRedSphere'
+import ElasticLogo3D from '@/components/3D/ElasticLogo3D'
 
 const RotatingModel = React.lazy(() => import('@/components/3D/RotatingModel'))
 
@@ -151,7 +153,9 @@ export default function HomePage() {
       <Navbar isMobile={isMobile} isLandingPage />
 
       <div style={{ height: '100vh', width: '100vw' }}>
-        <Background3D />
+        {/*<Background3D />*/}
+        {/*<RotatingRedSphere />*/}
+        <ElasticLogo3D/>
       </div>
 
       {/*<Canvas>*/}
