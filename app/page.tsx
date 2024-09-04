@@ -25,11 +25,7 @@ import EmailIcon from '@mui/icons-material/Email'
 import { Box, Stack } from '@mui/material'
 import { get } from 'lodash'
 import { useRouter } from 'next/navigation'
-import Background3D from '@/components/3D/Background3D'
-import RotatingRedSphere from '@/components/3D/RotatingRedSphere'
-import ElasticLogo3D from '@/components/3D/ElasticLogo3D'
-
-const RotatingModel = React.lazy(() => import('@/components/3D/RotatingModel'))
+import ElasticScene from '@/components/3D/ElasticScene'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -153,9 +149,7 @@ export default function HomePage() {
       <Navbar isMobile={isMobile} isLandingPage />
 
       <div style={{ height: '100vh', width: '100vw' }}>
-        {/*<Background3D />*/}
-        {/*<RotatingRedSphere />*/}
-        <ElasticLogo3D/>
+        <ElasticScene/>
       </div>
 
       {/*<Canvas>*/}
