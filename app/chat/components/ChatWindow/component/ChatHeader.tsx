@@ -1,40 +1,70 @@
 'use client'
 
-import React, { CSSProperties } from 'react'
-import GrainIcon from '@mui/icons-material/Grain'
-import { IconButton } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import React, { CSSProperties, useState } from 'react'
 import { AppPage } from '@/lib/type'
-import { find } from 'lodash'
-import { DropdownSelect } from '@/components'
 import map from 'lodash/map'
+import MUI_Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import PageSelect from './PageSelect'
 
 interface ChatHeaderProps {
   allPages: AppPage[]
   openDialogId: string
-  selectDialog: any
+  selectDialog: (dialogId: string) => void
+  openGetTokensForm: () => void
 }
 
 const ChatHeader = ({
   allPages,
   openDialogId,
   selectDialog,
+  openGetTokensForm,
 }: ChatHeaderProps): React.ReactNode => {
-
-  // CREATING NEW APP
   const pagesValues = map(allPages, page => ({
     value: page.id,
     label: page.name,
   }))
 
+  const allOptions = [
+    { value: '0', label: 'Main chat' },
+    ...pagesValues
+  ]
+
+  // Find the current selected option
+  const [selectedOption, setSelectedOption] = useState(
+    allOptions.find(option => option.value === openDialogId) || allOptions[0]
+  )
+
+  const handlePageChange = (newValue: { value: string, label: string }) => {
+    setSelectedOption(newValue)
+    selectDialog(newValue.value)
+  }
+
   return (
     <div style={{ ...style.headerContainer, ...style.absolutePositioning }}>
-      <DropdownSelect
-        allValues={[...pagesValues, { value: '0', label: 'Main chat' }]}
-        currentValue={openDialogId}
-        onChange={selectDialog}
+      <PageSelect
+        options={allOptions}
+        value={selectedOption}
+        onChange={handlePageChange}
       />
-      <span style={{color: '#D0D0D0'}}>Tokens : 25</span>
+      <div style={style.tokenSection}>
+        <MUI_Button
+          variant={'text'}
+          onClick={openGetTokensForm}
+          sx={style.getTokensButton}
+        >
+          Get tokens
+          <hr style={{ width: '40px', border: 'solid 0.3px #7C7C7C' }} />
+        </MUI_Button>
+        <div style={style.tokenDisplay}>
+          <Typography
+            variant={'h6'}
+            style={{ color: '#D0D0D0', fontWeight: '200' }}
+          >
+            218 tokens
+          </Typography>
+        </div>
+      </div>
     </div>
   )
 }
@@ -51,8 +81,27 @@ const style: { [key: string]: CSSProperties } = {
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: '10000',
+    zIndex: '100',
     width: '100%',
+  },
+  tokenSection: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
+  getTokensButton: {
+    fontSize: '9px',
+    textTransform: 'unset',
+    color: '#7C7C7C',
+    fontWeight: '300',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  tokenDisplay: {
+    background: '#181818',
+    borderRadius: '5px',
+    padding: '5px 12px',
   },
 }
 

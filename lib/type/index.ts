@@ -65,6 +65,14 @@ type AppOverview = {
   url: string
 }
 
+type YourWebApp = {
+  id: string
+  name: string
+  url: string
+  lastModified: string
+  status: 'Active' | 'Built' | 'Building'
+}
+
 type User = {
   id: string
   name: string
@@ -92,6 +100,7 @@ export {
   type Message,
   type MessageAttachment,
   type AppOverview,
+  type YourWebApp,
   type SessionState,
   type User,
   type AsyncFunction,

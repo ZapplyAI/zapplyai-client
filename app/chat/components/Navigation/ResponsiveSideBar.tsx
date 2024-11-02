@@ -11,7 +11,7 @@ import { RootState } from '@/lib/store'
 import { find, get } from 'lodash'
 import { nanoid } from 'nanoid'
 import CloseIcon from '@mui/icons-material/Close'
-import { IconButton } from '@mui/material'
+import { IconButton, InputBase } from '@mui/material'
 import SideNavButton from './component/SideNavButton'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -22,6 +22,8 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+// @ts-ignore
+import { UilPlus } from '@iconscout/react-unicons'
 
 import {
   UilArrowRight,
@@ -31,10 +33,12 @@ import {
   // @ts-ignore
 } from '@iconscout/react-unicons'
 import map from 'lodash/map'
-import { CurrentProgress, WebApp } from '@/lib/type'
+import { AnyFunction, CurrentProgress, WebApp } from '@/lib/type'
 import { createDialog, selectDialog } from '@/lib/reducer/chat'
 import { usePathname, useRouter } from 'next/navigation'
 import ProgressDisplay from '@/app/chat/components/ProgressDisplay'
+import SettingsDropdown from '@/app/chat/components/Navigation/component/SettingsDropdown'
+import { Search } from '@mui/icons-material'
 
 interface ResponsiveSideBarProps {
   closeNavDrawer?: () => void
@@ -43,6 +47,7 @@ interface ResponsiveSideBarProps {
   selectedAppId: string
   openDialogId: string
   currentProgress?: CurrentProgress
+  openGetTokensForm?: AnyFunction
 }
 
 const ResponsiveSideBar = ({
@@ -52,6 +57,7 @@ const ResponsiveSideBar = ({
   selectedAppId,
   openDialogId,
   currentProgress,
+  openGetTokensForm,
 }: ResponsiveSideBarProps): React.ReactNode => {
   const isMobile = screenType === 'mobile'
   const isBigScreen = screenType === 'big'
@@ -79,6 +85,12 @@ const ResponsiveSideBar = ({
       fontSize: isMobile ? '18px' : isBigScreen ? '0.65vw' : '13px',
       fontWeight: '500',
     },
+    headerIconMobile: {
+      height: '35px',
+      width: '35px',
+      borderRadius: '5px',
+      color: '#858585',
+    },
   }
 
   const createNewApp = () => {
@@ -86,7 +98,6 @@ const ResponsiveSideBar = ({
     // dispatch(createApp({ id: appId, name: 'New app', url: '' }))
     // dispatch(selectApp(appId))
   }
-
 
   // console.log('responsive sideBar, currentProgress', currentProgress)
   return (
@@ -100,22 +111,56 @@ const ResponsiveSideBar = ({
               justifyContent: 'space-between',
               alignItems: 'center',
               width: '100%',
-              marginBottom: '7px',
               padding: '12px',
             }}
           >
-            <IconButton onClick={() => closeNavDrawer()}>
-              <CloseIcon />
+            <IconButton
+              onClick={() => closeNavDrawer()}
+              style={style.headerIconMobile}
+            >
+              <CloseIcon sx={{ height: '30px', width: '30px' }} />
             </IconButton>
-            <div>Tokens : 10</div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <IconButton
+                onClick={() => openGetTokensForm?.()}
+                sx={{
+                  ...style.headerIconMobile,
+                  background: '#201F29',
+                  height: '28px',
+                  width: '28px',
+                  padding: '3px',
+                  marginRight: '18px',
+                }}
+              >
+                <UilPlus sx={{ height: '100%' }} />
+              </IconButton>
+              <Typography
+                variant={'h6'}
+                style={{
+                  fontSize: '18px',
+                  fontWeight: '400',
+                  color: '#D0D0D0',
+                }}
+              >
+                10 Tokens
+              </Typography>
+            </div>
           </div>
           <hr
             style={{
               width: '100%',
-              borderColor: '#282636',
+              border: '1px solid #282636',
+              margin: '4px',
               marginBottom: '18px',
             }}
           />
+
           <div style={{ padding: '12px', width: '100%' }}>
             <DropdownSelect
               allValues={map(allApps, app => ({
@@ -147,7 +192,57 @@ const ResponsiveSideBar = ({
         </React.Fragment>
       )}
 
-      <div style={{ position: 'relative', padding: '12px', width: '100%', height: '100%', }}>
+      <div
+        style={{
+          position: 'relative',
+          padding: '12px',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Box
+          sx={{
+            width: '234px',
+            height: '34px',
+            position: 'relative',
+            borderRadius: '6px',
+            backgroundColor: '#1E1E1E',
+            border: '0.3px solid #7C7C7C',
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '1rem',
+            '&:hover': {
+              border: '0.3px solid #A0A0A0',
+            },
+          }}
+        >
+          <Search
+            sx={{
+              color: '#7C7C7C',
+              position: 'absolute',
+              left: '8px',
+              fontSize: '16px',
+            }}
+          />
+          <InputBase
+            placeholder="Quick search"
+            sx={{
+              color: '#7C7C7C',
+              fontSize: '13px',
+              fontWeight: 400,
+              lineHeight: '16px',
+              paddingLeft: '32px',
+              width: '100%',
+              height: '100%',
+              '& input': {
+                '&::placeholder': {
+                  color: '#7C7C7C',
+                  opacity: 1,
+                },
+              },
+            }}
+          />
+        </Box>
         <div style={{ padding: '0px 8px', width: '100%' }}>
           <SideNavButton
             screenType={screenType}
@@ -163,15 +258,7 @@ const ResponsiveSideBar = ({
             secondaryIconAlwaysVisible={true}
             isActive={openDialogId === '0'}
           />
-          <SideNavButton
-            screenType={screenType}
-            onClick={() => {}}
-            label={'Settings'}
-            primaryIcon={ToggleOnIcon}
-            secondaryIcon={UilAngleRightB}
-            sx_secondaryIcon={{ transform: 'rotate(90deg)' }}
-            secondaryIconAlwaysVisible={true}
-          />
+          <SettingsDropdown screenType={screenType} />
         </div>
 
         <Typography variant={'h4'} style={style.dividerHeader}>
@@ -257,7 +344,9 @@ const ResponsiveSideBar = ({
         </div>
 
         {get(currentProgress, 'isLoading', false) && (
-          <ProgressDisplay currentProgress={currentProgress as CurrentProgress} />
+          <ProgressDisplay
+            currentProgress={currentProgress as CurrentProgress}
+          />
         )}
       </div>
     </Box>

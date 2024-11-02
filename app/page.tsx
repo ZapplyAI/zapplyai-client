@@ -203,7 +203,7 @@ export default function HomePage() {
                 marginTop: '36px',
               }}
               src={topOfferPictures_Mobile}
-              alt={'ZapplyAI.io'}
+              alt={'ElasticApp.ai'}
             />
           )}
 
@@ -251,7 +251,7 @@ export default function HomePage() {
           <Image
             style={style.topOfferPictures}
             src={topOfferPictures}
-            alt={'ZapplyAI.io'}
+            alt={'Elastic.io'}
           />
         )}
       </div>
@@ -259,7 +259,7 @@ export default function HomePage() {
       <Image
         style={style.radialGradientBackground}
         src={isMobile ? landingGradient_Mobile : landingGradient}
-        alt={'ZapplyAI.io examples'}
+        alt={'Elasticapp examples'}
       />
 
       <Marquee style={{ marginTop: isMobile ? '0px' : '22px' }}>
@@ -326,7 +326,7 @@ export default function HomePage() {
             variant={isMobile ? 'h1_gradient_mobile' : ('h2_gradient' as any)}
             style={{ textAlign: isMobile ? 'left' : 'right' }}
           >
-            Explore potential of Zapply UI
+            Explore potential of Elastic UI
           </Typography>
           <Typography
             variant={isMobile ? 'h5_mobile' : ('h5' as any)}
@@ -337,8 +337,8 @@ export default function HomePage() {
               textAlign: isMobile ? 'left' : 'right',
             }}
           >
-            Zapply UI is designed to give the most smooth experience to less
-            technical users. Chatting with Zapply AI is as simple as chatting to
+            Elastic UI is designed to give the most smooth experience to less
+            technical users. Chatting with Elastic AI is as simple as chatting to
             a friend. It will understand your idea, and ask additional questions
             in order to produce the best result for your needs.
           </Typography>
@@ -390,7 +390,7 @@ export default function HomePage() {
           <Typography
             variant={isMobile ? 'h1_gradient_mobile' : ('h2_gradient' as any)}
           >
-            Relax. Sit back. Zapply will do everything for you
+            Relax. Sit back. Elastic will do everything for you
           </Typography>
 
           <div
@@ -411,10 +411,10 @@ export default function HomePage() {
               <div style={style.helpfulTextRight}>
                 <Typography variant={'h3_empty' as any}>Design</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
-                  Zapply will be your personal web-designer. It builds your UI
+                  ElasticApp will be your personal web-designer. It builds your UI
                   and UX to provide best experience for your app&apos;s users.
-                  Zapply always tries to deliver the best experience for you.
-                  After your web-app is built you can still ask Zapply to edit
+                  ElasticApp always tries to deliver the best experience for you.
+                  After your web-app is built you can still ask ElasticApp to edit
                   it in any way you like.
                 </Typography>
               </div>
@@ -430,10 +430,10 @@ export default function HomePage() {
               <div style={style.helpfulTextRight}>
                 <Typography variant={'h3_empty' as any}>Development</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
-                  Zapply is the most experienced software engineer you can ever
-                  find. We trained Zapply especially for web development. It
+                  ElasticAI is the most experienced software engineer you can ever
+                  find. We trained Elastic AI especially for web development. It
                   went through intensive training building everything from
-                  e-commerce to landing pages. Zapply really knows what your
+                  e-commerce to landing pages. ElasticAI really knows what your
                   users want!
                 </Typography>
               </div>
@@ -450,7 +450,7 @@ export default function HomePage() {
                 <Typography variant={'h3_empty' as any}>Deployment</Typography>
                 <Typography variant="h6" style={{ marginTop: '12px' }}>
                   Instantly deploy your web-app when you are ready. No more
-                  headaches trying to set-up everything yourself. Zapply is good
+                  headaches trying to set-up everything yourself. ElasticApp is good
                   at taking care of its users from start to finish!
                 </Typography>
               </div>
@@ -495,7 +495,7 @@ export default function HomePage() {
               </Typography>
             </div>
             <Typography variant="h6">
-              Stay up to date with our updates. Be the first one to use Zapply
+              Stay up to date with our updates. Be the first one to use ElasticApp
             </Typography>
             {!get(formState, 'succeeded', false) ? (
               <Input
@@ -533,7 +533,7 @@ export default function HomePage() {
             />
           </div>
           <Typography variant="h6">
-            © 2024 ZapplyAI Inc. All rights reserved.
+            © 2024 ElasticApp.ai Inc. All rights reserved.
           </Typography>
         </div>
 
@@ -559,7 +559,7 @@ export default function HomePage() {
               </Typography>
             </div>
             <Typography variant="h6">
-              Stay up to date with our updates. Be the first one to use Zapply
+              Stay up to date with our updates. Be the first one to use ElasticApp
             </Typography>
 
             {!get(formState, 'succeeded', false) ? (
@@ -595,7 +595,7 @@ export default function HomePage() {
           </div>
           <div style={{ display: 'flex' }}>
             <EmailIcon style={{ color: '#D0D0D0', marginRight: '12px' }} />
-            <Typography variant="h6">andrii@zapplyai.io</Typography>
+            <Typography variant="h6">andrii@elasticapp.ai</Typography>
           </div>
         </div>
       </Stack>
