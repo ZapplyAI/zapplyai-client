@@ -101,6 +101,18 @@ const themeTypography = ({
     color: '#D0D0D0',
     fontFamily: 'Kanit, sans-serif',
   },
+  body1: {
+    fontWeight: 400,
+    fontSize: '14px',
+    color: '#D0D0D0',
+    fontFamily: 'Kanit, sans-serif',
+  },
+  body_light: {
+    fontWeight: 300,
+    fontSize: '14px',
+    color: '#D0D0D0',
+    fontFamily: 'Kanit, sans-serif',
+  }
 })
 
 const darkTheme: Theme = createTheme({
