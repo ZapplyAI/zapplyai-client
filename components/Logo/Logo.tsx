@@ -10,11 +10,11 @@ interface LogoProps {
   mini?: boolean
 }
 
-const Logo = ({sx={}, height=22, width=130, mini=false} : LogoProps): React.ReactNode => {
+const Logo = ({sx={}, height=22, width=22, mini=false} : LogoProps): React.ReactNode => {
   return mini ? (
     <div style={{ ...style.logoIcon, ...sx }}>
       <Image
-        src="/image/brand/zapplyLogo.png"
+        src="/image/brand/elastic_logo_small.svg"
         alt="LOGO"
         height={height}
         width={width}
@@ -35,7 +35,7 @@ const Logo = ({sx={}, height=22, width=130, mini=false} : LogoProps): React.Reac
 const style: { [key: string]: CSSProperties } = {
   logoIcon: {
     color: '#775EFF',
-    height: '22px',
+    // height: '22px',
   },
 }
 

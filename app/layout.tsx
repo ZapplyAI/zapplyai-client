@@ -1,37 +1,24 @@
-'use client'
-import React, { useEffect } from 'react'
-
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-import { ThemeProvider } from '@mui/material/styles'
-
+import React from 'react'
 import '@/styles/main.scss'
-import darkTheme from '@/styles/theme'
-import StoreProvider from '@/app/StoreProvider'
-// import { browser } from '@/testing/mockServer/browser'
-
-// if (process.env.NEXT_PUBLIC_TEST_MODE === 'true') {
-//   console.log('process.env.TEST_MODE')
-//   const { worker } = require('@/testing/mockServer/browser')
-//   worker.start()
-// } else {
-//   console.log('process.env.TEST_MODE = FALSE')
-// }
+import { LandingProvider } from '@/contexts/LandingProvider'
+import { landingTheme } from '@/styles/theme/theme'
+import { ThemeProvider } from '@mui/material/styles'
+import StoreProvider from '@/app_legacy/StoreProvider'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
-  // useEffect(() => {
-  //
-  // }, [])
-
+}) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ background: '#0A090E' }}>
       <StoreProvider>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={darkTheme}>
-            <body>{children}</body>
+          <ThemeProvider theme={landingTheme}>
+            <LandingProvider>
+              <body>{children}</body>
+            </LandingProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </StoreProvider>

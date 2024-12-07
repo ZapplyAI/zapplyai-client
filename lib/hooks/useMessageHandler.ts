@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AnyFunction, APP_STATE, Dialog, Message, WebApp } from '@/lib/type'
+import { AnyFunction, APP_STATE, Dialog, Message, WebApp } from '../type_legacy'
 import { addMessageToFeed, updateDialogSessionState } from '@/lib/reducer/chat'
 import { filter, find, get, takeRight } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
