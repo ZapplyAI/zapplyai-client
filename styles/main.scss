@@ -21,3 +21,14 @@ html {
     font-size: 14px;
   }
 }
+
+#tsparticles {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: -100;
+}
+
+//#tsparticles canvas {
+//  pointer-events: all !important;
+//}

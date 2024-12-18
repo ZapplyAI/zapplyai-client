@@ -17,7 +17,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={landingTheme}>
             <LandingProvider>
-              <body>{children}</body>
+              <body style={{position:'relative'}}>{children}</body>
             </LandingProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

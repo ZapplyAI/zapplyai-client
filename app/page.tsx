@@ -10,8 +10,15 @@ import { Footer } from '@/app/(sections)/footer/Footer'
 import StarrySky from '@/app/(sections)/main/StarrySky'
 import Marquee from 'react-fast-marquee'
 import Typography from '@mui/material/Typography'
-import { Box } from '@mui/material'
-import { VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
+import { Box, Divider, IconButton } from '@mui/material'
+import {
+  HorizontalCenterBox,
+  HorizontalLeftAlignBox,
+  VerticalCenterBox, VerticalLeftAlignBox,
+} from '@/components/layouts/CenterBox'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -22,11 +29,16 @@ export default function HomePage() {
       <TopNav isMobile={isMobile} />
       {renderRunningMiniText()}
       {renderRunningMainText()}
+
       <StarrySky />
       <main>
         <MainSection />
-        <FasterCoding />
-        <ContextAware />
+        {renderLoadingAdvantages()}
+        <Box sx={{position: 'relative'}}>
+          <DetailListing/>
+          <FasterCoding />
+          <ContextAware />
+        </Box>
         <Footer />
       </main>
     </React.Fragment>
@@ -57,19 +69,80 @@ const renderRunningMiniText = () => {
 
 const renderRunningMainText = () => {
   return (
-      <Box
+    <Box
+      sx={{
+        padding: '15px 0px',
+        borderTop: '1px solid #5E5E5E',
+        borderBottom: '1px solid #5E5E5E',
+      }}
+    >
+      <Marquee>
+        <Typography
+          variant={'h1'}
+          sx={{ fontSize: '7.5rem', overflow: 'hidden' }}
+        >
+          ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC.
+        </Typography>
+      </Marquee>
+    </Box>
+  )
+}
+
+const renderLoadingAdvantages = () => {
+  const style = {
+    bigNumber: {
+      fontSize: '40px',
+      color: '#AEAEAE',
+      fontFamily: 'JetBrains Mono, sans-serif',
+      marginBottom: '12px',
+    },
+    divider: {
+      border: '1px #393939 solid',
+      height: '80px',
+    },
+  }
+
+  return (
+    <Box
+      sx={{
+        padding: '0px 12vw',
+      }}
+    >
+      <HorizontalLeftAlignBox
         sx={{
-          padding: '15px 0px',
-          borderTop: '1px solid #5E5E5E',
-          borderBottom: '1px solid #5E5E5E',
+          borderLeft: '1px solid #5E5E5E',
+          borderRight: '1px solid #5E5E5E',
+          paddingTop: '80px',
+          paddingBottom: '30px',
+          paddingLeft: '30px'
         }}
       >
-        <Marquee>
-          <Typography variant={'h1'} sx={{ fontSize: '7.5rem' }}>
-            ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC.
+        <VerticalLeftAlignBox>
+          <Typography variant={'body2'} sx={{ marginBottom: '5px' }}>
+            loading advantages ...
           </Typography>
-        </Marquee>
-      </Box>
+          <span
+            style={{
+              position: 'relative',
+              width: '200px',
+              height: '6px',
+              background: '#222222',
+            }}
+          >
+        <span
+          style={{
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '120px',
+            height: '6px',
+            background: '#E5E5E5',
+          }}
+        />
+      </span>
+        </VerticalLeftAlignBox>
+      </HorizontalLeftAlignBox>
+    </Box>
   )
 }
 
