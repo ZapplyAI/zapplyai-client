@@ -1,9 +1,10 @@
-import { ThemeMode } from '@/styles/theme/theme'
+import { ThemeMode } from './types'
+import { PaletteOptions } from '@mui/material/styles'
 
-export const palette = (theme: ThemeMode) => ({
+export const palette = (mode: ThemeMode): PaletteOptions => ({
   primary: {
     main: '#775EFF',
-    light: '#6A6A6A'
+    light: '#6A6A6A',
   },
   action: {
     hover: '#202023',
@@ -32,11 +33,11 @@ export const palette = (theme: ThemeMode) => ({
     primary: '#DDDCE9',
     secondary: '#D0D0D0',
     caption: '#8B8B8B',
-    button: '#858585'
+    button: '#858585',
     // disabled: 'rgba(0, 0, 0, 0.38)',
   },
   icon: {
     main: '#807F89',
     light: '#6A6A6A',
-  }
+  },
 })

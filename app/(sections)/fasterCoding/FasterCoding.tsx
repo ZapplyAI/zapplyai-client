@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect, useRef } from 'react'
 import { Box } from '@mui/material'
 import {
-  HorizontalCenterBox,
+  HorizontalCenterBox, VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
@@ -11,7 +11,7 @@ import Spline from '@splinetool/react-spline'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import StickyBox from 'react-sticky-box'
 
-export const FasterCoding = () => {
+export const FasterCoding = React.forwardRef((props, ref) => {
   const style = {
     mainIllustration: {
       position: 'relative',
@@ -23,6 +23,7 @@ export const FasterCoding = () => {
   return (
     <React.Fragment>
       <Box
+        ref={ref}
         sx={{
           width: '100%',
           position: 'relative',
@@ -50,15 +51,12 @@ export const FasterCoding = () => {
               <RocketAnim />
             </Box>
           </Box>
-
-          <StickyBox offsetTop={10} offsetBottom={10}>
-            {renderAdvantages()}
-          </StickyBox>
         </Box>
       </Box>
     </React.Fragment>
   )
-}
+});
+
 
 const renderFasterCodingIllustration = () => {
   return (
@@ -111,71 +109,5 @@ const RocketAnim = () => {
         />
       </Suspense>
     </div>
-  )
-}
-
-const renderAdvantages = () => {
-  const style = {
-    advantageItem: {
-      width: '298px',
-      border: '#343434 1px solid',
-      borderLeft: 'none',
-      borderRight: 'none',
-      padding: '10px 15px',
-      textTransform: 'uppercase',
-      marginBottom: '-1px',
-    },
-    label: {
-      fontWeight: '200',
-      color: '#E5E5E5',
-      width: '100%',
-      textAlign: 'right',
-    },
-    labelCTA: {
-      fontWeight: '200',
-      width: '100%',
-      textAlign: 'right',
-      background:
-        'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      display: 'inline-block',
-    },
-  }
-  return (
-    <VerticalLeftAlignBox
-      sx={{
-        justifyContent: 'end',
-        position: 'absolute',
-        right: '0',
-        top: '0',
-      }}
-    >
-      <Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-      </Box>
-      <HorizontalCenterBox sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
-          check autocomplete examples
-        </Typography>
-        <ArrowCircleRightIcon
-          sx={{ width: '22px', height: '22px', color: '#C932A1' }}
-        />
-      </HorizontalCenterBox>
-    </VerticalLeftAlignBox>
   )
 }

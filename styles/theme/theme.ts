@@ -3,12 +3,7 @@ import { createTheme, Theme } from '@mui/material/styles'
 import { palette } from '@/styles/theme/palette'
 import { MUI_Select } from './component/select'
 import themeTypography from '@/styles/theme/typography'
-
-export enum ThemeMode {
-  Light = 'light',
-  Dark = 'dark',
-  Landing = 'landing',
-}
+import { ThemeMode } from './types'
 
 export const darkTheme: Theme = createTheme({
   typography: {
@@ -16,7 +11,7 @@ export const darkTheme: Theme = createTheme({
   },
   palette: palette(ThemeMode.Dark),
   components: {
-    ...MUI_Select(ThemeMode.Dark)
+    ...MUI_Select(ThemeMode.Dark),
   },
 })
 
@@ -26,6 +21,6 @@ export const landingTheme: Theme = createTheme({
   },
   palette: palette(ThemeMode.Dark),
   components: {
-    ...MUI_Select(ThemeMode.Dark)
+    ...MUI_Select(ThemeMode.Dark),
   },
 })

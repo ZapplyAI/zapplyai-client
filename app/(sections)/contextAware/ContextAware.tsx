@@ -12,7 +12,7 @@ import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import Image from 'next/image'
 
-export const ContextAware = () => {
+export const ContextAware = React.forwardRef((props, ref) => {
   const style = {
     mainIllustration: {
       position: 'relative',
@@ -24,6 +24,7 @@ export const ContextAware = () => {
   return (
     <React.Fragment>
       <Box
+        ref={ref}
         sx={{
           width: '100%',
           position: 'relative',
@@ -51,16 +52,32 @@ export const ContextAware = () => {
           >
             <ContextAnim />
           </Box>
-          {renderAdvantages()}
         </Box>
+
+        {/*<Box*/}
+        {/*  sx={{*/}
+        {/*    position: 'absolute',*/}
+        {/*    right: '0',*/}
+        {/*    top: 0,*/}
+        {/*    border: '1px solid #5E5E5E',*/}
+        {/*    borderTop: 'none',*/}
+        {/*    height: '100%',*/}
+        {/*    width: '300px',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <StickyBox offsetTop={10} offsetBottom={10}>*/}
+        {/*    {renderAdvantages()}*/}
+        {/*  </StickyBox>*/}
+        {/*</Box>*/}
       </Box>
     </React.Fragment>
   )
-}
+});
+
 
 const renderContextAwareIllustration = () => {
   return (
-    <VerticalLeftAlignBox>
+    <VerticalLeftAlignBox >
       <HorizontalLeftAlignBox
         sx={{
           border: '1px solid transparent',
@@ -101,6 +118,7 @@ const renderContextAwareIllustration = () => {
         sx={{
           marginLeft: '100px',
           marginTop: '50px',
+          height: '550px'
         }}
       >
         <ContextFindingAnim />

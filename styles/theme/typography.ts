@@ -1,10 +1,5 @@
 import { palette } from '@/styles/theme/palette'
-
-enum ThemeMode {
-  Light = 'light',
-  Dark = 'dark',
-  Landing = 'landing',
-}
+import { ThemeMode } from './types'
 
 const typography_dark = {
   h1: {
@@ -139,7 +134,7 @@ const typography_landing = {
   },
 }
 
-const themeTypography = (theme: ThemeMode) => ({
+const themeTypography = (theme: ThemeMode): TypographyOptions => ({
   h1: theme === ThemeMode.Dark ? typography_dark.h1 : typography_landing.h1,
   h2: theme === ThemeMode.Dark ? typography_dark.h2 : typography_landing.h2,
   h3: theme === ThemeMode.Dark ? typography_dark.h3 : typography_landing.h3,

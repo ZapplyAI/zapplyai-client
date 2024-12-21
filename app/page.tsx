@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLandingContext } from '@/contexts/LandingProvider'
 import { MainSection } from '@/app/(sections)/main/MainSection'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
@@ -12,17 +12,34 @@ import Marquee from 'react-fast-marquee'
 import Typography from '@mui/material/Typography'
 import { Box, Divider, IconButton } from '@mui/material'
 import {
-  HorizontalCenterBox,
   HorizontalLeftAlignBox,
-  VerticalCenterBox, VerticalLeftAlignBox,
+  VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
+import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
-  const { name, surname, setName, setSurname } = useLandingContext()
+  // const { name, surname, setName, setSurname } = useLandingContext()
+
+  const [position, setPosition] = useState(1)
+
+  const fasterCodingRef = useRef(null)
+
+  useEffect(() => {
+    const checkScrollPosition = () => {
+      const fasterCodingRect = fasterCodingRef.current.getBoundingClientRect()
+
+      if (fasterCodingRect.bottom < 160) {
+        setPosition(() => 2)
+      } else {
+        setPosition(() => 1)
+      }
+    }
+
+    window.addEventListener('scroll', checkScrollPosition)
+    return () => window.removeEventListener('scroll', checkScrollPosition)
+  }, [fasterCodingRef])
 
   return (
     <React.Fragment>
@@ -34,11 +51,12 @@ export default function HomePage() {
       <main>
         <MainSection />
         {renderLoadingAdvantages()}
-        <Box sx={{position: 'relative'}}>
-          <DetailListing/>
-          <FasterCoding />
-          <ContextAware />
+        <Box sx={{ position: 'relative' }}>
+          <DetailListing position={position} />
+          <FasterCoding ref={fasterCodingRef} />
+          <ContextAware/>
         </Box>
+        <PricingOptions />
         <Footer />
       </main>
     </React.Fragment>
@@ -114,7 +132,7 @@ const renderLoadingAdvantages = () => {
           borderRight: '1px solid #5E5E5E',
           paddingTop: '80px',
           paddingBottom: '30px',
-          paddingLeft: '30px'
+          paddingLeft: '30px',
         }}
       >
         <VerticalLeftAlignBox>
@@ -129,17 +147,17 @@ const renderLoadingAdvantages = () => {
               background: '#222222',
             }}
           >
-        <span
-          style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '120px',
-            height: '6px',
-            background: '#E5E5E5',
-          }}
-        />
-      </span>
+            <span
+              style={{
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                width: '120px',
+                height: '6px',
+                background: '#E5E5E5',
+              }}
+            />
+          </span>
         </VerticalLeftAlignBox>
       </HorizontalLeftAlignBox>
     </Box>
