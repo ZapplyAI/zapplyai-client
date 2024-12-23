@@ -64,142 +64,18 @@ export const PricingOptions = React.forwardRef((props, ref) => {
 })
 
 const renderPlansBoxes = () => {
-  const style = {
-    advantageItem: {
-      width: '100%',
-      border: '#343434 1px solid',
-      borderLeft: 'none',
-      borderRight: 'none',
-      padding: '10px 15px',
-      textTransform: 'uppercase',
-      marginBottom: '-1px',
-    },
-    label: {
-      fontWeight: '200',
-      color: '#E5E5E5',
-      width: '100%',
-      textAlign: 'right',
-    },
-    labelCTA: {
-      fontWeight: '200',
-      width: '100%',
-      textAlign: 'right',
-      background:
-        'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      display: 'inline-block',
-    },
-  }
 
   return (
     <HorizontalCenterBox
       sx={{ width: '100%', justifyContent: 'space-between', position: 'relative' }}
     >
-      <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
-        <PriceHeaderBox
-          title={'Individual'}
-          description={
-            'Plan for developers who work alone or as a part of small team, freelancers or students'
-          }
-          gradient={'#825AFD, #ED3A55'}
-        />
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Just press tab and you will start moving faster
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            lorem ipsum dolore lorem
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            press tab and you will start moving faster
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-
-        <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-          <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
-            check autocomplete examples
-            />
-          </Typography>
-          <ArrowCircleRightIcon
-            sx={{
-              width: '22px',
-              height: '22px',
-              color: '#C932A1',
-              marginLeft: '12px',
-            }}
-          />
-        </HorizontalCenterBox>
-      </VerticalLeftAlignBox>
+      {renderIndividualOffer()}
 
       <Box sx={{ flex: 1.5 }}></Box>
       <HorizontalCenterBox sx={{position: 'absolute', width: '100%', height: '100%', marginTop: '170px', zIndex: -1}}>
         <PricesAnim/>
       </HorizontalCenterBox>
-
-      <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
-        <PriceHeaderBox
-          title={'Enterprise'}
-          description={
-            'Plan for developers who work alone or as a part of small team, freelancers or students'
-          }
-          gradient={'#FF945E, #ED3A55'}
-        />
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Just press tab and you will start moving faster
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            lorem ipsum dolore lorem
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            press tab and you will start moving faster
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
-            Flexible Auto-Completes
-          </Typography>
-        </Box>
-
-        <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-          <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
-            check autocomplete examples
-            />
-          </Typography>
-          <ArrowCircleRightIcon
-            sx={{
-              width: '22px',
-              height: '22px',
-              color: '#C932A1',
-              marginLeft: '12px',
-            }}
-          />
-        </HorizontalCenterBox>
-      </VerticalLeftAlignBox>
+      {renderEnterpriseOffer()}
     </HorizontalCenterBox>
   )
 }
@@ -263,12 +139,7 @@ const PricesAnim = () => {
   }
 
   return (
-    <HorizontalCenterBox sx={{
-      // position: 'absolute',
-      // left: '-300px',
-      // top: '-300px',
-      // zIndex: '-1',
-    }}>
+    <HorizontalCenterBox sx={{}}>
       <Suspense fallback={<div>Loading...</div>}>
         <Spline
           scene="https://prod.spline.design/cMEdkrjJPVvtW5Qv/scene.splinecode"
@@ -277,5 +148,143 @@ const PricesAnim = () => {
         />
       </Suspense>
     </HorizontalCenterBox>
+  )
+}
+
+
+const style = {
+  advantageItem: {
+    width: '100%',
+    border: '#343434 1px solid',
+    borderLeft: 'none',
+    borderRight: 'none',
+    padding: '10px 15px',
+    textTransform: 'uppercase',
+    marginBottom: '-1px',
+  },
+  label: {
+    fontWeight: '200',
+    color: '#E5E5E5',
+    width: '100%',
+    textAlign: 'right',
+  },
+  labelCTA: {
+    fontWeight: '200',
+    width: '100%',
+    textAlign: 'right',
+    background:
+      'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    display: 'inline-block',
+  },
+}
+
+const renderIndividualOffer = () => {
+
+  return (
+    <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
+      <PriceHeaderBox
+        title={'Individual'}
+        description={
+          'Plan for developers who work alone or as a part of small team, freelancers or students'
+        }
+        gradient={'#825AFD, #ED3A55'}
+      />
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          Flexible Auto-Completes
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          Just press tab and you will start moving faster
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          lorem ipsum dolore lorem
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          press tab and you will start moving faster
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          Flexible Auto-Completes
+        </Typography>
+      </Box>
+
+      <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
+        <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
+          check autocomplete examples
+          />
+        </Typography>
+        <ArrowCircleRightIcon
+          sx={{
+            width: '22px',
+            height: '22px',
+            color: '#C932A1',
+            marginLeft: '12px',
+          }}
+        />
+      </HorizontalCenterBox>
+    </VerticalLeftAlignBox>
+  )
+}
+
+const renderEnterpriseOffer = () => {
+  return (
+    <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
+      <PriceHeaderBox
+        title={'Enterprise'}
+        description={
+          'Plan for developers who work alone or as a part of small team, freelancers or students'
+        }
+        gradient={'#FF945E, #ED3A55'}
+      />
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          Flexible Auto-Completes
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          Just press tab and you will start moving faster
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          lorem ipsum dolore lorem
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          press tab and you will start moving faster
+        </Typography>
+      </Box>
+      <Box sx={style.advantageItem}>
+        <Typography variant={'body1'} sx={style.label}>
+          Flexible Auto-Completes
+        </Typography>
+      </Box>
+
+      <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
+        <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
+          check autocomplete examples
+          />
+        </Typography>
+        <ArrowCircleRightIcon
+          sx={{
+            width: '22px',
+            height: '22px',
+            color: '#C932A1',
+            marginLeft: '12px',
+          }}
+        />
+      </HorizontalCenterBox>
+    </VerticalLeftAlignBox>
   )
 }

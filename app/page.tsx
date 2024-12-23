@@ -17,6 +17,7 @@ import {
 } from '@/components/layouts/CenterBox'
 import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
+import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -43,11 +44,12 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
+      <StarrySky />
       <TopNav isMobile={isMobile} />
       {renderRunningMiniText()}
       {renderRunningMainText()}
 
-      <StarrySky />
+
       <main>
         <MainSection />
         {renderLoadingAdvantages()}
@@ -57,6 +59,7 @@ export default function HomePage() {
           <ContextAware/>
         </Box>
         <PricingOptions />
+        <SubscribeNewsletter/>
         <Footer />
       </main>
     </React.Fragment>
