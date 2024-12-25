@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { useLandingContext } from '@/contexts/LandingProvider'
 import { MainSection } from '@/app/(sections)/main/MainSection'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 import { TopNav } from '@/app/(navigation)/TopNav'
@@ -10,7 +9,7 @@ import { Footer } from '@/app/(sections)/footer/Footer'
 import StarrySky from '@/app/(sections)/main/StarrySky'
 import Marquee from 'react-fast-marquee'
 import Typography from '@mui/material/Typography'
-import { Box, Divider, IconButton } from '@mui/material'
+import { Box } from '@mui/material'
 import {
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
@@ -18,6 +17,7 @@ import {
 import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
+import { get } from 'lodash'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -49,17 +49,16 @@ export default function HomePage() {
       {renderRunningMiniText()}
       {renderRunningMainText()}
 
-
       <main>
         <MainSection />
         {renderLoadingAdvantages()}
         <Box sx={{ position: 'relative' }}>
           <DetailListing position={position} />
           <FasterCoding ref={fasterCodingRef} />
-          <ContextAware/>
+          <ContextAware />
         </Box>
         <PricingOptions />
-        <SubscribeNewsletter/>
+        <SubscribeNewsletter />
         <Footer />
       </main>
     </React.Fragment>
@@ -77,7 +76,7 @@ const renderRunningMiniText = () => {
       }}
     >
       <Marquee>
-        <Typography variant={'body2'}>
+        <Typography variant={'body2' as any}>
           Elastic AI is now on a free-trial version (v.0.1.1). Make sure you
           don’t waste the opportunity and get it while you still can. Let me
           repeat that. Elastic AI is now on a free-trial version (v.0.1.1). Make
@@ -99,7 +98,7 @@ const renderRunningMainText = () => {
     >
       <Marquee>
         <Typography
-          variant={'h1'}
+          variant={'h1' as any}
           sx={{ fontSize: '7.5rem', overflow: 'hidden' }}
         >
           ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC.
@@ -139,7 +138,7 @@ const renderLoadingAdvantages = () => {
         }}
       >
         <VerticalLeftAlignBox>
-          <Typography variant={'body2'} sx={{ marginBottom: '5px' }}>
+          <Typography variant={'body2' as any} sx={{ marginBottom: '5px' }}>
             loading advantages ...
           </Typography>
           <span
@@ -166,5 +165,3 @@ const renderLoadingAdvantages = () => {
     </Box>
   )
 }
-
-const style = {}

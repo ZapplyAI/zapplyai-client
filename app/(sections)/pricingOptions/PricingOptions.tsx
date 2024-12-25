@@ -1,22 +1,17 @@
 'use client'
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { Suspense } from 'react'
 import { Box } from '@mui/material'
 import {
   HorizontalCenterBox,
-  HorizontalLeftAlignBox, VerticalCenterBox,
+  VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
-import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
-import { gsap } from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import Image from 'next/image'
-import DecodeAnimation from 'react-decode-animation'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import ClippedButton from '@/app/(components)/ClippedButton'
 
-export const PricingOptions = React.forwardRef((props, ref) => {
+export const PricingOptions = (props) => {
   const style = {
     mainIllustration: {
       position: 'relative',
@@ -27,7 +22,6 @@ export const PricingOptions = React.forwardRef((props, ref) => {
 
   return (
     <Box
-      ref={ref}
       sx={{
         width: '100%',
         position: 'relative',
@@ -46,11 +40,10 @@ export const PricingOptions = React.forwardRef((props, ref) => {
       >
         <VerticalLeftAlignBox>
           <Typography
-            variant={'h1'}
+            variant={'h1' as any}
             sx={{
               padding: '28px 55px',
               borderBottom: '1px solid #1E1D20',
-              // marginLeft: 'calc(12vw - 1px)',
             }}
           >
             What we offer
@@ -61,7 +54,7 @@ export const PricingOptions = React.forwardRef((props, ref) => {
       </Box>
     </Box>
   )
-})
+}
 
 const renderPlansBoxes = () => {
 
@@ -100,7 +93,7 @@ const PriceHeaderBox = ({ title, description, gradient }) => {
         }}
       >
         <Typography
-          variant={'h2'}
+          variant={'h2' as any}
           sx={{
             color: '#000',
           }}
@@ -108,7 +101,7 @@ const PriceHeaderBox = ({ title, description, gradient }) => {
           {title}
         </Typography>
         <Typography
-          variant={'h5'}
+          variant={'h5' as any}
           sx={{
             textTransform: 'upper',
           }}
@@ -122,10 +115,10 @@ const PriceHeaderBox = ({ title, description, gradient }) => {
 
 const renderThinkLess = () => {
   return (<VerticalCenterBox sx={{width: '100%', padding: '70px 0px 50px 0px'}}>
-    <Typography variant={'h1'} sx={{textTransform: 'uppercase', marginBottom: '10px'}}>think less. Start now</Typography>
-    <Typography variant={'h5'} sx={{marginBottom: '18px'}}>Less than 5 minutes to setup.</Typography>
+    <Typography variant={'h1' as any} sx={{textTransform: 'uppercase', marginBottom: '10px'}}>think less. Start now</Typography>
+    <Typography variant={'h5' as any} sx={{marginBottom: '18px'}}>Less than 5 minutes to setup.</Typography>
     <ClippedButton sx={{ width: '145px' }} filled>
-      <Typography variant={'button'}>Start here</Typography>
+      <Typography variant={'button' as any}>Start here</Typography>
     </ClippedButton>
   </VerticalCenterBox>)
 }
@@ -192,35 +185,34 @@ const renderIndividualOffer = () => {
         gradient={'#825AFD, #ED3A55'}
       />
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           Flexible Auto-Completes
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           Just press tab and you will start moving faster
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           lorem ipsum dolore lorem
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           press tab and you will start moving faster
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           Flexible Auto-Completes
         </Typography>
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
+        <Typography variant={'body1' as any} sx={{ ...style.labelCTA, flex: 1 }}>
           check autocomplete examples
-          />
         </Typography>
         <ArrowCircleRightIcon
           sx={{
@@ -246,35 +238,34 @@ const renderEnterpriseOffer = () => {
         gradient={'#FF945E, #ED3A55'}
       />
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           Flexible Auto-Completes
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           Just press tab and you will start moving faster
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           lorem ipsum dolore lorem
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           press tab and you will start moving faster
         </Typography>
       </Box>
       <Box sx={style.advantageItem}>
-        <Typography variant={'body1'} sx={style.label}>
+        <Typography variant={'body1' as any} sx={style.label}>
           Flexible Auto-Completes
         </Typography>
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
+        <Typography variant={'body1' as any} sx={{ ...style.labelCTA, flex: 1 }}>
           check autocomplete examples
-          />
         </Typography>
         <ArrowCircleRightIcon
           sx={{

@@ -1,7 +1,5 @@
-import { ThemeMode } from './types'
-import { PaletteOptions } from '@mui/material/styles'
 
-export const palette = (mode: ThemeMode): PaletteOptions => ({
+export const palette = (mode) => ({
   primary: {
     main: '#775EFF',
     light: '#6A6A6A',

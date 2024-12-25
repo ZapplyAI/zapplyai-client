@@ -1,7 +1,6 @@
 import Typography from '@mui/material/Typography'
 import {
   HorizontalCenterBox,
-  HorizontalLeftAlignBox,
   VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
@@ -39,7 +38,7 @@ export const MainSection = () => {
             sx={{ justifyContent: 'start', marginBottom: '60px' }}
           >
             <Typography
-              variant={'h5'}
+              variant={'h5' as any}
               sx={{
                 background: 'linear-gradient(90deg, #775EFF, #DE3AED, #ED3A93)',
                 WebkitBackgroundClip: 'text',
@@ -52,7 +51,7 @@ export const MainSection = () => {
             </Typography>
 
             <Typography
-              variant={'h5'}
+              variant={'h5' as any}
               sx={{ maxWidth: '90%', marginBottom: '40px' }}
             >
               With Elastic development process becomes a piece-of-cake. Pair
@@ -78,13 +77,15 @@ export const MainSection = () => {
           >
             <VerticalCenterBox sx={{ marginBottom: '22px' }}>
               <ClippedButton sx={{ width: '145px' }}>
-                <Typography variant={'button'}>Free Trial</Typography>
+                <Typography variant={'button' as any}>Free Trial</Typography>
               </ClippedButton>
-              <Typography variant={'caption'}>No card required</Typography>
+              <Typography variant={'caption' as any}>
+                No card required
+              </Typography>
             </VerticalCenterBox>
 
             <ClippedButton sx={{ width: '145px' }} filled>
-              <Typography variant={'button'}>Learn more</Typography>
+              <Typography variant={'button' as any}>Learn more</Typography>
             </ClippedButton>
           </VerticalCenterBox>
 
@@ -95,17 +96,17 @@ export const MainSection = () => {
               padding: '32px',
             }}
           >
-            <Typography variant={'body1'} sx={{ fontSize: '1.1rem' }}>
+            <Typography variant={'body1' as any} sx={{ fontSize: '1.1rem' }}>
               Questions?
             </Typography>
             <Typography
-              variant={'body1'}
+              variant={'body1' as any}
               sx={{ color: '#AEAEAE', fontSize: '1.1rem' }}
             >
               Email us
             </Typography>
             <ClippedButton sx={{ width: '145px', marginTop: '12px' }}>
-              <Typography variant={'button'}>Contact</Typography>
+              <Typography variant={'button' as any}>Contact</Typography>
             </ClippedButton>
           </VerticalCenterBox>
         </VerticalLeftAlignBox>
@@ -157,7 +158,7 @@ const renderStickySocialLinks = () => {
 const renderLoadingHUD = () => {
   return (
     <VerticalLeftAlignBox>
-      <Typography variant={'body2'} sx={{ marginBottom: '5px' }}>
+      <Typography variant={'body2' as any} sx={{ marginBottom: '5px' }}>
         loading elastic IDE ...
       </Typography>
       <span
@@ -251,10 +252,10 @@ const renderVideo = () => {
 
   return (
     <HorizontalCenterBox sx={style.rectangle}>
-      <div style={{ ...style.corner, ...style.topLeft }}></div>
-      <div style={{ ...style.corner, ...style.topRight }}></div>
-      <div style={{ ...style.corner, ...style.bottomLeft }}></div>
-      <div style={{ ...style.corner, ...style.bottomRight }}></div>
+      <div style={{ ...style.corner, ...style.topLeft } as any}></div>
+      <div style={{ ...style.corner, ...style.topRight } as any}></div>
+      <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
+      <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
       <span style={{ width: '90%', height: '81%', background: '#1D1D1D' }}>
         video
       </span>
@@ -294,37 +295,39 @@ const renderBigNumbers = () => {
         }}
       >
         <VerticalCenterBox>
-          <Typography variant={'h1'} sx={style.bigNumber}>
+          <Typography variant={'h1' as any} sx={style.bigNumber}>
             34.8%
           </Typography>
-          <Typography variant={'body1'}>Productivity increase</Typography>
+          <Typography variant={'body1' as any}>
+            Productivity increase
+          </Typography>
         </VerticalCenterBox>
 
         <Divider orientation={'vertical'} style={style.divider} />
 
         <VerticalCenterBox>
-          <Typography variant={'h1'} sx={style.bigNumber}>
+          <Typography variant={'h1' as any} sx={style.bigNumber}>
             28.1%
           </Typography>
-          <Typography variant={'body1'}>Faster development</Typography>
+          <Typography variant={'body1' as any}>Faster development</Typography>
         </VerticalCenterBox>
 
         <Divider orientation={'vertical'} style={style.divider} />
 
         <VerticalCenterBox>
-          <Typography variant={'h1'} sx={style.bigNumber}>
+          <Typography variant={'h1' as any} sx={style.bigNumber}>
             45.0%
           </Typography>
-          <Typography variant={'body1'}>Less debugging time</Typography>
+          <Typography variant={'body1' as any}>Less debugging time</Typography>
         </VerticalCenterBox>
 
         <Divider orientation={'vertical'} style={style.divider} />
 
         <VerticalCenterBox>
-          <Typography variant={'h1'} sx={style.bigNumber}>
+          <Typography variant={'h1' as any} sx={style.bigNumber}>
             59.2%
           </Typography>
-          <Typography variant={'body1'}>Better code quality</Typography>
+          <Typography variant={'body1' as any}>Better code quality</Typography>
         </VerticalCenterBox>
 
         <HorizontalCenterBox

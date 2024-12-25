@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Box } from '@mui/material'
 import {
   HorizontalCenterBox,
-  VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import StickyBox from 'react-sticky-box'
@@ -33,7 +32,7 @@ export const DetailListing = ({ position }: { position: number }) => {
   )
 }
 
-const renderAdvantages = currentString => {
+const renderAdvantages = (currentString: any) => {
   const style = {
     advantageItem: {
       width: '298px',
@@ -72,7 +71,7 @@ const renderAdvantages = currentString => {
     >
       <Box>
         <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
+          <Typography variant={'body1' as any} sx={style.label}>
             <DecodeAnimation
               key={currentString} // Ensure a unique key for each currentString
               customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
@@ -87,7 +86,7 @@ const renderAdvantages = currentString => {
           </Typography>
         </Box>
         <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
+          <Typography variant={'body1' as any} sx={style.label}>
             <DecodeAnimation
               key={currentString} // Ensure a unique key for each currentString
               customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
@@ -98,7 +97,7 @@ const renderAdvantages = currentString => {
           </Typography>
         </Box>
         <Box sx={style.advantageItem}>
-          <Typography variant={'body1'} sx={style.label}>
+          <Typography variant={'body1' as any} sx={style.label}>
             <DecodeAnimation
               key={currentString} // Ensure a unique key for each currentString
               customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
@@ -115,7 +114,7 @@ const renderAdvantages = currentString => {
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography variant={'body1'} sx={{ ...style.labelCTA, flex: 1 }}>
+        <Typography variant={'body1' as any} sx={{ ...style.labelCTA, flex: 1 }}>
           <DecodeAnimation
             allowedCharacters="symbols"
             key={currentString} // Ensure a unique key for each currentString

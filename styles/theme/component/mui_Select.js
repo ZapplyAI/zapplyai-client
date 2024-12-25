@@ -1,8 +1,6 @@
 import { palette } from '@/styles/theme/palette'
-import { ThemeMode } from '../types'
-import { Components } from '@mui/material/styles';
 
-export const Mui_Select = (theme: ThemeMode) => ({
+export const Mui_Select = (theme) => ({
   MuiFormControl: {
     styleOverrides: {
       root: {

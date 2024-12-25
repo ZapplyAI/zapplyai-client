@@ -1,11 +1,11 @@
 'use client'
-import { createTheme, Theme } from '@mui/material/styles'
+import { createTheme } from '@mui/material'
 import { palette } from '@/styles/theme/palette'
-import { Mui_Select, Mui_TextField } from './component'
+import { Mui_Select } from './component'
 import themeTypography from '@/styles/theme/typography'
 import { ThemeMode } from './types'
 
-export const darkTheme: Theme = createTheme({
+export const darkTheme = createTheme({
   typography: {
     ...themeTypography(ThemeMode.Dark),
   },
@@ -15,7 +15,7 @@ export const darkTheme: Theme = createTheme({
   },
 })
 
-export const landingTheme: Theme = createTheme({
+export const landingTheme = createTheme({
   typography: {
     ...themeTypography(ThemeMode.Landing),
   },

@@ -134,7 +134,7 @@ const typography_landing = {
   },
 }
 
-const themeTypography = (theme: ThemeMode): TypographyOptions => ({
+const themeTypography = (theme) => ({
   h1: theme === ThemeMode.Dark ? typography_dark.h1 : typography_landing.h1,
   h2: theme === ThemeMode.Dark ? typography_dark.h2 : typography_landing.h2,
   h3: theme === ThemeMode.Dark ? typography_dark.h3 : typography_landing.h3,

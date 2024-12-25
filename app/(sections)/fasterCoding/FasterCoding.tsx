@@ -1,16 +1,14 @@
 'use client'
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { Suspense, useRef } from 'react'
 import { Box } from '@mui/material'
 import {
-  HorizontalCenterBox, VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
-import StickyBox from 'react-sticky-box'
 
+// eslint-disable-next-line react/display-name
 export const FasterCoding = React.forwardRef((props, ref) => {
   const style = {
     mainIllustration: {
@@ -69,7 +67,7 @@ const renderFasterCodingIllustration = () => {
         }}
       >
         <Typography
-          variant={'h1'}
+          variant={'h1' as any}
           sx={{
             padding: '28px 55px',
             background:
@@ -84,7 +82,7 @@ const renderFasterCodingIllustration = () => {
       </Box>
 
       <Typography
-        variant={'body1'}
+        variant={'body1' as any}
         sx={{ margin: '30px 0px 10px calc(12vw + 40px)' }}
       >
         With light-speed autocompletes Elastic does <br />

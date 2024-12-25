@@ -1,7 +1,18 @@
-import React from 'react'
-import { Button as MUIButton } from '@mui/material'
+import React, { ReactNode } from 'react'
+import { Button as MUIButton, ButtonProps, SxProps } from '@mui/material'
+import { Theme } from '@mui/system'
 
-const ClippedButton = ({ sx, filled, ...props }) => {
+interface ClippedButtonProps {
+  filled?: boolean
+  sx?: SxProps<Theme>
+  children?: ReactNode // Allow passing children
+}
+
+const ClippedButton: React.FC<ClippedButtonProps> = ({
+  sx,
+  filled=false,
+  children,
+}) => {
   const style = {
     baseButton: {
       position: 'relative',
@@ -42,7 +53,6 @@ const ClippedButton = ({ sx, filled, ...props }) => {
       border: '1px',
 
       '&:hover, &:active': {
-        // backgroundSize: '100% 100%',
         color: '#775EFF',
         background: `
           linear-gradient(to top left, #775EFF 50%, #0000 50.1%) bottom right,
@@ -54,27 +64,12 @@ const ClippedButton = ({ sx, filled, ...props }) => {
           0 0 0 200px inset transparent,
           0 0 0 1px inset #775EFF
         `,
-        // transition: 'background-size 0.2s 0.1s',
       },
-
-      // '&:focus-visible': {
-      //   outlineOffset: '-1px',
-      //   outline: '1px solid #fff',
-      //   clipPath: 'none',
-      //   backgroundSize: '0 0',
-      // },
-
-      // '&:active': {
-      //   boxShadow: '0 0 0 200px inset #fff',
-      //   transition: 'none',
-      // },
     },
   }
 
   return (
-    <MUIButton sx={{ ...style.baseButton, ...sx }} {...props}>
-      {props.children}
-    </MUIButton>
+    <MUIButton sx={{ ...style.baseButton, ...sx } as any}>{children}</MUIButton>
   )
 }
 

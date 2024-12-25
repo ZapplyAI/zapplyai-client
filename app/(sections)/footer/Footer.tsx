@@ -33,11 +33,11 @@ export const Footer = () => {
           }}
         />
 
-        <Typography variant={'h1'} sx={{fontSize: '36px'}}>Elastic AI</Typography>
+        <Typography variant={'h1' as any} sx={{fontSize: '36px'}}>Elastic AI</Typography>
       </HorizontalCenterBox>
 
       <Typography
-        variant={'body2'}
+        variant={'body2' as any}
         sx={{ marginBottom: '22px', textAlign: 'center' }}
       >
         Elastic AI is the best in the market AI context-aware pair <br />
@@ -73,7 +73,7 @@ export const Footer = () => {
         </HorizontalCenterBox>
       </HorizontalCenterBox>
 
-      <Typography variant={'caption'}>
+      <Typography variant={'caption' as any}>
         Copyright © 2024 . All rights reserved.
       </Typography>
     </VerticalCenterBox>

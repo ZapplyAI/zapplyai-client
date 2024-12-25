@@ -1,29 +1,18 @@
 'use client'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Box, InputBase } from '@mui/material'
 import {
-  HorizontalCenterBox,
-  HorizontalLeftAlignBox,
   VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
-import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
-import Spline from '@splinetool/react-spline'
-import { gsap } from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import Image from 'next/image'
-import DecodeAnimation from 'react-decode-animation'
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
-import TextField from '@mui/material/TextField'
 import { styled } from '@mui/system'
 
-export const SubscribeNewsletter = React.forwardRef((props, ref) => {
+export const SubscribeNewsletter = (props) => {
   const style = {}
 
   return (
     <Box
-      ref={ref}
       sx={{
         width: '100%',
         position: 'relative',
@@ -39,7 +28,7 @@ export const SubscribeNewsletter = React.forwardRef((props, ref) => {
       >
         <VerticalLeftAlignBox>
           <Typography
-            variant={'h2'}
+            variant={'h2' as any}
             sx={{
               marginBottom: '10px',
               color: '#E5E5E5',
@@ -49,7 +38,7 @@ export const SubscribeNewsletter = React.forwardRef((props, ref) => {
             Subscribe for newsletter
           </Typography>
           <Typography
-            variant={'body2'}
+            variant={'body2' as any}
             sx={{
               textTransform: 'uppercase',
             }}
@@ -60,13 +49,13 @@ export const SubscribeNewsletter = React.forwardRef((props, ref) => {
             them.
           </Typography>
           <Box sx={{ width: '50%' }}>
-            <EmailInput label={'Your email'}/>
+            <EmailInput label={'Your email'} />
           </Box>
         </VerticalLeftAlignBox>
       </VerticalCenterBox>
     </Box>
   )
-})
+}
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   position: 'relative',
@@ -121,4 +110,3 @@ const EmailInput: React.FC<CustomInputProps> = ({ label }) => {
     </Box>
   )
 }
-

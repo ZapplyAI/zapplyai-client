@@ -1,17 +1,17 @@
 'use client'
-import React, { Suspense, useEffect, useRef } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { Box } from '@mui/material'
 import {
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
-import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import Image from 'next/image'
 
+// eslint-disable-next-line react/display-name
 export const ContextAware = React.forwardRef((props, ref) => {
   const style = {
     mainIllustration: {
@@ -72,12 +72,11 @@ export const ContextAware = React.forwardRef((props, ref) => {
       </Box>
     </React.Fragment>
   )
-});
-
+})
 
 const renderContextAwareIllustration = () => {
   return (
-    <VerticalLeftAlignBox >
+    <VerticalLeftAlignBox>
       <HorizontalLeftAlignBox
         sx={{
           border: '1px solid transparent',
@@ -86,7 +85,7 @@ const renderContextAwareIllustration = () => {
         }}
       >
         <Typography
-          variant={'h1'}
+          variant={'h1' as any}
           sx={{
             padding: '28px 55px',
             marginLeft: 'calc(12vw - 1px)',
@@ -107,7 +106,7 @@ const renderContextAwareIllustration = () => {
       </HorizontalLeftAlignBox>
 
       <Typography
-        variant={'body1'}
+        variant={'body1' as any}
         sx={{ margin: '30px 0px 10px calc(12vw + 40px)' }}
       >
         With light-speed autocompletes Elastic does <br />
@@ -118,7 +117,7 @@ const renderContextAwareIllustration = () => {
         sx={{
           marginLeft: '100px',
           marginTop: '50px',
-          height: '550px'
+          height: '550px',
         }}
       >
         <ContextFindingAnim />
@@ -213,9 +212,9 @@ const ContextFindingAnim = () => {
             y2="100%"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stop-color="#7B5DFE" />
-            <stop offset="50%" stop-color="#DE3AED" />
-            <stop offset="100%" stop-color="#ED3A82" />
+            <stop offset="0%" stopColor="#7B5DFE" />
+            <stop offset="50%" stopColor="#DE3AED" />
+            <stop offset="100%" stopColor="#ED3A82" />
           </linearGradient>
         </defs>
 
@@ -288,7 +287,7 @@ const ContextFindingAnim = () => {
 }
 
 const ContextAnim = () => {
-  const onLoad = splineApp => {
+  const onLoad = (splineApp: any)  => {
     const object = splineApp.findObjectByName('Camera') // Replace with your object name
     if (object) {
       object.position.x -= 450

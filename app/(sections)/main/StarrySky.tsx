@@ -1,14 +1,8 @@
 'use client'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Particles, { initParticlesEngine } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
-import styled, { css } from 'styled-components'
-import {
-  type Container,
-  type ISourceOptions,
-  MoveDirection,
-  OutMode,
-} from '@tsparticles/engine'
+import styled from 'styled-components'
 
 const StarrySky = () => {
   const [init, setInit] = useState(false)
@@ -142,21 +136,17 @@ const StarrySky = () => {
   )
 
   if (init) {
-    return (
-      <FullSizeParticles
-        options={particleConfig}
-      />
-    )
+    return <FullSizeParticles options={particleConfig as any} />
   }
 
   return <></>
 }
 
 const FullSizeParticles = styled(Particles)`
-    position: absolute;
-    z-index: -100;
-    width: 100%;
-    height: 100%;
-`;
+  position: absolute;
+  z-index: -100;
+  width: 100%;
+  height: 100%;
+`
 
 export default StarrySky

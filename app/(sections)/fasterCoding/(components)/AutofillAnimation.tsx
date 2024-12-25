@@ -38,13 +38,15 @@ export const AutofillAnimation = () => {
       }}
     >
       <span
-        style={{
-          ...style.imageContainer,
-          filter: 'blur(1.2px)',
-          zIndex: -1,
-          opacity: 0.75,
-          height: '80px',
-        }}
+        style={
+          {
+            ...style.imageContainer,
+            filter: 'blur(1.2px)',
+            zIndex: -1,
+            opacity: 0.75,
+            height: '80px',
+          } as any
+        }
       >
         <Box sx={{}}>
           <Image
@@ -59,7 +61,7 @@ export const AutofillAnimation = () => {
         </Box>
       </span>
 
-      <span style={{ ...style.imageContainer }}>
+      <span style={{ ...style.imageContainer } as any}>
         <Box
           style={{
             position: 'relative',
@@ -82,7 +84,7 @@ export const AutofillAnimation = () => {
         </Box>
       </span>
 
-      <span style={{ ...style.imageContainer, height: '77px' }}>
+      <span style={{ ...style.imageContainer, height: '77px' } as any}>
         <motion.div
           style={{
             position: 'relative',
@@ -111,7 +113,7 @@ export const AutofillAnimation = () => {
         </motion.div>
       </span>
 
-      <span style={{ ...style.imageContainer }}>
+      <span style={{ ...style.imageContainer } as any}>
         <Box
           sx={{
             position: 'relative',
@@ -132,7 +134,7 @@ export const AutofillAnimation = () => {
         </Box>
       </span>
 
-      <span style={{ ...style.imageContainer, height: '77px' }}>
+      <span style={{ ...style.imageContainer, height: '77px' } as any}>
         <motion.div
           ref={ref}
           style={{
