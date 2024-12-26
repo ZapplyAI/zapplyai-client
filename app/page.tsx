@@ -18,9 +18,11 @@ import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
 import { get } from 'lodash'
+import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
+  const [unavailabilityAlertOpen, setUnavailabilityAlertOpen] = useState(false)
   // const { name, surname, setName, setSurname } = useLandingContext()
 
   const [position, setPosition] = useState(1)
@@ -44,21 +46,29 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
+      <UnavailabilityAlert
+        onClose={() => setUnavailabilityAlertOpen(false)}
+        open={unavailabilityAlertOpen}
+        selectedValue={''}
+      />
+
       <StarrySky />
       <TopNav isMobile={isMobile} />
       {renderRunningMiniText()}
       {renderRunningMainText()}
 
       <main>
-        <MainSection />
+        <MainSection showAlert={() => setUnavailabilityAlertOpen(true)} />
         {renderLoadingAdvantages()}
         <Box sx={{ position: 'relative' }}>
           <DetailListing position={position} />
           <FasterCoding ref={fasterCodingRef} />
           <ContextAware />
         </Box>
-        <PricingOptions />
-        <SubscribeNewsletter />
+        <PricingOptions showAlert={() => setUnavailabilityAlertOpen(true)} />
+        <SubscribeNewsletter
+          showAlert={() => setUnavailabilityAlertOpen(true)}
+        />
         <Footer />
       </main>
     </React.Fragment>

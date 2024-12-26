@@ -8,7 +8,7 @@ import {
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 
-export const SubscribeNewsletter = (props) => {
+export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
   const style = {}
 
   return (
@@ -49,7 +49,7 @@ export const SubscribeNewsletter = (props) => {
             them.
           </Typography>
           <Box sx={{ width: '50%' }}>
-            <EmailInput label={'Your email'} />
+            <EmailInput showAlert={showAlert} label={'Your email'} />
           </Box>
         </VerticalLeftAlignBox>
       </VerticalCenterBox>
@@ -87,10 +87,11 @@ const Label = styled(Typography)(({ theme }) => ({
 }))
 
 interface CustomInputProps {
+  showAlert: any
   label: string
 }
 
-const EmailInput: React.FC<CustomInputProps> = ({ label }) => {
+const EmailInput = ({ showAlert, label }: CustomInputProps) => {
   const [value, setValue] = useState('')
 
   return (
@@ -104,7 +105,13 @@ const EmailInput: React.FC<CustomInputProps> = ({ label }) => {
       </Label>
       <StyledInputBase
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => {
+          setValue(e.target.value)
+          showAlert()
+        }}
+        onSubmit={e => {
+          // e.preventDefault()
+        }}
         placeholder={value ? undefined : label} // Use placeholder for accessibility
       />
     </Box>

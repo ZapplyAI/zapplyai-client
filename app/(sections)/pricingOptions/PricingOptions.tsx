@@ -11,7 +11,7 @@ import Spline from '@splinetool/react-spline'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import ClippedButton from '@/app/(components)/ClippedButton'
 
-export const PricingOptions = (props) => {
+export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
   const style = {
     mainIllustration: {
       position: 'relative',
@@ -49,7 +49,7 @@ export const PricingOptions = (props) => {
             What we offer
           </Typography>
           {renderPlansBoxes()}
-          {renderThinkLess()}
+          {renderThinkLess(showAlert)}
         </VerticalLeftAlignBox>
       </Box>
     </Box>
@@ -57,16 +57,27 @@ export const PricingOptions = (props) => {
 }
 
 const renderPlansBoxes = () => {
-
   return (
     <HorizontalCenterBox
-      sx={{ width: '100%', justifyContent: 'space-between', position: 'relative' }}
+      sx={{
+        width: '100%',
+        justifyContent: 'space-between',
+        position: 'relative',
+      }}
     >
       {renderIndividualOffer()}
 
       <Box sx={{ flex: 1.5 }}></Box>
-      <HorizontalCenterBox sx={{position: 'absolute', width: '100%', height: '100%', marginTop: '170px', zIndex: -1}}>
-        <PricesAnim/>
+      <HorizontalCenterBox
+        sx={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          marginTop: '170px',
+          zIndex: -1,
+        }}
+      >
+        <PricesAnim />
       </HorizontalCenterBox>
       {renderEnterpriseOffer()}
     </HorizontalCenterBox>
@@ -113,14 +124,23 @@ const PriceHeaderBox = ({ title, description, gradient }) => {
   )
 }
 
-const renderThinkLess = () => {
-  return (<VerticalCenterBox sx={{width: '100%', padding: '70px 0px 50px 0px'}}>
-    <Typography variant={'h1' as any} sx={{textTransform: 'uppercase', marginBottom: '10px'}}>think less. Start now</Typography>
-    <Typography variant={'h5' as any} sx={{marginBottom: '18px'}}>Less than 5 minutes to setup.</Typography>
-    <ClippedButton sx={{ width: '145px' }} filled>
-      <Typography variant={'button' as any}>Start here</Typography>
-    </ClippedButton>
-  </VerticalCenterBox>)
+const renderThinkLess = (showAlert: any) => {
+  return (
+    <VerticalCenterBox sx={{ width: '100%', padding: '70px 0px 50px 0px' }}>
+      <Typography
+        variant={'h1' as any}
+        sx={{ textTransform: 'uppercase', marginBottom: '10px' }}
+      >
+        think less. Start now
+      </Typography>
+      <Typography variant={'h5' as any} sx={{ marginBottom: '18px' }}>
+        Less than 5 minutes to setup.
+      </Typography>
+      <ClippedButton sx={{ width: '145px' }} filled onClick={() => showAlert()}>
+        <Typography variant={'button' as any}>Start here</Typography>
+      </ClippedButton>
+    </VerticalCenterBox>
+  )
 }
 
 const PricesAnim = () => {
@@ -144,7 +164,6 @@ const PricesAnim = () => {
   )
 }
 
-
 const style = {
   advantageItem: {
     width: '100%',
@@ -165,8 +184,7 @@ const style = {
     fontWeight: '200',
     width: '100%',
     textAlign: 'right',
-    background:
-      'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
+    background: 'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     display: 'inline-block',
@@ -174,7 +192,6 @@ const style = {
 }
 
 const renderIndividualOffer = () => {
-
   return (
     <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
       <PriceHeaderBox
@@ -211,7 +228,10 @@ const renderIndividualOffer = () => {
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography variant={'body1' as any} sx={{ ...style.labelCTA, flex: 1 }}>
+        <Typography
+          variant={'body1' as any}
+          sx={{ ...style.labelCTA, flex: 1 }}
+        >
           check autocomplete examples
         </Typography>
         <ArrowCircleRightIcon
@@ -264,7 +284,10 @@ const renderEnterpriseOffer = () => {
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography variant={'body1' as any} sx={{ ...style.labelCTA, flex: 1 }}>
+        <Typography
+          variant={'body1' as any}
+          sx={{ ...style.labelCTA, flex: 1 }}
+        >
           check autocomplete examples
         </Typography>
         <ArrowCircleRightIcon

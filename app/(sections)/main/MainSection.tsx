@@ -11,7 +11,11 @@ import React from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 
-export const MainSection = () => {
+interface MainSectionProps {
+  showAlert: any
+}
+
+export const MainSection = ({showAlert} : MainSectionProps) => {
   return (
     <React.Fragment>
       <Box
@@ -76,7 +80,7 @@ export const MainSection = () => {
             }}
           >
             <VerticalCenterBox sx={{ marginBottom: '22px' }}>
-              <ClippedButton sx={{ width: '145px' }}>
+              <ClippedButton sx={{ width: '145px' }} onClick={() => showAlert()}>
                 <Typography variant={'button' as any}>Free Trial</Typography>
               </ClippedButton>
               <Typography variant={'caption' as any}>
@@ -84,7 +88,8 @@ export const MainSection = () => {
               </Typography>
             </VerticalCenterBox>
 
-            <ClippedButton sx={{ width: '145px' }} filled>
+            <ClippedButton sx={{ width: '145px' }} filled
+                           onClick={() => showAlert()}>
               <Typography variant={'button' as any}>Learn more</Typography>
             </ClippedButton>
           </VerticalCenterBox>
@@ -105,7 +110,8 @@ export const MainSection = () => {
             >
               Email us
             </Typography>
-            <ClippedButton sx={{ width: '145px', marginTop: '12px' }}>
+            <ClippedButton sx={{ width: '145px', marginTop: '12px' }}
+                           onClick={() => showAlert()}>
               <Typography variant={'button' as any}>Contact</Typography>
             </ClippedButton>
           </VerticalCenterBox>

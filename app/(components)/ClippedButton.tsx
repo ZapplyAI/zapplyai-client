@@ -3,14 +3,16 @@ import { Button as MUIButton, ButtonProps, SxProps } from '@mui/material'
 import { Theme } from '@mui/system'
 
 interface ClippedButtonProps {
+  onClick?: any
   filled?: boolean
   sx?: SxProps<Theme>
   children?: ReactNode // Allow passing children
 }
 
 const ClippedButton: React.FC<ClippedButtonProps> = ({
+  onClick = () => {},
   sx,
-  filled=false,
+  filled = false,
   children,
 }) => {
   const style = {
@@ -69,7 +71,10 @@ const ClippedButton: React.FC<ClippedButtonProps> = ({
   }
 
   return (
-    <MUIButton sx={{ ...style.baseButton, ...sx } as any}>{children}</MUIButton>
+    <MUIButton sx={{ ...style.baseButton, ...sx } as any}
+               onClick={onClick}>
+      {children}
+    </MUIButton>
   )
 }
 
