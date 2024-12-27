@@ -27,16 +27,20 @@ export default function HomePage() {
 
   const [position, setPosition] = useState(1)
 
-  const fasterCodingRef = useRef(null)
+  const fasterCodingRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const checkScrollPosition = () => {
-      const fasterCodingRect = fasterCodingRef.current.getBoundingClientRect()
+      if (fasterCodingRef.current) {
+        const fasterCodingRect = (
+          fasterCodingRef.current as HTMLElement
+        ).getBoundingClientRect()
 
-      if (fasterCodingRect.bottom < 160) {
-        setPosition(() => 2)
-      } else {
-        setPosition(() => 1)
+        if (fasterCodingRect.bottom < 160) {
+          setPosition(() => 2)
+        } else {
+          setPosition(() => 1)
+        }
       }
     }
 

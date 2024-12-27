@@ -84,7 +84,17 @@ const renderPlansBoxes = () => {
   )
 }
 
-const PriceHeaderBox = ({ title, description, gradient }) => {
+interface PriceHeaderBoxProps {
+  title: string
+  description: string
+  gradient: string
+}
+
+const PriceHeaderBox = ({
+  title,
+  description,
+  gradient,
+}: PriceHeaderBoxProps) => {
   return (
     <React.Fragment>
       <span
@@ -144,7 +154,7 @@ const renderThinkLess = (showAlert: any) => {
 }
 
 const PricesAnim = () => {
-  const onLoad = splineApp => {
+  const onLoad = (splineApp: any) => {
     const object = splineApp.findObjectByName('Camera') // Replace with your object name
     if (object) {
       // object.position.x -= 450

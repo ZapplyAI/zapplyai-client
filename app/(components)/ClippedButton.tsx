@@ -9,12 +9,12 @@ interface ClippedButtonProps {
   children?: ReactNode // Allow passing children
 }
 
-const ClippedButton: React.FC<ClippedButtonProps> = ({
+const ClippedButton = ({
   onClick = () => {},
-  sx,
   filled = false,
+  sx,
   children,
-}) => {
+}: ClippedButtonProps) => {
   const style = {
     baseButton: {
       position: 'relative',
@@ -71,8 +71,7 @@ const ClippedButton: React.FC<ClippedButtonProps> = ({
   }
 
   return (
-    <MUIButton sx={{ ...style.baseButton, ...sx } as any}
-               onClick={onClick}>
+    <MUIButton sx={{ ...style.baseButton, ...sx } as any} onClick={onClick}>
       {children}
     </MUIButton>
   )
