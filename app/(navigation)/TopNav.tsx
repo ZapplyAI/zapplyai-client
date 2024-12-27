@@ -26,7 +26,8 @@ export const TopNav = ({
     authButton: {
       background: '#775EFF',
       borderRadius: 0,
-      fontSize: '14px',
+      fontSize: '13px',
+      padding: '5px 25px',
       fontWeight: '300'
     },
     navText: {

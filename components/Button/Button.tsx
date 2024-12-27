@@ -58,7 +58,6 @@ const style: { [key: string]: CSSProperties } = {
   },
   buttonLabel: {
     fontFamily: 'Kanit',
-    // fontWeight: 300,
     color: '#fff',
     textTransform: 'none',
   },
