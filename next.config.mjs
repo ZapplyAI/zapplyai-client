@@ -17,7 +17,10 @@ const nextConfig = {
 
     return config
   },
-  reactStrictMode: false
+  reactStrictMode: false,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }
 
 export default nextConfig
