@@ -57,7 +57,7 @@ export default function HomePage() {
       />
 
       <StarrySky />
-      <TopNav isMobile={isMobile} />
+      <TopNav isMobile={isMobile} showAlert={() => setUnavailabilityAlertOpen(true)}/>
       {renderRunningMiniText()}
       {renderRunningMainText()}
 
@@ -85,7 +85,6 @@ const renderRunningMiniText = () => {
       sx={{
         padding: '12px 0px',
         background: '#1B1A20',
-        borderTop: '1px solid #5E5E5E',
         borderBottom: '1px solid #5E5E5E',
       }}
     >
