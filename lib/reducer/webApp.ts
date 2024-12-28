@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { APP_STATE, AppOverview, AppPage, WebApp, WebAppState } from '@/lib/type'
+import { APP_STATE, AppOverview, AppPage, WebApp, WebAppState } from '../type_legacy'
 import { filter, find } from 'lodash'
 import map from 'lodash/map'
 import { nanoid } from 'nanoid'
