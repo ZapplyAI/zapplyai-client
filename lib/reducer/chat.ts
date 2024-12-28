@@ -6,7 +6,7 @@ import {
   type WebApp,
   type SessionState,
   APP_STATE,
-} from '@/lib/type'
+} from '../type_legacy'
 import map from 'lodash/map'
 import { filter, find } from 'lodash'
 import session from '@/services/session'

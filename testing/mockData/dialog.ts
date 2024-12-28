@@ -1,4 +1,4 @@
-import { Dialog } from '@/lib/type'
+import { Dialog } from '../../lib/type_legacy'
 
 const dialog1: Dialog = {
   id: 'd1',

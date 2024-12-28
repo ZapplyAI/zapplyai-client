@@ -47,14 +47,18 @@ const style: { [key: string]: CSSProperties } = {
     boxShadow: 'none',
     fontSize: '12px',
     color: '#CFCED9',
+    padding: '6px 30px'
   },
   buttonBG: {
     background: '#282636',
     boxShadow: 'none',
     fontSize: '12px',
     color: '#CFCED9',
+    padding: '6px 30px'
   },
   buttonLabel: {
+    fontFamily: 'Kanit',
+    color: '#fff',
     textTransform: 'none',
   },
 }

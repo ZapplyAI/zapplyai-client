@@ -1,4 +1,4 @@
-import { APP_STATE, WebApp } from '@/lib/type'
+import { APP_STATE, WebApp } from '../../lib/type_legacy'
 
 const webApp1: WebApp = {
   id: 'hasj387znn6q0sc',

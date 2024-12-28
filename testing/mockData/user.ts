@@ -1,4 +1,4 @@
-import { User } from '@/lib/type'
+import { User } from '../../lib/type_legacy'
 
 export const mockUserOld: User = {
   id: '72bt83oznqse3tidb3cgrwdb3ckrgnemcn',
