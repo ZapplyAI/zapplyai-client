@@ -288,9 +288,9 @@ const ContextFindingAnim = () => {
 
 const ContextAnim = () => {
   const onLoad = (splineApp: any)  => {
-    const object = splineApp.findObjectByName('Camera') // Replace with your object name
+    const object = splineApp.findObjectByName('Camera')
     if (object) {
-      object.position.x -= 450
+      object.position.x -= 150
     }
   }
 
@@ -300,7 +300,7 @@ const ContextAnim = () => {
         <Spline
           scene="https://prod.spline.design/Rpk28cD21MQY1Wvm/scene.splinecode"
           onLoad={onLoad}
-          style={{ height: '600px', width: '600px' }}
+          style={{ height: '600px', width: '800px' }}
         />
       </Suspense>
     </div>

@@ -17,8 +17,8 @@ import {
 import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
-import { get } from 'lodash'
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
+import DecorRect from '@/app/(components)/DecorRect'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -57,7 +57,10 @@ export default function HomePage() {
       />
 
       <StarrySky />
-      <TopNav isMobile={isMobile} showAlert={() => setUnavailabilityAlertOpen(true)}/>
+      <TopNav
+        isMobile={isMobile}
+        showAlert={() => setUnavailabilityAlertOpen(true)}
+      />
       {renderRunningMiniText()}
       {renderRunningMainText()}
 
@@ -101,9 +104,18 @@ const renderRunningMiniText = () => {
 }
 
 const renderRunningMainText = () => {
+  const style = {
+    decorativeRect: {
+      position: 'absolute',
+      background: '#775EFF',
+      width: '10px',
+      height: '10px',
+    },
+  }
   return (
     <Box
       sx={{
+        position: 'relative',
         padding: '15px 0px',
         borderTop: '1px solid #5E5E5E',
         borderBottom: '1px solid #5E5E5E',
@@ -117,6 +129,9 @@ const renderRunningMainText = () => {
           ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC.
         </Typography>
       </Marquee>
+
+      <DecorRect sx={{ bottom: '8px', right: '8px' }} />
+      <DecorRect sx={{ top: '8px', left: '8px' }} />
     </Box>
   )
 }
