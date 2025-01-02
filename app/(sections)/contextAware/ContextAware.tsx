@@ -10,6 +10,7 @@ import Spline from '@splinetool/react-spline'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import Image from 'next/image'
+import DecorRect from '@/app/(components)/DecorRect'
 
 // eslint-disable-next-line react/display-name
 export const ContextAware = React.forwardRef((props, ref) => {
@@ -79,6 +80,7 @@ const renderContextAwareIllustration = () => {
     <VerticalLeftAlignBox>
       <HorizontalLeftAlignBox
         sx={{
+          position: 'relative',
           border: '1px solid transparent',
           borderLeft: 'none',
           borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
@@ -102,6 +104,7 @@ const renderContextAwareIllustration = () => {
           }}
         >
           Context aware
+          <DecorRect sx={{ top: '8px', right: '8px' }} />
         </Typography>
       </HorizontalLeftAlignBox>
 
@@ -287,7 +290,7 @@ const ContextFindingAnim = () => {
 }
 
 const ContextAnim = () => {
-  const onLoad = (splineApp: any)  => {
+  const onLoad = (splineApp: any) => {
     const object = splineApp.findObjectByName('Camera')
     if (object) {
       object.position.x -= 150

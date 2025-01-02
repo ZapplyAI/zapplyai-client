@@ -43,6 +43,7 @@ export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
           <Typography
             variant={'h1' as any}
             sx={{
+              width: '100%',
               padding: '28px 55px',
               borderBottom: '1px solid #1E1D20',
             }}
@@ -150,7 +151,7 @@ const PriceHeaderBox = ({
           width: '100%',
           background: 'linear-gradient(to right, ' + gradient + ')',
           padding: '18px 30px 30px 30px',
-          marginBottom: '35px'
+          marginBottom: '35px',
         }}
       >
         <Typography variant={'h2' as any} sx={style.title}>
@@ -166,12 +167,14 @@ const PriceHeaderBox = ({
 
 const renderThinkLess = (showAlert: any) => {
   return (
-    <VerticalCenterBox sx={{ width: '100%', padding: '70px 0px 50px 0px', marginTop: '45px' }}>
+    <VerticalCenterBox
+      sx={{ width: '100%', padding: '70px 0px 50px 0px', marginTop: '45px' }}
+    >
       <Typography
         variant={'h1' as any}
         sx={{ textTransform: 'uppercase', marginBottom: '10px' }}
       >
-        think less. <span style={{color: '#ED3A55'}}>Start now</span>
+        think less. <span style={{ color: '#ED3A55' }}>Start now</span>
       </Typography>
       <Typography variant={'h5' as any} sx={{ marginBottom: '18px' }}>
         Less than 5 minutes to setup.
@@ -236,10 +239,14 @@ const style = {
   },
 }
 
-const renderPricingOffer = (title, description, gradient, advantages) => {
-
+const renderPricingOffer = (
+  title: string,
+  description: string,
+  gradient: string,
+  advantages: string[]
+) => {
   const advantagesNodes = map(advantages, (advantageLabel, index) => (
-    <Box sx={{ ...style.advantageItem}} key={index}>
+    <Box sx={{ ...style.advantageItem }} key={index}>
       <Typography variant={'body1' as any} sx={style.label}>
         {advantageLabel}
       </Typography>
@@ -251,14 +258,12 @@ const renderPricingOffer = (title, description, gradient, advantages) => {
       sx={{
         background: 'rgba(17, 17, 21, 0.75)',
         flex: 1.5,
-        border: '1px solid #353539',
+        border: '1px solid #1E1D20',
       }}
     >
       <PriceHeaderBox
         title={title}
-        description={
-          description
-        }
+        description={description}
         gradient={gradient}
       />
 

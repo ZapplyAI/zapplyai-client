@@ -1,12 +1,11 @@
 'use client'
 import React, { Suspense, useRef } from 'react'
 import { Box } from '@mui/material'
-import {
-  VerticalLeftAlignBox,
-} from '@/components/layouts/CenterBox'
+import { VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
+import DecorRect from '@/app/(components)/DecorRect'
 
 // eslint-disable-next-line react/display-name
 export const FasterCoding = React.forwardRef((props, ref) => {
@@ -53,14 +52,14 @@ export const FasterCoding = React.forwardRef((props, ref) => {
       </Box>
     </React.Fragment>
   )
-});
-
+})
 
 const renderFasterCodingIllustration = () => {
   return (
     <VerticalLeftAlignBox>
       <Box
         sx={{
+          position: 'relative',
           border: '1px solid #5E5E5E',
           borderLeft: 'none',
           paddingLeft: '12vw',
@@ -79,6 +78,8 @@ const renderFasterCodingIllustration = () => {
         >
           Faster Coding
         </Typography>
+
+        <DecorRect sx={{ top: '8px', right: '8px' }} />
       </Box>
 
       <Typography
