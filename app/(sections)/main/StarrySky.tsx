@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Particles, { initParticlesEngine } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
 import styled from 'styled-components'
+import React from 'react'
 
 const StarrySky = () => {
   const [init, setInit] = useState(false)
@@ -149,4 +150,6 @@ const FullSizeParticles = styled(Particles)`
   height: 100%;
 `
 
-export default StarrySky
+const StarrySkyMemo = React.memo(() => <StarrySky />)
+
+export default StarrySkyMemo

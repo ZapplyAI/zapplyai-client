@@ -19,6 +19,7 @@ import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
 import DecorRect from '@/app/(components)/DecorRect'
+import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -165,30 +166,7 @@ const renderLoadingAdvantages = () => {
           paddingLeft: '30px',
         }}
       >
-        <VerticalLeftAlignBox>
-          <Typography variant={'body2' as any} sx={{ marginBottom: '5px' }}>
-            loading advantages ...
-          </Typography>
-          <span
-            style={{
-              position: 'relative',
-              width: '200px',
-              height: '6px',
-              background: '#222222',
-            }}
-          >
-            <span
-              style={{
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                width: '120px',
-                height: '6px',
-                background: '#E5E5E5',
-              }}
-            />
-          </span>
-        </VerticalLeftAlignBox>
+        <LoadingAnimHUD label={'loading advantages ...'}/>
       </HorizontalLeftAlignBox>
     </Box>
   )

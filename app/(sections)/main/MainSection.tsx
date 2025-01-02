@@ -7,13 +7,14 @@ import {
 import { Box, Divider, IconButton } from '@mui/material'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import DecorRect from '@/app/(components)/DecorRect'
 import AliceCarousel, { EventObject } from 'react-alice-carousel'
 import 'react-alice-carousel/lib/alice-carousel.css'
 import map from 'lodash/map'
+import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
 
 interface MainSectionProps {
   showAlert: any
@@ -67,7 +68,7 @@ export const MainSection = ({ showAlert }: MainSectionProps) => {
               developing things.
             </Typography>
 
-            {renderLoadingHUD()}
+            <LoadingAnimHUD/>
           </VerticalLeftAlignBox>
 
           {renderVideo()}
@@ -136,7 +137,7 @@ export const MainSection = ({ showAlert }: MainSectionProps) => {
         </VerticalLeftAlignBox>
       </Box>
 
-      <BigNumbersCarousel />
+      <BigNumbersCarousel label={'loading elastic IDE ...'} />
     </React.Fragment>
   )
 }
@@ -176,35 +177,6 @@ const renderStickySocialLinks = () => {
         <Image src="/icons/twitter_x_icon.png" alt="X" width={38} height={38} />
       </VerticalCenterBox>
     </div>
-  )
-}
-
-const renderLoadingHUD = () => {
-  return (
-    <VerticalLeftAlignBox>
-      <Typography variant={'body2' as any} sx={{ marginBottom: '5px' }}>
-        loading elastic IDE ...
-      </Typography>
-      <span
-        style={{
-          position: 'relative',
-          width: '200px',
-          height: '6px',
-          background: '#222222',
-        }}
-      >
-        <span
-          style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '120px',
-            height: '6px',
-            background: '#E5E5E5',
-          }}
-        />
-      </span>
-    </VerticalLeftAlignBox>
   )
 }
 
@@ -390,23 +362,27 @@ const BigNumbersCarousel = () => {
           animationDuration={200}
         />
 
-        <HorizontalCenterBox sx={{
-          position: 'absolute',
-          justifyContent: 'space-around',
-          padding: '0px 150px',
-          width: '100%',
-          height: '100%'
-        }}>
+        <HorizontalCenterBox
+          sx={{
+            position: 'absolute',
+            justifyContent: 'space-around',
+            padding: '0px 150px',
+            width: '100%',
+            height: '100%',
+          }}
+        >
           <Divider
             orientation={'vertical'}
             style={style.divider as React.CSSProperties}
-          /><Divider
-          orientation={'vertical'}
-          style={style.divider as React.CSSProperties}
-        /><Divider
-          orientation={'vertical'}
-          style={style.divider as React.CSSProperties}
-        />
+          />
+          <Divider
+            orientation={'vertical'}
+            style={style.divider as React.CSSProperties}
+          />
+          <Divider
+            orientation={'vertical'}
+            style={style.divider as React.CSSProperties}
+          />
         </HorizontalCenterBox>
         <HorizontalCenterBox
           sx={{
