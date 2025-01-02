@@ -166,7 +166,7 @@ const renderLoadingAdvantages = () => {
           paddingLeft: '30px',
         }}
       >
-        <LoadingAnimHUD label={'loading advantages ...'}/>
+        <LoadingAnimHUD label={'loading advantages ...'} />
       </HorizontalLeftAlignBox>
     </Box>
   )

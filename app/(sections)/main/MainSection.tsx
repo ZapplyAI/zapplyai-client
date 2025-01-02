@@ -68,7 +68,7 @@ export const MainSection = ({ showAlert }: MainSectionProps) => {
               developing things.
             </Typography>
 
-            <LoadingAnimHUD/>
+            <LoadingAnimHUD label={'loading elastic IDE ...'}/>
           </VerticalLeftAlignBox>
 
           {renderVideo()}
@@ -137,7 +137,7 @@ export const MainSection = ({ showAlert }: MainSectionProps) => {
         </VerticalLeftAlignBox>
       </Box>
 
-      <BigNumbersCarousel label={'loading elastic IDE ...'} />
+      <BigNumbersCarousel />
     </React.Fragment>
   )
 }
