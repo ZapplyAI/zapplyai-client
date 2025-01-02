@@ -30,9 +30,11 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
           <Typography
             variant={'h2' as any}
             sx={{
-              marginBottom: '10px',
+              fontFamily: 'Orbitron',
+              fontWeight: '500',
+              marginBottom: '14px',
               color: '#E5E5E5',
-              textTransform: 'uppercase',
+              textTransform: 'none',
             }}
           >
             Subscribe for newsletter
@@ -40,7 +42,7 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
           <Typography
             variant={'body2' as any}
             sx={{
-              textTransform: 'uppercase',
+              fontSize: '14px'
             }}
           >
             Elastic development teams works days and nights to deliver
@@ -48,8 +50,8 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
             and will be sure to update you about new features when we release
             them.
           </Typography>
-          <Box sx={{ width: '50%' }}>
-            <EmailInput showAlert={showAlert} label={'Your email'} />
+          <Box sx={{ width: '60%', marginTop: '20px' }}>
+            <EmailInput showAlert={showAlert}/>
           </Box>
         </VerticalLeftAlignBox>
       </VerticalCenterBox>
@@ -60,30 +62,20 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   position: 'relative',
   width: '100%',
-  padding: '10px 16px',
+  padding: '5px 14px',
   fontSize: '16px',
+  color: '#7E7E7E',
   fontFamily: 'JetBrains Mono, monospace',
-  borderBottom: '1px solid #BDBDBD', // Default underline
+  borderBottom: '1px solid #7E7E7E', // Default underline
   transition: 'none', // Disable animations
   '&:hover': {
     borderBottom: '1px solid #9E9E9E', // Slightly darker underline on hover
   },
   '&:focus-within': {
-    borderBottom: '1px solid #757575', // Lighter underline on focus
+    color: '#fff',
+    borderBottom: '1px solid #9E9E9E', // Lighter underline on focus
     outline: 'none',
   },
-}))
-
-const Label = styled(Typography)(({ theme }) => ({
-  position: 'absolute',
-  left: '16px',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  fontSize: '16px',
-  color: '#7E7E7E',
-  fontFamily: 'JetBrains Mono, monospace',
-  transition: 'none', // Disable label animations
-  pointerEvents: 'none', // Prevent label from being interacted with
 }))
 
 interface CustomInputProps {
@@ -96,15 +88,9 @@ const EmailInput = ({ showAlert, label }: CustomInputProps) => {
 
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
-      <Label
-        style={{
-          display: value ? 'none' : 'block', // Hide label when input has value
-        }}
-      >
-        {label}
-      </Label>
       <StyledInputBase
         value={value}
+        placeholder={'Your email'}
         onChange={e => {
           setValue(e.target.value)
           showAlert()
@@ -112,7 +98,6 @@ const EmailInput = ({ showAlert, label }: CustomInputProps) => {
         onSubmit={e => {
           // e.preventDefault()
         }}
-        placeholder={value ? undefined : label} // Use placeholder for accessibility
       />
     </Box>
   )

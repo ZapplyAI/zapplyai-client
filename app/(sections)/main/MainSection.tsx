@@ -7,15 +7,19 @@ import {
 import { Box, Divider, IconButton } from '@mui/material'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import DecorRect from '@/app/(components)/DecorRect'
+import AliceCarousel, { EventObject } from 'react-alice-carousel'
+import 'react-alice-carousel/lib/alice-carousel.css'
+import map from 'lodash/map'
 
 interface MainSectionProps {
   showAlert: any
 }
 
-export const MainSection = ({showAlert} : MainSectionProps) => {
+export const MainSection = ({ showAlert }: MainSectionProps) => {
   return (
     <React.Fragment>
       <Box
@@ -74,13 +78,17 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
         >
           <VerticalCenterBox
             sx={{
+              position: 'relative',
               border: '1px solid #5E5E5E',
               width: '200px',
               padding: '32px',
             }}
           >
             <VerticalCenterBox sx={{ marginBottom: '22px' }}>
-              <ClippedButton sx={{ width: '145px' }} onClick={() => showAlert()}>
+              <ClippedButton
+                sx={{ width: '145px' }}
+                onClick={() => showAlert()}
+              >
                 <Typography variant={'button' as any}>Free Trial</Typography>
               </ClippedButton>
               <Typography variant={'caption' as any}>
@@ -88,14 +96,20 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
               </Typography>
             </VerticalCenterBox>
 
-            <ClippedButton sx={{ width: '145px' }} filled
-                           onClick={() => showAlert()}>
+            <ClippedButton
+              sx={{ width: '145px' }}
+              filled
+              onClick={() => showAlert()}
+            >
               <Typography variant={'button' as any}>Learn more</Typography>
             </ClippedButton>
+
+            <DecorRect sx={{ top: '8px', left: '8px' }} />
           </VerticalCenterBox>
 
           <VerticalCenterBox
             sx={{
+              position: 'relative',
               border: '1px solid #5E5E5E',
               width: '200px',
               padding: '32px',
@@ -110,15 +124,19 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
             >
               Email us
             </Typography>
-            <ClippedButton sx={{ width: '145px', marginTop: '12px' }}
-                           onClick={() => showAlert()}>
+            <ClippedButton
+              sx={{ width: '145px', marginTop: '12px' }}
+              onClick={() => showAlert()}
+            >
               <Typography variant={'button' as any}>Contact</Typography>
             </ClippedButton>
+
+            <DecorRect sx={{ top: '8px', right: '8px' }} />
           </VerticalCenterBox>
         </VerticalLeftAlignBox>
       </Box>
 
-      {renderBigNumbers()}
+      <BigNumbersCarousel />
     </React.Fragment>
   )
 }
@@ -269,18 +287,67 @@ const renderVideo = () => {
   )
 }
 
-const renderBigNumbers = () => {
+const createItems = () => {
   const style = {
+    bigNumberContainer: {
+      position: 'relative',
+    },
     bigNumber: {
       fontSize: '40px',
       color: '#AEAEAE',
       fontFamily: 'JetBrains Mono, sans-serif',
       marginBottom: '12px',
     },
+  }
+
+  return [
+    <VerticalCenterBox key={'0'} sx={style.bigNumberContainer}>
+      <Typography variant={'h1' as any} sx={style.bigNumber}>
+        34.8%
+      </Typography>
+      <Typography variant={'body1' as any}>Productivity increase</Typography>
+    </VerticalCenterBox>,
+
+    <VerticalCenterBox key={'1'} sx={style.bigNumberContainer}>
+      <Typography variant={'h1' as any} sx={style.bigNumber}>
+        28.1%
+      </Typography>
+      <Typography variant={'body1' as any}>Faster development</Typography>
+    </VerticalCenterBox>,
+
+    <VerticalCenterBox key={'2'} sx={style.bigNumberContainer}>
+      <Typography variant={'h1' as any} sx={style.bigNumber}>
+        45.0%
+      </Typography>
+      <Typography variant={'body1' as any}>Less debugging time</Typography>
+    </VerticalCenterBox>,
+
+    <VerticalCenterBox key={'3'} sx={style.bigNumberContainer}>
+      <Typography variant={'h1' as any} sx={style.bigNumber}>
+        59.2%
+      </Typography>
+      <Typography variant={'body1' as any}>Better code quality</Typography>
+    </VerticalCenterBox>,
+  ]
+}
+
+const BigNumbersCarousel = () => {
+  const style = {
     divider: {
       border: '1px #393939 solid',
       height: '80px',
     },
+  }
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [items] = useState(createItems())
+
+  const slidePrev = () => setActiveIndex(activeIndex - 1)
+  const slideNext = () => setActiveIndex(activeIndex + 1)
+  const syncActiveIndexForSwipeGestures = (e: EventObject) =>
+    setActiveIndex(e.item)
+
+  const onSlideChanged = (e: EventObject) => {
+    syncActiveIndexForSwipeGestures(e)
   }
 
   return (
@@ -300,42 +367,47 @@ const renderBigNumbers = () => {
           padding: '30px 22px',
         }}
       >
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            34.8%
-          </Typography>
-          <Typography variant={'body1' as any}>
-            Productivity increase
-          </Typography>
-        </VerticalCenterBox>
+        <AliceCarousel
+          responsive={{
+            0: { items: 1 },
+            600: { items: 2 },
+            1024: { items: 4 },
+          }}
+          activeIndex={activeIndex}
+          autoPlayInterval={2500}
+          onSlideChanged={onSlideChanged}
+          infinite
+          disableSlideInfo
+          disableButtonsControls
+          disableDotsControls
+          touchTracking
+          autoPlayControls={false}
+          autoPlay
+          mouseTracking
+          items={items}
+          paddingLeft={10}
+          paddingRight={10}
+          animationDuration={200}
+        />
 
-        <Divider orientation={'vertical'} style={style.divider} />
-
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            28.1%
-          </Typography>
-          <Typography variant={'body1' as any}>Faster development</Typography>
-        </VerticalCenterBox>
-
-        <Divider orientation={'vertical'} style={style.divider} />
-
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            45.0%
-          </Typography>
-          <Typography variant={'body1' as any}>Less debugging time</Typography>
-        </VerticalCenterBox>
-
-        <Divider orientation={'vertical'} style={style.divider} />
-
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            59.2%
-          </Typography>
-          <Typography variant={'body1' as any}>Better code quality</Typography>
-        </VerticalCenterBox>
-
+        <HorizontalCenterBox sx={{
+          position: 'absolute',
+          justifyContent: 'space-around',
+          padding: '0px 150px',
+          width: '100%',
+          height: '100%'
+        }}>
+          <Divider
+            orientation={'vertical'}
+            style={style.divider as React.CSSProperties}
+          /><Divider
+          orientation={'vertical'}
+          style={style.divider as React.CSSProperties}
+        /><Divider
+          orientation={'vertical'}
+          style={style.divider as React.CSSProperties}
+        />
+        </HorizontalCenterBox>
         <HorizontalCenterBox
           sx={{
             position: 'absolute',
@@ -348,6 +420,7 @@ const renderBigNumbers = () => {
           }}
         >
           <IconButton
+            onClick={slidePrev}
             sx={{
               '&:hover': {
                 '& .MuiSvgIcon-root': {
@@ -362,6 +435,7 @@ const renderBigNumbers = () => {
           </IconButton>
           <span style={{ width: '12px' }} />
           <IconButton
+            onClick={slideNext}
             sx={{
               '&:hover': {
                 '& .MuiSvgIcon-root': {
