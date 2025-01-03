@@ -7,6 +7,7 @@ import {
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
+import DecorRect from '@/app/(components)/DecorRect'
 
 export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
   const style = {}
@@ -37,12 +38,18 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
               textTransform: 'none',
             }}
           >
-            Subscribe for newsletter
+            <span style={{ position: 'relative', marginLeft: '30px'}}>
+              <DecorRect
+                sx={{ left: '-30px', top: '40%', background: '#403486' }}
+              />
+              Subscribe for newsletter
+            </span>
+
           </Typography>
           <Typography
             variant={'body2' as any}
             sx={{
-              fontSize: '14px'
+              fontSize: '14px',
             }}
           >
             Elastic development teams works days and nights to deliver
@@ -51,7 +58,7 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
             them.
           </Typography>
           <Box sx={{ width: '60%', marginTop: '20px' }}>
-            <EmailInput showAlert={showAlert}/>
+            <EmailInput showAlert={showAlert} />
           </Box>
         </VerticalLeftAlignBox>
       </VerticalCenterBox>
@@ -66,24 +73,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   fontSize: '16px',
   color: '#7E7E7E',
   fontFamily: 'JetBrains Mono, monospace',
-  borderBottom: '1px solid #7E7E7E', // Default underline
-  transition: 'none', // Disable animations
+  borderBottom: '1px solid #7E7E7E',
+  transition: 'none',
   '&:hover': {
-    borderBottom: '1px solid #9E9E9E', // Slightly darker underline on hover
+    borderBottom: '1px solid #9E9E9E',
   },
   '&:focus-within': {
     color: '#fff',
-    borderBottom: '1px solid #9E9E9E', // Lighter underline on focus
+    borderBottom: '1px solid #9E9E9E',
     outline: 'none',
   },
 }))
 
 interface CustomInputProps {
   showAlert: any
-  label: string
 }
 
-const EmailInput = ({ showAlert, label }: CustomInputProps) => {
+const EmailInput = ({ showAlert }: CustomInputProps) => {
   const [value, setValue] = useState('')
 
   return (

@@ -8,6 +8,7 @@ import StickyBox from 'react-sticky-box'
 import Typography from '@mui/material/Typography'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import DecodeAnimation from 'react-decode-animation'
+import DecorRect from '@/app/(components)/DecorRect'
 
 export const DetailListing = ({ position }: { position: number }) => {
   return (
@@ -28,6 +29,10 @@ export const DetailListing = ({ position }: { position: number }) => {
       <StickyBox offsetTop={200} offsetBottom={200}>
         {renderAdvantages(position)}
       </StickyBox>
+
+      <DecorRect
+        sx={{ bottom: '8px', left: '8px', background: '#403486' }}
+      />
     </Box>
   )
 }

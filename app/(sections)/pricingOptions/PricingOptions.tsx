@@ -11,6 +11,7 @@ import Spline from '@splinetool/react-spline'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import map from 'lodash/map'
+import DecorRect from '@/app/(components)/DecorRect'
 
 export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
   const style = {
@@ -43,12 +44,18 @@ export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
           <Typography
             variant={'h1' as any}
             sx={{
+              // position: 'relative',
               width: '100%',
               padding: '28px 55px',
               borderBottom: '1px solid #1E1D20',
             }}
           >
-            What we offer
+            <span style={{ position: 'relative' }}>
+              What we offer
+              <DecorRect
+                sx={{ right: '-40px', top: '50%', background: '#403486' }}
+              />
+            </span>
           </Typography>
           {renderPlansBoxes()}
           {renderThinkLess(showAlert)}
@@ -63,6 +70,7 @@ const renderPlansBoxes = () => {
     <HorizontalCenterBox
       sx={{
         width: '100%',
+        alignItems: 'start',
         justifyContent: 'space-between',
         position: 'relative',
       }}
@@ -80,13 +88,17 @@ const renderPlansBoxes = () => {
         ]
       )}
 
-      <Box sx={{ flex: 1.5 }}></Box>
+      <Box sx={{ flex: 1.5, height: '100%', position: 'relative' }}>
+        <DecorRect
+          sx={{ top: '8px', right: '8px', background: '#403486' }}
+        />
+      </Box>
       <HorizontalCenterBox
         sx={{
           position: 'absolute',
           width: '100%',
           height: '100%',
-          marginTop: '170px',
+          marginTop: '75px',
           zIndex: -1,
         }}
       >
