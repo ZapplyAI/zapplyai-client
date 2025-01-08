@@ -5,7 +5,11 @@ import { loadSlim } from '@tsparticles/slim'
 import styled from 'styled-components'
 import React from 'react'
 
-const StarrySky = () => {
+interface StarrySkyProps {
+  isMobile?: boolean
+}
+
+const StarrySky = ({ isMobile = false }: StarrySkyProps) => {
   const [init, setInit] = useState(false)
 
   useEffect(() => {
@@ -21,10 +25,10 @@ const StarrySky = () => {
       fullScreen: false,
       particles: {
         number: {
-          value: 190,
+          value: isMobile ? 100 : 190,
           density: {
             enable: true,
-            value_area: 800,
+            value_area: isMobile ? 600 : 800,
           },
         },
         color: {
@@ -51,7 +55,7 @@ const StarrySky = () => {
           },
         },
         size: {
-          value: { min: 0.3, max: 2.7 },
+          value: isMobile ? { min: 0.2, max: 2.4 } : { min: 0.3, max: 2.7 },
           random: true,
           animation: {
             enable: true,
@@ -150,6 +154,9 @@ const FullSizeParticles = styled(Particles)`
   height: 100%;
 `
 
-const StarrySkyMemo = React.memo(() => <StarrySky />)
+const StarrySkyMemo = React.memo(
+  ({ isMobile }: StarrySkyProps) => <StarrySky isMobile={isMobile} />,
+  (prevProps, nextProps) => prevProps.isMobile === nextProps.isMobile
+)
 
 export default StarrySkyMemo

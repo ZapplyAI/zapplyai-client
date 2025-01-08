@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense, useEffect } from 'react'
-import { Box } from '@mui/material'
+import { Box, Theme, useTheme } from '@mui/material'
 import {
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
@@ -12,70 +12,84 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import Image from 'next/image'
 import DecorRect from '@/app/(components)/DecorRect'
 
-// eslint-disable-next-line react/display-name
-export const ContextAware = React.forwardRef((props, ref) => {
-  const style = {
-    mainIllustration: {
-      position: 'relative',
-      left: '-12vw',
-      top: 0,
-    },
-  }
+interface ContextAwareProps {
+  isMobile: boolean
+}
 
-  return (
-    <React.Fragment>
-      <Box
-        ref={ref}
-        sx={{
-          width: '100%',
-          position: 'relative',
-        }}
-      >
+// eslint-disable-next-line react/display-name
+export const ContextAware = React.forwardRef(
+  ({ isMobile }: ContextAwareProps, ref) => {
+    const theme = useTheme()
+
+    const style = {
+      mainIllustration: {
+        position: 'relative',
+        left:
+          '-' + (isMobile
+            ? theme.customSpacing?.sides.mobile
+            : theme.customSpacing?.sides.desktop),
+        top: 0,
+      },
+    }
+
+    return (
+      <React.Fragment>
         <Box
+          ref={ref}
           sx={{
-            margin: '0px 12vw',
-            border: '1px solid transparent',
-            borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
-            borderTop: 'none',
-            borderBottom: 'none',
+            width: '100%',
+            position: 'relative',
           }}
         >
-          <Box sx={style.mainIllustration}>
-            {renderContextAwareIllustration()}
-          </Box>
           <Box
             sx={{
-              position: 'absolute',
-              top: '150px',
-              right: '200px',
-              zIndex: '-1',
+              margin:
+                '0px ' + (isMobile
+                  ? theme.customSpacing?.sides.mobile
+                  : theme.customSpacing?.sides.desktop),
+              border: '1px solid transparent',
+              borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
+              borderTop: 'none',
+              borderBottom: 'none',
             }}
           >
-            <ContextAnim />
+            <Box sx={style.mainIllustration as any}>
+              {renderContextAwareIllustration(theme, isMobile)}
+            </Box>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '150px',
+                right: '200px',
+                zIndex: '-1',
+              }}
+            >
+              <ContextAnim />
+            </Box>
           </Box>
+
+          {/*<Box*/}
+          {/*  sx={{*/}
+          {/*    position: 'absolute',*/}
+          {/*    right: '0',*/}
+          {/*    top: 0,*/}
+          {/*    border: '1px solid #5E5E5E',*/}
+          {/*    borderTop: 'none',*/}
+          {/*    height: '100%',*/}
+          {/*    width: '300px',*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <StickyBox offsetTop={10} offsetBottom={10}>*/}
+          {/*    {renderAdvantages()}*/}
+          {/*  </StickyBox>*/}
+          {/*</Box>*/}
         </Box>
+      </React.Fragment>
+    )
+  }
+)
 
-        {/*<Box*/}
-        {/*  sx={{*/}
-        {/*    position: 'absolute',*/}
-        {/*    right: '0',*/}
-        {/*    top: 0,*/}
-        {/*    border: '1px solid #5E5E5E',*/}
-        {/*    borderTop: 'none',*/}
-        {/*    height: '100%',*/}
-        {/*    width: '300px',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <StickyBox offsetTop={10} offsetBottom={10}>*/}
-        {/*    {renderAdvantages()}*/}
-        {/*  </StickyBox>*/}
-        {/*</Box>*/}
-      </Box>
-    </React.Fragment>
-  )
-})
-
-const renderContextAwareIllustration = () => {
+const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
   return (
     <VerticalLeftAlignBox>
       <HorizontalLeftAlignBox
@@ -90,7 +104,10 @@ const renderContextAwareIllustration = () => {
           variant={'h1' as any}
           sx={{
             padding: '28px 55px',
-            marginLeft: 'calc(12vw - 1px)',
+            marginLeft:
+              'calc(' + (isMobile
+                ? theme.customSpacing?.sides.mobile
+                : theme.customSpacing?.sides.desktop) + ' - 1px)',
             border: '1px solid transparent',
             borderRight: 'none',
             borderTop: 'none',
@@ -110,7 +127,12 @@ const renderContextAwareIllustration = () => {
 
       <Typography
         variant={'body1' as any}
-        sx={{ margin: '30px 0px 10px calc(12vw + 40px)' }}
+        sx={{
+          margin:
+            '30px 0px 10px calc(' + (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop) + ' + 40px)',
+        }}
       >
         With light-speed autocompletes Elastic does <br />
         everything for you in seconds.

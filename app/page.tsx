@@ -9,8 +9,10 @@ import { Footer } from '@/app/(sections)/footer/Footer'
 import StarrySky from '@/app/(sections)/main/StarrySky'
 import Marquee from 'react-fast-marquee'
 import Typography from '@mui/material/Typography'
-import { Box } from '@mui/material'
+import { Box, Theme, useTheme } from '@mui/material'
+import Image from 'next/image'
 import {
+  HorizontalCenterBox,
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
@@ -23,6 +25,7 @@ import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
+  const theme = useTheme()
   const [unavailabilityAlertOpen, setUnavailabilityAlertOpen] = useState(false)
   // const { name, surname, setName, setSurname } = useLandingContext()
 
@@ -57,54 +60,96 @@ export default function HomePage() {
         selectedValue={''}
       />
 
-      <StarrySky />
+      <StarrySky isMobile={isMobile} />
       <TopNav
         isMobile={isMobile}
         showAlert={() => setUnavailabilityAlertOpen(true)}
       />
-      {renderRunningMiniText()}
-      {renderRunningMainText()}
+      {renderRunningMiniText(theme, isMobile)}
+      {renderRunningMainText(isMobile)}
 
       <main>
-        <MainSection showAlert={() => setUnavailabilityAlertOpen(true)} />
-        {renderLoadingAdvantages()}
-        <Box sx={{ position: 'relative' }}>
-          <DetailListing position={position} />
-          <FasterCoding ref={fasterCodingRef} />
-          <ContextAware />
-        </Box>
-        <PricingOptions showAlert={() => setUnavailabilityAlertOpen(true)} />
-        <SubscribeNewsletter
+        <MainSection
+          isMobile={isMobile}
           showAlert={() => setUnavailabilityAlertOpen(true)}
         />
-        <Footer />
+        {renderLoadingAdvantages(theme, isMobile)}
+        {!isMobile && (
+          <React.Fragment>
+            <Box sx={{ position: 'relative' }}>
+              <DetailListing isMobile={isMobile} position={position} />
+              <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
+              <ContextAware isMobile={isMobile} />
+            </Box>
+            <PricingOptions
+              isMobile={isMobile}
+              showAlert={() => setUnavailabilityAlertOpen(true)}
+            />
+            <SubscribeNewsletter
+              isMobile={isMobile}
+              showAlert={() => setUnavailabilityAlertOpen(true)}
+            />
+            <Footer />
+          </React.Fragment>
+        )}
       </main>
     </React.Fragment>
   )
 }
 
-const renderRunningMiniText = () => {
+const renderRunningMiniText = (theme: Theme, isMobile: boolean) => {
   return (
     <Box
       sx={{
-        padding: '12px 0px',
+        padding:
+          '12px ' +
+          (isMobile
+            ? theme.customSpacing?.sides.mobile
+            : theme.customSpacing?.sides.desktop),
         background: '#1B1A20',
-        borderBottom: '1px solid #5E5E5E',
+        // borderBottom: '1px solid #5E5E5E',
       }}
     >
-      <Marquee>
-        <Typography variant={'body2' as any}>
-          Elastic AI is now on a free-trial version (v.0.1.1). Make sure you
-          don’t waste the opportunity and get it while you still can. Let me
-          repeat that. Elastic AI is now on a free-trial version (v.0.1.1). Make
-          sure you don’t waste the opportunity and get it while you still can.
+      {/*<Marquee>*/}
+      <Typography
+        variant={'body2' as any}
+        sx={{ color: '#666666', width: '100%', textAlign: 'left' }}
+      >
+        <span style={{ color: '#FF6154', fontWeight: '400' }}>
+          We are on ProductHunt!
+        </span>
+        {isMobile
+          ? ' Free, non-commercial version (v.0.1.1) is now out!'
+          : ' Elastic AI is now on a free, non-commercial version (v.0.1.1). Don’t\n' +
+            '        waste a chance to get a taste!'}
+      </Typography>
+
+      <HorizontalLeftAlignBox sx={{ marginTop: '8px' }}>
+        <Typography
+          variant={'body1' as any}
+          sx={{
+            color: '#666666',
+            fontSize: '0.755rem',
+            textAlign: 'center',
+          }}
+        >
+          producthunt.com/posts/elasticai
         </Typography>
-      </Marquee>
+        <Image
+          src="/icons/product-hunt.svg"
+          alt="CPP"
+          width={18}
+          height={18}
+          style={{ marginLeft: '12px', color: '#FF6154' }}
+        />
+      </HorizontalLeftAlignBox>
+
+      {/*</Marquee>*/}
     </Box>
   )
 }
 
-const renderRunningMainText = () => {
+const renderRunningMainText = (isMobile: boolean) => {
   const style = {
     decorativeRect: {
       position: 'absolute',
@@ -125,19 +170,25 @@ const renderRunningMainText = () => {
       <Marquee>
         <Typography
           variant={'h1' as any}
-          sx={{ fontSize: '7.5rem', overflow: 'hidden' }}
+          sx={{ fontSize: isMobile ? '5rem' : '7.5rem', overflow: 'hidden' }}
         >
           ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC. ITS SIMPLY ELASTIC.
         </Typography>
       </Marquee>
 
-      <DecorRect sx={{ bottom: '8px', right: '8px' }} />
-      <DecorRect sx={{ top: '8px', left: '8px' }} />
+      <DecorRect
+        sx={
+          isMobile
+            ? { background: '#413486', top: '8px', left: '8px' }
+            : { top: '8px', left: '8px' }
+        }
+      />
+      {!isMobile && <DecorRect sx={{ bottom: '8px', right: '8px' }} />}
     </Box>
   )
 }
 
-const renderLoadingAdvantages = () => {
+const renderLoadingAdvantages = (theme: Theme, isMobile: boolean) => {
   const style = {
     bigNumber: {
       fontSize: '40px',
@@ -154,7 +205,11 @@ const renderLoadingAdvantages = () => {
   return (
     <Box
       sx={{
-        padding: '0px 12vw',
+        padding:
+          '0px ' +
+          (isMobile
+            ? theme.customSpacing?.sides.mobile
+            : theme.customSpacing?.sides.desktop),
       }}
     >
       <HorizontalLeftAlignBox

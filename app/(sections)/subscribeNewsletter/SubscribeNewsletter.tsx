@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { Box, InputBase } from '@mui/material'
+import { Box, InputBase, useTheme } from '@mui/material'
 import {
   VerticalCenterBox,
   VerticalLeftAlignBox,
@@ -9,8 +9,16 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import DecorRect from '@/app/(components)/DecorRect'
 
-export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
-  const style = {}
+interface SubscribeNewsletter {
+  isMobile: boolean
+  showAlert: any
+}
+
+export const SubscribeNewsletter = ({
+  showAlert,
+  isMobile,
+}: SubscribeNewsletter) => {
+  const theme = useTheme()
 
   return (
     <Box
@@ -23,7 +31,10 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
     >
       <VerticalCenterBox
         sx={{
-          margin: '0px 12vw',
+          margin:
+            '0px ' + (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop),
           padding: '50px 10%',
         }}
       >
@@ -38,13 +49,12 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
               textTransform: 'none',
             }}
           >
-            <span style={{ position: 'relative', marginLeft: '30px'}}>
+            <span style={{ position: 'relative', marginLeft: '30px' }}>
               <DecorRect
                 sx={{ left: '-30px', top: '40%', background: '#403486' }}
               />
               Subscribe for newsletter
             </span>
-
           </Typography>
           <Typography
             variant={'body2' as any}

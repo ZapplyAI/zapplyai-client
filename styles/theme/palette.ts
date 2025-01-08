@@ -1,5 +1,7 @@
+import { ThemeMode } from '@/styles/theme/types'
+import { PaletteOptions } from '@mui/material/styles/createPalette'
 
-export const palette = (mode) => ({
+export const palette = (mode: ThemeMode): PaletteOptions => ({
   primary: {
     main: '#775EFF',
     light: '#6A6A6A',
@@ -7,21 +9,6 @@ export const palette = (mode) => ({
   action: {
     hover: '#202023',
   },
-  // secondary: {
-  //   main: '#CF6BC2',
-  // },
-  // error: {
-  //   main: '#DC3535',
-  // },
-  // warning: {
-  //   main: '#dc8e35',
-  // },
-  // info: {
-  //   main: '#35aadc',
-  // },
-  // success: {
-  //   main: '#35aadc',
-  // },
   background: {
     default: '#161618',
     default_secondary: '#181818',

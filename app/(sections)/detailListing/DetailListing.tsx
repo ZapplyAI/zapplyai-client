@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import {
   HorizontalCenterBox,
   VerticalLeftAlignBox,
@@ -10,13 +10,22 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import DecodeAnimation from 'react-decode-animation'
 import DecorRect from '@/app/(components)/DecorRect'
 
-export const DetailListing = ({ position }: { position: number }) => {
+interface DetailListingProps {
+  position: number
+  isMobile: boolean
+}
+
+export const DetailListing = ({ position, isMobile }: DetailListingProps) => {
+  const theme = useTheme()
+
   return (
     <Box
       id="detail-listing-component"
       sx={{
         position: 'absolute',
-        right: '12vw',
+        right: (isMobile
+          ? theme.customSpacing?.sides.mobile
+          : theme.customSpacing?.sides.desktop),
         top: 0,
         border: '1px solid #5E5E5E',
         borderBottom: 'none',
@@ -30,9 +39,7 @@ export const DetailListing = ({ position }: { position: number }) => {
         {renderAdvantages(position)}
       </StickyBox>
 
-      <DecorRect
-        sx={{ bottom: '8px', left: '8px', background: '#403486' }}
-      />
+      <DecorRect sx={{ bottom: '8px', left: '8px', background: '#403486' }} />
     </Box>
   )
 }
@@ -119,7 +126,10 @@ const renderAdvantages = (currentString: any) => {
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography variant={'body1' as any} sx={{ ...style.labelCTA, flex: 1 }}>
+        <Typography
+          variant={'body1' as any}
+          sx={{ ...style.labelCTA, flex: 1 }}
+        >
           <DecodeAnimation
             allowedCharacters="symbols"
             key={currentString} // Ensure a unique key for each currentString

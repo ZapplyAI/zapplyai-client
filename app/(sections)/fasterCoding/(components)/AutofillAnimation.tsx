@@ -1,10 +1,12 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import React, { useRef } from 'react'
 import Image from 'next/image'
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import { VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
 
-export const AutofillAnimation = () => {
+export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
+  const theme = useTheme()
+
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -34,7 +36,9 @@ export const AutofillAnimation = () => {
     <VerticalLeftAlignBox
       sx={{
         position: 'relative',
-        marginLeft: '12vw',
+        marginLeft: (isMobile
+          ? theme.customSpacing?.sides.mobile
+          : theme.customSpacing?.sides.desktop),
       }}
     >
       <span

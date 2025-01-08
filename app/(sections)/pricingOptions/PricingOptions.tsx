@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense } from 'react'
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import {
   HorizontalCenterBox,
   VerticalCenterBox,
@@ -13,11 +13,24 @@ import ClippedButton from '@/app/(components)/ClippedButton'
 import map from 'lodash/map'
 import DecorRect from '@/app/(components)/DecorRect'
 
-export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
+interface PricingOptionsProps {
+  showAlert: any
+  isMobile: boolean
+}
+
+export const PricingOptions = ({
+  showAlert,
+  isMobile,
+}: PricingOptionsProps) => {
+  const theme = useTheme()
+
   const style = {
     mainIllustration: {
       position: 'relative',
-      left: '-12vw',
+      left:
+        '-' + (isMobile
+          ? theme.customSpacing?.sides.mobile
+          : theme.customSpacing?.sides.desktop),
       top: 0,
     },
   }
@@ -33,7 +46,10 @@ export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
     >
       <Box
         sx={{
-          margin: '0px 12vw',
+          margin:
+            '0px ' + (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop),
           border: '1px solid transparent',
           borderImage: 'linear-gradient(180deg, #2F2E30, #5F5F5F) 1',
           borderTop: 'none',
@@ -45,6 +61,7 @@ export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
             variant={'h1' as any}
             sx={{
               // position: 'relative',
+              color: '#AEAEAE',
               width: '100%',
               padding: '28px 55px',
               borderBottom: '1px solid #1E1D20',
@@ -89,9 +106,7 @@ const renderPlansBoxes = () => {
       )}
 
       <Box sx={{ flex: 1.5, height: '100%', position: 'relative' }}>
-        <DecorRect
-          sx={{ top: '8px', right: '8px', background: '#403486' }}
-        />
+        <DecorRect sx={{ top: '8px', right: '8px', background: '#403486' }} />
       </Box>
       <HorizontalCenterBox
         sx={{
