@@ -16,7 +16,7 @@ import {
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
-import { DetailListing } from '@/app/(sections)/detailListing/DetailListing'
+import { DetailListingDesktop } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
@@ -77,7 +77,9 @@ export default function HomePage() {
         {!isMobile && (
           <React.Fragment>
             <Box sx={{ position: 'relative' }}>
-              <DetailListing isMobile={isMobile} position={position} />
+              {!isMobile && (
+                <DetailListingDesktop isMobile={isMobile} position={position} />
+              )}
               <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
               <ContextAware isMobile={isMobile} />
             </Box>

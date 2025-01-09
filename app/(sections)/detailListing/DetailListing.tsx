@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Box, useTheme } from '@mui/material'
 import {
@@ -9,13 +10,17 @@ import Typography from '@mui/material/Typography'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import DecodeAnimation from 'react-decode-animation'
 import DecorRect from '@/app/(components)/DecorRect'
+import map from 'lodash/map'
 
 interface DetailListingProps {
   position: number
   isMobile: boolean
 }
 
-export const DetailListing = ({ position, isMobile }: DetailListingProps) => {
+export const DetailListingDesktop = ({
+  position,
+  isMobile,
+}: DetailListingProps) => {
   const theme = useTheme()
 
   return (
@@ -23,9 +28,9 @@ export const DetailListing = ({ position, isMobile }: DetailListingProps) => {
       id="detail-listing-component"
       sx={{
         position: 'absolute',
-        right: (isMobile
+        right: isMobile
           ? theme.customSpacing?.sides.mobile
-          : theme.customSpacing?.sides.desktop),
+          : theme.customSpacing?.sides.desktop,
         top: 0,
         border: '1px solid #5E5E5E',
         borderBottom: 'none',
@@ -36,7 +41,18 @@ export const DetailListing = ({ position, isMobile }: DetailListingProps) => {
       }}
     >
       <StickyBox offsetTop={200} offsetBottom={200}>
-        {renderAdvantages(position)}
+        <CodedItemStack
+          items={[
+            ['Flexible Auto-Completes', '100% project coverage'],
+            ['Just press tab', 'Always searching'],
+            ['Gives you ideas!', 'Knows more then code'],
+          ]}
+          ctaButtonItems={[
+            'check autocomplete examples',
+            'check how semantics work',
+          ]}
+          activeItem={position}
+        />
       </StickyBox>
 
       <DecorRect sx={{ bottom: '8px', left: '8px', background: '#403486' }} />
@@ -44,7 +60,19 @@ export const DetailListing = ({ position, isMobile }: DetailListingProps) => {
   )
 }
 
-const renderAdvantages = (currentString: any) => {
+interface ItemStackProps {
+  items: string[][]
+  ctaButtonItems: string[]
+  activeItem: number
+  alignItems?: 'left' | 'right'
+}
+
+export const CodedItemStack = ({
+  items,
+  ctaButtonItems,
+  activeItem = 1,
+  alignItems = 'right',
+}: ItemStackProps) => {
   const style = {
     advantageItem: {
       width: '298px',
@@ -59,12 +87,12 @@ const renderAdvantages = (currentString: any) => {
       fontWeight: '200',
       color: '#E5E5E5',
       width: '100%',
-      textAlign: 'right',
+      textAlign: alignItems,
     },
     labelCTA: {
       fontWeight: '200',
       width: '100%',
-      textAlign: 'right',
+      textAlign: alignItems,
       background:
         'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
       WebkitBackgroundClip: 'text',
@@ -82,65 +110,27 @@ const renderAdvantages = (currentString: any) => {
       }}
     >
       <Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1' as any} sx={style.label}>
-            <DecodeAnimation
-              key={currentString} // Ensure a unique key for each currentString
-              customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
-              autoplay
-              interval={25}
-              text={
-                currentString === 1
-                  ? 'Flexible Auto-Completes'
-                  : '100% project coverage'
-              }
-            />
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1' as any} sx={style.label}>
-            <DecodeAnimation
-              key={currentString} // Ensure a unique key for each currentString
-              customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
-              autoplay
-              interval={25}
-              text={currentString === 1 ? 'Just press tab' : 'Always searching'}
-            />
-          </Typography>
-        </Box>
-        <Box sx={style.advantageItem}>
-          <Typography variant={'body1' as any} sx={style.label}>
-            <DecodeAnimation
-              key={currentString} // Ensure a unique key for each currentString
-              customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
-              autoplay
-              interval={25}
-              text={
-                currentString === 1
-                  ? 'Gives you ideas!'
-                  : 'Knows more then code'
-              }
-            />
-          </Typography>
-        </Box>
+        {map(items, (item, index) => (
+          <CustomDecodeAnimation
+            key={index}
+            itemOptions={item}
+            alignItems={alignItems}
+            activeItem={activeItem}
+          />
+        ))}
       </Box>
 
       <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
         <Typography
+          component={'div'}
           variant={'body1' as any}
           sx={{ ...style.labelCTA, flex: 1 }}
         >
-          <DecodeAnimation
-            allowedCharacters="symbols"
-            key={currentString} // Ensure a unique key for each currentString
-            customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
-            autoplay
-            interval={25}
-            text={
-              currentString === 1
-                ? 'check autocomplete examples'
-                : 'check how semantics work'
-            }
+          <CustomDecodeAnimation
+            alignItems={alignItems}
+            key={-1}
+            activeItem={activeItem}
+            itemOptions={ctaButtonItems}
           />
         </Typography>
         <ArrowCircleRightIcon
@@ -153,5 +143,51 @@ const renderAdvantages = (currentString: any) => {
         />
       </HorizontalCenterBox>
     </VerticalLeftAlignBox>
+  )
+}
+
+interface CustomDecodeAnimationProps {
+  alignItems?: 'left' | 'right'
+  key: any
+  activeItem: number
+  itemOptions: string[]
+}
+
+const CustomDecodeAnimation = ({
+  alignItems,
+  key,
+  activeItem,
+  itemOptions,
+}: CustomDecodeAnimationProps) => {
+  const style = {
+    advantageItem: {
+      width: '298px',
+      border: '#343434 1px solid',
+      borderLeft: 'none',
+      borderRight: 'none',
+      padding: '10px 15px',
+      textTransform: 'uppercase',
+      marginBottom: '-1px',
+    },
+    label: {
+      fontWeight: '200',
+      color: '#E5E5E5',
+      width: '100%',
+      textAlign: alignItems,
+    },
+  }
+
+  return (
+    <Box sx={style.advantageItem}>
+      <Typography component={'div'} variant={'body1' as any} sx={style.label}>
+        <DecodeAnimation
+          key={key}
+          customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
+          autoplay
+          interval={25}
+          text={itemOptions[activeItem]}
+        />
+      </Typography>
+    </Box>
   )
 }
