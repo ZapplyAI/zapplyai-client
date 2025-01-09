@@ -177,6 +177,8 @@ const CustomDecodeAnimation = ({
     },
   }
 
+  console.log('itemOptions activeItem', itemOptions, '\n', activeItem)
+
   return (
     <Box sx={style.advantageItem}>
       <Typography component={'div'} variant={'body1' as any} sx={style.label}>

@@ -29,7 +29,7 @@ export default function HomePage() {
   const [unavailabilityAlertOpen, setUnavailabilityAlertOpen] = useState(false)
   // const { name, surname, setName, setSurname } = useLandingContext()
 
-  const [position, setPosition] = useState(1)
+  const [position, setPosition] = useState(0)
 
   const fasterCodingRef = useRef<HTMLDivElement | null>(null)
 
@@ -41,9 +41,9 @@ export default function HomePage() {
         ).getBoundingClientRect()
 
         if (fasterCodingRect.bottom < 160) {
-          setPosition(() => 2)
-        } else {
           setPosition(() => 1)
+        } else {
+          setPosition(() => 0)
         }
       }
     }
