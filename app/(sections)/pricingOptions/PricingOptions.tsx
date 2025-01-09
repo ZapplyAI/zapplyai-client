@@ -74,7 +74,7 @@ export const PricingOptions = ({
               />
             </span>
           </Typography>
-          {renderPlansBoxes()}
+          {renderPlansBoxes(isMobile)}
           {renderThinkLess(showAlert)}
         </VerticalLeftAlignBox>
       </Box>
@@ -82,7 +82,7 @@ export const PricingOptions = ({
   )
 }
 
-const renderPlansBoxes = () => {
+const renderPlansBoxes = (isMobile: boolean) => {
   return (
     <HorizontalCenterBox
       sx={{
@@ -90,6 +90,7 @@ const renderPlansBoxes = () => {
         alignItems: 'start',
         justifyContent: 'space-between',
         position: 'relative',
+        flexDirection: isMobile? 'column' : 'row',
       }}
     >
       {renderPricingOffer(

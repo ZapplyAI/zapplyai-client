@@ -61,6 +61,7 @@ export const DetailListingDesktop = ({
 }
 
 interface ItemStackProps {
+  isMobile?: boolean
   items: string[][]
   ctaButtonItems: string[]
   activeItem: number
@@ -68,6 +69,7 @@ interface ItemStackProps {
 }
 
 export const CodedItemStack = ({
+  isMobile = false,
   items,
   ctaButtonItems,
   activeItem = 1,
@@ -102,12 +104,16 @@ export const CodedItemStack = ({
   }
   return (
     <VerticalLeftAlignBox
-      sx={{
-        justifyContent: 'end',
-        position: 'absolute',
-        right: '0',
-        top: '0',
-      }}
+      sx={
+        isMobile
+          ? {
+              justifyContent: 'end',
+              position: 'absolute',
+              right: '0',
+              top: '0',
+            }
+          : {}
+      }
     >
       <Box>
         {map(items, (item, index) => (
@@ -148,14 +154,12 @@ export const CodedItemStack = ({
 
 interface CustomDecodeAnimationProps {
   alignItems?: 'left' | 'right'
-  key: any
   activeItem: number
   itemOptions: string[]
 }
 
 const CustomDecodeAnimation = ({
   alignItems,
-  key,
   activeItem,
   itemOptions,
 }: CustomDecodeAnimationProps) => {
@@ -177,13 +181,10 @@ const CustomDecodeAnimation = ({
     },
   }
 
-  console.log('itemOptions activeItem', itemOptions, '\n', activeItem)
-
   return (
     <Box sx={style.advantageItem}>
       <Typography component={'div'} variant={'body1' as any} sx={style.label}>
         <DecodeAnimation
-          key={key}
           customCharacters="ΑΒΓΔΕΖΗΘΙΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω"
           autoplay
           interval={25}

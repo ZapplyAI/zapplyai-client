@@ -16,7 +16,10 @@ import {
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
-import { DetailListingDesktop } from '@/app/(sections)/detailListing/DetailListing'
+import {
+  CodedItemStack,
+  DetailListingDesktop,
+} from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
@@ -74,26 +77,44 @@ export default function HomePage() {
           showAlert={() => setUnavailabilityAlertOpen(true)}
         />
         {renderLoadingAdvantages(theme, isMobile)}
-        {!isMobile && (
-          <React.Fragment>
-            <Box sx={{ position: 'relative' }}>
-              {!isMobile && (
-                <DetailListingDesktop isMobile={isMobile} position={position} />
-              )}
-              <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
-              <ContextAware isMobile={isMobile} />
-            </Box>
-            <PricingOptions
-              isMobile={isMobile}
-              showAlert={() => setUnavailabilityAlertOpen(true)}
-            />
-            <SubscribeNewsletter
-              isMobile={isMobile}
-              showAlert={() => setUnavailabilityAlertOpen(true)}
-            />
-            <Footer />
-          </React.Fragment>
-        )}
+        <Box sx={{ position: 'relative' }}>
+          {!isMobile && (
+            <DetailListingDesktop isMobile={isMobile} position={position} />
+          )}
+          <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
+          {/*{isMobile && (<CodedItemStack*/}
+          {/*  items={[*/}
+          {/*    ['Flexible Auto-Completes'],*/}
+          {/*    ['Just press tab'],*/}
+          {/*    ['Gives you ideas!'],*/}
+          {/*  ]}*/}
+          {/*  ctaButtonItems={['check autocomplete examples']}*/}
+          {/*  activeItem={0}*/}
+          {/*/>)}*/}
+          {/*{!isMobile && (*/}
+          {/*  <React.Fragment>*/}
+          {/*    <ContextAware isMobile={isMobile} />*/}
+          {/*    <CodedItemStack*/}
+          {/*      items={[*/}
+          {/*        ['100% project coverage'],*/}
+          {/*        ['Always searching'],*/}
+          {/*        ['Knows more then code'],*/}
+          {/*      ]}*/}
+          {/*      ctaButtonItems={['check how semantics work']}*/}
+          {/*      activeItem={0}*/}
+          {/*    />*/}
+          {/*  </React.Fragment>*/}
+          {/*)}*/}
+        </Box>
+        <PricingOptions
+          isMobile={isMobile}
+          showAlert={() => setUnavailabilityAlertOpen(true)}
+        />
+        <SubscribeNewsletter
+          isMobile={isMobile}
+          showAlert={() => setUnavailabilityAlertOpen(true)}
+        />
+        <Footer />
       </main>
     </React.Fragment>
   )

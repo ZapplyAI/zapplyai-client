@@ -54,7 +54,7 @@ export const FasterCoding = React.forwardRef(
                 sx={{
                   position: 'absolute',
                   top: '150px',
-                  left: '550px',
+                  left: isMobile ? '20%' : '550px',
                   zIndex: '-1',
                 }}
               >
