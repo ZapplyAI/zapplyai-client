@@ -11,12 +11,16 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: isMobile
-      ? ['start 200px', 'end 100px']
+      ? ['start 1600px', 'end 1250px']
       : ['start 900px', 'end 550px'],
   })
 
-  // Map scroll progress (0 to 1) to a translation range (e.g., 0 to 200px)
-  const transformX = useTransform(scrollYProgress, [0, 1], [0, -300])
+  // Map scroll progress (0 to 1) to a translation range (e.g., 0 to 300px)
+  const transformX = useTransform(
+    scrollYProgress,
+    [0, 1],
+    isMobile ? [0, -300] : [0, -300]
+  )
 
   // Apply spring to smoothen the mapped transformation
   const smoothTransformX = useSpring(transformX, {
@@ -38,9 +42,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
     <VerticalLeftAlignBox
       sx={{
         position: 'relative',
-        marginLeft: isMobile
-          ? theme.customSpacing?.sides.mobile
-          : theme.customSpacing?.sides.desktop,
+        marginLeft: isMobile ? '22px' : theme.customSpacing?.sides.desktop,
       }}
     >
       <span
@@ -54,12 +56,12 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
           } as any
         }
       >
-        <Box sx={{}}>
+        <Box>
           <Image
             src="/image/home/fasterCoding/code_bg_1.png"
             alt="X"
             width={isMobile ? 200 : 1000}
-            height={isMobile ? 50 : 120}
+            height={isMobile ? 100 : 120}
             style={{
               width: 'auto',
             }}
@@ -71,7 +73,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
         <Box
           style={{
             position: 'relative',
-            left: '-70px',
+            left: isMobile ? '0' : '-70px',
             background: '#0D0D0D',
             border: '1.5px solid transparent',
             borderImage: 'linear-gradient(45deg, #262529, #504D58) 1',
@@ -81,7 +83,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
             src="/image/home/fasterCoding/code_snippet_1.png"
             alt="X"
             width={isMobile ? 200 : 1000}
-            height={isMobile ? 25 : 65}
+            height={isMobile ? 60 : 65}
             style={{
               filter: 'blur(0.5px)',
               width: 'auto',
@@ -94,7 +96,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
         <motion.div
           style={{
             position: 'relative',
-            left: '32vw',
+            left: isMobile ? '300px' : '32vw',
             x: smoothTransformX,
             borderRadius: '12px',
             overflow: 'hidden',
@@ -108,7 +110,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
             src="/image/home/fasterCoding/code_fill_1.png"
             alt="X"
             width={isMobile ? 200 : 1000}
-            height={isMobile ? 25 : 65}
+            height={isMobile ? 60 : 65}
             // layout="fill"
             objectFit="cover"
             style={{
@@ -124,7 +126,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
           sx={{
             position: 'relative',
             // top: '-100px',
-            left: '-30px',
+            left: isMobile ? '0px' : '-30px',
             background: '#0D0D0D',
             border: '1.5px solid transparent',
             borderImage: 'linear-gradient(45deg, #262529, #504D58) 1',
@@ -134,7 +136,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
             src="/image/home/fasterCoding/code_snippet_2.png"
             alt="X"
             width={isMobile ? 200 : 1000}
-            height={isMobile ? 25 : 65}
+            height={isMobile ? 60 : 65}
             style={{ filter: 'blur(0.5px)', width: 'auto' }}
           />
         </Box>
@@ -145,7 +147,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
           ref={ref}
           style={{
             position: 'relative',
-            left: '25vw',
+            left: isMobile ? '300px' : '25vw',
             x: smoothTransformX,
             borderRadius: '12px',
             border: '1.5px solid transparent',
@@ -158,7 +160,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
             src="/image/home/fasterCoding/code_fill_2.png"
             alt="X"
             width={isMobile ? 200 : 1000}
-            height={isMobile ? 25 : 65}
+            height={isMobile ? 60 : 65}
             // layout="fill"
             objectFit="cover"
             style={{
@@ -172,7 +174,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
       <Box
         sx={{
           ...style.imageContainer,
-          top: '-25px',
+          top: isMobile ? '30px' : '-25px',
           zIndex: '-1',
           height: '175px',
           filter: 'blur(1.2px)',
@@ -183,7 +185,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
           src="/image/home/fasterCoding/code_bg_2.png"
           alt="X"
           width={isMobile ? 200 : 1000}
-          height={isMobile ? 85 : 175}
+          height={isMobile ? 120 : 175}
           style={{ width: 'auto' }}
         />
       </Box>

@@ -19,10 +19,7 @@ export const FasterCoding = React.forwardRef(
     const style = {
       mainIllustration: {
         position: 'relative',
-        left:
-          '-' + (isMobile
-            ? theme.customSpacing?.sides.mobile
-            : theme.customSpacing?.sides.desktop),
+        left: '-' + (isMobile ? 0 : theme.customSpacing?.sides.desktop),
         top: 0,
       },
     }
@@ -39,7 +36,8 @@ export const FasterCoding = React.forwardRef(
           <Box
             sx={{
               margin:
-                '0px ' + (isMobile
+                '0px ' +
+                (isMobile
                   ? theme.customSpacing?.sides.mobile
                   : theme.customSpacing?.sides.desktop),
               border: '1px solid #5E5E5E',
@@ -76,20 +74,20 @@ const renderFasterCodingIllustration = (theme: Theme, isMobile: boolean) => {
           position: 'relative',
           border: '1px solid #5E5E5E',
           borderLeft: 'none',
-          paddingLeft: (isMobile
-            ? theme.customSpacing?.sides.mobile
-            : theme.customSpacing?.sides.desktop),
+          width: isMobile ? '100%' : 'auto',
+          paddingLeft: isMobile ? 0 : theme.customSpacing?.sides.desktop,
         }}
       >
         <Typography
           variant={'h1' as any}
           sx={{
-            padding: '28px 55px',
+            padding: isMobile ? '22px' : '28px 55px',
             background:
               'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3A3D 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             display: 'inline-block',
+            fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
           }}
         >
           Faster Coding
@@ -101,13 +99,14 @@ const renderFasterCodingIllustration = (theme: Theme, isMobile: boolean) => {
       <Typography
         variant={'body1' as any}
         sx={{
-          margin:
-            '30px 0px 10px calc(' + (isMobile
-              ? theme.customSpacing?.sides.mobile
-              : theme.customSpacing?.sides.desktop) + ' + 40px)',
+          margin: isMobile
+            ? '22px'
+            : '30px 0px 10px calc(' +
+              theme.customSpacing?.sides.desktop +
+              ' + 40px)',
         }}
       >
-        With light-speed autocompletes Elastic does <br />
+        With light-speed autocompletes Elastic does {!isMobile && <br />}
         everything for you in seconds.
       </Typography>
 
