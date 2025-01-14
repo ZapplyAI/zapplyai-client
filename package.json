@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.5",
     "@fontsource/kanit": "^5.0.20",
     "@formspree/react": "^2.5.1",
+    "@gsap/react": "^2.1.1",
     "@iconscout/react-unicons": "^2.0.2",
     "@mui/base": "^5.0.0-beta.68",
     "@mui/icons-material": "^5.15.13",

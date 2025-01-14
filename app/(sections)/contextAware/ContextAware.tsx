@@ -25,7 +25,8 @@ export const ContextAware = React.forwardRef(
       mainIllustration: {
         position: 'relative',
         left:
-          '-' + (isMobile
+          '-' +
+          (isMobile
             ? theme.customSpacing?.sides.mobile
             : theme.customSpacing?.sides.desktop),
         top: 0,
@@ -44,7 +45,8 @@ export const ContextAware = React.forwardRef(
           <Box
             sx={{
               margin:
-                '0px ' + (isMobile
+                '0px ' +
+                (isMobile
                   ? theme.customSpacing?.sides.mobile
                   : theme.customSpacing?.sides.desktop),
               border: '1px solid transparent',
@@ -64,7 +66,7 @@ export const ContextAware = React.forwardRef(
                 zIndex: '-1',
               }}
             >
-              <ContextAnim />
+              <ContextAnim isMobile={isMobile} />
             </Box>
           </Box>
 
@@ -105,9 +107,11 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
           sx={{
             padding: '28px 55px',
             marginLeft:
-              'calc(' + (isMobile
+              'calc(' +
+              (isMobile
                 ? theme.customSpacing?.sides.mobile
-                : theme.customSpacing?.sides.desktop) + ' - 1px)',
+                : theme.customSpacing?.sides.desktop) +
+              ' - 1px)',
             border: '1px solid transparent',
             borderRight: 'none',
             borderTop: 'none',
@@ -129,9 +133,11 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
         variant={'body1' as any}
         sx={{
           margin:
-            '30px 0px 10px calc(' + (isMobile
+            '30px 0px 10px calc(' +
+            (isMobile
               ? theme.customSpacing?.sides.mobile
-              : theme.customSpacing?.sides.desktop) + ' + 40px)',
+              : theme.customSpacing?.sides.desktop) +
+            ' + 40px)',
         }}
       >
         With light-speed autocompletes Elastic does <br />
@@ -311,7 +317,11 @@ const ContextFindingAnim = () => {
   )
 }
 
-const ContextAnim = () => {
+interface ContextAnimProps {
+  isMobile?: boolean
+}
+
+const ContextAnim = ({ isMobile = false }: ContextAnimProps) => {
   const onLoad = (splineApp: any) => {
     const object = splineApp.findObjectByName('Camera')
     if (object) {
@@ -320,7 +330,14 @@ const ContextAnim = () => {
   }
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div
+      style={{
+        // background: 'red',
+        width: '100%',
+        height: '100%',
+        overflow: isMobile ? 'hidden' : 'visible',
+      }}
+    >
       <Suspense fallback={<div>Loading...</div>}>
         <Spline
           scene="https://prod.spline.design/Rpk28cD21MQY1Wvm/scene.splinecode"

@@ -80,20 +80,32 @@ export default function HomePage() {
             <DetailListingDesktop isMobile={isMobile} position={position} />
           )}
           <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
-          {!isMobile && (
-            <React.Fragment>
-              <ContextAware isMobile={isMobile} />
-              {/*<CodedItemStack*/}
-              {/*  items={[*/}
-              {/*    ['100% project coverage'],*/}
-              {/*    ['Always searching'],*/}
-              {/*    ['Knows more then code'],*/}
-              {/*  ]}*/}
-              {/*  ctaButtonItems={['check how semantics work']}*/}
-              {/*  activeItem={0}*/}
-              {/*/>*/}
-            </React.Fragment>
-          )}
+          {/*{isMobile && (*/}
+          {/*  <CodedItemStack*/}
+          {/*    isMobile*/}
+          {/*    items={[*/}
+          {/*      ['Flexible Auto-Completes'],*/}
+          {/*      ['Just press tab'],*/}
+          {/*      ['Gives you ideas!'],*/}
+          {/*    ]}*/}
+          {/*    ctaButtonItems={['check autocomplete examples']}*/}
+          {/*    activeItem={0}*/}
+          {/*  />*/}
+          {/*)}*/}
+          {/*{!isMobile && (*/}
+          {/*  <React.Fragment>*/}
+          {/*    <ContextAware isMobile={isMobile} />*/}
+          {/*    <CodedItemStack*/}
+          {/*      items={[*/}
+          {/*        ['100% project coverage'],*/}
+          {/*        ['Always searching'],*/}
+          {/*        ['Knows more then code'],*/}
+          {/*      ]}*/}
+          {/*      ctaButtonItems={['check how semantics work']}*/}
+          {/*      activeItem={0}*/}
+          {/*    />*/}
+          {/*  </React.Fragment>*/}
+          {/*)}*/}
         </Box>
         <PricingOptions
           isMobile={isMobile}
@@ -103,7 +115,7 @@ export default function HomePage() {
           isMobile={isMobile}
           showAlert={() => setUnavailabilityAlertOpen(true)}
         />
-        <Footer isMobile={isMobile}/>
+        <Footer />
       </main>
     </React.Fragment>
   )

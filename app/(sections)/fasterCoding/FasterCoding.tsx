@@ -1,13 +1,14 @@
 'use client'
-import React, { Suspense, useRef } from 'react'
+import React, { Suspense, useEffect, useRef } from 'react'
 import { Box, Theme, useTheme } from '@mui/material'
 import { VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
 import DecorRect from '@/app/(components)/DecorRect'
-import Sticky from 'react-sticky-el'
 import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
 
 interface FasterCodingProps {
   isMobile: boolean
@@ -21,6 +22,7 @@ export const FasterCoding = React.forwardRef(
     const style = {
       mainIllustration: {
         position: 'relative',
+        overflow: isMobile ? 'hidden' : 'visible',
         left: '-' + (isMobile ? 0 : theme.customSpacing?.sides.desktop),
         top: 0,
       },
@@ -48,11 +50,8 @@ export const FasterCoding = React.forwardRef(
               position: 'relative',
             }}
           >
-            <Box
-              className="scrollarea boundaryarea"
-              sx={style.mainIllustration as any}
-            >
-              {renderFasterCodingIllustration(theme, isMobile)}
+            <Box sx={style.mainIllustration as any}>
+              <FasterCodingIllustration theme={theme} isMobile={isMobile} />
               {!isMobile && renderDesktopRocketAnim()}
             </Box>
 
@@ -75,9 +74,43 @@ export const FasterCoding = React.forwardRef(
   }
 )
 
-const renderFasterCodingIllustration = (theme: Theme, isMobile: boolean) => {
+interface FasterCodingIllustrationProps {
+  theme: Theme
+  isMobile: boolean
+}
+
+gsap.registerPlugin(useGSAP)
+
+const FasterCodingIllustration = ({
+  theme,
+  isMobile,
+}: FasterCodingIllustrationProps) => {
+  const fixedElementRef = useRef(null)
+  const containerRef = useRef(null)
+
+  useGSAP(
+    () => {
+      const fixedElement = fixedElementRef.current
+      const container = containerRef.current
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+          pin: fixedElement,
+          pinSpacing: true,
+        },
+      })
+      gsap.to('.box', { x: 360 })
+    },
+    { scope: containerRef }
+  )
+
   return (
     <VerticalLeftAlignBox
+      ref={containerRef}
       sx={{
         position: 'relative',
       }}
@@ -123,19 +156,14 @@ const renderFasterCodingIllustration = (theme: Theme, isMobile: boolean) => {
         everything for you in seconds.
       </Typography>
 
-      {isMobile && renderMobileRocketAnim()}
+      {isMobile && (
+        <Box ref={fixedElementRef} style={{ position: 'relative', zIndex: '-1' }}>
+          <RocketAnim />
+        </Box>
+      )}
 
       <AutofillAnimation isMobile={isMobile} />
     </VerticalLeftAlignBox>
-  )
-}
-
-const renderMobileRocketAnim = () => {
-  return (
-
-    <Box style={{ position: 'sticky', zIndex: '-1' }}>
-      <RocketAnim />
-    </Box>
   )
 }
 
