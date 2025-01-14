@@ -12,12 +12,9 @@ import Typography from '@mui/material/Typography'
 import { Box, Theme, useTheme } from '@mui/material'
 import Image from 'next/image'
 import {
-  HorizontalCenterBox,
   HorizontalLeftAlignBox,
-  VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import {
-  CodedItemStack,
   DetailListingDesktop,
 } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
@@ -25,6 +22,7 @@ import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/Subscr
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
 import DecorRect from '@/app/(components)/DecorRect'
 import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
+import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -82,29 +80,20 @@ export default function HomePage() {
             <DetailListingDesktop isMobile={isMobile} position={position} />
           )}
           <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
-          {/*{isMobile && (<CodedItemStack*/}
-          {/*  items={[*/}
-          {/*    ['Flexible Auto-Completes'],*/}
-          {/*    ['Just press tab'],*/}
-          {/*    ['Gives you ideas!'],*/}
-          {/*  ]}*/}
-          {/*  ctaButtonItems={['check autocomplete examples']}*/}
-          {/*  activeItem={0}*/}
-          {/*/>)}*/}
-          {/*{!isMobile && (*/}
-          {/*  <React.Fragment>*/}
-          {/*    <ContextAware isMobile={isMobile} />*/}
-          {/*    <CodedItemStack*/}
-          {/*      items={[*/}
-          {/*        ['100% project coverage'],*/}
-          {/*        ['Always searching'],*/}
-          {/*        ['Knows more then code'],*/}
-          {/*      ]}*/}
-          {/*      ctaButtonItems={['check how semantics work']}*/}
-          {/*      activeItem={0}*/}
-          {/*    />*/}
-          {/*  </React.Fragment>*/}
-          {/*)}*/}
+          {!isMobile && (
+            <React.Fragment>
+              <ContextAware isMobile={isMobile} />
+              {/*<CodedItemStack*/}
+              {/*  items={[*/}
+              {/*    ['100% project coverage'],*/}
+              {/*    ['Always searching'],*/}
+              {/*    ['Knows more then code'],*/}
+              {/*  ]}*/}
+              {/*  ctaButtonItems={['check how semantics work']}*/}
+              {/*  activeItem={0}*/}
+              {/*/>*/}
+            </React.Fragment>
+          )}
         </Box>
         <PricingOptions
           isMobile={isMobile}
@@ -114,7 +103,7 @@ export default function HomePage() {
           isMobile={isMobile}
           showAlert={() => setUnavailabilityAlertOpen(true)}
         />
-        <Footer />
+        <Footer isMobile={isMobile}/>
       </main>
     </React.Fragment>
   )

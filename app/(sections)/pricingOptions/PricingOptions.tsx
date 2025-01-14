@@ -28,7 +28,8 @@ export const PricingOptions = ({
     mainIllustration: {
       position: 'relative',
       left:
-        '-' + (isMobile
+        '-' +
+        (isMobile
           ? theme.customSpacing?.sides.mobile
           : theme.customSpacing?.sides.desktop),
       top: 0,
@@ -47,7 +48,8 @@ export const PricingOptions = ({
       <Box
         sx={{
           margin:
-            '0px ' + (isMobile
+            '0px ' +
+            (isMobile
               ? theme.customSpacing?.sides.mobile
               : theme.customSpacing?.sides.desktop),
           border: '1px solid transparent',
@@ -75,7 +77,7 @@ export const PricingOptions = ({
             </span>
           </Typography>
           {renderPlansBoxes(isMobile)}
-          {renderThinkLess(showAlert)}
+          {renderThinkLess(isMobile, showAlert)}
         </VerticalLeftAlignBox>
       </Box>
     </Box>
@@ -90,7 +92,7 @@ const renderPlansBoxes = (isMobile: boolean) => {
         alignItems: 'start',
         justifyContent: 'space-between',
         position: 'relative',
-        flexDirection: isMobile? 'column' : 'row',
+        flexDirection: isMobile ? 'column' : 'row',
       }}
     >
       {renderPricingOffer(
@@ -193,18 +195,29 @@ const PriceHeaderBox = ({
   )
 }
 
-const renderThinkLess = (showAlert: any) => {
+const renderThinkLess = (isMobile: boolean, showAlert: any) => {
   return (
     <VerticalCenterBox
-      sx={{ width: '100%', padding: '70px 0px 50px 0px', marginTop: '45px' }}
+      sx={{
+        width: '100%',
+        padding: isMobile ? '50px 0px' : '70px 0px 50px 0px',
+        marginTop: isMobile ? '0px' : '45px',
+      }}
     >
       <Typography
         variant={'h1' as any}
-        sx={{ textTransform: 'uppercase', marginBottom: '10px' }}
+        sx={{
+          textAlign: 'center',
+          textTransform: 'uppercase',
+          marginBottom: '10px',
+        }}
       >
-        think less. <span style={{ color: '#ED3A55' }}>Start now</span>
+        Think less. <span style={{ color: '#ED3A55' }}>Start now</span>
       </Typography>
-      <Typography variant={'h5' as any} sx={{ marginBottom: '18px' }}>
+      <Typography
+        variant={'h5' as any}
+        sx={{ marginBottom: '18px', marginTop: isMobile ? '15px' : 'auto' }}
+      >
         Less than 5 minutes to setup.
       </Typography>
       <ClippedButton sx={{ width: '145px' }} filled onClick={() => showAlert()}>

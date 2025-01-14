@@ -15,8 +15,8 @@ interface SubscribeNewsletter {
 }
 
 export const SubscribeNewsletter = ({
-  showAlert,
   isMobile,
+  showAlert,
 }: SubscribeNewsletter) => {
   const theme = useTheme()
 
@@ -32,29 +32,30 @@ export const SubscribeNewsletter = ({
       <VerticalCenterBox
         sx={{
           margin:
-            '0px ' + (isMobile
+            '0px ' +
+            (isMobile
               ? theme.customSpacing?.sides.mobile
               : theme.customSpacing?.sides.desktop),
-          padding: '50px 10%',
+          padding: isMobile ? '50px 20px' : '50px 10%',
         }}
       >
         <VerticalLeftAlignBox>
           <Typography
             variant={'h2' as any}
             sx={{
+              position: 'relative',
               fontFamily: 'Orbitron',
               fontWeight: '500',
               marginBottom: '14px',
               color: '#E5E5E5',
               textTransform: 'none',
+              paddingLeft: '30px',
             }}
           >
-            <span style={{ position: 'relative', marginLeft: '30px' }}>
-              <DecorRect
-                sx={{ left: '-30px', top: '40%', background: '#403486' }}
-              />
-              Subscribe for newsletter
-            </span>
+            <DecorRect
+              sx={{ left: '-0px', top: '40%', background: '#403486' }}
+            />
+            Subscribe for newsletter
           </Typography>
           <Typography
             variant={'body2' as any}
@@ -62,12 +63,21 @@ export const SubscribeNewsletter = ({
               fontSize: '14px',
             }}
           >
-            Elastic development teams works days and nights to deliver
-            futuristic development experience to our users. We value your trust,
-            and will be sure to update you about new features when we release
-            them.
+            {isMobile ? (
+              <span>
+                Elastic copilot is constantly improving. We will be sure to
+                update you about new features when we release them.
+              </span>
+            ) : (
+              <span>
+                Elastic development teams works days and nights to deliver
+                futuristic development experience to our users. We value your
+                trust, and will be sure to update you about new features when we
+                release them.
+              </span>
+            )}
           </Typography>
-          <Box sx={{ width: '60%', marginTop: '20px' }}>
+          <Box sx={{ width: isMobile ? '100%' : '60%', marginTop: '20px' }}>
             <EmailInput showAlert={showAlert} />
           </Box>
         </VerticalLeftAlignBox>

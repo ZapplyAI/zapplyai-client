@@ -42,6 +42,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
     <VerticalLeftAlignBox
       sx={{
         position: 'relative',
+        overflow: 'hidden',
         marginLeft: isMobile ? '22px' : theme.customSpacing?.sides.desktop,
       }}
     >

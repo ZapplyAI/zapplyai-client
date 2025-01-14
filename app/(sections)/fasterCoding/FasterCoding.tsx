@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography'
 import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
 import DecorRect from '@/app/(components)/DecorRect'
+import Sticky from 'react-sticky-el'
+import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
 
 interface FasterCodingProps {
   isMobile: boolean
@@ -46,19 +48,26 @@ export const FasterCoding = React.forwardRef(
               position: 'relative',
             }}
           >
-            <Box sx={style.mainIllustration as any}>
+            <Box
+              className="scrollarea boundaryarea"
+              sx={style.mainIllustration as any}
+            >
               {renderFasterCodingIllustration(theme, isMobile)}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '150px',
-                  left: isMobile ? '20%' : '550px',
-                  zIndex: '-1',
-                }}
-              >
-                <RocketAnim />
-              </Box>
+              {!isMobile && renderDesktopRocketAnim()}
             </Box>
+
+            {isMobile && (
+              <CodedItemStack
+                isMobile
+                items={[
+                  ['Flexible Auto-Completes'],
+                  ['Just press tab'],
+                  ['Gives you ideas!'],
+                ]}
+                ctaButtonItems={['check autocomplete examples']}
+                activeItem={0}
+              />
+            )}
           </Box>
         </Box>
       </React.Fragment>
@@ -68,7 +77,11 @@ export const FasterCoding = React.forwardRef(
 
 const renderFasterCodingIllustration = (theme: Theme, isMobile: boolean) => {
   return (
-    <VerticalLeftAlignBox>
+    <VerticalLeftAlignBox
+      sx={{
+        position: 'relative',
+      }}
+    >
       <Box
         sx={{
           position: 'relative',
@@ -110,8 +123,35 @@ const renderFasterCodingIllustration = (theme: Theme, isMobile: boolean) => {
         everything for you in seconds.
       </Typography>
 
+      {isMobile && renderMobileRocketAnim()}
+
       <AutofillAnimation isMobile={isMobile} />
     </VerticalLeftAlignBox>
+  )
+}
+
+const renderMobileRocketAnim = () => {
+  return (
+
+    <Box style={{ position: 'sticky', zIndex: '-1' }}>
+      <RocketAnim />
+    </Box>
+  )
+}
+
+const renderDesktopRocketAnim = () => {
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '150px',
+        // left: isMobile ? '20%' : '550px',
+        left: '550px',
+        zIndex: '-1',
+      }}
+    >
+      <RocketAnim />
+    </Box>
   )
 }
 

@@ -1,26 +1,28 @@
 import {
   HorizontalCenterBox,
-  HorizontalLeftAlignBox,
   VerticalCenterBox,
 } from '@/components/layouts/CenterBox'
 import Image from 'next/image'
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import { Box } from '@mui/material'
 
-export const Footer = () => {
+interface FooterProps {
+  isMobile?: boolean
+}
+
+export const Footer = ({ isMobile = false }: FooterProps) => {
   const style = {
     iconContainer: {
       width: '40px',
       height: '40px',
       border: '1px solid #444444',
       borderRadius: '500px',
-      marginRight: '6px'
+      marginRight: '6px',
     },
   }
 
   return (
-    <VerticalCenterBox sx={{padding: '55px 100px'}}>
+    <VerticalCenterBox sx={{ padding: isMobile ? '55px 20px' : '55px 100px' }}>
       <HorizontalCenterBox sx={{ marginBottom: '22px' }}>
         <Image
           src="/image/brand/elastic_logo_small.svg"
@@ -33,7 +35,9 @@ export const Footer = () => {
           }}
         />
 
-        <Typography variant={'h1' as any} sx={{fontSize: '36px'}}>Elastic AI</Typography>
+        <Typography variant={'h1' as any} sx={{ fontSize: '36px' }}>
+          Elastic AI
+        </Typography>
       </HorizontalCenterBox>
 
       <Typography
