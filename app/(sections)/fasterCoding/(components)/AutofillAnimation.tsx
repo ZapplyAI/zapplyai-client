@@ -44,6 +44,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
         position: 'relative',
         overflow: isMobile ? 'hidden' : 'visible',
         marginLeft: isMobile ? '22px' : theme.customSpacing?.sides.desktop,
+        marginTop: isMobile ? '-150px' : 0,
       }}
     >
       <span
@@ -51,7 +52,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
           {
             ...style.imageContainer,
             filter: 'blur(1.2px)',
-            zIndex: -1,
+            zIndex: -2,
             opacity: 0.75,
             height: '80px',
           } as any
@@ -176,7 +177,7 @@ export const AutofillAnimation = ({ isMobile }: { isMobile: boolean }) => {
         sx={{
           ...style.imageContainer,
           top: isMobile ? '30px' : '-25px',
-          zIndex: '-1',
+          zIndex: '-2',
           height: '175px',
           filter: 'blur(1.2px)',
           marginLeft: '32px',

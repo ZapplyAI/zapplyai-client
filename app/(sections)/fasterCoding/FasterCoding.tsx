@@ -1,7 +1,7 @@
 'use client'
 import React, { Suspense, useEffect, useRef } from 'react'
 import { Box, Theme, useTheme } from '@mui/material'
-import { VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
+import { HorizontalCenterBox, VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
@@ -108,6 +108,15 @@ const FasterCodingIllustration = ({
     { scope: containerRef }
   )
 
+  const style = {
+    mobileRocketContainer : {
+      position: 'relative',
+      width: '100%',
+      overflow: 'hidden',
+      zIndex: '-1',
+    }
+  }
+
   return (
     <VerticalLeftAlignBox
       ref={containerRef}
@@ -157,9 +166,12 @@ const FasterCodingIllustration = ({
       </Typography>
 
       {isMobile && (
-        <Box ref={fixedElementRef} style={{ position: 'relative', zIndex: '-1' }}>
+        <HorizontalCenterBox
+          ref={fixedElementRef}
+          sx={style.mobileRocketContainer}
+        >
           <RocketAnim />
-        </Box>
+        </HorizontalCenterBox>
       )}
 
       <AutofillAnimation isMobile={isMobile} />
@@ -191,8 +203,8 @@ const RocketAnim = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Spline
           ref={splineRef}
-          scene="https://prod.spline.design/FAOL8ZviUJKTsIwN/scene.splinecode"
-          style={{ height: '600px', width: '600px' }}
+          scene="https://prod.spline.design/SCklxumclxv161-V/scene.splinecode"
+          style={{ height: '800px', width: '800px' }}
         />
       </Suspense>
     </div>
