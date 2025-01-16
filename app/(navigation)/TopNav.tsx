@@ -51,7 +51,7 @@ export const TopNav = ({
           ('12px ' + theme.customSpacing?.sides.desktop),
         background: '#0A090E',
         borderBottom: '1px solid #5E5E5E',
-        paddingTop: isMobile? '14px' : 'unset'
+        paddingTop: isMobile? '14px' : '12px'
       }}
     >
       <HorizontalLeftAlignBox>
