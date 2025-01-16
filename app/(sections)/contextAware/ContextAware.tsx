@@ -11,6 +11,7 @@ import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import Image from 'next/image'
 import DecorRect from '@/app/(components)/DecorRect'
+import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
 
 interface ContextAwareProps {
   isMobile: boolean
@@ -69,23 +70,22 @@ export const ContextAware = React.forwardRef(
             >
               <ContextAnim isMobile={isMobile} />
             </Box>
-          </Box>
 
-          {/*<Box*/}
-          {/*  sx={{*/}
-          {/*    position: 'absolute',*/}
-          {/*    right: '0',*/}
-          {/*    top: 0,*/}
-          {/*    border: '1px solid #5E5E5E',*/}
-          {/*    borderTop: 'none',*/}
-          {/*    height: '100%',*/}
-          {/*    width: '300px',*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  <StickyBox offsetTop={10} offsetBottom={10}>*/}
-          {/*    {renderAdvantages()}*/}
-          {/*  </StickyBox>*/}
-          {/*</Box>*/}
+            {isMobile && (
+              <Box sx={{ paddingBottom: isMobile ? '100px' : 0 }}>
+                <CodedItemStack
+                  isMobile
+                  items={[
+                    ['100% project coverage'],
+                    ['Always searching'],
+                    ['Knows more then code'],
+                  ]}
+                  ctaButtonItems={['check autocomplete examples']}
+                  activeItem={0}
+                />
+              </Box>
+            )}
+          </Box>
         </Box>
       </React.Fragment>
     )
@@ -106,7 +106,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
         <Typography
           variant={'h1' as any}
           sx={{
-            padding: '28px 55px',
+            padding: isMobile? '28px 45px' : '28px 55px',
             marginLeft:
               'calc(' +
               (isMobile

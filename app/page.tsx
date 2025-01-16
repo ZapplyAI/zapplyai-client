@@ -11,12 +11,8 @@ import Marquee from 'react-fast-marquee'
 import Typography from '@mui/material/Typography'
 import { Box, Theme, useTheme } from '@mui/material'
 import Image from 'next/image'
-import {
-  HorizontalLeftAlignBox,
-} from '@/components/layouts/CenterBox'
-import {
-  DetailListingDesktop,
-} from '@/app/(sections)/detailListing/DetailListing'
+import { HorizontalLeftAlignBox } from '@/components/layouts/CenterBox'
+import { DetailListingDesktop } from '@/app/(sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(sections)/pricingOptions/PricingOptions'
 import { SubscribeNewsletter } from '@/app/(sections)/subscribeNewsletter/SubscribeNewsletter'
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
@@ -56,6 +52,7 @@ export default function HomePage() {
   return (
     <React.Fragment>
       <UnavailabilityAlert
+        isMobile={isMobile}
         onClose={() => setUnavailabilityAlertOpen(false)}
         open={unavailabilityAlertOpen}
         selectedValue={''}
@@ -80,32 +77,7 @@ export default function HomePage() {
             <DetailListingDesktop isMobile={isMobile} position={position} />
           )}
           <FasterCoding ref={fasterCodingRef} isMobile={isMobile} />
-          {/*{isMobile && (*/}
-          {/*  <CodedItemStack*/}
-          {/*    isMobile*/}
-          {/*    items={[*/}
-          {/*      ['Flexible Auto-Completes'],*/}
-          {/*      ['Just press tab'],*/}
-          {/*      ['Gives you ideas!'],*/}
-          {/*    ]}*/}
-          {/*    ctaButtonItems={['check autocomplete examples']}*/}
-          {/*    activeItem={0}*/}
-          {/*  />*/}
-          {/*)}*/}
-          {/*{!isMobile && (*/}
-          {/*  <React.Fragment>*/}
-          {/*    <ContextAware isMobile={isMobile} />*/}
-          {/*    <CodedItemStack*/}
-          {/*      items={[*/}
-          {/*        ['100% project coverage'],*/}
-          {/*        ['Always searching'],*/}
-          {/*        ['Knows more then code'],*/}
-          {/*      ]}*/}
-          {/*      ctaButtonItems={['check how semantics work']}*/}
-          {/*      activeItem={0}*/}
-          {/*    />*/}
-          {/*  </React.Fragment>*/}
-          {/*)}*/}
+          <ContextAware isMobile={isMobile} />
         </Box>
         <PricingOptions
           isMobile={isMobile}

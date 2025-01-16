@@ -134,23 +134,23 @@ const FasterCodingIllustration = ({
           position: 'relative',
           border: '1px solid #5E5E5E',
           borderLeft: 'none',
-          width: isMobile ? '100%' : 'auto',
+          width: isMobile ? '93%' : 'auto',
           paddingLeft: isMobile ? 0 : theme.customSpacing?.sides.desktop,
         }}
       >
         <Typography
           variant={'h1' as any}
           sx={{
-            padding: isMobile ? '22px' : '28px 55px',
+            padding: isMobile ? '28px 45px' : '28px 55px',
             background:
               'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3A3D 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             display: 'inline-block',
-            fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
+            // fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
           }}
         >
-          Faster Coding
+          Develop faster
         </Typography>
 
         <DecorRect sx={{ top: '8px', right: '8px' }} />

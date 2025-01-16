@@ -62,20 +62,28 @@ export const PricingOptions = ({
           <Typography
             variant={'h1' as any}
             sx={{
-              // position: 'relative',
+              position: 'relative',
               color: '#AEAEAE',
               width: isMobile ? 'auto' : '100%',
-              padding: isMobile ? '22px' : '28px 55px',
+              padding: isMobile ? '28px 45px' : '28px 55px',
               borderBottom: '1px solid #1E1D20',
-              fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
+              // fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
             }}
           >
             <span style={{ position: 'relative' }}>
               What we offer
-              <DecorRect
-                sx={{ right: '-40px', top: '50%', background: '#403486' }}
-              />
+              {!isMobile && (
+                <DecorRect
+                  sx={{ right: '-40px', top: '50%', background: '#403486' }}
+                />
+              )}
             </span>
+
+            {isMobile && (
+              <DecorRect
+                sx={{ top: '8px', right: '8px', background: '#403486' }}
+              />
+            )}
           </Typography>
           {renderPlansBoxes(isMobile)}
           {renderThinkLess(isMobile, showAlert)}
