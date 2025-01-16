@@ -75,9 +75,8 @@ export const CodedItemStack = ({
     >
       <Box sx={{ width: '100%' }}>
         {map(items, (item, index) => (
-          <HorizontalLeftAlignBox sx={style.advantageItem}>
+          <HorizontalLeftAlignBox key={index} sx={style.advantageItem}>
             <CustomDecodeAnimation
-              key={index}
               isMobile={isMobile}
               itemOptions={item}
               alignItems={alignItems}

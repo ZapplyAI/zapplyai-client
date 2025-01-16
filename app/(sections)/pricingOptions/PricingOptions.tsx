@@ -64,9 +64,10 @@ export const PricingOptions = ({
             sx={{
               // position: 'relative',
               color: '#AEAEAE',
-              width: '100%',
-              padding: '28px 55px',
+              width: isMobile ? 'auto' : '100%',
+              padding: isMobile ? '22px' : '28px 55px',
               borderBottom: '1px solid #1E1D20',
+              fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
             }}
           >
             <span style={{ position: 'relative' }}>
@@ -92,6 +93,7 @@ const renderPlansBoxes = (isMobile: boolean) => {
         alignItems: 'start',
         justifyContent: 'space-between',
         position: 'relative',
+        overflow: isMobile ? 'hidden' : 'visible',
         flexDirection: isMobile ? 'column' : 'row',
       }}
     >
@@ -108,7 +110,13 @@ const renderPlansBoxes = (isMobile: boolean) => {
         ]
       )}
 
-      <Box sx={{ flex: 1.5, height: '100%', position: 'relative' }}>
+      <Box
+        sx={{
+          flex: 1.5,
+          height: '100%',
+          position: 'relative',
+        }}
+      >
         <DecorRect sx={{ top: '8px', right: '8px', background: '#403486' }} />
       </Box>
       <HorizontalCenterBox

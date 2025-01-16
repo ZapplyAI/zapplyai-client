@@ -1,7 +1,10 @@
 'use client'
 import React, { Suspense, useEffect, useRef } from 'react'
 import { Box, Theme, useTheme } from '@mui/material'
-import { HorizontalCenterBox, VerticalLeftAlignBox } from '@/components/layouts/CenterBox'
+import {
+  HorizontalCenterBox,
+  VerticalLeftAlignBox,
+} from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
@@ -56,16 +59,18 @@ export const FasterCoding = React.forwardRef(
             </Box>
 
             {isMobile && (
-              <CodedItemStack
-                isMobile
-                items={[
-                  ['Flexible Auto-Completes'],
-                  ['Just press tab'],
-                  ['Gives you ideas!'],
-                ]}
-                ctaButtonItems={['check autocomplete examples']}
-                activeItem={0}
-              />
+              <Box sx={{ paddingBottom: isMobile ? '100px' : 0 }}>
+                <CodedItemStack
+                  isMobile
+                  items={[
+                    ['Flexible Auto-Completes'],
+                    ['Just press tab'],
+                    ['Gives you ideas!'],
+                  ]}
+                  ctaButtonItems={['check autocomplete examples']}
+                  activeItem={0}
+                />
+              </Box>
             )}
           </Box>
         </Box>
@@ -109,12 +114,12 @@ const FasterCodingIllustration = ({
   )
 
   const style = {
-    mobileRocketContainer : {
+    mobileRocketContainer: {
       position: 'relative',
       width: '100%',
       overflow: 'hidden',
       zIndex: '-1',
-    }
+    },
   }
 
   return (

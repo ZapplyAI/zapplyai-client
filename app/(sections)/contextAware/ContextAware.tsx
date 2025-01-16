@@ -44,6 +44,7 @@ export const ContextAware = React.forwardRef(
         >
           <Box
             sx={{
+              overflow: isMobile ? 'hidden' : 'visible',
               margin:
                 '0px ' +
                 (isMobile
@@ -332,7 +333,6 @@ const ContextAnim = ({ isMobile = false }: ContextAnimProps) => {
   return (
     <div
       style={{
-        // background: 'red',
         width: '100%',
         height: '100%',
         overflow: isMobile ? 'hidden' : 'visible',
