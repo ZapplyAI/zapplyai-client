@@ -107,14 +107,14 @@ const renderPlansBoxes = (isMobile: boolean) => {
     >
       {renderPricingOffer(
         'Individual',
-        'Plan for developers who work alone or as a part of small team, freelancers or students',
+        'Smart and swift. For developers working alone or as a part of small team, freelancer, students or hobby. ',
         '#825AFD, #ED3A55',
         [
           'Flexible Auto-Completes',
-          'Just press tab and you will start moving faster',
-          'lorem ipsum dolore lorem',
-          'press tab and you will start moving faster',
-          'Flexible Auto-Completes',
+          'Context Awareness',
+          'Idea generation',
+          'General knowledge',
+          // 'Workspace Integration (Confluence , Jira , GitHub)',
         ]
       )}
 
@@ -141,14 +141,14 @@ const renderPlansBoxes = (isMobile: boolean) => {
 
       {renderPricingOffer(
         'Enterprise',
-        'Plan for developers who work alone or as a part of small team, freelancers or students',
+        'For medium or large teams. Use Elastic to connect all your development infrastructure in one copilot.',
         '#FF945E, #ED3A55',
         [
           'Flexible Auto-Completes',
-          'Just press tab and you will start moving faster',
-          'lorem ipsum dolore lorem',
-          'press tab and you will start moving faster',
-          'Flexible Auto-Completes',
+          'Context Awareness',
+          'Slack Integration',
+          'Teams Feature',
+          'Workspace Integration (Confluence , Jira , GitHub)',
         ]
       )}
     </HorizontalCenterBox>

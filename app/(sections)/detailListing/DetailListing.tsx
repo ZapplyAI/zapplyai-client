@@ -41,7 +41,7 @@ export const DetailListingDesktop = ({
             ['Gives you ideas!', 'Knows more then code'],
           ]}
           ctaButtonItems={[
-            'check autocomplete examples',
+            'see autocomplete examples',
             'check how semantics work',
           ]}
           activeItem={position}

@@ -63,8 +63,8 @@ export const ContextAware = React.forwardRef(
             <Box
               sx={{
                 position: 'absolute',
-                top: '150px',
-                right: '200px',
+                top: isMobile ? '250px' : '150px',
+                right: isMobile ? '-200px' : '200px',
                 zIndex: '-1',
               }}
             >
@@ -106,7 +106,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
         <Typography
           variant={'h1' as any}
           sx={{
-            padding: isMobile? '28px 45px' : '28px 55px',
+            padding: isMobile ? '28px 45px' : '28px 55px',
             marginLeft:
               'calc(' +
               (isMobile
@@ -141,8 +141,8 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
             ' + 40px)',
         }}
       >
-        With light-speed autocompletes Elastic does <br />
-        everything for you in seconds.
+        Elastic AI uses latest semantic search technology <br/>
+        in order to find important context in your code.
       </Typography>
 
       <Box
@@ -152,7 +152,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
           height: '550px',
         }}
       >
-        <ContextFindingAnim />
+        <ParticleFlowingAnim />
       </Box>
     </VerticalLeftAlignBox>
   )
@@ -163,7 +163,7 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(MotionPathPlugin)
 }
 
-const ContextFindingAnim = () => {
+const ParticleFlowingAnim = () => {
   useEffect(() => {
     const animations = [
       { id: 'particle1', path: '#path1', duration: 1 },
@@ -342,13 +342,9 @@ const ContextAnim = ({ isMobile = false }: ContextAnimProps) => {
         <Spline
           scene="https://prod.spline.design/Rpk28cD21MQY1Wvm/scene.splinecode"
           onLoad={onLoad}
-          style={{ height: '600px', width: '800px' }}
+          style={{ height: isMobile ? '450px' : '600px', width: '800px' }}
         />
       </Suspense>
     </div>
   )
-}
-
-const renderAdvantages = () => {
-  return <></>
 }

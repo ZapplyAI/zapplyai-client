@@ -73,9 +73,8 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
               variant={'h5' as any}
               sx={{ maxWidth: '90%', marginBottom: isMobile ? '30px' : '40px' }}
             >
-              With Elastic development process becomes a piece-of-cake. Pair
-              programming with our AI-assistant will save you 50% of your time
-              developing things.
+              With Elastic Copilot, development feels effortless.
+              Spend 2x less time and deliver 3x more code by pairing up with Elastic!
             </Typography>
 
             <LoadingAnimHUD label={'loading elastic IDE ...'} />
@@ -294,7 +293,7 @@ const renderVideo = (isMobile: boolean) => {
         style={{ width: '90%', height: '81%', background: '#1D1D1D' }}
       >
         <Typography variant={'body2'} sx={{ maxWidth: '75%' }}>
-          Into video is still in production!
+          Intro video is still in production!
         </Typography>
       </HorizontalCenterBox>
     </HorizontalCenterBox>
