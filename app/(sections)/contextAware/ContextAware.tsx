@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense, useEffect } from 'react'
-import { Box } from '@mui/material'
+import { Box, Theme, useTheme } from '@mui/material'
 import {
   HorizontalLeftAlignBox,
   VerticalLeftAlignBox,
@@ -10,75 +10,94 @@ import Spline from '@splinetool/react-spline'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import Image from 'next/image'
+import DecorRect from '@/app/(components)/DecorRect'
+import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
+
+interface ContextAwareProps {
+  isMobile: boolean
+}
 
 // eslint-disable-next-line react/display-name
-export const ContextAware = React.forwardRef((props, ref) => {
-  const style = {
-    mainIllustration: {
-      position: 'relative',
-      left: '-12vw',
-      top: 0,
-    },
-  }
+export const ContextAware = React.forwardRef(
+  ({ isMobile }: ContextAwareProps, ref) => {
+    const theme = useTheme()
 
-  return (
-    <React.Fragment>
-      <Box
-        ref={ref}
-        sx={{
-          width: '100%',
-          position: 'relative',
-        }}
-      >
+    const style = {
+      mainIllustration: {
+        position: 'relative',
+        left:
+          '-' +
+          (isMobile
+            ? theme.customSpacing?.sides.mobile
+            : theme.customSpacing?.sides.desktop),
+        top: 0,
+      },
+    }
+
+    return (
+      <React.Fragment>
         <Box
+          ref={ref}
           sx={{
-            margin: '0px 12vw',
-            border: '1px solid transparent',
-            borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
-            borderTop: 'none',
-            borderBottom: 'none',
+            width: '100%',
+            position: 'relative',
           }}
         >
-          <Box sx={style.mainIllustration}>
-            {renderContextAwareIllustration()}
-          </Box>
           <Box
             sx={{
-              position: 'absolute',
-              top: '150px',
-              right: '200px',
-              zIndex: '-1',
+              overflow: isMobile ? 'hidden' : 'visible',
+              margin:
+                '0px ' +
+                (isMobile
+                  ? theme.customSpacing?.sides.mobile
+                  : theme.customSpacing?.sides.desktop),
+              border: '1px solid transparent',
+              borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
+              borderTop: 'none',
+              borderBottom: 'none',
             }}
           >
-            <ContextAnim />
+            <Box sx={style.mainIllustration as any}>
+              {renderContextAwareIllustration(theme, isMobile)}
+            </Box>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: isMobile ? '250px' : '150px',
+                right: isMobile ? '-200px' : '200px',
+                zIndex: '-1',
+              }}
+            >
+              <ContextAnim isMobile={isMobile} />
+            </Box>
+
+            {isMobile && (
+              <Box sx={{ paddingBottom: isMobile ? '100px' : 0 }}>
+                <CodedItemStack
+                  isMobile
+                  items={[
+                    ['100% project coverage'],
+                    ['Always searching'],
+                    ['Knows more then code'],
+                  ]}
+                  ctaButtonItems={['check autocomplete examples']}
+                  activeItem={0}
+                />
+              </Box>
+            )}
           </Box>
         </Box>
+      </React.Fragment>
+    )
+  }
+)
 
-        {/*<Box*/}
-        {/*  sx={{*/}
-        {/*    position: 'absolute',*/}
-        {/*    right: '0',*/}
-        {/*    top: 0,*/}
-        {/*    border: '1px solid #5E5E5E',*/}
-        {/*    borderTop: 'none',*/}
-        {/*    height: '100%',*/}
-        {/*    width: '300px',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <StickyBox offsetTop={10} offsetBottom={10}>*/}
-        {/*    {renderAdvantages()}*/}
-        {/*  </StickyBox>*/}
-        {/*</Box>*/}
-      </Box>
-    </React.Fragment>
-  )
-})
-
-const renderContextAwareIllustration = () => {
+const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
   return (
     <VerticalLeftAlignBox>
       <HorizontalLeftAlignBox
         sx={{
+          position: 'relative',
           border: '1px solid transparent',
           borderLeft: 'none',
           borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
@@ -87,8 +106,13 @@ const renderContextAwareIllustration = () => {
         <Typography
           variant={'h1' as any}
           sx={{
-            padding: '28px 55px',
-            marginLeft: 'calc(12vw - 1px)',
+            padding: isMobile ? '28px 45px' : '28px 55px',
+            marginLeft:
+              'calc(' +
+              (isMobile
+                ? theme.customSpacing?.sides.mobile
+                : theme.customSpacing?.sides.desktop) +
+              ' - 1px)',
             border: '1px solid transparent',
             borderRight: 'none',
             borderTop: 'none',
@@ -102,15 +126,23 @@ const renderContextAwareIllustration = () => {
           }}
         >
           Context aware
+          <DecorRect sx={{ top: '8px', right: '8px' }} />
         </Typography>
       </HorizontalLeftAlignBox>
 
       <Typography
         variant={'body1' as any}
-        sx={{ margin: '30px 0px 10px calc(12vw + 40px)' }}
+        sx={{
+          margin:
+            '30px 0px 10px calc(' +
+            (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop) +
+            ' + 40px)',
+        }}
       >
-        With light-speed autocompletes Elastic does <br />
-        everything for you in seconds.
+        Elastic AI uses latest semantic search technology <br/>
+        in order to find important context in your code.
       </Typography>
 
       <Box
@@ -120,7 +152,7 @@ const renderContextAwareIllustration = () => {
           height: '550px',
         }}
       >
-        <ContextFindingAnim />
+        <ParticleFlowingAnim />
       </Box>
     </VerticalLeftAlignBox>
   )
@@ -131,7 +163,7 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(MotionPathPlugin)
 }
 
-const ContextFindingAnim = () => {
+const ParticleFlowingAnim = () => {
   useEffect(() => {
     const animations = [
       { id: 'particle1', path: '#path1', duration: 1 },
@@ -286,27 +318,33 @@ const ContextFindingAnim = () => {
   )
 }
 
-const ContextAnim = () => {
-  const onLoad = (splineApp: any)  => {
-    const object = splineApp.findObjectByName('Camera') // Replace with your object name
+interface ContextAnimProps {
+  isMobile?: boolean
+}
+
+const ContextAnim = ({ isMobile = false }: ContextAnimProps) => {
+  const onLoad = (splineApp: any) => {
+    const object = splineApp.findObjectByName('Camera')
     if (object) {
-      object.position.x -= 450
+      object.position.x -= 150
     }
   }
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: isMobile ? 'hidden' : 'visible',
+      }}
+    >
       <Suspense fallback={<div>Loading...</div>}>
         <Spline
           scene="https://prod.spline.design/Rpk28cD21MQY1Wvm/scene.splinecode"
           onLoad={onLoad}
-          style={{ height: '600px', width: '600px' }}
+          style={{ height: isMobile ? '450px' : '600px', width: '800px' }}
         />
       </Suspense>
     </div>
   )
-}
-
-const renderAdvantages = () => {
-  return <></>
 }

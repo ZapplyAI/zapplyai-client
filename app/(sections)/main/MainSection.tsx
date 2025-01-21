@@ -1,45 +1,59 @@
 import Typography from '@mui/material/Typography'
 import {
   HorizontalCenterBox,
+  HorizontalLeftAlignBox,
   VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
-import { Box, Divider, IconButton } from '@mui/material'
+import { Box, CircularProgress, useTheme } from '@mui/material'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import Image from 'next/image'
 import React from 'react'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import DecorRect from '@/app/(components)/DecorRect'
+import 'react-alice-carousel/lib/alice-carousel.css'
+import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
+import { BigNumbersCarousel } from '@/app/(sections)/main/(components)/BigNumbersCarousel'
 
 interface MainSectionProps {
   showAlert: any
+  isMobile: boolean
 }
 
-export const MainSection = ({showAlert} : MainSectionProps) => {
+export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
+  const theme = useTheme()
+
   return (
     <React.Fragment>
       <Box
         display="flex"
         justifyContent="start"
         alignItems="normal"
-        flexDirection="row"
+        flexDirection={isMobile ? 'column' : 'row'}
         sx={{
-          margin: '0px 12vw',
+          margin:
+            '0px ' +
+            (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop),
           border: '1px solid #5E5E5E',
           borderTop: 'none',
           borderBottom: 'none',
           position: 'relative',
         }}
       >
-        {renderStickySocialLinks()}
+        {renderStickySocialLinks(isMobile)}
 
         <VerticalLeftAlignBox
           sx={{
-            padding: '30px',
+            padding: isMobile ? '18px' : '30px',
           }}
         >
           <VerticalLeftAlignBox
-            sx={{ justifyContent: 'start', marginBottom: '60px' }}
+            sx={{
+              justifyContent: 'start',
+              marginBottom: '60px',
+              paddingRight: isMobile ? '42px' : 'auto',
+            }}
           >
             <Typography
               variant={'h5' as any}
@@ -48,7 +62,8 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block',
-                marginBottom: '12px',
+                marginBottom: isMobile ? '20px' : '12px',
+                paddingRight: isMobile ? '12px' : 'auto',
               }}
             >
               Being a developer is hard? Let’s make things simple!
@@ -56,31 +71,47 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
 
             <Typography
               variant={'h5' as any}
-              sx={{ maxWidth: '90%', marginBottom: '40px' }}
+              sx={{ maxWidth: '90%', marginBottom: isMobile ? '30px' : '40px' }}
             >
-              With Elastic development process becomes a piece-of-cake. Pair
-              programming with our AI-assistant will save you 50% of your time
-              developing things.
+              With Elastic Copilot, development feels effortless.
+              Spend 2x less time and deliver 3x more code by pairing up with Elastic!
             </Typography>
 
-            {renderLoadingHUD()}
+            <LoadingAnimHUD label={'loading elastic IDE ...'} />
           </VerticalLeftAlignBox>
 
-          {renderVideo()}
+          {renderVideo(isMobile)}
+
+          {isMobile && (
+            <DecorRect
+              sx={{ background: '#413486', top: '8px', right: '68px' }}
+            />
+          )}
         </VerticalLeftAlignBox>
 
         <VerticalLeftAlignBox
-          sx={{ flex: '1', justifyContent: 'space-between' }}
+          sx={{
+            flex: isMobile ? 'unset' : '1',
+            height: isMobile ? '200px' : 'auto',
+            justifyContent: 'space-between',
+            flexDirection: isMobile ? 'row' : 'column',
+          }}
         >
           <VerticalCenterBox
             sx={{
+              position: 'relative',
               border: '1px solid #5E5E5E',
-              width: '200px',
-              padding: '32px',
+              width: isMobile ? 'auto' : '200px',
+              flex: isMobile ? 1 : 'unset',
+              height: isMobile ? '100%' : 'auto',
+              padding: isMobile ? 'auto' : '32px',
             }}
           >
             <VerticalCenterBox sx={{ marginBottom: '22px' }}>
-              <ClippedButton sx={{ width: '145px' }} onClick={() => showAlert()}>
+              <ClippedButton
+                sx={{ width: '145px' }}
+                onClick={() => showAlert()}
+              >
                 <Typography variant={'button' as any}>Free Trial</Typography>
               </ClippedButton>
               <Typography variant={'caption' as any}>
@@ -88,17 +119,31 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
               </Typography>
             </VerticalCenterBox>
 
-            <ClippedButton sx={{ width: '145px' }} filled
-                           onClick={() => showAlert()}>
+            <ClippedButton
+              sx={{ width: '145px' }}
+              filled
+              onClick={() => showAlert()}
+            >
               <Typography variant={'button' as any}>Learn more</Typography>
             </ClippedButton>
+
+            <DecorRect
+              sx={
+                isMobile
+                  ? { background: '#413486', top: '8px', right: '8px' }
+                  : { top: '8px', left: '8px' }
+              }
+            />
           </VerticalCenterBox>
 
           <VerticalCenterBox
             sx={{
+              position: 'relative',
               border: '1px solid #5E5E5E',
-              width: '200px',
-              padding: '32px',
+              width: isMobile ? 'auto' : '200px',
+              flex: isMobile ? 1 : 'unset',
+              height: isMobile ? '100%' : 'auto',
+              padding: isMobile ? 'auto' : '32px',
             }}
           >
             <Typography variant={'body1' as any} sx={{ fontSize: '1.1rem' }}>
@@ -110,35 +155,59 @@ export const MainSection = ({showAlert} : MainSectionProps) => {
             >
               Email us
             </Typography>
-            <ClippedButton sx={{ width: '145px', marginTop: '12px' }}
-                           onClick={() => showAlert()}>
+            <ClippedButton
+              sx={{ width: '145px', marginTop: '12px' }}
+              onClick={() => showAlert()}
+            >
               <Typography variant={'button' as any}>Contact</Typography>
             </ClippedButton>
+
+            <DecorRect
+              sx={
+                isMobile
+                  ? { background: '#413486', top: '8px', right: '8px' }
+                  : { top: '8px', right: '8px' }
+              }
+            />
           </VerticalCenterBox>
         </VerticalLeftAlignBox>
       </Box>
 
-      {renderBigNumbers()}
+      {isMobile && (
+        <Box
+          sx={{
+            margin: '0px ' + theme.customSpacing?.sides.mobile,
+            border: '1px solid #5E5E5E',
+            borderTop: 'none',
+            borderBottom: 'none',
+          }}
+        >
+          {renderFetchingMetrics()}
+        </Box>
+      )}
+
+      <BigNumbersCarousel theme={theme} isMobile={isMobile} />
     </React.Fragment>
   )
 }
 
-const renderStickySocialLinks = () => {
+const renderStickySocialLinks = (isMobile: boolean) => {
   return (
     <div
       style={{
-        position: 'sticky',
+        position: 'absolute',
         top: 0,
-        left: '0',
+        left: isMobile ? 'auto' : '0',
+        right: isMobile ? '0' : 'auto',
       }}
     >
       <VerticalCenterBox
         sx={{
           position: 'absolute',
           top: '-1px',
-          left: '-70px',
-          width: '70px',
-          height: '250px',
+          left: isMobile ? '-60px' : '-70px',
+          width: isMobile ? '60px' : '70px',
+          height: isMobile ? '210px' : '250px',
           justifyContent: 'space-around',
           border: '1px solid #5E5E5E',
         }}
@@ -146,76 +215,34 @@ const renderStickySocialLinks = () => {
         <Image
           src="/icons/linkedin_icon.png"
           alt="LinkedIn"
-          width={38}
-          height={38}
+          width={isMobile ? 30 : 38}
+          height={isMobile ? 30 : 38}
         />
         <Image
           src="/icons/telegram_icon.png"
           alt="Telegram"
-          width={38}
-          height={38}
+          width={isMobile ? 30 : 38}
+          height={isMobile ? 30 : 38}
         />
-        <Image src="/icons/twitter_x_icon.png" alt="X" width={38} height={38} />
+        <Image
+          src="/icons/twitter_x_icon.png"
+          alt="X"
+          width={isMobile ? 30 : 38}
+          height={isMobile ? 30 : 38}
+        />
       </VerticalCenterBox>
     </div>
   )
 }
 
-const renderLoadingHUD = () => {
-  return (
-    <VerticalLeftAlignBox>
-      <Typography variant={'body2' as any} sx={{ marginBottom: '5px' }}>
-        loading elastic IDE ...
-      </Typography>
-      <span
-        style={{
-          position: 'relative',
-          width: '200px',
-          height: '6px',
-          background: '#222222',
-        }}
-      >
-        <span
-          style={{
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            width: '120px',
-            height: '6px',
-            background: '#E5E5E5',
-          }}
-        />
-      </span>
-    </VerticalLeftAlignBox>
-  )
-}
+const renderVideo = (isMobile: boolean) => {
+  const borderL = '110px'
+  const borderL_M = '55px'
 
-const renderVideo = () => {
   const style = {
-    videoBorders: {
-      width: '90%',
-      height: '350px',
-      boxShadow: `
-        0 0 0 200px inset transparent,
-        0 0 0 1px inset #999999
-       `,
-      borderRadius: '0',
-      border: '1px',
-      clipPath: `
-          polygon(
-            0% 0.7em,
-            calc(0% + 0.7em) 0,
-            100% 0,
-            100% calc(100% - 0.7em),
-            calc(100% - 0.7em) 100%,
-            0% 100%
-          )
-        `,
-    },
-
     rectangle: {
       width: '100%',
-      height: '380px',
+      height: isMobile ? '190px' : '380px',
       position: 'relative',
     },
     corner: {
@@ -225,32 +252,32 @@ const renderVideo = () => {
     topLeft: {
       top: '0',
       left: '0',
-      width: '110px',
-      height: '110px',
+      width: isMobile ? borderL_M : borderL,
+      height: isMobile ? borderL_M : borderL,
       borderRight: 'none',
       borderBottom: 'none',
     },
     topRight: {
       top: '0',
       right: '0',
-      width: '110px',
-      height: '110px',
+      width: isMobile ? borderL_M : borderL,
+      height: isMobile ? borderL_M : borderL,
       borderLeft: 'none',
       borderBottom: 'none',
     },
     bottomLeft: {
       bottom: '0',
       left: '0',
-      width: '110px',
-      height: '110px',
+      width: isMobile ? borderL_M : borderL,
+      height: isMobile ? borderL_M : borderL,
       borderRight: 'none',
       borderTop: 'none',
     },
     bottomRight: {
       bottom: '0',
       right: '0',
-      width: '110px',
-      height: '110px',
+      width: isMobile ? borderL_M : borderL,
+      height: isMobile ? borderL_M : borderL,
       borderLeft: 'none',
       borderTop: 'none',
     },
@@ -262,120 +289,50 @@ const renderVideo = () => {
       <div style={{ ...style.corner, ...style.topRight } as any}></div>
       <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
       <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
-      <span style={{ width: '90%', height: '81%', background: '#1D1D1D' }}>
-        video
-      </span>
+      <HorizontalCenterBox
+        style={{ width: '90%', height: '81%', background: '#1D1D1D' }}
+      >
+        <Typography variant={'body2'} sx={{ maxWidth: '75%' }}>
+          Intro video is still in production!
+        </Typography>
+      </HorizontalCenterBox>
     </HorizontalCenterBox>
   )
 }
 
-const renderBigNumbers = () => {
-  const style = {
-    bigNumber: {
-      fontSize: '40px',
-      color: '#AEAEAE',
-      fontFamily: 'JetBrains Mono, sans-serif',
-      marginBottom: '12px',
-    },
-    divider: {
-      border: '1px #393939 solid',
-      height: '80px',
-    },
-  }
-
+const renderFetchingMetrics = () => {
   return (
-    <Box
+    <HorizontalLeftAlignBox
       sx={{
-        borderTop: '1px solid #5E5E5E',
-        borderBottom: '1px solid #5E5E5E',
-        padding: '0px 12vw',
+        padding: '32px 22px',
       }}
     >
-      <HorizontalCenterBox
-        sx={{
-          position: 'relative',
-          justifyContent: 'space-around',
-          borderLeft: '1px solid #5E5E5E',
-          borderRight: '1px solid #5E5E5E',
-          padding: '30px 22px',
-        }}
+      <GradientCircularProgress />
+      <Typography
+        variant={'body1'}
+        sx={{ color: '#7B5DFE', marginLeft: '12px' }}
       >
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            34.8%
-          </Typography>
-          <Typography variant={'body1' as any}>
-            Productivity increase
-          </Typography>
-        </VerticalCenterBox>
+        Fetching key metrics ...
+      </Typography>
+    </HorizontalLeftAlignBox>
+  )
+}
 
-        <Divider orientation={'vertical'} style={style.divider} />
-
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            28.1%
-          </Typography>
-          <Typography variant={'body1' as any}>Faster development</Typography>
-        </VerticalCenterBox>
-
-        <Divider orientation={'vertical'} style={style.divider} />
-
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            45.0%
-          </Typography>
-          <Typography variant={'body1' as any}>Less debugging time</Typography>
-        </VerticalCenterBox>
-
-        <Divider orientation={'vertical'} style={style.divider} />
-
-        <VerticalCenterBox>
-          <Typography variant={'h1' as any} sx={style.bigNumber}>
-            59.2%
-          </Typography>
-          <Typography variant={'body1' as any}>Better code quality</Typography>
-        </VerticalCenterBox>
-
-        <HorizontalCenterBox
-          sx={{
-            position: 'absolute',
-            bottom: '-55px',
-            right: '0px',
-            height: '55px',
-            width: '120px',
-            borderTop: 'none',
-            border: '1px solid #5E5E5E',
-          }}
-        >
-          <IconButton
-            sx={{
-              '&:hover': {
-                '& .MuiSvgIcon-root': {
-                  color: '#FFFFFF', // Lighter color on hover
-                },
-              },
-            }}
-          >
-            <ArrowBackIosIcon
-              sx={{ color: '#AEAEAE', height: '20px', width: '20px' }}
-            />
-          </IconButton>
-          <span style={{ width: '12px' }} />
-          <IconButton
-            sx={{
-              '&:hover': {
-                '& .MuiSvgIcon-root': {
-                  color: '#FFFFFF', // Lighter color on hover
-                },
-              },
-            }}
-          >
-            <ArrowForwardIosIcon
-              sx={{ color: '#AEAEAE', height: '20px', width: '20px' }}
-            />
-          </IconButton>
-        </HorizontalCenterBox>
-      </HorizontalCenterBox>
-    </Box>
+function GradientCircularProgress() {
+  return (
+    <React.Fragment>
+      <svg width={0} height={0}>
+        <defs>
+          <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#e01cd5" />
+            <stop offset="100%" stopColor="#1CB5E0" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <CircularProgress
+        size={18}
+        sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }}
+      />
+    </React.Fragment>
   )
 }
