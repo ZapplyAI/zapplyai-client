@@ -3,7 +3,7 @@ import React, { Suspense, useEffect } from 'react'
 import { Box, Theme, useTheme } from '@mui/material'
 import {
   HorizontalLeftAlignBox,
-  VerticalLeftAlignBox,
+  VerticalLeftAlignBox
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import Spline from '@splinetool/react-spline'
@@ -30,8 +30,8 @@ export const ContextAware = React.forwardRef(
           (isMobile
             ? theme.customSpacing?.sides.mobile
             : theme.customSpacing?.sides.desktop),
-        top: 0,
-      },
+        top: 0
+      }
     }
 
     return (
@@ -40,7 +40,7 @@ export const ContextAware = React.forwardRef(
           ref={ref}
           sx={{
             width: '100%',
-            position: 'relative',
+            position: 'relative'
           }}
         >
           <Box
@@ -54,7 +54,7 @@ export const ContextAware = React.forwardRef(
               border: '1px solid transparent',
               borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
               borderTop: 'none',
-              borderBottom: 'none',
+              borderBottom: 'none'
             }}
           >
             <Box sx={style.mainIllustration as any}>
@@ -65,7 +65,7 @@ export const ContextAware = React.forwardRef(
                 position: 'absolute',
                 top: isMobile ? '250px' : '150px',
                 right: isMobile ? '-200px' : '200px',
-                zIndex: '-1',
+                zIndex: '-1'
               }}
             >
               <ContextAnim isMobile={isMobile} />
@@ -78,7 +78,7 @@ export const ContextAware = React.forwardRef(
                   items={[
                     ['100% project coverage'],
                     ['Always searching'],
-                    ['Knows more then code'],
+                    ['Knows more then code']
                   ]}
                   ctaButtonItems={['check autocomplete examples']}
                   activeItem={0}
@@ -100,7 +100,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
           position: 'relative',
           border: '1px solid transparent',
           borderLeft: 'none',
-          borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
+          borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1'
         }}
       >
         <Typography
@@ -122,7 +122,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
               'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3A3D 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            display: 'inline-block',
+            display: 'inline-block'
           }}
         >
           Context aware
@@ -138,7 +138,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
             (isMobile
               ? theme.customSpacing?.sides.mobile
               : theme.customSpacing?.sides.desktop) +
-            ' + 40px)',
+            ' + 40px)'
         }}
       >
         Elastic AI uses latest semantic search technology <br/>
@@ -149,7 +149,7 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
         sx={{
           marginLeft: '100px',
           marginTop: '50px',
-          height: '550px',
+          height: '550px'
         }}
       >
         <ParticleFlowingAnim />
@@ -169,7 +169,7 @@ const ParticleFlowingAnim = () => {
       { id: 'particle1', path: '#path1', duration: 1 },
       { id: 'particle2', path: '#path2', duration: 1.5 },
       { id: 'particle3', path: '#path3', duration: 2 },
-      { id: 'particle4', path: '#path4', duration: 1.125 },
+      { id: 'particle4', path: '#path4', duration: 1.125 }
     ]
 
     const maxDuration = Math.max(...animations.map(anim => anim.duration))
@@ -188,7 +188,7 @@ const ParticleFlowingAnim = () => {
             opacity: 1, // Fade in to opacity 1
             scale: 0.5, // Scale up to 100% size
             duration: maxDuration, // Takes 0.5 seconds for fade-in and scale-up
-            ease: 'power1.inOut',
+            ease: 'power1.inOut'
           },
           0 // Start immediately with motionPath
         )
@@ -201,10 +201,10 @@ const ParticleFlowingAnim = () => {
               alignOrigin: [0.5, 0.5],
               autoRotate: false,
               start: 1,
-              end: 0,
+              end: 0
             },
             duration: maxDuration, // Normalize duration
-            ease: 'power1.inOut',
+            ease: 'power1.inOut'
           },
           0 // Start the motion path at the same time
         )
@@ -311,7 +311,7 @@ const ParticleFlowingAnim = () => {
           position: 'absolute',
           left: -27,
           top: -30,
-          width: 'auto',
+          width: 'auto'
         }}
       />
     </Box>
@@ -335,7 +335,7 @@ const ContextAnim = ({ isMobile = false }: ContextAnimProps) => {
       style={{
         width: '100%',
         height: '100%',
-        overflow: isMobile ? 'hidden' : 'visible',
+        overflow: isMobile ? 'hidden' : 'visible'
       }}
     >
       <Suspense fallback={<div>Loading...</div>}>

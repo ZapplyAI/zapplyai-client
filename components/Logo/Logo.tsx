@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 interface LogoProps {
   sx?: object
-  height?: number,
-  width?: number,
+  height?: number
+  width?: number
   mini?: boolean
 }
 
@@ -34,9 +34,9 @@ const Logo = ({sx={}, height=22, width=22, mini=false} : LogoProps): React.React
 
 const style: { [key: string]: CSSProperties } = {
   logoIcon: {
-    color: '#775EFF',
-    // height: '22px',
-  },
+    color: '#775EFF'
+    // height: '22px'
+  }
 }
 
 export default Logo

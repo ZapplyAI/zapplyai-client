@@ -3,7 +3,7 @@ import {
   HorizontalCenterBox,
   HorizontalLeftAlignBox,
   VerticalCenterBox,
-  VerticalLeftAlignBox,
+  VerticalLeftAlignBox
 } from '@/components/layouts/CenterBox'
 import { Box, CircularProgress, useTheme } from '@mui/material'
 import ClippedButton from '@/app/(components)/ClippedButton'
@@ -38,21 +38,21 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
           border: '1px solid #5E5E5E',
           borderTop: 'none',
           borderBottom: 'none',
-          position: 'relative',
+          position: 'relative'
         }}
       >
         {renderStickySocialLinks(isMobile)}
 
         <VerticalLeftAlignBox
           sx={{
-            padding: isMobile ? '18px' : '30px',
+            padding: isMobile ? '18px' : '30px'
           }}
         >
           <VerticalLeftAlignBox
             sx={{
               justifyContent: 'start',
               marginBottom: '60px',
-              paddingRight: isMobile ? '42px' : 'auto',
+              paddingRight: isMobile ? '42px' : 'auto'
             }}
           >
             <Typography
@@ -63,17 +63,17 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block',
                 marginBottom: isMobile ? '20px' : '12px',
-                paddingRight: isMobile ? '12px' : 'auto',
+                paddingRight: isMobile ? '12px' : 'auto'
               }}
             >
-              Being a developer is hard? Let’s make things simple!
+              Being a developer is hard? Let's make things simple!
             </Typography>
 
             <Typography
               variant={'h5' as any}
               sx={{ maxWidth: '90%', marginBottom: isMobile ? '30px' : '40px' }}
             >
-              With Elastic Copilot, development feels effortless.
+              With Elastic AI development feels effortless.
               Spend 2x less time and deliver 3x more code by pairing up with Elastic!
             </Typography>
 
@@ -94,7 +94,7 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
             flex: isMobile ? 'unset' : '1',
             height: isMobile ? '200px' : 'auto',
             justifyContent: 'space-between',
-            flexDirection: isMobile ? 'row' : 'column',
+            flexDirection: isMobile ? 'row' : 'column'
           }}
         >
           <VerticalCenterBox
@@ -104,7 +104,7 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
               width: isMobile ? 'auto' : '200px',
               flex: isMobile ? 1 : 'unset',
               height: isMobile ? '100%' : 'auto',
-              padding: isMobile ? 'auto' : '32px',
+              padding: isMobile ? 'auto' : '32px'
             }}
           >
             <VerticalCenterBox sx={{ marginBottom: '22px' }}>
@@ -143,7 +143,7 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
               width: isMobile ? 'auto' : '200px',
               flex: isMobile ? 1 : 'unset',
               height: isMobile ? '100%' : 'auto',
-              padding: isMobile ? 'auto' : '32px',
+              padding: isMobile ? 'auto' : '32px'
             }}
           >
             <Typography variant={'body1' as any} sx={{ fontSize: '1.1rem' }}>
@@ -179,7 +179,7 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
             margin: '0px ' + theme.customSpacing?.sides.mobile,
             border: '1px solid #5E5E5E',
             borderTop: 'none',
-            borderBottom: 'none',
+            borderBottom: 'none'
           }}
         >
           {renderFetchingMetrics()}
@@ -198,7 +198,7 @@ const renderStickySocialLinks = (isMobile: boolean) => {
         position: 'absolute',
         top: 0,
         left: isMobile ? 'auto' : '0',
-        right: isMobile ? '0' : 'auto',
+        right: isMobile ? '0' : 'auto'
       }}
     >
       <VerticalCenterBox
@@ -209,7 +209,7 @@ const renderStickySocialLinks = (isMobile: boolean) => {
           width: isMobile ? '60px' : '70px',
           height: isMobile ? '210px' : '250px',
           justifyContent: 'space-around',
-          border: '1px solid #5E5E5E',
+          border: '1px solid #5E5E5E'
         }}
       >
         <Image
@@ -243,11 +243,11 @@ const renderVideo = (isMobile: boolean) => {
     rectangle: {
       width: '100%',
       height: isMobile ? '190px' : '380px',
-      position: 'relative',
+      position: 'relative'
     },
     corner: {
       position: 'absolute',
-      border: '1px solid #999999',
+      border: '1px solid #999999'
     },
     topLeft: {
       top: '0',
@@ -255,7 +255,7 @@ const renderVideo = (isMobile: boolean) => {
       width: isMobile ? borderL_M : borderL,
       height: isMobile ? borderL_M : borderL,
       borderRight: 'none',
-      borderBottom: 'none',
+      borderBottom: 'none'
     },
     topRight: {
       top: '0',
@@ -263,7 +263,7 @@ const renderVideo = (isMobile: boolean) => {
       width: isMobile ? borderL_M : borderL,
       height: isMobile ? borderL_M : borderL,
       borderLeft: 'none',
-      borderBottom: 'none',
+      borderBottom: 'none'
     },
     bottomLeft: {
       bottom: '0',
@@ -271,7 +271,7 @@ const renderVideo = (isMobile: boolean) => {
       width: isMobile ? borderL_M : borderL,
       height: isMobile ? borderL_M : borderL,
       borderRight: 'none',
-      borderTop: 'none',
+      borderTop: 'none'
     },
     bottomRight: {
       bottom: '0',
@@ -279,8 +279,8 @@ const renderVideo = (isMobile: boolean) => {
       width: isMobile ? borderL_M : borderL,
       height: isMobile ? borderL_M : borderL,
       borderLeft: 'none',
-      borderTop: 'none',
-    },
+      borderTop: 'none'
+    }
   }
 
   return (
@@ -304,7 +304,7 @@ const renderFetchingMetrics = () => {
   return (
     <HorizontalLeftAlignBox
       sx={{
-        padding: '32px 22px',
+        padding: '32px 22px'
       }}
     >
       <GradientCircularProgress />
