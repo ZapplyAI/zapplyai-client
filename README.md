@@ -22,3 +22,4 @@ npm run lint
 3. Only put global components that are often used into `/components` folder
 ##### Mobile components
 1. Components that are "Mobile-only" marked as `.mobile.tsx`
+Deployment trigger line added to trigger deployment
