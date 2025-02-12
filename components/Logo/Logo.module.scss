@@ -1,0 +1,11 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  span {
+    color: var(--primary-text-color);
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+}

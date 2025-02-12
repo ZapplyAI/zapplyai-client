@@ -1,0 +1,46 @@
+<svg
+        width="452"
+        height="290"
+        viewBox="0 0 452 290"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+>
+    <defs>
+        <linearGradient
+                id="unifiedGradient"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+                gradientUnits="userSpaceOnUse"
+        >
+            <stop offset="0%" stop-color="#7B5DFE" />
+            <stop offset="50%" stop-color="#DE3AED" />
+            <stop offset="100%" stop-color="#ED3A82" />
+        </linearGradient>
+    </defs>
+
+    <path id="path1" d="M346 78H392" stroke="url(#unifiedGradient)" />
+
+    <path
+            id="path2"
+            d="M346 78V212.5H452V290"
+            stroke="url(#unifiedGradient)"
+    />
+
+    <path
+            id="path3"
+            d="M346 78H204.5V155H101.5V217"
+            stroke="url(#unifiedGradient)"
+    />
+    <path
+            id="path4"
+            d="M346 78H204.5V155H101.5V126H1V0"
+            stroke="url(#unifiedGradient)"
+    />
+
+    <circle id="particle1" cx="346" cy="78" r="3" fill="white" />
+    <circle id="particle2" cx="346" cy="78" r="3" fill="white" />
+    <circle id="particle3" cx="346" cy="78" r="3" fill="white" />
+    <circle id="particle4" cx="346" cy="78" r="3" fill="white" />
+</svg>
