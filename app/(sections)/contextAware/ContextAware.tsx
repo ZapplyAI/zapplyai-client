@@ -1,20 +1,122 @@
 'use client'
-import React, { Suspense, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Box, Theme, useTheme } from '@mui/material'
 import {
   HorizontalLeftAlignBox,
-  VerticalLeftAlignBox
+  VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
-import Spline from '@splinetool/react-spline'
-import { gsap } from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import Image from 'next/image'
 import DecorRect from '@/app/(components)/DecorRect'
 import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
 
 interface ContextAwareProps {
   isMobile: boolean
+}
+
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  size: number
+  color: string
+}
+
+const ParticleFlowingAnim = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const particleCount = 40
+    const particles: Particle[] = []
+    const colors = ['#775EFF', '#DE3AED', '#ED3A93', '#7B5DFE', '#9D5DFE']
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 2 + 1,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      })
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      particles.forEach(particle => {
+        particle.x += particle.vx
+        particle.y += particle.vy
+
+        if (particle.x < 0) particle.x = canvas.width
+        if (particle.x > canvas.width) particle.x = 0
+        if (particle.y < 0) particle.y = canvas.height
+        if (particle.y > canvas.height) particle.y = 0
+
+        ctx.beginPath()
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+        ctx.fillStyle = particle.color
+        ctx.fill()
+      })
+
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach(p2 => {
+          const dx = p1.x - p2.x
+          const dy = p1.y - p2.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          if (distance < 180) {
+            ctx.beginPath()
+            ctx.moveTo(p1.x, p1.y)
+            ctx.lineTo(p2.x, p2.y)
+            const alpha = 0.2 * (1 - distance / 180)
+            const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y)
+            gradient.addColorStop(0, `rgba(119, 94, 255, ${alpha})`)
+            gradient.addColorStop(1, `rgba(222, 58, 237, ${alpha})`)
+            ctx.strokeStyle = gradient
+            ctx.stroke()
+          }
+        })
+      })
+
+      requestAnimationFrame(animate)
+    }
+
+    animate()
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 0,
+        opacity: 0.8
+      }}
+    />
+  )
 }
 
 // eslint-disable-next-line react/display-name
@@ -30,17 +132,19 @@ export const ContextAware = React.forwardRef(
           (isMobile
             ? theme.customSpacing?.sides.mobile
             : theme.customSpacing?.sides.desktop),
-        top: 0
-      }
+        top: 0,
+      },
     }
 
     return (
       <React.Fragment>
+        <ParticleFlowingAnim />
         <Box
           ref={ref}
           sx={{
             width: '100%',
-            position: 'relative'
+            position: 'relative',
+            marginBottom: '100px',
           }}
         >
           <Box
@@ -54,23 +158,26 @@ export const ContextAware = React.forwardRef(
               border: '1px solid transparent',
               borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
               borderTop: 'none',
-              borderBottom: 'none'
+              borderBottom: 'none',
+              padding: '48px 0',
+              background: 'linear-gradient(180deg, rgba(25, 25, 30, 0.95), rgba(25, 25, 30, 0.85))',
+              backdropFilter: 'blur(12px)',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'radial-gradient(circle at top right, rgba(119, 94, 255, 0.05), transparent 70%)',
+                pointerEvents: 'none',
+              },
             }}
           >
             <Box sx={style.mainIllustration as any}>
               {renderContextAwareIllustration(theme, isMobile)}
             </Box>
-            <Box
-              sx={{
-                position: 'absolute',
-                top: isMobile ? '250px' : '150px',
-                right: isMobile ? '-200px' : '200px',
-                zIndex: '-1'
-              }}
-            >
-              <ContextAnim isMobile={isMobile} />
-            </Box>
-
             {isMobile && (
               <Box sx={{ paddingBottom: isMobile ? '100px' : 0 }}>
                 <CodedItemStack
@@ -78,7 +185,7 @@ export const ContextAware = React.forwardRef(
                   items={[
                     ['100% project coverage'],
                     ['Always searching'],
-                    ['Knows more then code']
+                    ['Knows more then code'],
                   ]}
                   ctaButtonItems={['check autocomplete examples']}
                   activeItem={0}
@@ -100,7 +207,8 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
           position: 'relative',
           border: '1px solid transparent',
           borderLeft: 'none',
-          borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1'
+          borderImage: 'linear-gradient(180deg, #5E5E5E, #28272A) 1',
+          marginBottom: '32px',
         }}
       >
         <Typography
@@ -122,7 +230,10 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
               'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3A3D 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            display: 'inline-block'
+            display: 'inline-block',
+            fontSize: isMobile ? '3rem' : '4rem',
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
           }}
         >
           Context aware
@@ -130,221 +241,44 @@ const renderContextAwareIllustration = (theme: Theme, isMobile: boolean) => {
         </Typography>
       </HorizontalLeftAlignBox>
 
-      <Typography
-        variant={'body1' as any}
-        sx={{
-          margin:
-            '30px 0px 10px calc(' +
-            (isMobile
-              ? theme.customSpacing?.sides.mobile
-              : theme.customSpacing?.sides.desktop) +
-            ' + 40px)'
-        }}
-      >
-        Elastic AI uses latest semantic search technology <br/>
-        in order to find important context in your code.
-      </Typography>
-
       <Box
         sx={{
-          marginLeft: '100px',
-          marginTop: '50px',
-          height: '550px'
+          background: 'rgba(17, 17, 21, 0.85)',
+          padding: '56px',
+          borderRadius: '16px',
+          border: '1px solid rgba(119, 94, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(119, 94, 255, 0.1), 0 0 20px rgba(119, 94, 255, 0.15)',
+          maxWidth: '900px',
+          margin: '0 auto',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at top right, rgba(119, 94, 255, 0.1), transparent 70%)',
+            borderRadius: 'inherit',
+            pointerEvents: 'none',
+          },
         }}
       >
-        <ParticleFlowingAnim />
+        <Typography
+          variant={'body1' as any}
+          sx={{
+            fontSize: isMobile ? '1.2rem' : '1.4rem',
+            lineHeight: 1.7,
+            color: '#F5F5F5',
+            textAlign: 'center',
+            fontWeight: 500,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          From automating repetitive boilerplate to pinpointing complex bugs, <br/>
+          our Copilot goes beyond simple code suggestions to help you deliver better software, faster.
+        </Typography>
       </Box>
     </VerticalLeftAlignBox>
-  )
-}
-
-// Register the MotionPathPlugin
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(MotionPathPlugin)
-}
-
-const ParticleFlowingAnim = () => {
-  useEffect(() => {
-    const animations = [
-      { id: 'particle1', path: '#path1', duration: 1 },
-      { id: 'particle2', path: '#path2', duration: 1.5 },
-      { id: 'particle3', path: '#path3', duration: 2 },
-      { id: 'particle4', path: '#path4', duration: 1.125 }
-    ]
-
-    const maxDuration = Math.max(...animations.map(anim => anim.duration))
-
-    const masterTimeline = gsap.timeline({ repeat: -1, ease: 'power1.inOut' })
-
-    animations.forEach(({ id, path, duration }) => {
-      const durationScaleFactor = maxDuration / duration
-
-      // Add opacity animation along with motionPath
-      masterTimeline
-        .fromTo(
-          `#${id}`,
-          { opacity: 1, scale: 0.5 }, // Start with opacity 0 and 10% size
-          {
-            opacity: 1, // Fade in to opacity 1
-            scale: 0.5, // Scale up to 100% size
-            duration: maxDuration, // Takes 0.5 seconds for fade-in and scale-up
-            ease: 'power1.inOut'
-          },
-          0 // Start immediately with motionPath
-        )
-        .to(
-          `#${id}`,
-          {
-            motionPath: {
-              path: path,
-              align: path,
-              alignOrigin: [0.5, 0.5],
-              autoRotate: false,
-              start: 1,
-              end: 0
-            },
-            duration: maxDuration, // Normalize duration
-            ease: 'power1.inOut'
-          },
-          0 // Start the motion path at the same time
-        )
-    })
-  }, [])
-
-  return (
-    <Box sx={{ position: 'relative' }}>
-      <svg
-        width="452"
-        height="290"
-        viewBox="0 0 452 290"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ position: 'relative', overflow: 'visible' }}
-      >
-        <defs>
-          <filter
-            id="particleGlow"
-            x="-50%"
-            y="-50%"
-            width="500%"
-            height="500%"
-            filterUnits="userSpaceOnUse"
-          >
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <linearGradient
-            id="unifiedGradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0%" stopColor="#7B5DFE" />
-            <stop offset="50%" stopColor="#DE3AED" />
-            <stop offset="100%" stopColor="#ED3A82" />
-          </linearGradient>
-        </defs>
-
-        <path id="path1" d="M346 78H392" stroke="url(#unifiedGradient)" />
-
-        <path
-          id="path2"
-          d="M346 78V212.5H452V290"
-          stroke="url(#unifiedGradient)"
-        />
-
-        <path
-          id="path3"
-          d="M346 78H204.5V155H101.5V217"
-          stroke="url(#unifiedGradient)"
-        />
-        <path
-          id="path4"
-          d="M346 78H204.5V155H101.5V126H1V0"
-          stroke="url(#unifiedGradient)"
-        />
-
-        <circle
-          id="particle1"
-          cx="346"
-          cy="78"
-          r="3"
-          fill="white"
-          filter="url(#particleGlow)"
-        />
-        <circle
-          id="particle2"
-          cx="346"
-          cy="78"
-          r="3"
-          fill="white"
-          filter="url(#particleGlow)"
-        />
-        <circle
-          id="particle3"
-          cx="346"
-          cy="78"
-          r="3"
-          fill="white"
-          filter="url(#particleGlow)"
-        />
-        <circle
-          id="particle4"
-          cx="346"
-          cy="78"
-          r="3"
-          fill="white"
-          filter="url(#particleGlow)"
-        />
-      </svg>
-      <Image
-        src="/image/home/contextAware/contextMatches.png"
-        alt="X"
-        width={1000}
-        height={428}
-        style={{
-          position: 'absolute',
-          left: -27,
-          top: -30,
-          width: 'auto'
-        }}
-      />
-    </Box>
-  )
-}
-
-interface ContextAnimProps {
-  isMobile?: boolean
-}
-
-const ContextAnim = ({ isMobile = false }: ContextAnimProps) => {
-  const onLoad = (splineApp: any) => {
-    const object = splineApp.findObjectByName('Camera')
-    if (object) {
-      object.position.x -= 150
-    }
-  }
-
-  return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        overflow: isMobile ? 'hidden' : 'visible'
-      }}
-    >
-      <Suspense fallback={<div>Loading...</div>}>
-        <Spline
-          scene="https://prod.spline.design/Rpk28cD21MQY1Wvm/scene.splinecode"
-          onLoad={onLoad}
-          style={{ height: isMobile ? '450px' : '600px', width: '800px' }}
-        />
-      </Suspense>
-    </div>
   )
 }

@@ -31,28 +31,35 @@ export const CodedItemStack = ({
     advantageItem: {
       justifyContent: 'end',
       width: isMobile ? '100%' : '298px',
-      border: '#343434 1px solid',
-      borderLeft: 'none',
-      borderRight: 'none',
-      padding: '10px 15px',
-      textTransform: 'uppercase',
-      marginBottom: '-1px',
+      background: 'rgba(119, 94, 255, 0.1)',
+      borderRadius: '8px',
+      padding: '16px 24px',
+      marginBottom: '12px',
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        background: 'rgba(119, 94, 255, 0.15)',
+        transform: 'translateX(8px)',
+      },
     },
     label: {
-      fontWeight: '200',
-      color: '#E5E5E5',
+      fontWeight: '500',
+      color: '#FFFFFF',
       width: '100%',
       textAlign: alignItems,
+      fontSize: '1.25rem',
+      letterSpacing: '-0.01em',
+      textTransform: 'none',
     },
     labelCTA: {
-      fontWeight: '200',
+      fontWeight: '500',
       width: '100%',
       textAlign: alignItems,
-      background:
-        'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
+      background: 'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3ABA 100%)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       display: 'inline-block',
+      fontSize: '1.25rem',
+      letterSpacing: '-0.01em',
     },
     containerCTA: {
       width: '100%',
@@ -64,11 +71,7 @@ export const CodedItemStack = ({
       sx={
         isMobile
           ? {
-              // margin: '0px ' + theme.customSpacing?.sides.mobile,
-              // justifyContent: 'end',
-              // position: 'absolute',
-              // right: '0',
-              // top: '0',
+              width: '100%',
             }
           : {}
       }
@@ -104,9 +107,9 @@ export const CodedItemStack = ({
         </Typography>
         <ArrowCircleRightIcon
           sx={{
-            width: '22px',
-            height: '22px',
-            color: '#C932A1',
+            width: '24px',
+            height: '24px',
+            color: '#DE3AED',
             marginLeft: '12px',
           }}
         />
@@ -130,10 +133,11 @@ const CustomDecodeAnimation = ({
 }: CustomDecodeAnimationProps) => {
   const style = {
     label: {
-      fontWeight: '200',
-      color: '#E5E5E5',
-      // width: '100%',
+      fontWeight: '500',
+      color: '#FFFFFF',
       textAlign: alignItems,
+      fontSize: '1.25rem',
+      letterSpacing: '-0.01em',
     },
   }
 

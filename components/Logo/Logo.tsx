@@ -1,42 +1,23 @@
 'use client'
-
-import React, { CSSProperties } from 'react'
+import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import styles from './Logo.module.scss'
 
 interface LogoProps {
-  sx?: object
-  height?: number
-  width?: number
   mini?: boolean
 }
 
-const Logo = ({sx={}, height=22, width=22, mini=false} : LogoProps): React.ReactNode => {
-  return mini ? (
-    <div style={{ ...style.logoIcon, ...sx }}>
+export const Logo = ({ mini }: LogoProps) => {
+  return (
+    <Link href="/" className={styles.logo}>
       <Image
-        src="/image/brand/elastic_logo_small.svg"
-        alt="LOGO"
-        height={height}
-        width={width}
+        src="/assets/svgs/LISA MARK EXP.svg"
+        alt="Logo"
+        width={mini ? 32 : 40}
+        height={mini ? 32 : 40}
+        priority
       />
-    </div>
-  ) : (
-    <div style={{ ...style.logoIcon, ...sx }}>
-      <Image
-        src="/image/brand/zapplyAI_io_logo.svg"
-        alt="LOGO"
-        height={height}
-        width={width}
-      />
-    </div>
+    </Link>
   )
 }
-
-const style: { [key: string]: CSSProperties } = {
-  logoIcon: {
-    color: '#775EFF'
-    // height: '22px'
-  }
-}
-
-export default Logo
