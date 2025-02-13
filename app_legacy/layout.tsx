@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import { ThemeProvider } from '@mui/material/styles'
 
 import '@/styles/main.scss'
-import { darkTheme } from '@/styles/theme/theme'
+import { darkTheme } from '../styles/theme/theme'
 import StoreProvider from '@/app_legacy/StoreProvider'
 // import { browser } from '@/testing/mockServer/browser'
 

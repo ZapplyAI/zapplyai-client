@@ -1,15 +1,24 @@
 'use client'
 import React, { useState } from 'react'
-import { Box, InputBase } from '@mui/material'
+import { Box, InputBase, useTheme } from '@mui/material'
 import {
   VerticalCenterBox,
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
+import DecorRect from '@/app/(components)/DecorRect'
 
-export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
-  const style = {}
+interface SubscribeNewsletter {
+  isMobile: boolean
+  showAlert: any
+}
+
+export const SubscribeNewsletter = ({
+  isMobile,
+  showAlert,
+}: SubscribeNewsletter) => {
+  const theme = useTheme()
 
   return (
     <Box
@@ -22,34 +31,54 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
     >
       <VerticalCenterBox
         sx={{
-          margin: '0px 12vw',
-          padding: '50px 10%',
+          margin:
+            '0px ' +
+            (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop),
+          padding: isMobile ? '50px 20px' : '50px 10%',
         }}
       >
         <VerticalLeftAlignBox>
           <Typography
             variant={'h2' as any}
             sx={{
-              marginBottom: '10px',
+              position: 'relative',
+              fontFamily: 'Orbitron',
+              fontWeight: '500',
+              marginBottom: '14px',
               color: '#E5E5E5',
-              textTransform: 'uppercase',
+              textTransform: 'none',
+              paddingLeft: '30px',
             }}
           >
+            <DecorRect
+              sx={{ left: '-0px', top: '40%', background: '#403486' }}
+            />
             Subscribe for newsletter
           </Typography>
           <Typography
             variant={'body2' as any}
             sx={{
-              textTransform: 'uppercase',
+              fontSize: '14px',
             }}
           >
-            Elastic development teams works days and nights to deliver
-            futuristic development experience to our users. We value your trust,
-            and will be sure to update you about new features when we release
-            them.
+            {isMobile ? (
+              <span>
+                Elastic copilot is constantly improving. We will be sure to
+                update you about new features when we release them.
+              </span>
+            ) : (
+              <span>
+                Elastic development teams works days and nights to deliver
+                futuristic development experience to our users. We value your
+                trust, and will be sure to update you about new features when we
+                release them.
+              </span>
+            )}
           </Typography>
-          <Box sx={{ width: '50%' }}>
-            <EmailInput showAlert={showAlert} label={'Your email'} />
+          <Box sx={{ width: isMobile ? '100%' : '60%', marginTop: '20px' }}>
+            <EmailInput showAlert={showAlert} />
           </Box>
         </VerticalLeftAlignBox>
       </VerticalCenterBox>
@@ -60,51 +89,34 @@ export const SubscribeNewsletter = ({ showAlert }: { showAlert: any }) => {
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   position: 'relative',
   width: '100%',
-  padding: '10px 16px',
+  padding: '5px 14px',
   fontSize: '16px',
+  color: '#7E7E7E',
   fontFamily: 'JetBrains Mono, monospace',
-  borderBottom: '1px solid #BDBDBD', // Default underline
-  transition: 'none', // Disable animations
+  borderBottom: '1px solid #7E7E7E',
+  transition: 'none',
   '&:hover': {
-    borderBottom: '1px solid #9E9E9E', // Slightly darker underline on hover
+    borderBottom: '1px solid #9E9E9E',
   },
   '&:focus-within': {
-    borderBottom: '1px solid #757575', // Lighter underline on focus
+    color: '#fff',
+    borderBottom: '1px solid #9E9E9E',
     outline: 'none',
   },
 }))
 
-const Label = styled(Typography)(({ theme }) => ({
-  position: 'absolute',
-  left: '16px',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  fontSize: '16px',
-  color: '#7E7E7E',
-  fontFamily: 'JetBrains Mono, monospace',
-  transition: 'none', // Disable label animations
-  pointerEvents: 'none', // Prevent label from being interacted with
-}))
-
 interface CustomInputProps {
   showAlert: any
-  label: string
 }
 
-const EmailInput = ({ showAlert, label }: CustomInputProps) => {
+const EmailInput = ({ showAlert }: CustomInputProps) => {
   const [value, setValue] = useState('')
 
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
-      <Label
-        style={{
-          display: value ? 'none' : 'block', // Hide label when input has value
-        }}
-      >
-        {label}
-      </Label>
       <StyledInputBase
         value={value}
+        placeholder={'Your email'}
         onChange={e => {
           setValue(e.target.value)
           showAlert()
@@ -112,7 +124,6 @@ const EmailInput = ({ showAlert, label }: CustomInputProps) => {
         onSubmit={e => {
           // e.preventDefault()
         }}
-        placeholder={value ? undefined : label} // Use placeholder for accessibility
       />
     </Box>
   )

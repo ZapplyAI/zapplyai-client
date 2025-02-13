@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense } from 'react'
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import {
   HorizontalCenterBox,
   VerticalCenterBox,
@@ -10,12 +10,28 @@ import Typography from '@mui/material/Typography'
 import Spline from '@splinetool/react-spline'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight'
 import ClippedButton from '@/app/(components)/ClippedButton'
+import map from 'lodash/map'
+import DecorRect from '@/app/(components)/DecorRect'
 
-export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
+interface PricingOptionsProps {
+  showAlert: any
+  isMobile: boolean
+}
+
+export const PricingOptions = ({
+  showAlert,
+  isMobile,
+}: PricingOptionsProps) => {
+  const theme = useTheme()
+
   const style = {
     mainIllustration: {
       position: 'relative',
-      left: '-12vw',
+      left:
+        '-' +
+        (isMobile
+          ? theme.customSpacing?.sides.mobile
+          : theme.customSpacing?.sides.desktop),
       top: 0,
     },
   }
@@ -31,7 +47,11 @@ export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
     >
       <Box
         sx={{
-          margin: '0px 12vw',
+          margin:
+            '0px ' +
+            (isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop),
           border: '1px solid transparent',
           borderImage: 'linear-gradient(180deg, #2F2E30, #5F5F5F) 1',
           borderTop: 'none',
@@ -40,46 +60,100 @@ export const PricingOptions = ({ showAlert }: { showAlert: any }) => {
       >
         <VerticalLeftAlignBox>
           <Typography
-            variant={'h1' as any}
+            variant={'h2' as any}
             sx={{
-              padding: '28px 55px',
+              position: 'relative',
+              background: 'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3A3D 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              width: isMobile ? 'auto' : '100%',
+              padding: isMobile ? '28px 45px' : '28px 55px',
               borderBottom: '1px solid #1E1D20',
+              fontSize: isMobile ? '2.5rem' : '3.5rem',
+              fontWeight: 600,
             }}
           >
-            What we offer
+            <span style={{ position: 'relative' }}>
+              Choose Your Plan
+              {!isMobile && (
+                <DecorRect
+                  sx={{ right: '-40px', top: '50%', background: '#403486' }}
+                />
+              )}
+            </span>
+
+            {isMobile && (
+              <DecorRect
+                sx={{ top: '8px', right: '8px', background: '#403486' }}
+              />
+            )}
           </Typography>
-          {renderPlansBoxes()}
-          {renderThinkLess(showAlert)}
+          {renderPlansBoxes(isMobile)}
         </VerticalLeftAlignBox>
       </Box>
     </Box>
   )
 }
 
-const renderPlansBoxes = () => {
+const renderPlansBoxes = (isMobile: boolean) => {
   return (
     <HorizontalCenterBox
       sx={{
         width: '100%',
-        justifyContent: 'space-between',
+        alignItems: 'start',
+        justifyContent: 'center',
         position: 'relative',
+        overflow: isMobile ? 'hidden' : 'visible',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: '16px',
+        padding: '24px 0',
       }}
     >
-      {renderIndividualOffer()}
+      {renderPricingOffer(
+        'Individual',
+          'Advanced code generation, bug fixes, and comprehensive development support for individual developers.',
+          '#825AFD, #ED3A55',
+          [
+            'Advanced Code Generation',
+            'Instant Bug Detection & Fixes',
+            'Comprehensive SWE Support',
+            'Effortless Integration',
+          ]
+      )}
 
-      <Box sx={{ flex: 1.5 }}></Box>
+      <Box
+        sx={{
+          flex: 1.5,
+          height: '100%',
+          position: 'relative',
+        }}
+      >
+        <DecorRect sx={{ top: '8px', right: '8px', background: '#403486' }} />
+      </Box>
       <HorizontalCenterBox
         sx={{
           position: 'absolute',
           width: '100%',
           height: '100%',
-          marginTop: '170px',
+          marginTop: '32px',
           zIndex: -1,
         }}
       >
         <PricesAnim />
       </HorizontalCenterBox>
-      {renderEnterpriseOffer()}
+
+      {renderPricingOffer(
+        'Teams',
+        'Enhanced features and integrations for collaborative development to accelerate delivery and enhance code quality.',
+        '#FF945E, #ED3A55',
+        [
+          'All Individual Features',
+          'Team Collaboration Tools',
+          'Advanced Integrations',
+          'Custom Workflows',
+          'Priority Support',
+        ]
+      )}
     </HorizontalCenterBox>
   )
 }
@@ -96,68 +170,63 @@ const PriceHeaderBox = ({
   gradient,
 }: PriceHeaderBoxProps) => {
   return (
-    <React.Fragment>
-      <span
-        style={{
-          background: 'linear-gradient(to right, ' + gradient + ')',
-          width: '60%',
-          height: '8px',
-          opacity: 0.75,
-          margin: '18px 0px',
-        }}
-      />
-      <Box
-        sx={{
+    <Box
+      sx={{
+        width: '100%',
+        padding: '40px',
+        background: 'rgba(25, 25, 30, 0.9)',
+        borderRadius: '12px',
+        border: '1px solid rgba(119, 94, 255, 0.2)',
+        marginBottom: '35px',
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
           width: '100%',
-          background: 'linear-gradient(to right, ' + gradient + ')',
-          padding: '15px 30px',
+          height: '4px',
+          background: `linear-gradient(to right, ${gradient})`,
+        },
+      }}
+    >
+      <Typography
+        variant={'h3' as any}
+        sx={{
+          fontSize: '2.5rem',
+          fontWeight: 600,
+          background: `linear-gradient(to right, ${gradient})`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          marginBottom: '16px',
         }}
       >
-        <Typography
-          variant={'h2' as any}
-          sx={{
-            color: '#000',
-          }}
-        >
-          {title}
-        </Typography>
-        <Typography
-          variant={'h5' as any}
-          sx={{
-            textTransform: 'upper',
-          }}
-        >
-          {description}
-        </Typography>
-      </Box>
-    </React.Fragment>
-  )
-}
-
-const renderThinkLess = (showAlert: any) => {
-  return (
-    <VerticalCenterBox sx={{ width: '100%', padding: '70px 0px 50px 0px' }}>
+        {title}
+      </Typography>
       <Typography
-        variant={'h1' as any}
-        sx={{ textTransform: 'uppercase', marginBottom: '10px' }}
+        variant={'body1' as any}
+        sx={{
+          color: '#AEAEAE',
+          fontSize: '1.1rem',
+          lineHeight: 1.6,
+        }}
       >
-        think less. Start now
+        {description}
       </Typography>
-      <Typography variant={'h5' as any} sx={{ marginBottom: '18px' }}>
-        Less than 5 minutes to setup.
-      </Typography>
-      <ClippedButton sx={{ width: '145px' }} filled onClick={() => showAlert()}>
-        <Typography variant={'button' as any}>Start here</Typography>
-      </ClippedButton>
-    </VerticalCenterBox>
+    </Box>
   )
 }
 
 const PricesAnim = () => {
   const onLoad = (splineApp: any) => {
-    const object = splineApp.findObjectByName('Camera') // Replace with your object name
+    const object = splineApp.findObjectByName('RobotGroup')
     if (object) {
-      // object.position.x -= 450
+      console.log('object', object)
+      object.scale.x = 1.18
+      object.scale.y = 1.18
+      object.scale.z = 1.18
+      object.position.y -= 30
     }
   }
 
@@ -167,7 +236,7 @@ const PricesAnim = () => {
         <Spline
           scene="https://prod.spline.design/cMEdkrjJPVvtW5Qv/scene.splinecode"
           onLoad={onLoad}
-          style={{ height: '600px', width: '600px' }}
+          style={{ height: '650px', width: '650px' }}
         />
       </Suspense>
     </HorizontalCenterBox>
@@ -177,18 +246,21 @@ const PricesAnim = () => {
 const style = {
   advantageItem: {
     width: '100%',
-    border: '#343434 1px solid',
-    borderLeft: 'none',
-    borderRight: 'none',
-    padding: '10px 15px',
-    textTransform: 'uppercase',
-    marginBottom: '-1px',
+    padding: '16px 24px',
+    marginBottom: '12px',
+    background: 'rgba(25, 25, 30, 0.5)',
+    borderRadius: '8px',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      background: 'rgba(25, 25, 30, 0.8)',
+      transform: 'translateX(8px)',
+    },
   },
   label: {
-    fontWeight: '200',
+    fontWeight: '400',
     color: '#E5E5E5',
+    fontSize: '1rem',
     width: '100%',
-    textAlign: 'right',
   },
   labelCTA: {
     fontWeight: '200',
@@ -201,114 +273,37 @@ const style = {
   },
 }
 
-const renderIndividualOffer = () => {
+const renderPricingOffer = (
+  title: string,
+  description: string,
+  gradient: string,
+  advantages: string[]
+) => {
+  const advantagesNodes = map(advantages, (advantageLabel, index) => (
+    <Box sx={{ ...style.advantageItem }} key={index}>
+      <Typography variant={'body1' as any} sx={style.label}>
+        {advantageLabel}
+      </Typography>
+    </Box>
+  ))
+
   return (
-    <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
+    <VerticalLeftAlignBox
+      sx={{
+        background: 'rgba(17, 17, 21, 0.75)',
+        flex: 1,
+        maxWidth: '500px',
+        border: '1px solid #1E1D20',
+      }}
+    >
       <PriceHeaderBox
-        title={'Individual'}
-        description={
-          'Plan for developers who work alone or as a part of small team, freelancers or students'
-        }
-        gradient={'#825AFD, #ED3A55'}
+        title={title}
+        description={description}
+        gradient={gradient}
       />
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          Flexible Auto-Completes
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          Just press tab and you will start moving faster
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          lorem ipsum dolore lorem
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          press tab and you will start moving faster
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          Flexible Auto-Completes
-        </Typography>
-      </Box>
 
-      <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography
-          variant={'body1' as any}
-          sx={{ ...style.labelCTA, flex: 1 }}
-        >
-          check autocomplete examples
-        </Typography>
-        <ArrowCircleRightIcon
-          sx={{
-            width: '22px',
-            height: '22px',
-            color: '#C932A1',
-            marginLeft: '12px',
-          }}
-        />
-      </HorizontalCenterBox>
-    </VerticalLeftAlignBox>
-  )
-}
+      {advantagesNodes}
 
-const renderEnterpriseOffer = () => {
-  return (
-    <VerticalLeftAlignBox sx={{ flex: 2, border: '1px solid #353539' }}>
-      <PriceHeaderBox
-        title={'Enterprise'}
-        description={
-          'Plan for developers who work alone or as a part of small team, freelancers or students'
-        }
-        gradient={'#FF945E, #ED3A55'}
-      />
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          Flexible Auto-Completes
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          Just press tab and you will start moving faster
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          lorem ipsum dolore lorem
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          press tab and you will start moving faster
-        </Typography>
-      </Box>
-      <Box sx={style.advantageItem}>
-        <Typography variant={'body1' as any} sx={style.label}>
-          Flexible Auto-Completes
-        </Typography>
-      </Box>
-
-      <HorizontalCenterBox sx={{ ...style.advantageItem, marginTop: '90px' }}>
-        <Typography
-          variant={'body1' as any}
-          sx={{ ...style.labelCTA, flex: 1 }}
-        >
-          check autocomplete examples
-        </Typography>
-        <ArrowCircleRightIcon
-          sx={{
-            width: '22px',
-            height: '22px',
-            color: '#C932A1',
-            marginLeft: '12px',
-          }}
-        />
-      </HorizontalCenterBox>
     </VerticalLeftAlignBox>
   )
 }
