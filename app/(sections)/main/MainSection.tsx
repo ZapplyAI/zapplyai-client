@@ -8,7 +8,7 @@ import {
 import { Box, CircularProgress, useTheme } from '@mui/material'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import DecorRect from '@/app/(components)/DecorRect'
 import 'react-alice-carousel/lib/alice-carousel.css'
 import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
@@ -19,11 +19,119 @@ interface MainSectionProps {
   isMobile: boolean
 }
 
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  size: number
+  color: string
+}
+
+const ParticleFlowingAnim = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const particleCount = 40
+    const particles: Particle[] = []
+    const colors = ['#775EFF', '#DE3AED', '#ED3A93', '#7B5DFE', '#9D5DFE']
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 2 + 1,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      })
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      particles.forEach(particle => {
+        particle.x += particle.vx
+        particle.y += particle.vy
+
+        if (particle.x < 0) particle.x = canvas.width
+        if (particle.x > canvas.width) particle.x = 0
+        if (particle.y < 0) particle.y = canvas.height
+        if (particle.y > canvas.height) particle.y = 0
+
+        ctx.beginPath()
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+        ctx.fillStyle = particle.color
+        ctx.fill()
+      })
+
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach(p2 => {
+          const dx = p1.x - p2.x
+          const dy = p1.y - p2.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+
+          if (distance < 180) {
+            ctx.beginPath()
+            ctx.moveTo(p1.x, p1.y)
+            ctx.lineTo(p2.x, p2.y)
+            const alpha = 0.2 * (1 - distance / 180)
+            const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y)
+            gradient.addColorStop(0, `rgba(119, 94, 255, ${alpha})`)
+            gradient.addColorStop(1, `rgba(222, 58, 237, ${alpha})`)
+            ctx.strokeStyle = gradient
+            ctx.stroke()
+          }
+        })
+      })
+
+      requestAnimationFrame(animate)
+    }
+
+    animate()
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '90vh',
+        pointerEvents: 'none',
+        zIndex: 0,
+        opacity: 0.6,
+        maxHeight: '800px'
+      }}
+    />
+  )
+}
+
 export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
   const theme = useTheme()
 
   return (
     <React.Fragment>
+      <ParticleFlowingAnim />
       <Box
         display="flex"
         justifyContent="start"
@@ -56,25 +164,35 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
             }}
           >
             <Typography
-              variant={'h5' as any}
+              variant={'h1' as any}
               sx={{
                 background: 'linear-gradient(90deg, #775EFF, #DE3AED, #ED3A93)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block',
-                marginBottom: isMobile ? '20px' : '12px',
+                marginBottom: isMobile ? '30px' : '24px',
                 paddingRight: isMobile ? '12px' : 'auto',
+                fontSize: isMobile ? '2.5rem' : '3.5rem',
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: '-0.01em',
               }}
             >
-              Being a developer is hard? Let’s make things simple!
+              Code Smarter, Ship Faster, Dream Bigger—Meet Elastic Copilot
             </Typography>
 
             <Typography
-              variant={'h5' as any}
-              sx={{ maxWidth: '90%', marginBottom: isMobile ? '30px' : '40px' }}
+              variant={'h4' as any}
+              sx={{ 
+                maxWidth: '90%', 
+                marginBottom: isMobile ? '40px' : '50px',
+                fontSize: isMobile ? '1.25rem' : '1.75rem',
+                color: '#AEAEAE',
+                lineHeight: 1.4,
+                letterSpacing: '-0.01em',
+              }}
             >
-              With Elastic Copilot, development feels effortless.
-              Spend 2x less time and deliver 3x more code by pairing up with Elastic!
+              Code generation, bug fixes, and everything in between—seamlessly powered by next-level Copilot.
             </Typography>
 
             <LoadingAnimHUD label={'loading elastic IDE ...'} />
@@ -97,79 +215,6 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
             flexDirection: isMobile ? 'row' : 'column',
           }}
         >
-          <VerticalCenterBox
-            sx={{
-              position: 'relative',
-              border: '1px solid #5E5E5E',
-              width: isMobile ? 'auto' : '200px',
-              flex: isMobile ? 1 : 'unset',
-              height: isMobile ? '100%' : 'auto',
-              padding: isMobile ? 'auto' : '32px',
-            }}
-          >
-            <VerticalCenterBox sx={{ marginBottom: '22px' }}>
-              <ClippedButton
-                sx={{ width: '145px' }}
-                onClick={() => showAlert()}
-              >
-                <Typography variant={'button' as any}>Free Trial</Typography>
-              </ClippedButton>
-              <Typography variant={'caption' as any}>
-                No card required
-              </Typography>
-            </VerticalCenterBox>
-
-            <ClippedButton
-              sx={{ width: '145px' }}
-              filled
-              onClick={() => showAlert()}
-            >
-              <Typography variant={'button' as any}>Learn more</Typography>
-            </ClippedButton>
-
-            <DecorRect
-              sx={
-                isMobile
-                  ? { background: '#413486', top: '8px', right: '8px' }
-                  : { top: '8px', left: '8px' }
-              }
-            />
-          </VerticalCenterBox>
-
-          <VerticalCenterBox
-            sx={{
-              position: 'relative',
-              border: '1px solid #5E5E5E',
-              width: isMobile ? 'auto' : '200px',
-              flex: isMobile ? 1 : 'unset',
-              height: isMobile ? '100%' : 'auto',
-              padding: isMobile ? 'auto' : '32px',
-            }}
-          >
-            <Typography variant={'body1' as any} sx={{ fontSize: '1.1rem' }}>
-              Questions?
-            </Typography>
-            <Typography
-              variant={'body1' as any}
-              sx={{ color: '#AEAEAE', fontSize: '1.1rem' }}
-            >
-              Email us
-            </Typography>
-            <ClippedButton
-              sx={{ width: '145px', marginTop: '12px' }}
-              onClick={() => showAlert()}
-            >
-              <Typography variant={'button' as any}>Contact</Typography>
-            </ClippedButton>
-
-            <DecorRect
-              sx={
-                isMobile
-                  ? { background: '#413486', top: '8px', right: '8px' }
-                  : { top: '8px', right: '8px' }
-              }
-            />
-          </VerticalCenterBox>
         </VerticalLeftAlignBox>
       </Box>
 

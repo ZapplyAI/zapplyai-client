@@ -1,10 +1,12 @@
+'use client'
+import React from 'react'
+import { Box, Theme, useTheme } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import {
   HorizontalCenterBox,
   VerticalCenterBox,
 } from '@/components/layouts/CenterBox'
 import Image from 'next/image'
-import React from 'react'
-import Typography from '@mui/material/Typography'
 
 interface FooterProps {
   isMobile?: boolean
@@ -24,27 +26,34 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
   return (
     <VerticalCenterBox sx={{ padding: isMobile ? '55px 20px' : '55px 100px' }}>
       <HorizontalCenterBox sx={{ marginBottom: '22px' }}>
-        <Image
-          src="/image/brand/elastic_logo_small.svg"
-          alt="X"
-          width={1000}
-          height={35}
-          style={{
-            marginRight: '12px',
-            width: 'auto',
-          }}
-        />
-
-        <Typography variant={'h1' as any} sx={{ fontSize: '36px' }}>
-          Elastic AI
-        </Typography>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Image
+            src="/assets/svgs/LISA MARK EXP.svg"
+            alt="Logo"
+            width={35}
+            height={35}
+            style={{
+              width: 'auto',
+            }}
+          />
+          <span style={{ 
+            color: '#fff',
+            fontSize: '18px',
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+            lineHeight: 1.2,
+            fontFamily: 'Kanit, sans-serif'
+          }}>
+            Elastic Copilot
+          </span>
+        </div>
       </HorizontalCenterBox>
 
       <Typography
         variant={'body2' as any}
         sx={{ marginBottom: '22px', textAlign: 'center' }}
       >
-        Elastic AI is the best in the market AI context-aware pair <br />
+        Elastic Copilot is the best in the market context-aware pair <br />
         programmer to help you or your team with development.
       </Typography>
 
@@ -78,7 +87,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
       </HorizontalCenterBox>
 
       <Typography variant={'caption' as any}>
-        Copyright © 2024 . All rights reserved.
+        © 2024 Elastic Copilot. All rights reserved.
       </Typography>
     </VerticalCenterBox>
   )

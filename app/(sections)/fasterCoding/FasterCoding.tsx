@@ -58,20 +58,41 @@ export const FasterCoding = React.forwardRef(
               {!isMobile && renderDesktopRocketAnim()}
             </Box>
 
-            {isMobile && (
-              <Box sx={{ paddingBottom: isMobile ? '100px' : 0 }}>
-                <CodedItemStack
-                  isMobile
-                  items={[
-                    ['Flexible Auto-Completes'],
-                    ['Just press tab'],
-                    ['Gives you ideas!'],
-                  ]}
-                  ctaButtonItems={['check autocomplete examples']}
-                  activeItem={0}
-                />
-              </Box>
-            )}
+            <Box 
+              sx={{ 
+                paddingBottom: isMobile ? '100px' : 0,
+                background: 'linear-gradient(180deg, rgba(25, 25, 30, 0.95), rgba(25, 25, 30, 0.85))',
+                borderRadius: '16px',
+                padding: '32px',
+                marginTop: '60px',
+                border: '1px solid rgba(119, 94, 255, 0.3)',
+                boxShadow: '0 8px 32px rgba(119, 94, 255, 0.1), 0 0 20px rgba(119, 94, 255, 0.15)',
+                backdropFilter: 'blur(12px)',
+                position: 'relative',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'radial-gradient(circle at top right, rgba(119, 94, 255, 0.1), transparent 70%)',
+                  borderRadius: 'inherit',
+                  pointerEvents: 'none',
+                },
+              }}
+            >
+              <CodedItemStack
+                isMobile
+                items={[
+                  ['Intelligent Code Completion', 'Advanced Copilot-Powered Assistance'],
+                  ['Context-Aware Suggestions', 'Smart Code Understanding'],
+                  ['Real-time Problem Solving', 'Instant Solutions'],
+                ]}
+                ctaButtonItems={['Experience the Future of Coding']}
+                activeItem={0}
+              />
+            </Box>
           </Box>
         </Box>
       </React.Fragment>
@@ -147,7 +168,11 @@ const FasterCodingIllustration = ({
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             display: 'inline-block',
-            // fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
+            marginBottom: isMobile ? '30px' : '24px',
+            fontSize: isMobile ? '2.5rem' : '3.5rem',
+            fontWeight: 700,
+            lineHeight: 1.2,
+            letterSpacing: '-0.01em',
           }}
         >
           Develop faster
@@ -166,18 +191,9 @@ const FasterCodingIllustration = ({
               ' + 40px)',
         }}
       >
-        With light-speed autocompletes Elastic does {!isMobile && <br />}
-        everything for you in seconds.
+          Experience Elastic Copilot—engineered to handle the entire spectrum {!isMobile && <br />}
+          of modern software development tasks.
       </Typography>
-
-      {isMobile && (
-        <HorizontalCenterBox
-          ref={fixedElementRef}
-          sx={style.mobileRocketContainer}
-        >
-          <RocketAnim />
-        </HorizontalCenterBox>
-      )}
 
       <AutofillAnimation isMobile={isMobile} />
     </VerticalLeftAlignBox>
@@ -190,28 +206,18 @@ const renderDesktopRocketAnim = () => {
       sx={{
         position: 'absolute',
         top: '150px',
-        // left: isMobile ? '20%' : '550px',
         left: '550px',
         zIndex: '-1',
       }}
     >
-      <RocketAnim />
+      <Box sx={{ position: 'relative' }}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Spline
+            scene="https://prod.spline.design/SCklxumclxv161-V/scene.splinecode"
+            style={{ height: '800px', width: '800px' }}
+          />
+        </Suspense>
+      </Box>
     </Box>
-  )
-}
-
-const RocketAnim = () => {
-  const splineRef = useRef(null)
-
-  return (
-    <div style={{}}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Spline
-          ref={splineRef}
-          scene="https://prod.spline.design/SCklxumclxv161-V/scene.splinecode"
-          style={{ height: '800px', width: '800px' }}
-        />
-      </Suspense>
-    </div>
   )
 }
