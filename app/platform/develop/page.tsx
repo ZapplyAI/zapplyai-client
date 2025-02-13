@@ -7,12 +7,9 @@ export default function PlatformPage() {
   }
 
   return (
-    <></>
-
-    // Code or No Code ? Preview or not ?
-
-    // Chat History
-
-    // Input
+    <div>
+      <h1>Development Page</h1>
+      {/* TODO: Implement development interface */}
+    </div>
   )
 }

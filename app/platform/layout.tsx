@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import SideNav from '@/app/platform/(navigation)/SideNav'
+import { SideNav } from '@/app/platform/(navigation)/SideNav'
 import { HorizontalCenterBox } from '@/components/layouts/CenterBox'
 import { darkTheme } from '@/styles/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
