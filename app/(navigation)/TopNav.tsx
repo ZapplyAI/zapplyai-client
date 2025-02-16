@@ -46,12 +46,12 @@ export const TopNav = ({
         zIndex: '1000',
         position: 'sticky',
         top: '0',
-        padding:
-          isMobile ? ('12px ' + theme.customSpacing?.sides.mobile) :
-          ('12px ' + theme.customSpacing?.sides.desktop),
+        padding: isMobile
+          ? '12px ' + theme.customSpacing?.sides.mobile
+          : '12px ' + theme.customSpacing?.sides.desktop,
         background: '#0A090E',
         borderBottom: '1px solid #5E5E5E',
-        paddingTop: isMobile? '14px' : '12px'
+        paddingTop: isMobile ? '14px' : '12px',
       }}
     >
       <HorizontalLeftAlignBox>
@@ -132,7 +132,7 @@ export const TopNav = ({
               />
               <span style={{ width: '16px' }} />
               <Button
-                action={() => showAlert()}
+                action={() => (window.location.href = '/api/auth/login?returnTo=/dashboard/subscriptions')}
                 sx={{ ...style.authButton, background: '#222222' }}
                 label={'Sign In'}
               />

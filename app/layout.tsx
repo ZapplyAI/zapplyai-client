@@ -1,10 +1,11 @@
 import React from 'react'
 import '@/styles/main.scss'
 import { LandingProvider } from '@/contexts/LandingProvider'
-import { landingTheme } from '@/styles/theme/theme'
+import { dashboardTheme } from '@/styles/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import StoreProvider from '@/app_legacy/StoreProvider'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
+import { UserProvider } from '@auth0/nextjs-auth0/client'
 
 export default function RootLayout({
   children,
@@ -15,9 +16,21 @@ export default function RootLayout({
     <html lang="en" style={{ background: '#0A090E' }}>
       <StoreProvider>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={landingTheme}>
+          <ThemeProvider theme={dashboardTheme}>
             <LandingProvider>
-              <body style={{position:'relative'}}>{children}</body>
+              <UserProvider>
+                <body
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'relative',
+                    minHeight: '100vh',
+                    width: '100vw',
+                  }}
+                >
+                  {children}
+                </body>
+              </UserProvider>
             </LandingProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

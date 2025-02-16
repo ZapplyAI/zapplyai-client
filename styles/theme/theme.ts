@@ -2,7 +2,7 @@
 import { createTheme } from '@mui/material'
 import { palette } from '@/styles/theme/palette'
 import { Mui_Select } from './component'
-import { typography_dark, typography_landing } from '@/styles/theme/typography'
+import { typography_dark, typography_landing, typography_dashboard } from '@/styles/theme/typography'
 import { ThemeMode } from './types'
 
 export const darkTheme = createTheme({
@@ -15,6 +15,17 @@ export const darkTheme = createTheme({
 
 export const landingTheme = createTheme({
   typography: typography_landing,
+  palette: palette(ThemeMode.Dark),
+  components: {
+    ...Mui_Select(ThemeMode.Dark),
+  },
+  customSpacing: {
+    sides: { desktop: '12vw', mobile: '20px' },
+  },
+})
+
+export const dashboardTheme = createTheme({
+  typography: typography_dashboard,
   palette: palette(ThemeMode.Dark),
   components: {
     ...Mui_Select(ThemeMode.Dark),

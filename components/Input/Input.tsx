@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useState } from 'react'
 import { IconButton, InputBase } from '@mui/material'
 // @ts-ignore
 import { UilArrowCircleUp } from '@iconscout/react-unicons'
-import { AnyFunction, AsyncFunction } from '../../lib/type_legacy'
+import { AnyFunction, AsyncFunction } from '@/lib/type_legacy'
 
 interface InputProps {
   isMobile?: boolean

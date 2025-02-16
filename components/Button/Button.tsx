@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 import { Button as ButtonMUI } from '@mui/material'
 
 interface ButtonProps {
@@ -8,6 +8,7 @@ interface ButtonProps {
   sx?: object
   action?: () => void
   disabled?: boolean
+  icon?: ReactNode
 }
 
 const Button = ({
@@ -17,6 +18,7 @@ const Button = ({
   sx = {},
   action,
   disabled = false,
+  icon,
 }: ButtonProps): React.ReactNode => {
   const handleClick = () => {
     if (action) {
@@ -36,7 +38,10 @@ const Button = ({
       onClick={handleClick}
       disabled={disabled}
     >
-      <span style={style.buttonLabel}>{label}</span>
+      <span style={style.contentWrapper}>
+        {icon && <span style={style.icon}>{icon}</span>}
+        <span style={style.buttonLabel}>{label}</span>
+      </span>
     </ButtonMUI>
   )
 }
@@ -47,19 +52,28 @@ const style: { [key: string]: CSSProperties } = {
     boxShadow: 'none',
     fontSize: '12px',
     color: '#CFCED9',
-    padding: '6px 30px'
+    padding: '6px 30px',
   },
   buttonBG: {
     background: '#282636',
     boxShadow: 'none',
     fontSize: '12px',
     color: '#CFCED9',
-    padding: '6px 30px'
+    padding: '6px 30px',
   },
   buttonLabel: {
     fontFamily: 'Kanit',
-    color: '#fff',
+    // color: '#fff',
     textTransform: 'none',
+  },
+  contentWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  icon: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }
 
