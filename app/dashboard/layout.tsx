@@ -11,9 +11,6 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    // todo :           When User unauthenticated --> move to /auth directory
-    // todo :           I was thinking of making some sort of AuthProvider
-    // todo :              that would take care of this, and put it in here ?
     <AuthProvider>
       <DashboardProvider>
         <TopNav />

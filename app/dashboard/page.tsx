@@ -21,7 +21,6 @@ export default function MainPage() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <PageNav />
       <Box
         sx={{
           padding: '12px',
