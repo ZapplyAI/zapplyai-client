@@ -60,18 +60,21 @@ export const PricingOptions = ({
       >
         <VerticalLeftAlignBox>
           <Typography
-            variant={'h1' as any}
+            variant={'h2' as any}
             sx={{
               position: 'relative',
-              color: '#AEAEAE',
+              background: 'linear-gradient(90deg, #775EFF 0%, #DE3AED 50%, #ED3A3D 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               width: isMobile ? 'auto' : '100%',
               padding: isMobile ? '28px 45px' : '28px 55px',
               borderBottom: '1px solid #1E1D20',
-              // fontSize: isMobile ? '30px' : theme.typography.h1.fontSize,
+              fontSize: isMobile ? '2.5rem' : '3.5rem',
+              fontWeight: 600,
             }}
           >
             <span style={{ position: 'relative' }}>
-              What we offer
+              Choose Your Plan
               {!isMobile && (
                 <DecorRect
                   sx={{ right: '-40px', top: '50%', background: '#403486' }}
@@ -86,7 +89,6 @@ export const PricingOptions = ({
             )}
           </Typography>
           {renderPlansBoxes(isMobile)}
-          {renderThinkLess(isMobile, showAlert)}
         </VerticalLeftAlignBox>
       </Box>
     </Box>
@@ -99,23 +101,24 @@ const renderPlansBoxes = (isMobile: boolean) => {
       sx={{
         width: '100%',
         alignItems: 'start',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         position: 'relative',
         overflow: isMobile ? 'hidden' : 'visible',
         flexDirection: isMobile ? 'column' : 'row',
+        gap: '16px',
+        padding: '24px 0',
       }}
     >
       {renderPricingOffer(
         'Individual',
-        'Smart and swift. For developers working alone or as a part of small team, freelancer, students or hobby. ',
-        '#825AFD, #ED3A55',
-        [
-          'Flexible Auto-Completes',
-          'Context Awareness',
-          'Idea generation',
-          'General knowledge',
-          // 'Workspace Integration (Confluence , Jira , GitHub)',
-        ]
+          'Advanced code generation, bug fixes, and comprehensive development support for individual developers.',
+          '#825AFD, #ED3A55',
+          [
+            'Advanced Code Generation',
+            'Instant Bug Detection & Fixes',
+            'Comprehensive SWE Support',
+            'Effortless Integration',
+          ]
       )}
 
       <Box
@@ -132,7 +135,7 @@ const renderPlansBoxes = (isMobile: boolean) => {
           position: 'absolute',
           width: '100%',
           height: '100%',
-          marginTop: '75px',
+          marginTop: '32px',
           zIndex: -1,
         }}
       >
@@ -140,15 +143,15 @@ const renderPlansBoxes = (isMobile: boolean) => {
       </HorizontalCenterBox>
 
       {renderPricingOffer(
-        'Enterprise',
-        'For medium or large teams. Use Elastic to connect all your development infrastructure in one copilot.',
+        'Teams',
+        'Enhanced features and integrations for collaborative development to accelerate delivery and enhance code quality.',
         '#FF945E, #ED3A55',
         [
-          'Flexible Auto-Completes',
-          'Context Awareness',
-          'Slack Integration',
-          'Teams Feature',
-          'Workspace Integration (Confluence , Jira , GitHub)',
+          'All Individual Features',
+          'Team Collaboration Tools',
+          'Advanced Integrations',
+          'Custom Workflows',
+          'Priority Support',
         ]
       )}
     </HorizontalCenterBox>
@@ -166,80 +169,52 @@ const PriceHeaderBox = ({
   description,
   gradient,
 }: PriceHeaderBoxProps) => {
-  const style = {
-    title: {
-      fontFamily: 'Orbitron',
-      fontSize: '38px',
-      fontWeight: '500',
-      color: '#000',
-    },
-    description: {
-      marginTop: '12px',
-      color: '#DCDCDC',
-      fontWeight: '200',
-      fontSize: '15px',
-      textTransform: 'uppercase',
-    },
-  }
   return (
-    <React.Fragment>
-      <span
-        style={{
-          background: 'linear-gradient(to right, ' + gradient + ')',
-          width: '60%',
-          height: '8px',
-          opacity: 0.75,
-          margin: '18px 0px',
-        }}
-      />
-      <Box
-        sx={{
-          width: '100%',
-          background: 'linear-gradient(to right, ' + gradient + ')',
-          padding: '18px 30px 30px 30px',
-          marginBottom: '35px',
-        }}
-      >
-        <Typography variant={'h2' as any} sx={style.title}>
-          {title}
-        </Typography>
-        <Typography variant={'h5' as any} sx={style.description}>
-          {description}
-        </Typography>
-      </Box>
-    </React.Fragment>
-  )
-}
-
-const renderThinkLess = (isMobile: boolean, showAlert: any) => {
-  return (
-    <VerticalCenterBox
+    <Box
       sx={{
         width: '100%',
-        padding: isMobile ? '50px 0px' : '70px 0px 50px 0px',
-        marginTop: isMobile ? '0px' : '45px',
+        padding: '40px',
+        background: 'rgba(25, 25, 30, 0.9)',
+        borderRadius: '12px',
+        border: '1px solid rgba(119, 94, 255, 0.2)',
+        marginBottom: '35px',
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '4px',
+          background: `linear-gradient(to right, ${gradient})`,
+        },
       }}
     >
       <Typography
-        variant={'h1' as any}
+        variant={'h3' as any}
         sx={{
-          textAlign: 'center',
-          textTransform: 'uppercase',
-          marginBottom: '10px',
+          fontSize: '2.5rem',
+          fontWeight: 600,
+          background: `linear-gradient(to right, ${gradient})`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          marginBottom: '16px',
         }}
       >
-        Think less. <span style={{ color: '#ED3A55' }}>Start now</span>
+        {title}
       </Typography>
       <Typography
-        variant={'h5' as any}
-        sx={{ marginBottom: '18px', marginTop: isMobile ? '15px' : 'auto' }}
+        variant={'body1' as any}
+        sx={{
+          color: '#AEAEAE',
+          fontSize: '1.1rem',
+          lineHeight: 1.6,
+        }}
       >
-        Less than 5 minutes to setup.
+        {description}
       </Typography>
-      <ClippedButton sx={{ width: '145px' }} filled onClick={() => showAlert()}>
-        <Typography variant={'button' as any}>Start here</Typography>
-      </ClippedButton>
-    </VerticalCenterBox>
+    </Box>
   )
 }
 
@@ -261,7 +236,7 @@ const PricesAnim = () => {
         <Spline
           scene="https://prod.spline.design/cMEdkrjJPVvtW5Qv/scene.splinecode"
           onLoad={onLoad}
-          style={{ height: '700px', width: '700px' }}
+          style={{ height: '650px', width: '650px' }}
         />
       </Suspense>
     </HorizontalCenterBox>
@@ -271,19 +246,21 @@ const PricesAnim = () => {
 const style = {
   advantageItem: {
     width: '100%',
-    border: '#343434 1px solid',
-    borderLeft: 'none',
-    borderRight: 'none',
-    padding: '8px 13px',
-    textTransform: 'uppercase',
-    marginBottom: '-1px',
+    padding: '16px 24px',
+    marginBottom: '12px',
+    background: 'rgba(25, 25, 30, 0.5)',
+    borderRadius: '8px',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      background: 'rgba(25, 25, 30, 0.8)',
+      transform: 'translateX(8px)',
+    },
   },
   label: {
-    fontWeight: '200',
+    fontWeight: '400',
     color: '#E5E5E5',
-    fontSize: '12px',
+    fontSize: '1rem',
     width: '100%',
-    textAlign: 'right',
   },
   labelCTA: {
     fontWeight: '200',
@@ -314,7 +291,8 @@ const renderPricingOffer = (
     <VerticalLeftAlignBox
       sx={{
         background: 'rgba(17, 17, 21, 0.75)',
-        flex: 1.5,
+        flex: 1,
+        maxWidth: '500px',
         border: '1px solid #1E1D20',
       }}
     >
@@ -326,24 +304,6 @@ const renderPricingOffer = (
 
       {advantagesNodes}
 
-      <HorizontalCenterBox
-        sx={{ ...style.advantageItem, marginTop: '65px', marginBottom: '35px' }}
-      >
-        <Typography
-          variant={'body1' as any}
-          sx={{ ...style.labelCTA, flex: 1 }}
-        >
-          Details
-        </Typography>
-        <ArrowCircleRightIcon
-          sx={{
-            width: '22px',
-            height: '22px',
-            color: '#C932A1',
-            marginLeft: '12px',
-          }}
-        />
-      </HorizontalCenterBox>
     </VerticalLeftAlignBox>
   )
 }

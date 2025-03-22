@@ -1,46 +1,21 @@
-import {
-  HorizontalCenterBox,
-  HorizontalLeftAlignBox,
-} from '@/components/layouts/CenterBox'
-import { Logo } from '@/components'
-import Button from '../../components/Button/Button'
-import Typography from '@mui/material/Typography'
-import ClippedButton from '@/app/(components)/ClippedButton'
+'use client'
 import React from 'react'
-import PersonIcon from '@mui/icons-material/Person'
-import SettingsIcon from '@mui/icons-material/Settings'
-import { IconButton, useTheme } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
+import { Logo } from '@/components'
+import Button from '@mui/material/Button'
+import { HorizontalLeftAlignBox } from '@/components/layouts/CenterBox'
+import Image from 'next/image'
 
 interface TopNavProps {
-  isMobile: boolean
-  loggedIn?: boolean
   showAlert: any
+  isMobile: boolean
 }
 
-export const TopNav = ({
-  isMobile,
-  loggedIn = false,
-  showAlert,
-}: TopNavProps) => {
+export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
   const theme = useTheme()
 
-  const style = {
-    authButton: {
-      background: '#775EFF',
-      borderRadius: 0,
-      fontSize: '13px',
-      padding: '5px 25px',
-      fontWeight: '300',
-    },
-    navText: {
-      padding: '6px 6px',
-      fontSize: '14px',
-      fontWeight: '200',
-    },
-  }
-
   return (
-    <HorizontalCenterBox
+    <Box
       sx={{
         justifyContent: 'space-between',
         zIndex: '1000',
@@ -54,20 +29,31 @@ export const TopNav = ({
         paddingTop: isMobile ? '14px' : '12px',
       }}
     >
-      <HorizontalLeftAlignBox>
-        <Logo
-          mini
-          height={isMobile ? 36 : 28}
-          width={isMobile ? 36 : 28}
-          sx={{ marginRight: '1.5rem', marginLeft: '8px' }}
+      <HorizontalLeftAlignBox
+        sx={{
+          padding: '20px',
+          borderBottom: '1px solid #5E5E5E',
+        }}
+      >
+        <Image
+          src="/assets/svgs/LISA MARK EXP.svg"
+          alt="Logo"
+          width={32}
+          height={32}
         />
-        {!isMobile && (
-          <React.Fragment>
-            <Button variant={'text'} sx={style.navText} label={'Home'} />
-            <Button variant={'text'} sx={style.navText} label={'Examples'} />
-            <Button variant={'text'} sx={style.navText} label={'About'} />
-          </React.Fragment>
-        )}
+        <Button
+          variant="contained"
+          onClick={showAlert}
+          sx={{
+            marginLeft: 'auto',
+            background: '#775EFF',
+            '&:hover': {
+              background: '#5E3FFF',
+            },
+          }}
+        >
+          Try now
+        </Button>
       </HorizontalLeftAlignBox>
 
       {loggedIn ? (

@@ -24,7 +24,6 @@ export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const theme = useTheme()
   const [unavailabilityAlertOpen, setUnavailabilityAlertOpen] = useState(false)
-  // const { name, surname, setName, setSurname } = useLandingContext()
 
   const [position, setPosition] = useState(0)
 
@@ -58,14 +57,10 @@ export default function HomePage() {
         selectedValue={''}
       />
 
-      <StarrySky isMobile={isMobile} />
       <TopNav
         isMobile={isMobile}
         showAlert={() => setUnavailabilityAlertOpen(true)}
       />
-      {renderRunningMiniText(theme, isMobile)}
-      {renderRunningMainText(isMobile)}
-
       <main>
         <MainSection
           isMobile={isMobile}
@@ -80,10 +75,6 @@ export default function HomePage() {
           <ContextAware isMobile={isMobile} />
         </Box>
         <PricingOptions
-          isMobile={isMobile}
-          showAlert={() => setUnavailabilityAlertOpen(true)}
-        />
-        <SubscribeNewsletter
           isMobile={isMobile}
           showAlert={() => setUnavailabilityAlertOpen(true)}
         />
@@ -103,10 +94,8 @@ const renderRunningMiniText = (theme: Theme, isMobile: boolean) => {
             ? theme.customSpacing?.sides.mobile
             : theme.customSpacing?.sides.desktop),
         background: '#1B1A20',
-        // borderBottom: '1px solid #5E5E5E',
       }}
     >
-      {/*<Marquee>*/}
       <Typography
         variant={'body2' as any}
         sx={{ color: '#666666', width: '100%', textAlign: 'left' }}
@@ -116,8 +105,7 @@ const renderRunningMiniText = (theme: Theme, isMobile: boolean) => {
         </span>
         {isMobile
           ? ' Free, non-commercial version (v.0.1.1) is now out!'
-          : ' Elastic AI is now on a free, non-commercial version (v.0.1.1). Don’t\n' +
-            '        waste a chance to get a taste!'}
+          : ' Elastic Copilot is now on a free, non-commercial version (v.0.1.1). Don\'t waste a chance to get a taste!'}
       </Typography>
 
       <HorizontalLeftAlignBox sx={{ marginTop: '8px' }}>
@@ -129,7 +117,7 @@ const renderRunningMiniText = (theme: Theme, isMobile: boolean) => {
             textAlign: 'center',
           }}
         >
-          producthunt.com/posts/elasticai
+          producthunt.com/posts/elasticcopilot
         </Typography>
         <Image
           src="/icons/product-hunt.svg"
@@ -139,8 +127,6 @@ const renderRunningMiniText = (theme: Theme, isMobile: boolean) => {
           style={{ marginLeft: '12px', color: '#FF6154' }}
         />
       </HorizontalLeftAlignBox>
-
-      {/*</Marquee>*/}
     </Box>
   )
 }
