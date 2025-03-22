@@ -51,10 +51,10 @@ const TopNav = () => {
             alignItems: 'center',
           }}
         >
-          {renderLogoAndSubscription(userSubscriptionType as any)}
+          {renderLogoAndSubscription(userSubscriptionType as 'plus' | 'team' | 'free')}
           {renderTopMenu(
             userSubscriptionType === 'free',
-            upgradeSubscription as any,
+            upgradeSubscription,
             pathname,
             router
           )}
@@ -203,10 +203,10 @@ const renderSubscriptionType = (subscriptionType: 'plus' | 'team' | 'free') => {
 }
 
 const renderTopMenu = (
-  isOnFreeSubscription,
-  upgradeSubscription,
-  pathname,
-  router
+  isOnFreeSubscription: boolean,
+  upgradeSubscription: () => void,
+  pathname: string,
+  router: AppRouterInstance
 ) => {
   const style = {
     navContainer: {
@@ -225,7 +225,7 @@ const renderTopMenu = (
       height: '20px',
       width: '1px',
     },
-    icon: (isActive) => ({
+    icon: (isActive: boolean) => ({
       height: '16px',
       width: '16px',
       color: isActive ? '#775EFF' : '#E5E5E5',
