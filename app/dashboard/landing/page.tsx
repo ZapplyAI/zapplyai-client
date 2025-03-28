@@ -5,22 +5,24 @@ import { Box, IconButton, Typography } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CodeIcon from '@mui/icons-material/Code'
 import Button from '@/components/Button/Button'
+import { useSearchParams } from 'next/navigation'
 
 export default function LandingPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const randomNumber = '1234567890' // Static random number
+
+  const searchParams = useSearchParams()
+  console.log('searchParams', searchParams)
+  // const code = searchParams.get('code') || 'No token received'
 
   const handleCopy = () => {
     navigator.clipboard.writeText(randomNumber)
   }
 
   const openInVSCode = () => {
-    // This would typically open a deep link to VS Code
-    // For now, we'll just open a URL that could be configured to handle VS Code deep linking
     window.open('vscode://elastic/connect', '_blank')
   }
 
-  // Styles based on UpgradeMembership component
   const styles = {
     container: {
       width: '100%',

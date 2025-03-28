@@ -114,12 +114,12 @@ const renderLogoAndSubscription = (
         alignItems: 'center',
       }}
     >
-      <Logo
-        mini
-        width={26}
-        height={26}
-        sx={{ marginRight: '12px', height: '26px', width: '26px' }}
-      />
+      {/*<Logo*/}
+      {/*  mini*/}
+      {/*  width={26}*/}
+      {/*  height={26}*/}
+      {/*  sx={{ marginRight: '12px', height: '26px', width: '26px' }}*/}
+      {/*/>*/}
       <Typography
         variant="h3"
         sx={{ marginBottom: 0, fontSize: '1.1rem', fontWeight: 400 }}
