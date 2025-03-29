@@ -6,6 +6,10 @@ npm run dev
 ```
 Use [http://localhost:3000](http://localhost:3000)
 
+## Authentication
+
+This project uses Auth0 for authentication. For detailed information about the authentication implementation and recent fixes, see [AUTHENTICATION_FIXES.md](./AUTHENTICATION_FIXES.md).
+
 ## How to check errors
 
 ```bash
