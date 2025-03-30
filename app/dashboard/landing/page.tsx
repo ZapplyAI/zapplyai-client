@@ -5,13 +5,14 @@ import { Box, IconButton, Typography, CircularProgress, Avatar, Paper, Divider }
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CodeIcon from '@mui/icons-material/Code'
 import Button from '@/components/Button/Button'
-import { useUser } from '@auth0/nextjs-auth0/client'
 import { getCookie } from 'cookies-next'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function LandingPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const [connectionCode, setConnectionCode] = useState<string | null>(null)
-  const { user, isLoading, error } = useUser()
+  const { user, isLoading, error } = useAuth0()
+  console.log(user, isLoading, error);
   const [token, setToken] = useState<string | null>(null)
   const [authStatus, setAuthStatus] = useState<string>('Checking authentication...')
   const [debugInfo, setDebugInfo] = useState<string>('')
@@ -21,20 +22,20 @@ export default function LandingPage() {
       try {
         // Get token from cookie
         const authToken = getCookie('auth_token') as string | undefined
-        
+
         // Get connection code and original Auth0 code from cookies
         const connCode = getCookie('connection_code') as string | undefined
         if (connCode) {
           setConnectionCode(connCode)
         }
-        
+
         // Get the original Auth0 code (the one that was sent to the backend)
         const originalAuthCode = getCookie('original_auth_code') as string | undefined
-        
+
         // Get current URL and check if we're coming from Auth0 callback with code
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
-        
+
         // If we have a code in URL but we're on the landing page, this means the callback
         // didn't complete properly. Normally, the code should be exchanged in the Auth0 callback route.
         if (code && window.location.pathname.includes('/dashboard/landing')) {
@@ -43,7 +44,7 @@ export default function LandingPage() {
           This code should have been sent to backend API. Please check server logs.
           Try refreshing or logging in again if authentication is not working.
           To manually test backend code exchange, visit: ${process.env.NEXT_PUBLIC_API_URL || 'https://copilot-api-staging-739610349551.europe-west2.run.app'}/api/auth/access_token?code=${code}`);
-          
+
           // Remove the code from URL to prevent refresh loops
           const newUrl = window.location.href.split('?')[0];
           window.history.replaceState(null, '', newUrl);
@@ -52,21 +53,21 @@ export default function LandingPage() {
         if (authToken) {
           setToken(authToken)
           setAuthStatus('Authentication successful! Token received from backend.')
-          
+
           // Build debug info with all relevant authentication details
           let debugDetails = `Token type: ${typeof authToken}, Length: ${authToken.length}`;
-          
+
           if (connCode) {
             debugDetails += `\nConnection code: ${connCode}`;
           } else {
             debugDetails += `\nNo connection code received from backend API`;
           }
-          
+
           if (originalAuthCode) {
             debugDetails += `\n\nOriginal Auth0 code: ${originalAuthCode}`;
             debugDetails += `\nThis code was sent to the backend API: ${process.env.NEXT_PUBLIC_API_URL || 'https://copilot-api-staging-739610349551.europe-west2.run.app'}/api/auth/access_token?code=${originalAuthCode}`;
           }
-          
+
           setDebugInfo(debugDetails);
         } else {
           setAuthStatus('No authentication token found in cookies. Please log in again.');
@@ -77,7 +78,7 @@ export default function LandingPage() {
         setAuthStatus(`Authentication check error: ${error instanceof Error ? error.message : String(error)}`)
       }
     }
-    
+
     checkAuthentication()
   }, [])
 
@@ -97,9 +98,9 @@ export default function LandingPage() {
         <Typography variant="h6" color="error">
           Authentication Error: {error.message}
         </Typography>
-        <Button 
-          label="Try Again" 
-          action={() => window.location.href = '/api/auth/login'} 
+        <Button
+          label="Try Again"
+          action={() => window.location.href = '/api/auth/login'}
           sx={{ marginTop: '20px' }}
         />
       </Box>
@@ -113,9 +114,9 @@ export default function LandingPage() {
         <Typography variant="h6">
           You need to be authenticated to access this page
         </Typography>
-        <Button 
-          label="Login" 
-          action={() => window.location.href = '/api/auth/login'} 
+        <Button
+          label="Login"
+          action={() => window.location.href = '/api/auth/login'}
           sx={{ marginTop: '20px' }}
         />
       </Box>
@@ -235,7 +236,7 @@ export default function LandingPage() {
           <Typography variant="h6" sx={styles.authStatusText}>
             {authStatus}
           </Typography>
-          
+
           {debugInfo && (
             <Box sx={{ marginBottom: '15px', backgroundColor: '#2D2D33', padding: '10px', borderRadius: '4px' }}>
               <Typography variant="subtitle2" sx={{ color: '#FFA500' }}>
@@ -246,7 +247,7 @@ export default function LandingPage() {
               </Typography>
             </Box>
           )}
-          
+
           {user && (
             <Box sx={{ marginBottom: '15px' }}>
               <Typography variant="subtitle1" sx={{ color: 'white' }}>
@@ -260,7 +261,7 @@ export default function LandingPage() {
               </Typography>
             </Box>
           )}
-          
+
           {token && (
             <>
               <Divider sx={{ backgroundColor: '#3C3C3C', margin: '15px 0' }} />

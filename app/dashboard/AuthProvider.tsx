@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode, useEffect } from 'react'
-import { UserProvider, useUser } from '@auth0/nextjs-auth0/client'
+import { User, useAuth0 } from '@auth0/auth0-react'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Box, CircularProgress, Typography, Button } from '@mui/material'
@@ -13,28 +13,30 @@ interface AuthProviderProps {
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   return (
-    <UserProvider>
+    // <UserProvider>
+    <>
       <AuthGuard>{children}</AuthGuard>
-    </UserProvider>
+    </>
+    // </UserProvider>
   )
 }
 
 function AuthGuard({ children }: { children: ReactNode }) {
-  const { user, isLoading, error } = useUser()
+  const { user, isLoading, error } = useAuth0()
   const router = useRouter()
-  
+
   useEffect(() => {
     const checkAuthentication = () => {
       try {
         // Check if we have a token in the cookie
         const hasToken = getCookie('auth_token') !== undefined;
-        
+
         // Get current URL and check if we're coming from Auth0 callback with code
         const urlParams = new URLSearchParams(window.location.search);
         const hasAuthCode = urlParams.has('code');
-        
+
         console.log('AuthGuard check - User:', !!user, 'Loading:', isLoading, 'HasToken:', hasToken, 'HasAuthCode:', hasAuthCode);
-        
+
         // Force authentication - prevent direct access to dashboard
         if (!isLoading && !user && !hasToken) {
           console.log('No authentication detected, redirecting to login...');
@@ -42,7 +44,7 @@ function AuthGuard({ children }: { children: ReactNode }) {
           window.location.href = '/api/auth/login';
           return;
         }
-        
+
         // If authenticated, check for valid backend auth
         if (!isLoading && (user || hasToken)) {
           // Verify auth with the backend API
@@ -64,7 +66,7 @@ function AuthGuard({ children }: { children: ReactNode }) {
         window.location.href = '/api/auth/login';
       }
     };
-    
+
     // Run authentication check when component mounts or dependencies change
     checkAuthentication();
   }, [user, isLoading, router]);
@@ -83,7 +85,7 @@ function AuthGuard({ children }: { children: ReactNode }) {
         <Typography variant="h6" color="error">
           Authentication Error: {error.message}
         </Typography>
-        <Button 
+        <Button
           onClick={() => router.push('/api/auth/login')}
           sx={{ marginTop: '20px' }}
         >
@@ -95,7 +97,7 @@ function AuthGuard({ children }: { children: ReactNode }) {
 
   // Check if we have a token in the cookie
   const hasToken = getCookie('auth_token') !== undefined
-  
+
   // Allow access if user is authenticated or we have a token
   if (user || hasToken) {
     return <>{children}</>

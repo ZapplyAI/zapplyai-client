@@ -11,7 +11,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <DashboardProvider>
         <TopNav />
         <div
@@ -37,6 +37,6 @@ export default function DashboardLayout({
           </main>
         </div>
       </DashboardProvider>
-    </AuthProvider>
+    // </AuthProvider>
   )
 }

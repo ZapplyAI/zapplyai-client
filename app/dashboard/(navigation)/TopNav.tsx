@@ -1,22 +1,20 @@
 'use client'
 import { Box, Button, Divider, Stack } from '@mui/material'
 import React, { useState } from 'react'
-import { Logo } from '@/components'
 import Typography from '@mui/material/Typography'
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp'
-import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp'
 import { usePathname, useRouter } from 'next/navigation'
-import { type UserProfile, useUser } from '@auth0/nextjs-auth0/client'
+import { useAuth0, User } from '@auth0/auth0-react'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp'
 import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import UpgradeMembership from '@/app/dashboard/members/(components)/UpgradeMembership'
-import CodeIcon from '@mui/icons-material/Code';
+import CodeIcon from '@mui/icons-material/Code'
 
 const TopNav = () => {
-  const { user, isLoading } = useUser()
+  const { user, isLoading } = useAuth0()
   const router = useRouter()
   const pathname = usePathname()
 
@@ -51,7 +49,9 @@ const TopNav = () => {
             alignItems: 'center',
           }}
         >
-          {renderLogoAndSubscription(userSubscriptionType as 'plus' | 'team' | 'free')}
+          {renderLogoAndSubscription(
+            userSubscriptionType as 'plus' | 'team' | 'free'
+          )}
           {renderTopMenu(
             userSubscriptionType === 'free',
             upgradeSubscription,
@@ -64,10 +64,10 @@ const TopNav = () => {
 
       {/*{renderTopAnnouncement()}*/}
       {/*<div style={{ position: 'absolute' }}>*/}
-        <UpgradeMembership
-          open={dialogOpen}
-          onClose={membershipUpdated => handleClose(membershipUpdated)}
-        />
+      <UpgradeMembership
+        open={dialogOpen}
+        onClose={membershipUpdated => handleClose(membershipUpdated)}
+      />
       {/*</div>*/}
     </React.Fragment>
   )
@@ -315,7 +315,7 @@ const renderTopMenu = (
 
 const renderUserDetails = (
   router: AppRouterInstance,
-  user: UserProfile | undefined
+  user: User | undefined
 ) => {
   return (
     <Box

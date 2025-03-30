@@ -5,6 +5,7 @@ import { Logo } from '@/components'
 import Button from '@mui/material/Button'
 import { HorizontalLeftAlignBox } from '@/components/layouts/CenterBox'
 import Image from 'next/image'
+import { useAuth0 } from '@auth0/auth0-react'
 
 interface TopNavProps {
   showAlert: any
@@ -12,7 +13,8 @@ interface TopNavProps {
 }
 
 export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
-  const theme = useTheme()
+  const theme = useTheme();
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <Box
@@ -42,7 +44,7 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
         />
         <Button
           variant="contained"
-          onClick={showAlert}
+          onClick={() => loginWithRedirect()}
           sx={{
             marginLeft: 'auto',
             background: '#775EFF',
