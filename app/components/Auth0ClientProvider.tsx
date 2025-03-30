@@ -14,19 +14,23 @@ export default function Auth0ClientProvider({
     setOrigin(window.location.origin)
   }, [])
 
-  if (!origin) {
+  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID
+  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN
+  const redirectUrl = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URL
+
+  if (!clientId || !domain || !redirectUrl) {
     return null
   }
 
   return (
     <Auth0Provider
-      domain="dev-mhc4mu6nlyr1i18g.uk.auth0.com"
-      clientId="8Mz9p8RGlfYsVeNItgVlRVmpF5VPHdS5"
+      domain={domain}
+      clientId={clientId}
       authorizationParams={{
-        redirect_uri: origin,
+        redirect_uri: redirectUrl,
       }}
     >
       {children}
     </Auth0Provider>
   )
-} 
+}
