@@ -8,8 +8,6 @@ export default function AuthCallbackPage() {
   React.useEffect(() => {
     (async () => {
       const accessToken = await getAccessTokenSilently();
-
-      console.log(accessToken, 'red flags');
     })()
   }, []);
 
