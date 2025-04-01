@@ -11,7 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 export default function LandingPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const [connectionCode, setConnectionCode] = useState<string | null>(null)
-  const { user, isLoading, error } = useAuth0()
+  const { user, isLoading, error, loginWithRedirect } = useAuth0()
   console.log(user, isLoading, error);
   const [token, setToken] = useState<string | null>(null)
   const [authStatus, setAuthStatus] = useState<string>('Checking authentication...')
