@@ -53,7 +53,7 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
             },
           }}
         >
-          Try now
+          Try for Free
         </Button>
       </HorizontalLeftAlignBox>
     </Box>

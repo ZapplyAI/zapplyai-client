@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp'
 import { usePathname, useRouter } from 'next/navigation'
-import { useAuth0, User } from '@auth0/auth0-react'
+import { useAuth0, User, LogoutOptions } from '@auth0/auth0-react'
+import Image from 'next/image'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp'
@@ -14,7 +15,7 @@ import UpgradeMembershipModal from '@/app/dashboard/members/(components)/Upgrade
 import CodeIcon from '@mui/icons-material/Code'
 
 const TopNav = () => {
-  const { user, isLoading } = useAuth0()
+  const { user, isLoading, logout } = useAuth0()
   const router = useRouter()
   const pathname = usePathname()
 
@@ -58,11 +59,11 @@ const TopNav = () => {
             pathname,
             router
           )}
-          {renderUserDetails(router, user)}
+          {renderUserDetails(router, user, logout)}
         </Box>
       </Box>
 
-=      <UpgradeMembershipModal
+      <UpgradeMembershipModal
         open={dialogOpen}
         onClose={membershipUpdated => handleClose(membershipUpdated)}
       />
@@ -111,12 +112,13 @@ const renderLogoAndSubscription = (
         alignItems: 'center',
       }}
     >
-      {/*<Logo*/}
-      {/*  mini*/}
-      {/*  width={26}*/}
-      {/*  height={26}*/}
-      {/*  sx={{ marginRight: '12px', height: '26px', width: '26px' }}*/}
-      {/*/>*/}
+      <Image
+        src="/assets/svgs/LISA MARK EXP.svg"
+        alt="Logo"
+        width={26}
+        height={26}
+        style={{ marginRight: '12px' }}
+      />
       <Typography
         variant="h3"
         sx={{ marginBottom: 0, fontSize: '1.1rem', fontWeight: 400 }}
@@ -294,25 +296,14 @@ const renderTopMenu = (
           </Button>
         )
       })}
-
-      {/* Open in VS Code Button */}
-      {/*<Button*/}
-      {/*  // onClick={() => window.open('vscode://', '_blank')}*/}
-      {/*  onClick={() => router.push('/dashboard/landing' + path)}*/}
-      {/*  sx={style.buttonStyle}*/}
-      {/*>*/}
-      {/*  <CodeIcon sx={style.icon(false)} />*/}
-      {/*  <Typography variant="body2" sx={style.buttonText}>*/}
-      {/*    Open in VS Code*/}
-      {/*  </Typography>*/}
-      {/*</Button>*/}
     </Stack>
   )
 }
 
 const renderUserDetails = (
   router: AppRouterInstance,
-  user: User | undefined
+  user: User | undefined,
+  logout?: (options?: LogoutOptions) => void
 ) => {
   return (
     <Box
@@ -334,9 +325,6 @@ const renderUserDetails = (
             width: '20px',
           }}
         />
-        {/*<AccountCircleSharpIcon*/}
-        {/*  sx={{ color: '#585858', marginRight: '9px' }}*/}
-        {/*/>*/}
         <Typography
           variant={'body1'}
           sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
@@ -347,7 +335,6 @@ const renderUserDetails = (
 
       <Divider
         orientation={'vertical'}
-        // flexItem
         sx={{
           backgroundColor: '#585858',
           height: '18px',
@@ -357,7 +344,13 @@ const renderUserDetails = (
 
       <Button
         onClick={() => {
-          router.push('/api/auth/logout')
+          if (logout) {
+            logout({ 
+              logoutParams: {
+                returnTo: window.location.origin
+              }
+            });
+          }
         }}
         title={'Log out'}
         variant={'text'}
