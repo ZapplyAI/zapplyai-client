@@ -2,16 +2,34 @@ import { Box, Radio, Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
+import map from 'lodash/map'
+import useSubscriptionPlans from '@/lib/hooks/useSubscriptionPlans'
 
 interface UpgradeMembershipProps {
   open: boolean
   onClose: (membershipUpdated: boolean) => void
 }
 
-const UpgradeMembership = ({ open, onClose }: UpgradeMembershipProps) => {
-  const handleClose = () => {
-    onClose(false)
-  }
+interface SubscriptionPlan {
+  id: string;
+  name: string;
+  monthly_fee: string;
+  premium_calls_quota: number;
+  overage_rate: string | null;
+  context_window: number;
+  team_support: boolean;
+  description: string;
+}
+
+const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
+  const { subscriptionPlans, loading, error } = useSubscriptionPlans()
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error}</p>
+
+  const handleClose = () => onClose(false)
+  const handlePlanSelection = (planId: string) => setSelectedPlan(planId)
 
   const style = {
     dialogContainer: {},
@@ -47,7 +65,7 @@ const UpgradeMembership = ({ open, onClose }: UpgradeMembershipProps) => {
     >
       <Box sx={style.dialogBox}>
         <Box sx={style.subscriptionsContainer}>
-          {renderUpgradeDescriptionContents()}
+          {renderUpgradeDescriptionContents(subscriptionPlans)}
         </Box>
         <Box sx={style.pricingSummaryContainer}>{renderSummaryContents()}</Box>
       </Box>
@@ -55,7 +73,7 @@ const UpgradeMembership = ({ open, onClose }: UpgradeMembershipProps) => {
   )
 }
 
-const renderUpgradeDescriptionContents = () => {
+const renderUpgradeDescriptionContents = (subscriptionPlans : SubscriptionPlan[]) => {
   return (
     <React.Fragment>
       <Typography variant="h3">Upgrade subscription</Typography>
@@ -63,7 +81,7 @@ const renderUpgradeDescriptionContents = () => {
         You are currently on a FREE subscription
       </Typography>
 
-      <RadioGroupExample />
+      <RadioGroupExample subscriptionPlans={subscriptionPlans}/>
     </React.Fragment>
   )
 }
@@ -77,7 +95,12 @@ const renderSummaryContents = () => {
   )
 }
 
-const RadioGroupExample = () => {
+interface RadioGroupExampleProps {
+  subscriptionPlans: SubscriptionPlan[];
+}
+
+const RadioGroupExample = ({ subscriptionPlans } : RadioGroupExampleProps) => {
+
   const [selectedValue, setSelectedValue] = useState<string | null>('Plus Plan')
 
   const handleSelection = (value: string) => {
@@ -86,22 +109,17 @@ const RadioGroupExample = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      <RadioOption
-        label="Plus Plan"
-        description="20,000 requests / month"
-        price="15$"
-        selected={selectedValue === 'Plus Plan'}
-        onChange={() => handleSelection('Plus Plan')}
-        gradient="#7F5EFC, #F85EC1"
-      />
-      <RadioOption
-        label="Teams Plan"
-        description="500,000 requests / month"
-        price="30$"
-        selected={selectedValue === 'Teams Plan'}
-        onChange={() => handleSelection('Teams Plan')}
-        gradient="#FFB42A, #F85E8A"
-      />
+      {map(subscriptionPlans.plans, plan => {
+        console.log('plan', plan)
+        return (<RadioOption
+          label={plan.name}
+          description={plan.description}
+          price={plan.monthly_fee + '$'}
+          selected={selectedValue === 'Plus Plan'}
+          onChange={() => handleSelection('Plus Plan')}
+          gradient="#7F5EFC, #F85EC1"
+        />)
+      })}
     </Box>
   )
 }
@@ -244,4 +262,4 @@ const GradientRadio: React.FC<GradientRadioProps> = ({
   />
 )
 
-export default UpgradeMembership
+export default UpgradeMembershipModal

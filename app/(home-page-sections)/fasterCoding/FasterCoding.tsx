@@ -6,10 +6,10 @@ import {
   VerticalLeftAlignBox,
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
-import { AutofillAnimation } from '@/app/(sections)/fasterCoding/(components)/AutofillAnimation'
+import { AutofillAnimation } from '@/app/(home-page-sections)/fasterCoding/(components)/AutofillAnimation'
 import Spline from '@splinetool/react-spline'
 import DecorRect from '@/app/(components)/DecorRect'
-import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
+import { CodedItemStack } from '@/app/(home-page-sections)/detailListing/(components)/CodedItemStack'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 
@@ -58,8 +58,8 @@ export const FasterCoding = React.forwardRef(
               {!isMobile && renderDesktopRocketAnim()}
             </Box>
 
-            <Box 
-              sx={{ 
+            <Box
+              sx={{
                 paddingBottom: isMobile ? '100px' : 0,
                 background: 'linear-gradient(180deg, rgba(25, 25, 30, 0.95), rgba(25, 25, 30, 0.85))',
                 borderRadius: '16px',

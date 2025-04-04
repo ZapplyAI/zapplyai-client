@@ -7,7 +7,7 @@ import {
 } from '@/components/layouts/CenterBox'
 import Typography from '@mui/material/Typography'
 import DecorRect from '@/app/(components)/DecorRect'
-import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
+import { CodedItemStack } from '@/app/(home-page-sections)/detailListing/(components)/CodedItemStack'
 
 interface ContextAwareProps {
   isMobile: boolean

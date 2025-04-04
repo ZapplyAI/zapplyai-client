@@ -12,7 +12,7 @@ import React, { useEffect, useRef } from 'react'
 import DecorRect from '@/app/(components)/DecorRect'
 import 'react-alice-carousel/lib/alice-carousel.css'
 import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
-import { BigNumbersCarousel } from '@/app/(sections)/main/(components)/BigNumbersCarousel'
+import { BigNumbersCarousel } from '@/app/(home-page-sections)/main/(components)/BigNumbersCarousel'
 
 interface MainSectionProps {
   showAlert: any
@@ -183,8 +183,8 @@ export const MainSection = ({ showAlert, isMobile }: MainSectionProps) => {
 
             <Typography
               variant={'h4' as any}
-              sx={{ 
-                maxWidth: '90%', 
+              sx={{
+                maxWidth: '90%',
                 marginBottom: isMobile ? '40px' : '50px',
                 fontSize: isMobile ? '1.25rem' : '1.75rem',
                 color: '#AEAEAE',

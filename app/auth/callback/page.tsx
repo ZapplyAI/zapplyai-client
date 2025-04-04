@@ -12,22 +12,17 @@ export default function TokenPage() {
   const router = useRouter()
   const [connectionCode, setConnectionCode] = useState<string | null>(null)
   const [token, setToken] = useState<string | null>(null)
-  const {getAccessTokenSilently} = useAuth0();
+  const {getAccessTokenSilently, isAuthenticated} = useAuth0();
 
   useEffect(() => {
     (async () => {
+      console.log('isAuthenticated', isAuthenticated)
       const accessToken = await getAccessTokenSilently();
 
       setToken(accessToken);
     })()
   }, [getAccessTokenSilently]);
 
-  const handleCopy = () => {
-    if (connectionCode) {
-      navigator.clipboard.writeText(connectionCode)
-      alert('Connection code copied to clipboard!')
-    }
-  }
 
   const handleCopyToken = () => {
     if (token) {
@@ -135,8 +130,8 @@ export default function TokenPage() {
           Authentication token not found
         </Typography>
         <Button
-          label="Go to Login"
-          action={() => (window.location.href = '/api/auth/login')}
+          label="Return"
+          action={() => (window.location.href = '/')}
           sx={styles.customButton}
         />
       </Box>
@@ -162,7 +157,9 @@ export default function TokenPage() {
         <Typography sx={{ color: '#9E9E9E', marginBottom: '15px' }}>
           Use this token to authenticate API requests to our platform
         </Typography>
-
+        <Typography>
+          {token}
+        </Typography>
         <Button
           label="Copy Token"
           icon={<ContentCopyIcon fontSize="small" />}

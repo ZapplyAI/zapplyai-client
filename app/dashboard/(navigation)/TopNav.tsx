@@ -10,7 +10,7 @@ import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp'
 import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import UpgradeMembership from '@/app/dashboard/members/(components)/UpgradeMembership'
+import UpgradeMembershipModal from '@/app/dashboard/members/(components)/UpgradeMembershipModal'
 import CodeIcon from '@mui/icons-material/Code'
 
 const TopNav = () => {
@@ -62,13 +62,10 @@ const TopNav = () => {
         </Box>
       </Box>
 
-      {/*{renderTopAnnouncement()}*/}
-      {/*<div style={{ position: 'absolute' }}>*/}
-      <UpgradeMembership
+=      <UpgradeMembershipModal
         open={dialogOpen}
         onClose={membershipUpdated => handleClose(membershipUpdated)}
       />
-      {/*</div>*/}
     </React.Fragment>
   )
 }

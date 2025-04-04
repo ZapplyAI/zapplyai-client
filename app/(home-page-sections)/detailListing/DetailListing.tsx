@@ -3,7 +3,7 @@ import React from 'react'
 import { Box, useTheme } from '@mui/material'
 import StickyBox from 'react-sticky-box'
 import DecorRect from '@/app/(components)/DecorRect'
-import { CodedItemStack } from '@/app/(sections)/detailListing/(components)/CodedItemStack'
+import { CodedItemStack } from '@/app/(home-page-sections)/detailListing/(components)/CodedItemStack'
 
 interface DetailListingProps {
   position: number
