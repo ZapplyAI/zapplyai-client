@@ -104,7 +104,7 @@ const renderUpgradeDescriptionContents = (
 ) => {
   return (
     <React.Fragment>
-      <Typography variant="h3">ption</Typography>
+      <Typography variant="h3">Upgrade subscription</Typography>
       <Typography variant="body2">
         You are currently on a FREE subscription
       </Typography>
@@ -364,24 +364,6 @@ const RadioGroupExample = ({
   selectedPlan,
   onPlanSelect,
 }: RadioGroupExampleProps) => {
-  const [isProcessing, setProcessing] = React.useState<boolean>(false)
-  const [plans, setPlans] = React.useState<Plan[]>([])
-
-  React.useEffect(() => {
-    ;(async () => {
-      setProcessing(true)
-      try {
-        // @ts-ignore
-        const { success, response } = await subscriptions.getList()
-        if (success) {
-          setPlans(response)
-        }
-      } finally {
-        setProcessing(false)
-      }
-    })()
-  }, [])
-
   const getGradientForPlan = (planName: string) => {
     if (!planName) return '#808080, #808080' // Default gray
 
@@ -397,13 +379,13 @@ const RadioGroupExample = ({
     return '#808080, #808080' // Default gray
   }
 
-  if (isProcessing || !plans.length) {
-    return <Spinner />
-  }
+  // if (isProcessing || !plans.length) {
+  //   return <Spinner />
+  // }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', mt: 2 }}>
-      {map(plans, plan => {
+      {map(subscriptionPlans, plan => {
         const gradient = getGradientForPlan(plan.name)
         return (
           <RadioOption

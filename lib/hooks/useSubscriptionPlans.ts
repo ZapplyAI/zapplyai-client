@@ -1,39 +1,28 @@
 import { useEffect, useState } from 'react'
+import _axios from '@/lib/axios'
 
 const useSubscriptionPlans = () => {
   const [subscriptionPlans, setSubscriptionPlans] = useState<any | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchSubscriptionPlans = async () => {
-      try {
-        console.log('Fetching subscription plans...')
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/subscriptions/plans`,
-          {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-            },
-            cache: 'no-store',
-          }
-        )
+  const fetchSubscriptionPlans = async () => {
+    console.log('\n\n Fetching subscription plans...')
 
-        console.log('res', res)
+    try {
+      const { data: response, status } = await _axios.get(
+        '/subscriptions/plans'
+      )
 
-        if (!res.ok) throw new Error('Failed to fetch subscription plans')
-
-        const data = await res.json()
-        console.log('data', data)
-        setSubscriptionPlans(data)
-      } catch (err: any) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
+      console.log('\ndata', response)
+      setSubscriptionPlans(response.plans)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
     }
+  }
 
+  useEffect(() => {
     fetchSubscriptionPlans()
   }, [])
 

@@ -94,7 +94,7 @@ const renderUpgradeDescriptionContents = ({
 }) => {
   return (
     <React.Fragment>
-      <Typography variant="h3">Upgrade subscription</Typography>
+      <Typography variant="h3">You Upgrade subscription</Typography>
       {/*<Typography variant="body2">*/}
       {/*  You are currently on a FREE subscription*/}
       {/*</Typography>*/}
