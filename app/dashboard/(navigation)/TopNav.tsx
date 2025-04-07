@@ -58,7 +58,7 @@ const TopNav = () => {
             pathname,
             router
           )}
-          <UserDetails router={router}/>
+          <UserDetails/>
         </Box>
       </Box>
 
