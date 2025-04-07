@@ -7,12 +7,10 @@ import { Button, Input } from '@/components'
 import GoogleIcon from '@mui/icons-material/Google'
 import Typography from '@mui/material/Typography'
 import ContactSupportIcon from '@mui/icons-material/ContactSupport'
-import { useDashboard } from '@/app/dashboard/DashboardProvider'
 import { PageNav } from '@/app/dashboard/(navigation)'
 
 export default function MainPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
-  const { subscriptions } = useDashboard()
   const [x, xf] = useState(0)
 
   const y = useRef<HTMLDivElement | null>(null)

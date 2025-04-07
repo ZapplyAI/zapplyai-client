@@ -8,7 +8,7 @@ import {
   ListItemText,
   Radio,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { startTransition, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import map from 'lodash/map'
@@ -17,6 +17,10 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { subscriptions } from '@/services'
 import { Plan } from '@/app/dashboard/members/(components)/UpgradeMembership'
 import { Spinner } from '@/components'
+import { useRouter } from 'next/navigation'
+import _axios from '@/lib/axios'
+import { handleCheckoutServer } from '@/services/subscriptions/handleCheckout'
+import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
 
 interface UpgradeMembershipProps {
   open: boolean
@@ -90,7 +94,7 @@ const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
           )}
         </Box>
         <Box sx={style.pricingSummaryContainer}>
-          {renderSummaryContents(selectedPlan)}
+          <SummaryContents selectedPlan={selectedPlan} />
         </Box>
       </Box>
     </Dialog>
@@ -118,7 +122,32 @@ const renderUpgradeDescriptionContents = (
   )
 }
 
-const renderSummaryContents = (selectedPlan: SubscriptionPlan | null) => {
+interface SummaryContentsProps {
+  selectedPlan: SubscriptionPlan | null
+}
+
+const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
+  const { handleCheckout, loading } = useSubscriptionCheckout()
+
+  // const handleCheckout = () => {
+  //   startTransition(async () => {
+  //     try {
+  //       if (!selectedPlan) {return}
+  //       const data = await handleCheckoutServer(selectedPlan.id)
+  //
+  //       if (data?.redirect_url) {
+  //         window.location.href = data.redirect_url
+  //       } else {
+  //         console.error('Unexpected response', data)
+  //       }
+  //     } catch (err) {
+  //       console.error('Checkout failed', err)
+  //       // Show error to user
+  //       alert('Checkout failed: ' + (err instanceof Error ? err.message : 'Unknown error'))
+  //     }
+  //   })
+  // }
+
   return (
     <Box
       sx={{
@@ -332,6 +361,7 @@ const renderSummaryContents = (selectedPlan: SubscriptionPlan | null) => {
           <Button
             variant="contained"
             fullWidth
+            onClick={() => handleCheckout(selectedPlan?.id)}
             sx={{
               background: 'linear-gradient(to right, #7C5EFD, #FB5EC0)',
               borderRadius: '8px',

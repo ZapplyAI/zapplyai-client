@@ -11,8 +11,13 @@ export const setupAuthInterceptor = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.request.use(
     async config => {
       try {
+        console.log('trying to get auth0 session')
         // Get token directly from Auth0 session
         const session = await auth0.getSession()
+        if (!session) {
+          console.log('no session')
+        }
+        console.log('session', session)
         const token = session?.accessToken
 
         // If we have a token, add it to the request headers
