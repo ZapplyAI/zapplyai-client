@@ -1,6 +1,6 @@
 'use client'
 import { Box, Button, Divider, Stack } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp'
 import { usePathname, useRouter } from 'next/navigation'
@@ -12,6 +12,7 @@ import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import UpgradeMembershipModal from '@/app/dashboard/members/(components)/UpgradeMembershipModal'
 import CodeIcon from '@mui/icons-material/Code'
+import UserDetails from './UserDetails'
 
 const TopNav = () => {
   const router = useRouter()
@@ -57,7 +58,7 @@ const TopNav = () => {
             pathname,
             router
           )}
-          {/*{renderUserDetails(router, user)}*/}
+          <UserDetails router={router}/>
         </Box>
       </Box>
 
@@ -298,63 +299,5 @@ const renderTopMenu = (
   )
 }
 
-const renderUserDetails = (router: AppRouterInstance, user: any) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'end',
-        alignItems: 'center',
-      }}
-    >
-      <div style={{ display: 'inline-flex' }}>
-        <img
-          src={user?.picture as string | undefined}
-          alt="Profile"
-          style={{
-            color: '#585858',
-            marginRight: '9px',
-            borderRadius: '10000px',
-            height: '20px',
-            width: '20px',
-          }}
-        />
-        <Typography
-          variant={'body1'}
-          sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
-        >
-          {user?.email}
-        </Typography>
-      </div>
 
-      <Divider
-        orientation={'vertical'}
-        sx={{
-          backgroundColor: '#585858',
-          height: '18px',
-          margin: '0px 12px',
-        }}
-      />
-
-      <Button
-        onClick={() => {
-          router.push('/auth/logout')
-        }}
-        title={'Log out'}
-        variant={'text'}
-      >
-        <Typography
-          variant={'body1'}
-          sx={{
-            fontFamily: 'JetBrains Mono',
-            color: '#585858',
-            textDecoration: 'underline',
-          }}
-        >
-          Log out
-        </Typography>
-      </Button>
-    </Box>
-  )
-}
 export default TopNav

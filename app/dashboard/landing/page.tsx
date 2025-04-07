@@ -7,8 +7,8 @@ import { auth0 } from '@/lib/auth0'
 import Link from 'next/link'
 
 export default async function LandingPage() {
-  const session = await auth0.getSession();
-  console.log(session);
+  const session = await auth0.getSession()
+  console.log(session)
   // Show loading state
   // if (isLoading) {
   //   return (
@@ -51,7 +51,7 @@ export default async function LandingPage() {
   // }
 
   const openInVSCode = () => {
-    console.log(session);
+    console.log(session)
   }
 
   const styles = {
@@ -221,9 +221,7 @@ export default async function LandingPage() {
 
       <Box sx={styles.buttonContainer}>
         <Link href={'vscode://elastic-copilot'}>
-          <button>
-            Open in VS Code
-          </button>
+          <button>Open in VS Code</button>
         </Link>
       </Box>
     </Box>

@@ -6,23 +6,22 @@ import CodeIcon from '@mui/icons-material/Code'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Button from '@/components/Button/Button'
 import { useRouter } from 'next/navigation'
-import { useAuth0 } from '@auth0/auth0-react'
+// import { useAuth0 } from '@auth0/auth0-react'
 
 export default function TokenPage() {
   const router = useRouter()
   const [connectionCode, setConnectionCode] = useState<string | null>(null)
-  const [token, setToken] = useState<string | null>(null)
-  const {getAccessTokenSilently, isAuthenticated} = useAuth0();
+  const [token, setToken] = useState<string | null>("token number")
+  // const {getAccessTokenSilently, isAuthenticated} = useAuth0();
 
-  useEffect(() => {
-    (async () => {
-      console.log('isAuthenticated', isAuthenticated)
-      const accessToken = await getAccessTokenSilently();
-
-      setToken(accessToken);
-    })()
-  }, [getAccessTokenSilently]);
-
+  // useEffect(() => {
+  //   ;(async () => {
+  //     console.log('isAuthenticated', isAuthenticated)
+  //     const accessToken = await getAccessTokenSilently()
+  //
+  //     setToken(accessToken)
+  //   })()
+  // }, [getAccessTokenSilently])
 
   const handleCopyToken = () => {
     if (token) {
@@ -157,9 +156,7 @@ export default function TokenPage() {
         <Typography sx={{ color: '#9E9E9E', marginBottom: '15px' }}>
           Use this token to authenticate API requests to our platform
         </Typography>
-        <Typography>
-          {token}
-        </Typography>
+        <Typography>{token}</Typography>
         <Button
           label="Copy Token"
           icon={<ContentCopyIcon fontSize="small" />}
@@ -178,7 +175,7 @@ export default function TokenPage() {
           <Typography variant="h6" sx={styles.codeText}>
             {connectionCode}
           </Typography>
-          <IconButton onClick={handleCopy} sx={styles.copyButton}>
+          <IconButton onClick={handleCopyToken} sx={styles.copyButton}>
             <ContentCopyIcon />
           </IconButton>
         </Box>

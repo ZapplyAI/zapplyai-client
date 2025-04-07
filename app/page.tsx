@@ -14,11 +14,9 @@ import Image from 'next/image'
 import { HorizontalLeftAlignBox } from '@/components/layouts/CenterBox'
 import { DetailListingDesktop } from '@/app/(home-page-sections)/detailListing/DetailListing'
 import { PricingOptions } from '@/app/(home-page-sections)/pricingOptions/PricingOptions'
-import { SubscribeNewsletter } from '@/app/(home-page-sections)/subscribeNewsletter/SubscribeNewsletter'
 import UnavailabilityAlert from '@/app/(components)/UnavailabilityAlert'
 import DecorRect from '@/app/(components)/DecorRect'
 import LoadingAnimHUD from '@/app/(components)/LoadingAnimHUD'
-import { CodedItemStack } from '@/app/(home-page-sections)/detailListing/(components)/CodedItemStack'
 
 export default function HomePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')

@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button'
 import React from 'react'
 import { auth0 } from '@/lib/auth0'
-import {} from '@auth0/nextjs-auth0';
+import {} from '@auth0/nextjs-auth0'
 
 const AuthButton = async () => {
-  const session = await auth0.getSession();
-  console.log(session);
+  const session = await auth0.getSession()
+  console.log(session)
 
   if (!session) {
     return (
