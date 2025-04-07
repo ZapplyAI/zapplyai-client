@@ -4,16 +4,17 @@ import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp'
 import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import UpgradeMembership from '@/app/dashboard/members/(components)/UpgradeMembership'
+import UpgradeMembershipModal from '@/app/dashboard/members/(components)/UpgradeMembershipModal'
 import CodeIcon from '@mui/icons-material/Code'
 
 const TopNav = () => {
-  const router = useRouter();
+  const router = useRouter()
   const pathname = usePathname()
 
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -60,13 +61,10 @@ const TopNav = () => {
         </Box>
       </Box>
 
-      {/*{renderTopAnnouncement()}*/}
-      {/*<div style={{ position: 'absolute' }}>*/}
-      <UpgradeMembership
+      <UpgradeMembershipModal
         open={dialogOpen}
         onClose={membershipUpdated => handleClose(membershipUpdated)}
       />
-      {/*</div>*/}
     </React.Fragment>
   )
 }
@@ -112,12 +110,13 @@ const renderLogoAndSubscription = (
         alignItems: 'center',
       }}
     >
-      {/*<Logo*/}
-      {/*  mini*/}
-      {/*  width={26}*/}
-      {/*  height={26}*/}
-      {/*  sx={{ marginRight: '12px', height: '26px', width: '26px' }}*/}
-      {/*/>*/}
+      <Image
+        src="/assets/svgs/LISA MARK EXP.svg"
+        alt="Logo"
+        width={26}
+        height={26}
+        style={{ marginRight: '12px' }}
+      />
       <Typography
         variant="h3"
         sx={{ marginBottom: 0, fontSize: '1.1rem', fontWeight: 400 }}
@@ -295,27 +294,11 @@ const renderTopMenu = (
           </Button>
         )
       })}
-
-      {/* Open in VS Code Button */}
-      {/*<Button*/}
-      {/*  // onClick={() => window.open('vscode://', '_blank')}*/}
-      {/*  onClick={() => router.push('/dashboard/landing' + path)}*/}
-      {/*  sx={style.buttonStyle}*/}
-      {/*>*/}
-      {/*  <CodeIcon sx={style.icon(false)} />*/}
-      {/*  <Typography variant="body2" sx={style.buttonText}>*/}
-      {/*    Open in VS Code*/}
-      {/*  </Typography>*/}
-      {/*</Button>*/}
     </Stack>
   )
 }
 
-const renderUserDetails = (
-  router: AppRouterInstance,
-  // user: User | undefined
-  user: any
-) => {
+const renderUserDetails = (router: AppRouterInstance, user: any) => {
   return (
     <Box
       sx={{
@@ -336,9 +319,6 @@ const renderUserDetails = (
             width: '20px',
           }}
         />
-        {/*<AccountCircleSharpIcon*/}
-        {/*  sx={{ color: '#585858', marginRight: '9px' }}*/}
-        {/*/>*/}
         <Typography
           variant={'body1'}
           sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
@@ -349,7 +329,6 @@ const renderUserDetails = (
 
       <Divider
         orientation={'vertical'}
-        // flexItem
         sx={{
           backgroundColor: '#585858',
           height: '18px',

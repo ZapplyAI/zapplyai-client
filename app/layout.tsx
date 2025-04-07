@@ -3,7 +3,7 @@ import '@/styles/main.scss'
 import { LandingProvider } from '@/contexts/LandingProvider'
 import { dashboardTheme } from '@/styles/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
-import StoreProvider from '@/app_legacy/StoreProvider'
+import StoreProvider from '@/app/StoreProvider'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 
 export default function RootLayout({

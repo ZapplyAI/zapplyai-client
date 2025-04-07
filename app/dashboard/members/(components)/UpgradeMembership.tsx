@@ -10,7 +10,7 @@ interface UpgradeMembershipProps {
   onClose: (membershipUpdated: boolean) => void
 }
 
-interface Plan {
+export interface Plan {
   id: string
   name: string
   monthly_fee: string
