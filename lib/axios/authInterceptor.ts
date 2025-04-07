@@ -1,8 +1,7 @@
 'use client'
 
 import { AxiosInstance } from 'axios'
-import { getCookie } from 'cookies-next'
-// import { getSession } from '@auth0/nextjs-auth0/client'
+import { auth0 } from '@/lib/auth0'
 
 /**
  * Adds authentication token to axios requests
@@ -10,16 +9,11 @@ import { getCookie } from 'cookies-next'
  */
 export const setupAuthInterceptor = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.request.use(
-    async (config) => {
+    async config => {
       try {
-        // Try to get token from cookie first (set by our Auth0 callback)
-        let token = getCookie('auth_token') as string | undefined
-
-        // If no token in cookie, try to get from Auth0 session
-        if (!token) {
-          // const session = await getSession()
-          // token = session?.accessToken
-        }
+        // Get token directly from Auth0 session
+        const session = await auth0.getSession()
+        const token = session?.accessToken
 
         // If we have a token, add it to the request headers
         if (token) {
@@ -32,8 +26,6 @@ export const setupAuthInterceptor = (axiosInstance: AxiosInstance) => {
         return config
       }
     },
-    (error) => {
-      return Promise.reject(error)
-    }
+    error => Promise.reject(error)
   )
 }

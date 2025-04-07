@@ -5,7 +5,6 @@ import { dashboardTheme } from '@/styles/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import StoreProvider from '@/app_legacy/StoreProvider'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-import Auth0ClientProvider from './components/Auth0ClientProvider'
 
 export default function RootLayout({
   children,
@@ -26,11 +25,7 @@ export default function RootLayout({
         <StoreProvider>
           <AppRouterCacheProvider>
             <ThemeProvider theme={dashboardTheme}>
-              <LandingProvider>
-                <Auth0ClientProvider>
-                  {children}
-                </Auth0ClientProvider>
-              </LandingProvider>
+              <LandingProvider>{children}</LandingProvider>
             </ThemeProvider>
           </AppRouterCacheProvider>
         </StoreProvider>

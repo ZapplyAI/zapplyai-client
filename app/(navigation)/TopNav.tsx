@@ -1,11 +1,9 @@
 'use client'
 import React from 'react'
 import { Box, useTheme } from '@mui/material'
-import { Logo } from '@/components'
-import Button from '@mui/material/Button'
 import { HorizontalLeftAlignBox } from '@/components/layouts/CenterBox'
 import Image from 'next/image'
-import { useAuth0 } from '@auth0/auth0-react'
+import AuthButton from '@/app/(navigation)/AuthButton'
 
 interface TopNavProps {
   showAlert: any
@@ -13,8 +11,7 @@ interface TopNavProps {
 }
 
 export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
-  const theme = useTheme();
-  const { loginWithRedirect } = useAuth0();
+  const theme = useTheme()
 
   return (
     <Box
@@ -34,6 +31,8 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
         sx={{
           padding: '20px',
           borderBottom: '1px solid #5E5E5E',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <Image
@@ -42,19 +41,7 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
           width={32}
           height={32}
         />
-        <Button
-          variant="contained"
-          onClick={() => loginWithRedirect()}
-          sx={{
-            marginLeft: 'auto',
-            background: '#775EFF',
-            '&:hover': {
-              background: '#5E3FFF',
-            },
-          }}
-        >
-          Try now
-        </Button>
+        <AuthButton />
       </HorizontalLeftAlignBox>
     </Box>
   )

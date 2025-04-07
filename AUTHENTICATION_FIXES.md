@@ -436,7 +436,7 @@ export default function AuthErrorPage() {
   const errorMessage = searchParams.get('error') || 'An authentication error occurred'
 
   const handleRetry = () => {
-    router.push('/api/auth/login')
+    router.push('/auth/login')
   }
 
   const handleGoHome = () => {

@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp'
 import { usePathname, useRouter } from 'next/navigation'
-import { useAuth0, User } from '@auth0/auth0-react'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp'
@@ -14,8 +13,7 @@ import UpgradeMembership from '@/app/dashboard/members/(components)/UpgradeMembe
 import CodeIcon from '@mui/icons-material/Code'
 
 const TopNav = () => {
-  const { user, isLoading } = useAuth0()
-  const router = useRouter()
+  const router = useRouter();
   const pathname = usePathname()
 
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -58,7 +56,7 @@ const TopNav = () => {
             pathname,
             router
           )}
-          {renderUserDetails(router, user)}
+          {/*{renderUserDetails(router, user)}*/}
         </Box>
       </Box>
 
@@ -315,7 +313,8 @@ const renderTopMenu = (
 
 const renderUserDetails = (
   router: AppRouterInstance,
-  user: User | undefined
+  // user: User | undefined
+  user: any
 ) => {
   return (
     <Box
@@ -360,7 +359,7 @@ const renderUserDetails = (
 
       <Button
         onClick={() => {
-          router.push('/api/auth/logout')
+          router.push('/auth/logout')
         }}
         title={'Log out'}
         variant={'text'}
