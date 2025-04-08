@@ -1,6 +1,7 @@
 import React from 'react'
 import '@/styles/main.scss'
 import { TopNav } from './(navigation)'
+import { DashboardProvider } from './DashboardContext'
 
 export default function DashboardLayout({
   children,
@@ -8,7 +9,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <DashboardProvider>
       <TopNav />
       <div
         style={{
@@ -32,6 +33,6 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
-    </>
+    </DashboardProvider>
   )
 }

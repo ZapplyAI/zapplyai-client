@@ -1,34 +1,113 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
-import PageCard from '@/app/dashboard/(components)/PageCard'
-import { Box, Divider, FormControl } from '@mui/material'
-import { Button, Input } from '@/components'
-import GoogleIcon from '@mui/icons-material/Google'
+import { Box, Divider, LinearProgress } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import ContactSupportIcon from '@mui/icons-material/ContactSupport'
-import { PageNav } from '@/app/dashboard/(navigation)'
+import { useDashboard } from './DashboardContext'
+
+// Custom token usage progress bar component
+const TokenUsageProgress = ({ 
+  currentTokens, 
+  maxTokens 
+}: { 
+  currentTokens: number; 
+  maxTokens: number 
+}) => {
+  // Calculate percentage for progress bar
+  const percentage = (currentTokens / maxTokens) * 100;
+  
+  return (
+    <Box sx={{ width: '100%' }}>
+      {/* Token count display */}
+      <Box sx={{ mb: 0.5, display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="body2" color="#FFFFFF">
+          {currentTokens.toLocaleString()}
+        </Typography>
+        <Typography variant="body2" color="#FFFFFF">
+          {maxTokens.toLocaleString()}
+        </Typography>
+      </Box>
+      
+      {/* Progress bar without label */}
+      <LinearProgress 
+        variant="determinate" 
+        value={percentage} 
+        sx={{ 
+          height: 22, // Increased height as requested
+          borderRadius: 5,
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: '#6366F1'
+          }
+        }} 
+      />
+    </Box>
+  );
+};
+
+// Token usage section component
+const TokenUsageDisplay = ({ 
+  title, 
+  currentTokens, 
+  maxTokens 
+}: { 
+  title: string; 
+  currentTokens: number; 
+  maxTokens: number 
+}) => {
+  return (
+    <Box sx={{ mb: 4 }}>
+      <Typography variant="h6" sx={{ mb: 1, fontWeight: 500, color: '#FFFFFF' }}>
+        {title}
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+      <TokenUsageProgress 
+        currentTokens={currentTokens} 
+        maxTokens={maxTokens} 
+      />
+    </Box>
+  );
+};
 
 export default function MainPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
-  const [x, xf] = useState(0)
+  const { 
+    apiTokensUsedIndividual, 
+    maxApiTokensIndividual, 
+    apiTokensUsedTeam, 
+    maxApiTokensTeam,
+    subscriptionType
+  } = useDashboard()
 
-  const y = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {}, [])
+  // Only show team token usage if on a team plan
+  const showTeamUsage = subscriptionType === 'team'
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box
         sx={{
-          padding: '12px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          // borderBottom: '#5E5E5E 1px solid',
+          padding: '24px',
+          width: '100%',
+          alignItems: 'flex-start',
         }}
       >
-        Content
+        <Box sx={{ mb: 4, width: '100%' }}>
+          {/* Individual Token Usage */}
+          <TokenUsageDisplay 
+            title="Individual Token Usage" 
+            currentTokens={apiTokensUsedIndividual} 
+            maxTokens={maxApiTokensIndividual} 
+          />
+          
+          {/* Team Token Usage - only show if on team plan */}
+          {showTeamUsage && (
+            <TokenUsageDisplay 
+              title="Team Token Usage" 
+              currentTokens={apiTokensUsedTeam} 
+              maxTokens={maxApiTokensTeam} 
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   )

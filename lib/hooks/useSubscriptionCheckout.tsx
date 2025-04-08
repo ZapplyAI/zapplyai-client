@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react'
 import _axios from '@/lib/axios'
+import axios from 'axios'
 
 const useSubscriptionCheckout = () => {
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleCheckout = async (planId: string) => {
     setLoading(true)
-    console.log('\n\n Subscription Checkout...')
+    setError(null)
 
     try {
-      const { data } = await _axios.post('/subscriptions/payments', {
+      console.log('About to call Next.js api route')
+      const { data } = await axios.post('/api/subscriptions/payments', {
         plan_id: planId,
         success_url: '/dashboard',
         cancel_url: '/dashboard',
       })
 
-      console.log('\ndata', data)
+      console.log('Checkout success:', data)
+    } catch (err: any) {
+      console.error('Checkout failed:', err)
+      setError(err.message)
+    } finally {
       setLoading(false)
-    } catch (error) {
-      console.log(error)
     }
   }
 
-  return { handleCheckout, loading }
+  return { handleCheckout, loading, error }
 }
+
 
 export default useSubscriptionCheckout

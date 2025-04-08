@@ -1,229 +1,157 @@
-import React from 'react'
-import { Box, Divider, IconButton, Paper, Typography } from '@mui/material'
+'use client'
+import React, { useState } from 'react'
+import { Box, Divider, IconButton, Paper, Typography, Snackbar, Alert } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CodeIcon from '@mui/icons-material/Code'
 import Button from '@/components/Button/Button'
-import { auth0 } from '@/lib/auth0'
 import Link from 'next/link'
+import { useDashboard } from '../DashboardContext'
 
-export default async function LandingPage() {
-  const session = await auth0.getSession()
-  console.log(session)
-  // Show loading state
-  // if (isLoading) {
-  //   return (
-  //     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-  //       <CircularProgress />
-  //     </Box>
-  //   )
-  // }
+export default function LandingPage() {
+  const { copilotAccessCode } = useDashboard()
+  const [copySuccess, setCopySuccess] = useState(false)
 
-  // Show error state
-  // if (error) {
-  //   return (
-  //     <Box sx={{ padding: '40px' }}>
-  //       <Typography variant="h6" color="error">
-  //         Authentication Error: {error.message}
-  //       </Typography>
-  //       <Button
-  //         label="Try Again"
-  //         action={() => window.location.href = '/api/auth/login'}
-  //         sx={{ marginTop: '20px' }}
-  //       />
-  //     </Box>
-  //   )
-  // }
+  const handleCopyCode = () => {
+    if (copilotAccessCode) {
+      navigator.clipboard.writeText(copilotAccessCode)
+      setCopySuccess(true)
+    }
+  }
 
-  // // Show not authenticated state
-  // if (!user && !token) {
-  //   return (
-  //     <Box sx={{ padding: '40px' }}>
-  //       <Typography variant="h6">
-  //         You need to be authenticated to access this page
-  //       </Typography>
-  //       <Button
-  //         label="Login"
-  //         action={() => window.location.href = '/api/auth/login'}
-  //         sx={{ marginTop: '20px' }}
-  //       />
-  //     </Box>
-  //   )
-  // }
-
-  const openInVSCode = () => {
-    console.log(session)
+  const handleCloseSnackbar = () => {
+    setCopySuccess(false)
   }
 
   const styles = {
     container: {
       width: '100%',
-      height: '100vh',
-      background: '#09090E',
       padding: '40px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
     },
-    iconContainer: {
+    title: {
+      color: '#FFFFFF',
+      fontWeight: 500,
+      marginBottom: '20px',
+    },
+    subtitle: {
+      color: '#FFFFFF',
+      fontWeight: 400,
+      marginBottom: '10px',
+    },
+    description: {
+      color: '#FFFFFF',
+      fontWeight: 300,
+      fontSize: '14px',
+      marginBottom: '20px',
+    },
+    codeContainer: {
       display: 'flex',
       alignItems: 'center',
-      gap: 2,
-      marginBottom: 3,
-    },
-    numberContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 1,
+      justifyContent: 'space-between',
+      width: '100%',
+      maxWidth: '500px',
       padding: '15px',
       backgroundColor: '#1B1A20',
       borderRadius: '8px',
       border: '1px solid #3C3C3C',
-      marginTop: 3,
-      marginBottom: 3,
-      maxWidth: '500px',
+      marginBottom: '20px',
     },
-    numberText: {
-      color: '#fff',
-      fontWeight: '200',
+    codeText: {
+      color: '#FFFFFF',
+      fontFamily: 'monospace',
+      fontSize: '16px',
+      fontWeight: 400,
     },
     copyButton: {
-      color: '#fff',
+      color: '#FFFFFF',
       '&:hover': {
         background: 'rgba(255, 255, 255, 0.1)',
       },
+    },
+    buttonContainer: {
+      marginTop: '20px',
+    },
+    vsCodeButton: {
+      background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
+      color: '#FFFFFF',
+      padding: '10px 20px',
+      borderRadius: '5px',
+      border: 'none',
+      cursor: 'pointer',
+      fontWeight: 500,
+      fontSize: '14px',
+      '&:hover': {
+        opacity: 0.9,
+      },
+    },
+    iconContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '20px',
     },
     codeIcon: {
       fontSize: 40,
       background: 'linear-gradient(to right, #FFB42A, #F85E8A)',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
-    },
-    description: {
-      color: '#9E9E9E',
-      fontWeight: '200',
-      fontSize: '14px',
-      marginBottom: 2,
-    },
-    buttonContainer: {
-      marginTop: 2,
-    },
-    customButton: {
-      background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
-      color: '#fff',
-      fontWeight: '300',
-    },
-    authInfoContainer: {
-      marginTop: '30px',
-      padding: '20px',
-      backgroundColor: '#1B1A20',
-      borderRadius: '8px',
-      border: '1px solid #3C3C3C',
-      maxWidth: '800px',
-    },
-    authStatusText: {
-      color: '#4CAF50',
-      fontWeight: 'bold',
-      marginBottom: '10px',
-    },
-    tokenContainer: {
-      marginTop: '10px',
-      padding: '10px',
-      backgroundColor: '#2D2D33',
-      borderRadius: '4px',
-      maxHeight: '100px',
-      overflowY: 'auto',
-      wordBreak: 'break-all',
-    },
-    tokenText: {
-      color: '#E0E0E0',
-      fontFamily: 'monospace',
-      fontSize: '12px',
+      marginRight: '10px',
     },
   }
 
   return (
     <Box sx={styles.container}>
-      {/* Authentication Status */}
-      <Paper sx={styles.authInfoContainer}>
-        <Typography variant="h6" sx={styles.authStatusText}>
-          {/*{authStatus}*/}
+      <Box sx={styles.iconContainer}>
+        <CodeIcon sx={styles.codeIcon} />
+        <Typography variant="h5" sx={styles.title}>
+          VS Code Integration
         </Typography>
+      </Box>
 
-        {/*{debugInfo && (*/}
-        {/*  <Box*/}
-        {/*    sx={{*/}
-        {/*      marginBottom: '15px',*/}
-        {/*      backgroundColor: '#2D2D33',*/}
-        {/*      padding: '10px',*/}
-        {/*      borderRadius: '4px',*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <Typography variant="subtitle2" sx={{ color: '#FFA500' }}>*/}
-        {/*      Debug Information:*/}
-        {/*    </Typography>*/}
-        {/*    <Typography*/}
-        {/*      sx={{*/}
-        {/*        color: '#E0E0E0',*/}
-        {/*        fontFamily: 'monospace',*/}
-        {/*        fontSize: '12px',*/}
-        {/*        whiteSpace: 'pre-wrap',*/}
-        {/*      }}*/}
-        {/*    >*/}
-        {/*      {debugInfo}*/}
-        {/*    </Typography>*/}
-        {/*  </Box>*/}
-        {/*)}*/}
+      <Typography variant="h6" sx={styles.subtitle}>
+        Your Copilot Access Code
+      </Typography>
+      
+      <Typography sx={styles.description}>
+        Use this code to connect your VS Code instance to Elastic Copilot
+      </Typography>
 
-        {/*{user && (*/}
-        {/*  <Box sx={{ marginBottom: '15px' }}>*/}
-        {/*    <Typography variant="subtitle1" sx={{ color: 'white' }}>*/}
-        {/*      User Information:*/}
-        {/*    </Typography>*/}
-        {/*    <Typography sx={{ color: '#E0E0E0' }}>*/}
-        {/*      /!*Email: {user.email}*!/*/}
-        {/*    </Typography>*/}
-        {/*    <Typography sx={{ color: '#E0E0E0' }}>*/}
-        {/*      /!*Name: {user.name}*!/*/}
-        {/*    </Typography>*/}
-        {/*  </Box>*/}
-        {/*)}*/}
+      <Box sx={styles.codeContainer}>
+        <Typography sx={styles.codeText}>
+          {copilotAccessCode || 'No access code available'}
+        </Typography>
+        <IconButton 
+          onClick={handleCopyCode} 
+          sx={styles.copyButton}
+          aria-label="Copy access code"
+        >
+          <ContentCopyIcon />
+        </IconButton>
+      </Box>
 
-        {/*{token && (*/}
-        {/*  <>*/}
-        {/*    <Divider sx={{ backgroundColor: '#3C3C3C', margin: '15px 0' }} />*/}
-        {/*    <Typography variant="subtitle1" sx={{ color: 'white' }}>*/}
-        {/*      Authentication Token:*/}
-        {/*    </Typography>*/}
-        {/*    <Box sx={styles.tokenContainer}>*/}
-        {/*      /!*<Typography sx={styles.tokenText}>{token}</Typography>*!/*/}
-        {/*    </Box>*/}
-        {/*    <Button*/}
-        {/*      label="Copy Token"*/}
-        {/*      // action={handleCopyToken}*/}
-        {/*      sx={{ ...styles.customButton, marginTop: '10px' }}*/}
-        {/*    />*/}
-        {/*    <Button*/}
-        {/*      label="Refresh Auth Status"*/}
-        {/*      action={() => window.location.reload()}*/}
-        {/*      sx={{*/}
-        {/*        ...styles.customButton,*/}
-        {/*        marginTop: '10px',*/}
-        {/*        marginLeft: '10px',*/}
-        {/*        background: '#4CAF50',*/}
-        {/*      }}*/}
-        {/*    />*/}
-        {/*  </>*/}
-        {/*)}*/}
-      </Paper>
+      <Divider sx={{ backgroundColor: '#3C3C3C', width: '100%', maxWidth: '500px', margin: '20px 0' }} />
 
-      <Divider sx={{ backgroundColor: '#3C3C3C', margin: '30px 0' }} />
-
-      {/*<Typography sx={styles.description}>*/}
-      {/*  Use the number below to connect your VS Code instance to our platform*/}
-      {/*</Typography>*/}
+      <Typography sx={styles.description}>
+        Click the button below to open Elastic Copilot in VS Code
+      </Typography>
 
       <Box sx={styles.buttonContainer}>
-        <Link href={'vscode://elastic-copilot'}>
-          <button>Open in VS Code</button>
+        <Link href={'vscode://elastic-copilot'} passHref>
+          <button style={styles.vsCodeButton}>Open in VS Code</button>
         </Link>
       </Box>
+
+      <Snackbar 
+        open={copySuccess} 
+        autoHideDuration={3000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Access code copied to clipboard!
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }

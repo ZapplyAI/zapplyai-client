@@ -13,19 +13,19 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import UpgradeMembershipModal from '@/app/dashboard/members/(components)/UpgradeMembershipModal'
 import CodeIcon from '@mui/icons-material/Code'
 import UserDetails from './UserDetails'
+import { useDashboard } from '../DashboardContext'
 
 const TopNav = () => {
   const router = useRouter()
   const pathname = usePathname()
+  const { subscriptionType } = useDashboard()
 
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [userSubscriptionType, setUserSubscriptionType] = useState('free')
 
   const handleClose = (membershipUpdated: boolean) => {
     setDialogOpen(false)
-    if (membershipUpdated) {
-      setUserSubscriptionType('plus')
-    }
+    // Note: In a real implementation, we would update the context here
+    // after a successful membership upgrade
   }
 
   const upgradeSubscription = () => {
@@ -49,11 +49,9 @@ const TopNav = () => {
             alignItems: 'center',
           }}
         >
-          {renderLogoAndSubscription(
-            userSubscriptionType as 'plus' | 'team' | 'free'
-          )}
+          {renderLogoAndSubscription(subscriptionType)}
           {renderTopMenu(
-            userSubscriptionType === 'free',
+            subscriptionType === 'free',
             upgradeSubscription,
             pathname,
             router
