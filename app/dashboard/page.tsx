@@ -80,7 +80,7 @@ export default function MainPage() {
           mb: 4,
           border: '1px solid #5E5E5E',
           borderRadius: '12px',
-          padding: '20px',
+          padding: '16px 24px',
         }}
       >
         <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
@@ -100,7 +100,7 @@ export default function MainPage() {
           sx={{ 
             border: '1px solid #5E5E5E',
             borderRadius: '12px',
-            padding: '20px',
+            padding: '16px 24px',
           }}
         >
           <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>

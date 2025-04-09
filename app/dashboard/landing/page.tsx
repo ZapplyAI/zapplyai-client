@@ -41,7 +41,7 @@ export default function LandingPage() {
           mb: 4,
           border: '1px solid #5E5E5E',
           borderRadius: '12px',
-          padding: '20px',
+          padding: '16px 24px',
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5', display: 'flex', alignItems: 'center' }}>
@@ -57,7 +57,7 @@ export default function LandingPage() {
           Your Copilot Access Code
         </Typography>
         
-        <Typography sx={{ mb: 3, color: '#AAAAAA', fontSize: '14px' }}>
+        <Typography sx={{ mb: 2, color: '#AAAAAA', fontSize: '14px' }}>
           Use this code to connect your VS Code instance to Elastic Copilot
         </Typography>
 
@@ -70,7 +70,7 @@ export default function LandingPage() {
             padding: '15px',
             borderRadius: '8px',
             border: '1px solid #3C3C3C',
-            mb: 3,
+            mb: 2,
             '&:hover': {
               backgroundColor: 'rgba(255, 255, 255, 0.05)',
             }
@@ -88,6 +88,7 @@ export default function LandingPage() {
           </Typography>
           <IconButton 
             onClick={handleCopyCode} 
+            size="small"
             sx={{
               color: '#FFFFFF',
               '&:hover': {
@@ -96,7 +97,7 @@ export default function LandingPage() {
             }}
             aria-label="Copy access code"
           >
-            <ContentCopyIcon />
+            <ContentCopyIcon sx={{ fontSize: 18 }} />
           </IconButton>
         </Box>
       </Box>
@@ -105,14 +106,14 @@ export default function LandingPage() {
         sx={{ 
           border: '1px solid #5E5E5E',
           borderRadius: '12px',
-          padding: '20px',
+          padding: '16px 24px',
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5' }}>
           Launch VS Code Extension
         </Typography>
         
-        <Typography sx={{ mb: 3, color: '#AAAAAA', fontSize: '14px' }}>
+        <Typography sx={{ mb: 2, color: '#AAAAAA', fontSize: '14px' }}>
           Click the button below to open Elastic Copilot in VS Code
         </Typography>
 

@@ -110,7 +110,7 @@ export default function MembersPage() {
           mb: 4,
           border: '1px solid #5E5E5E',
           borderRadius: '12px',
-          padding: '20px',
+          padding: '16px 24px',
         }}
       >
         <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5' }}>
@@ -121,7 +121,7 @@ export default function MembersPage() {
             <React.Fragment key={member.id}>
               <ListItem
                 sx={{
-                  py: 2,
+                  py: 1.5,
                   display: 'flex',
                   flexDirection: isMobile ? 'column' : 'row',
                   alignItems: isMobile ? 'flex-start' : 'center',
@@ -181,7 +181,7 @@ export default function MembersPage() {
         sx={{ 
           border: '1px solid #5E5E5E',
           borderRadius: '12px',
-          padding: '20px',
+          padding: '16px 24px',
         }}
       >
         <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>

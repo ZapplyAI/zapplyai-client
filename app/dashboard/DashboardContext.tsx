@@ -74,36 +74,36 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
       { userId: '4', userName: 'Alice Williams', tokensUsed: 500000 },
     ],
     teamMembers: [
-      { 
-        id: '1', 
-        name: 'John Doe', 
-        email: 'john.doe@example.com', 
-        role: 'admin', 
-        joinedAt: '2023-01-15T10:30:00Z' 
+      {
+        id: '1',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        role: 'admin',
+        joinedAt: '2023-01-15T10:30:00Z'
       },
-      { 
-        id: '2', 
-        name: 'Jane Smith', 
-        email: 'jane.smith@example.com', 
-        role: 'member', 
-        joinedAt: '2023-02-20T14:45:00Z' 
+      {
+        id: '2',
+        name: 'Jane Smith',
+        email: 'jane.smith@example.com',
+        role: 'member',
+        joinedAt: '2023-02-20T14:45:00Z'
       },
-      { 
-        id: '3', 
-        name: 'Bob Johnson', 
-        email: 'bob.johnson@example.com', 
-        role: 'member', 
-        joinedAt: '2023-03-10T09:15:00Z' 
+      {
+        id: '3',
+        name: 'Bob Johnson',
+        email: 'bob.johnson@example.com',
+        role: 'member',
+        joinedAt: '2023-03-10T09:15:00Z'
       },
-      { 
-        id: '4', 
-        name: 'Alice Williams', 
-        email: 'alice.williams@example.com', 
-        role: 'member', 
-        joinedAt: '2023-04-05T16:20:00Z' 
+      {
+        id: '4',
+        name: 'Alice Williams',
+        email: 'alice.williams@example.com',
+        role: 'member',
+        joinedAt: '2023-04-05T16:20:00Z'
       },
     ],
-    subscriptionType: 'team', // Set to 'team' for the final implementation
+    subscriptionType: 'free', // Set to 'team' for the final implementation
     inviteTeamMember: async (email: string) => {
       // In a real implementation, this would make an API call
       // For now, we'll just simulate a successful invitation
