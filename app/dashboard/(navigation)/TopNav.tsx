@@ -21,8 +21,6 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
 
   const handleClose = (membershipUpdated: boolean) => {
     setDialogOpen(false)
-    // Note: In a real implementation, we would update the context here
-    // after a successful membership upgrade
   }
 
   const upgradeSubscription = () => {
@@ -93,14 +91,12 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
   )
 }
 
-
 const renderLogoAndSubscription = (
   subscriptionType: 'plus' | 'team' | 'free'
 ) => {
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(false);
   
-  // Animation variants for the logo
   const logoAnimationVariants = {
     initial: { y: 0 },
     animate: {
@@ -191,8 +187,8 @@ const renderSubscriptionType = (subscriptionType: 'plus' | 'team' | 'free') => {
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: '78px', // Match SVG width
-      height: '24px', // Match SVG height
+      width: '78px',
+      height: '24px',
       marginLeft: '12px',
     },
     textStyle: {
@@ -240,12 +236,11 @@ const renderSubscriptionType = (subscriptionType: 'plus' | 'team' | 'free') => {
         </defs>
       </svg>
 
-      <Typography variant={'body2'} sx={style.textStyle}>
+      <Typography variant="body2" sx={style.textStyle}>
         {subscriptionType}
       </Typography>
     </Box>
   )
 }
-
 
 export default TopNav

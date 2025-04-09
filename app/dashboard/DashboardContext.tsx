@@ -1,14 +1,12 @@
 'use client'
 import React, { createContext, useContext, ReactNode, useState } from 'react'
 
-// Define the type for team API usage
 type TeamApiUsage = {
   userId: string
   userName: string
   tokensUsed: number
 }
 
-// Define the type for team members
 export type TeamMember = {
   id: string
   name: string
@@ -17,10 +15,8 @@ export type TeamMember = {
   joinedAt: string
 }
 
-// Define the subscription types
 export type SubscriptionType = 'free' | 'plus' | 'team'
 
-// Define the context type
 interface DashboardContextType {
   apiTokensUsedIndividual: number
   apiTokensUsedTeam: number
@@ -37,7 +33,6 @@ interface DashboardContextType {
   inviteTeamMember: (email: string) => Promise<boolean>
 }
 
-// Create the context with default values
 const DashboardContext = createContext<DashboardContextType>({
   apiTokensUsedIndividual: 0,
   apiTokensUsedTeam: 0,
@@ -54,9 +49,7 @@ const DashboardContext = createContext<DashboardContextType>({
   inviteTeamMember: async () => false,
 })
 
-// Create a provider component
 export const DashboardProvider = ({ children }: { children: ReactNode }) => {
-  // Dummy data for the context
   const [contextValue, setContextValue] = useState<DashboardContextType>({
     apiTokensUsedIndividual: 125000,
     apiTokensUsedTeam: 2750000,
@@ -103,10 +96,8 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         joinedAt: '2023-04-05T16:20:00Z'
       },
     ],
-    subscriptionType: 'free', // Set to 'team' for the final implementation
+    subscriptionType: 'team',
     inviteTeamMember: async (email: string) => {
-      // In a real implementation, this would make an API call
-      // For now, we'll just simulate a successful invitation
       console.log(`Invitation sent to ${email}`);
       return true;
     }
@@ -119,7 +110,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
-// Create a custom hook to use the context
 export const useDashboard = () => useContext(DashboardContext)
 
 export default DashboardContext

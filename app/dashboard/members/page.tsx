@@ -28,7 +28,6 @@ export default function MembersPage() {
   const [inviteError, setInviteError] = useState('')
   const [inviteSuccess, setInviteSuccess] = useState(false)
 
-  // Only team subscription should access this page
   if (subscriptionType !== 'team') {
     return (
       <Box

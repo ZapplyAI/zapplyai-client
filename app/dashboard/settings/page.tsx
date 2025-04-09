@@ -21,7 +21,6 @@ export default function SettingsPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const { subscriptionType } = useDashboard()
   
-  // Password change state
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -29,7 +28,6 @@ export default function SettingsPage() {
   const [passwordSuccess, setPasswordSuccess] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   
-  // Subscription cancellation state
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false)
   const [cancelReason, setCancelReason] = useState('')
   const [isCancelling, setIsCancelling] = useState(false)
@@ -38,7 +36,6 @@ export default function SettingsPage() {
     setPasswordError('')
     setPasswordSuccess(false)
     
-    // Validate inputs
     if (!currentPassword) {
       setPasswordError('Please enter your current password')
       return
@@ -59,7 +56,6 @@ export default function SettingsPage() {
       return
     }
     
-    // Simulate password change
     setIsChangingPassword(true)
     
     setTimeout(() => {
@@ -74,15 +70,12 @@ export default function SettingsPage() {
   const handleCancelSubscription = () => {
     setIsCancelling(true)
     
-    // Simulate API call
     setTimeout(() => {
       setIsCancelling(false)
       setCancelDialogOpen(false)
-      // In a real app, you would update the subscription status in the context
     }, 1000)
   }
 
-  // Get gradient colors based on subscription type
   const getSubscriptionGradient = () => {
     const gradients = {
       plus: ['#7C5EFC', '#F95EC1'],

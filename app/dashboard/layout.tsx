@@ -27,7 +27,6 @@ export default function DashboardLayout({
           overflow: 'hidden',
         }}
       >
-        {/* Fixed TopNav */}
         <Box
           sx={{
             position: 'fixed',
@@ -44,14 +43,13 @@ export default function DashboardLayout({
           sx={{
             display: 'flex',
             height: '100%',
-            marginTop: '61px', // Height of TopNav
+            marginTop: '61px',
           }}
         >
-          {/* Fixed Sidebar */}
           <Box
             sx={{
               position: 'fixed',
-              top: '61px', // Height of TopNav
+              top: '61px',
               left: 0,
               bottom: 0,
               width: '240px',
@@ -61,13 +59,12 @@ export default function DashboardLayout({
             <Sidebar upgradeSubscription={() => setShowUpgradeModal(true)} />
           </Box>
           
-          {/* Scrollable content area */}
           <Box
             sx={{
               flexGrow: 1,
-              marginLeft: '240px', // Width of Sidebar
+              marginLeft: '240px',
               overflowY: 'auto',
-              height: 'calc(100vh - 61px)', // Subtract TopNav height
+              height: 'calc(100vh - 61px)',
             }}
           >
             <main

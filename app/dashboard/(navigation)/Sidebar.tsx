@@ -75,14 +75,12 @@ const renderSideMenu = (
     },
   }
 
-  // Base menu items
   const baseMenuItems = [
     { label: 'Home', path: '', icon: HomeSharpIcon },
     { label: 'VS Code', path: '/landing', icon: CodeIcon },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
   ]
   
-  // Add Members option only for team subscription
   const menuItems = subscriptionType === 'team' 
     ? [
         ...baseMenuItems.slice(0, 1),
@@ -109,8 +107,8 @@ const renderSideMenu = (
               background: isActive ? 'rgba(119, 94, 255, 0.1)' : 'transparent',
               '&:hover': {
                 background: isActive 
-                  ? 'rgba(119, 94, 255, 0.15)' // Slightly lighter when active and hovered
-                  : 'rgba(255, 255, 255, 0.05)' // Default hover for inactive
+                  ? 'rgba(119, 94, 255, 0.15)'
+                  : 'rgba(255, 255, 255, 0.05)'
               }
             }}
           >

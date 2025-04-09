@@ -4,7 +4,6 @@ import { useClientMediaQuery } from '@/helpers/IsMobile'
 import { Box, LinearProgress, Typography } from '@mui/material'
 import { useDashboard } from './DashboardContext'
 
-// Custom usage progress component
 const UsageProgress = ({ 
   current, 
   max,
@@ -14,7 +13,6 @@ const UsageProgress = ({
   max: number;
   label: string;
 }) => {
-  // Calculate percentage for progress bar
   const percentage = (current / max) * 100;
   
   return (
@@ -57,7 +55,6 @@ export default function MainPage() {
     subscriptionType
   } = useDashboard()
 
-  // Only show team usage if on a team plan
   const showTeamUsage = subscriptionType === 'team'
 
   return (
@@ -94,7 +91,6 @@ export default function MainPage() {
         />
       </Box>
       
-      {/* Team Usage - only show if on team plan */}
       {showTeamUsage && (
         <Box 
           sx={{ 
