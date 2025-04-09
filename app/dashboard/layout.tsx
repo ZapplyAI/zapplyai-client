@@ -1,38 +1,89 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import '@/styles/main.scss'
 import { TopNav } from './(navigation)'
+import Sidebar from './(navigation)/Sidebar'
 import { DashboardProvider } from './DashboardContext'
+import { Box } from '@mui/material'
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+
+  const handleUpgradeClick = () => {
+    setShowUpgradeModal(true)
+  }
+
   return (
     <DashboardProvider>
-      <TopNav />
-      <div
-        style={{
-          flexGrow: 1,
-          padding: '0px 150px',
+      <Box
+        sx={{
           display: 'flex',
           flexDirection: 'column',
+          height: '100vh',
+          overflow: 'hidden',
         }}
       >
-        <main
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            borderLeft: '1px solid #5E5E5E',
-            borderRight: '1px solid #5E5E5E',
-            flexGrow: 1,
-            height: '100%',
+        {/* Fixed TopNav */}
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1100,
           }}
         >
-          {children}
-        </main>
-      </div>
+          <TopNav onUpgradeClick={handleUpgradeClick} />
+        </Box>
+        
+        <Box
+          sx={{
+            display: 'flex',
+            height: '100%',
+            marginTop: '61px', // Height of TopNav
+          }}
+        >
+          {/* Fixed Sidebar */}
+          <Box
+            sx={{
+              position: 'fixed',
+              top: '61px', // Height of TopNav
+              left: 0,
+              bottom: 0,
+              width: '240px',
+              zIndex: 1000,
+            }}
+          >
+            <Sidebar upgradeSubscription={() => setShowUpgradeModal(true)} />
+          </Box>
+          
+          {/* Scrollable content area */}
+          <Box
+            sx={{
+              flexGrow: 1,
+              marginLeft: '240px', // Width of Sidebar
+              overflowY: 'auto',
+              height: 'calc(100vh - 61px)', // Subtract TopNav height
+            }}
+          >
+            <main
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '24px',
+                minHeight: '100%',
+                alignItems: 'flex-start',
+              }}
+            >
+              {children}
+            </main>
+          </Box>
+        </Box>
+      </Box>
     </DashboardProvider>
   )
 }

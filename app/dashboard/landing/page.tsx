@@ -1,9 +1,8 @@
 'use client'
 import React, { useState } from 'react'
-import { Box, Divider, IconButton, Paper, Typography, Snackbar, Alert } from '@mui/material'
+import { Box, Divider, IconButton, Typography, Snackbar, Alert, Button } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CodeIcon from '@mui/icons-material/Code'
-import Button from '@/components/Button/Button'
 import Link from 'next/link'
 import { useDashboard } from '../DashboardContext'
 
@@ -22,123 +21,119 @@ export default function LandingPage() {
     setCopySuccess(false)
   }
 
-  const styles = {
-    container: {
-      width: '100%',
-      padding: '40px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-    },
-    title: {
-      color: '#FFFFFF',
-      fontWeight: 500,
-      marginBottom: '20px',
-    },
-    subtitle: {
-      color: '#FFFFFF',
-      fontWeight: 400,
-      marginBottom: '10px',
-    },
-    description: {
-      color: '#FFFFFF',
-      fontWeight: 300,
-      fontSize: '14px',
-      marginBottom: '20px',
-    },
-    codeContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      width: '100%',
-      maxWidth: '500px',
-      padding: '15px',
-      backgroundColor: '#1B1A20',
-      borderRadius: '8px',
-      border: '1px solid #3C3C3C',
-      marginBottom: '20px',
-    },
-    codeText: {
-      color: '#FFFFFF',
-      fontFamily: 'monospace',
-      fontSize: '16px',
-      fontWeight: 400,
-    },
-    copyButton: {
-      color: '#FFFFFF',
-      '&:hover': {
-        background: 'rgba(255, 255, 255, 0.1)',
-      },
-    },
-    buttonContainer: {
-      marginTop: '20px',
-    },
-    vsCodeButton: {
-      background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
-      color: '#FFFFFF',
-      padding: '10px 20px',
-      borderRadius: '5px',
-      border: 'none',
-      cursor: 'pointer',
-      fontWeight: 500,
-      fontSize: '14px',
-      '&:hover': {
-        opacity: 0.9,
-      },
-    },
-    iconContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: '20px',
-    },
-    codeIcon: {
-      fontSize: 40,
-      background: 'linear-gradient(to right, #FFB42A, #F85E8A)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      marginRight: '10px',
-    },
-  }
-
   return (
-    <Box sx={styles.container}>
-      <Box sx={styles.iconContainer}>
-        <CodeIcon sx={styles.codeIcon} />
-        <Typography variant="h5" sx={styles.title}>
-          VS Code Integration
-        </Typography>
-      </Box>
-
-      <Typography variant="h6" sx={styles.subtitle}>
-        Your Copilot Access Code
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        width: '100%',
+        maxWidth: '800px',
+        alignSelf: 'flex-start',
+      }}
+    >
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        VS Code Integration
       </Typography>
       
-      <Typography sx={styles.description}>
-        Use this code to connect your VS Code instance to Elastic Copilot
-      </Typography>
-
-      <Box sx={styles.codeContainer}>
-        <Typography sx={styles.codeText}>
-          {copilotAccessCode || 'No access code available'}
+      <Box 
+        sx={{ 
+          mb: 4,
+          border: '1px solid #5E5E5E',
+          borderRadius: '12px',
+          padding: '20px',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5', display: 'flex', alignItems: 'center' }}>
+          <CodeIcon 
+            sx={{ 
+              mr: 1,
+              fontSize: 24,
+              background: 'linear-gradient(to right, #FFB42A, #F85E8A)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }} 
+          />
+          Your Copilot Access Code
         </Typography>
-        <IconButton 
-          onClick={handleCopyCode} 
-          sx={styles.copyButton}
-          aria-label="Copy access code"
+        
+        <Typography sx={{ mb: 3, color: '#AAAAAA', fontSize: '14px' }}>
+          Use this code to connect your VS Code instance to Elastic Copilot
+        </Typography>
+
+        <Box 
+          sx={{ 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: '15px',
+            borderRadius: '8px',
+            border: '1px solid #3C3C3C',
+            mb: 3,
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}
         >
-          <ContentCopyIcon />
-        </IconButton>
+          <Typography 
+            sx={{ 
+              fontFamily: 'monospace',
+              fontSize: '16px',
+              fontWeight: 400,
+              color: '#E5E5E5'
+            }}
+          >
+            {copilotAccessCode || 'No access code available'}
+          </Typography>
+          <IconButton 
+            onClick={handleCopyCode} 
+            sx={{
+              color: '#FFFFFF',
+              '&:hover': {
+                background: 'rgba(255, 255, 255, 0.1)',
+              },
+            }}
+            aria-label="Copy access code"
+          >
+            <ContentCopyIcon />
+          </IconButton>
+        </Box>
       </Box>
 
-      <Divider sx={{ backgroundColor: '#3C3C3C', width: '100%', maxWidth: '500px', margin: '20px 0' }} />
+      <Box 
+        sx={{ 
+          border: '1px solid #5E5E5E',
+          borderRadius: '12px',
+          padding: '20px',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5' }}>
+          Launch VS Code Extension
+        </Typography>
+        
+        <Typography sx={{ mb: 3, color: '#AAAAAA', fontSize: '14px' }}>
+          Click the button below to open Elastic Copilot in VS Code
+        </Typography>
 
-      <Typography sx={styles.description}>
-        Click the button below to open Elastic Copilot in VS Code
-      </Typography>
-
-      <Box sx={styles.buttonContainer}>
         <Link href={'vscode://elastic-copilot'} passHref>
-          <button style={styles.vsCodeButton}>Open in VS Code</button>
+          <Button
+            variant="contained"
+            sx={{ 
+              background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
+              color: '#FFFFFF',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              fontWeight: 500,
+              fontSize: '14px',
+              '&:hover': {
+                opacity: 0.9,
+                background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
+              },
+            }}
+          >
+            Open in VS Code
+          </Button>
         </Link>
       </Box>
 
