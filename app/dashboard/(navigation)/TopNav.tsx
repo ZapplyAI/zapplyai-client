@@ -47,13 +47,15 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {renderLogoAndSubscription(subscriptionType)}
-            
+          </Box>
+          
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {isFreeSubscription && (
               <Button
                 onClick={upgradeSubscription}
                 sx={{ 
-                  marginLeft: '24px',
                   padding: '4px 16px',
+                  marginRight: '16px',
                 }}
               >
                 <TrendingUpIcon sx={{ 
@@ -77,9 +79,9 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
                 </Typography>
               </Button>
             )}
+            
+            <UserDetails />
           </Box>
-          
-          <UserDetails />
         </Box>
       </Box>
 

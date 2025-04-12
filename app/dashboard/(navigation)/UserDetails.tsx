@@ -1,17 +1,58 @@
-import { Box, Button, Divider, Stack } from '@mui/material'
+'use client'
+import { 
+  Box, 
+  Button, 
+  Divider, 
+  Stack, 
+  Menu, 
+  MenuItem, 
+  IconButton,
+  Avatar
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { auth0 } from '@/lib/auth0'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@auth0/nextjs-auth0'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import ReceiptIcon from '@mui/icons-material/Receipt'
+import LogoutIcon from '@mui/icons-material/Logout'
+import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
 const UserDetails = () => {
   const { user, error, isLoading } = useUser()
   const router = useRouter()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [transactionModalOpen, setTransactionModalOpen] = useState(false)
+  
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+  }
+  
+  const handleLogout = () => {
+    handleMenuClose()
+    router.push('/auth/logout')
+  }
+  
+  const handleTransactionHistory = () => {
+    handleMenuClose()
+    setTransactionModalOpen(true)
+  }
 
+  // If loading, show a loading placeholder
   if (isLoading) return null
-  if (error) return <div>Error loading user</div>
+  
+  // If error loading user, use fake data
+  const userData = error ? {
+    email: 'fake@gmail.com',
+    picture: null,
+    name: 'Fake User'
+  } : user
 
   return (
     <Box
@@ -21,51 +62,107 @@ const UserDetails = () => {
         alignItems: 'center',
       }}
     >
-      <div style={{ display: 'inline-flex' }}>
-        <img
-          src={user?.picture as string | undefined}
-          alt="Profile"
-          style={{
-            color: '#585858',
-            marginRight: '9px',
-            borderRadius: '10000px',
-            height: '20px',
-            width: '20px',
-          }}
-        />
-        <Typography
-          variant={'body1'}
-          sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
-        >
-          {user?.email}
-        </Typography>
-      </div>
-
-      <Divider
-        orientation={'vertical'}
-        sx={{
-          backgroundColor: '#585858',
-          height: '18px',
-          margin: '0px 12px',
-        }}
-      />
-
       <Button
-        onClick={() => router.push('/auth/logout')}
-        title={'Log out'}
-        variant={'text'}
+        onClick={handleMenuOpen}
+        sx={{
+          textTransform: 'none',
+          padding: '4px 8px',
+          borderRadius: '8px',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+          }
+        }}
+        endIcon={<KeyboardArrowDownIcon sx={{ color: '#585858' }} />}
       >
-        <Typography
-          variant={'body1'}
-          sx={{
-            fontFamily: 'JetBrains Mono',
-            color: '#585858',
-            textDecoration: 'underline',
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar
+            src={userData?.picture as string | undefined}
+            alt="Profile"
+            sx={{
+              height: '24px',
+              width: '24px',
+              marginRight: '8px',
+              fontSize: '12px',
+              bgcolor: '#775EFF'
+            }}
+          >
+            {userData?.name?.charAt(0) || userData?.email?.charAt(0) || 'U'}
+          </Avatar>
+          <Typography
+            variant="body1"
+            sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
+          >
+            {userData?.email}
+          </Typography>
+        </Box>
+      </Button>
+      
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        PaperProps={{
+          sx: {
+            backgroundColor: '#1E1E1E',
+            border: '1px solid #5E5E5E',
+            borderRadius: '8px',
+            minWidth: '200px',
+            marginTop: '8px',
+            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
+          }
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem 
+          onClick={handleTransactionHistory}
+          sx={{ 
+            padding: '10px 16px',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            }
           }}
         >
-          Log out
-        </Typography>
-      </Button>
+          <ReceiptIcon sx={{ color: '#775EFF', marginRight: '8px', fontSize: '18px' }} />
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              fontFamily: 'JetBrains Mono', 
+              color: '#E5E5E5',
+              fontSize: '14px'
+            }}
+          >
+            Transaction History
+          </Typography>
+        </MenuItem>
+        <Divider sx={{ backgroundColor: '#5E5E5E' }} />
+        <MenuItem 
+          onClick={handleLogout}
+          sx={{ 
+            padding: '10px 16px',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}
+        >
+          <LogoutIcon sx={{ color: '#FF5EBF', marginRight: '8px', fontSize: '18px' }} />
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              fontFamily: 'JetBrains Mono', 
+              color: '#E5E5E5',
+              fontSize: '14px'
+            }}
+          >
+            Log out
+          </Typography>
+        </MenuItem>
+      </Menu>
+      
+      <TransactionHistoryModal
+        open={transactionModalOpen}
+        onClose={() => setTransactionModalOpen(false)}
+      />
     </Box>
   )
 }

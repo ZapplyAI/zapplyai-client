@@ -17,6 +17,15 @@ export type TeamMember = {
 
 export type SubscriptionType = 'free' | 'plus' | 'team'
 
+export type Transaction = {
+  id: string
+  date: string
+  amount: number
+  cardLastFour: string
+  type: 'subscription' | 'one-time'
+  description: string
+}
+
 interface DashboardContextType {
   apiTokensUsedIndividual: number
   apiTokensUsedTeam: number
@@ -30,6 +39,7 @@ interface DashboardContextType {
   teamApiUsage: TeamApiUsage[]
   teamMembers: TeamMember[]
   subscriptionType: SubscriptionType
+  transactions: Transaction[]
   inviteTeamMember: (email: string) => Promise<boolean>
 }
 
@@ -46,6 +56,7 @@ const DashboardContext = createContext<DashboardContextType>({
   teamApiUsage: [],
   teamMembers: [],
   subscriptionType: 'free',
+  transactions: [],
   inviteTeamMember: async () => false,
 })
 
@@ -95,6 +106,48 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         role: 'member',
         joinedAt: '2023-04-05T16:20:00Z'
       },
+    ],
+    transactions: [
+      {
+        id: '1',
+        date: '2023-11-01T10:00:00Z',
+        amount: 29.99,
+        cardLastFour: '4242',
+        type: 'subscription',
+        description: 'Monthly Plus Subscription'
+      },
+      {
+        id: '2',
+        date: '2023-10-01T10:00:00Z',
+        amount: 29.99,
+        cardLastFour: '4242',
+        type: 'subscription',
+        description: 'Monthly Plus Subscription'
+      },
+      {
+        id: '3',
+        date: '2023-09-01T10:00:00Z',
+        amount: 29.99,
+        cardLastFour: '4242',
+        type: 'subscription',
+        description: 'Monthly Plus Subscription'
+      },
+      {
+        id: '4',
+        date: '2023-08-15T14:30:00Z',
+        amount: 99.99,
+        cardLastFour: '5678',
+        type: 'one-time',
+        description: 'Token Pack Purchase'
+      },
+      {
+        id: '5',
+        date: '2023-08-01T10:00:00Z',
+        amount: 29.99,
+        cardLastFour: '4242',
+        type: 'subscription',
+        description: 'Monthly Plus Subscription'
+      }
     ],
     subscriptionType: 'team',
     inviteTeamMember: async (email: string) => {

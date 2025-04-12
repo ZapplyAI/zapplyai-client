@@ -16,6 +16,7 @@ import {
 import LockIcon from '@mui/icons-material/Lock'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useDashboard } from '../DashboardContext'
+import DashboardModal from '../(components)/DashboardModal'
 
 export default function SettingsPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -129,8 +130,10 @@ export default function SettingsPage() {
             onChange={(e) => setCurrentPassword(e.target.value)}
             fullWidth
             error={!!passwordError}
+            size="small"
+            margin="dense"
             sx={{ 
-              mb: 1.5,
+              mb: 1,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#5E5E5E',
@@ -151,8 +154,10 @@ export default function SettingsPage() {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             fullWidth
+            size="small"
+            margin="dense"
             sx={{ 
-              mb: 1.5,
+              mb: 1,
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#5E5E5E',
@@ -175,6 +180,8 @@ export default function SettingsPage() {
             fullWidth
             error={!!passwordError}
             helperText={passwordError}
+            size="small"
+            margin="dense"
             sx={{ 
               mb: 1.5,
               '& .MuiOutlinedInput-root': {
@@ -187,6 +194,10 @@ export default function SettingsPage() {
                 '&.Mui-focused fieldset': {
                   borderColor: '#775EFF',
                 },
+              },
+              '& .MuiFormHelperText-root': {
+                marginTop: '2px',
+                fontSize: '12px',
               },
             }}
           />
@@ -305,15 +316,16 @@ export default function SettingsPage() {
             Cancel Subscription
           </Button>
           
-          <Dialog
+          <DashboardModal
             open={cancelDialogOpen}
             onClose={() => setCancelDialogOpen(false)}
+            title="Cancel Subscription"
           >
-            <DialogTitle>Cancel Subscription</DialogTitle>
-            <DialogContent>
-              <DialogContentText sx={{ mb: 2 }}>
+            <Box sx={{ padding: '24px' }}>
+              <Typography variant="body1" sx={{ color: '#AAAAAA', mb: 3 }}>
                 Are you sure you want to cancel your subscription? You'll lose access to premium features at the end of your current billing period.
-              </DialogContentText>
+              </Typography>
+              
               <TextField
                 autoFocus
                 label="Reason for cancellation (optional)"
@@ -323,28 +335,57 @@ export default function SettingsPage() {
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
                 variant="outlined"
+                margin="dense"
                 sx={{ 
+                  mb: 3,
                   '& .MuiOutlinedInput-root': {
                     '& fieldset': {
                       borderColor: '#5E5E5E',
                     },
+                    '&:hover fieldset': {
+                      borderColor: '#7E7E7E',
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#775EFF',
+                    },
+                    '& textarea': {
+                      padding: '8px 12px',
+                    },
                   },
                 }}
               />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setCancelDialogOpen(false)}>
-                Keep Subscription
-              </Button>
-              <Button 
-                onClick={handleCancelSubscription} 
-                color="error"
-                disabled={isCancelling}
-              >
-                {isCancelling ? 'Processing...' : 'Confirm Cancellation'}
-              </Button>
-            </DialogActions>
-          </Dialog>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                <Button 
+                  variant="outlined"
+                  onClick={() => setCancelDialogOpen(false)}
+                  sx={{
+                    borderColor: '#5E5E5E',
+                    color: '#E5E5E5',
+                    '&:hover': {
+                      borderColor: '#7E7E7E',
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    }
+                  }}
+                >
+                  Keep Subscription
+                </Button>
+                <Button 
+                  variant="contained"
+                  onClick={handleCancelSubscription} 
+                  disabled={isCancelling}
+                  sx={{ 
+                    backgroundColor: '#d32f2f',
+                    '&:hover': {
+                      backgroundColor: '#b71c1c',
+                    }
+                  }}
+                >
+                  {isCancelling ? 'Processing...' : 'Confirm Cancellation'}
+                </Button>
+              </Box>
+            </Box>
+          </DashboardModal>
         </Box>
       )}
     </Box>
