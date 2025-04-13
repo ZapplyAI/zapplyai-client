@@ -1,6 +1,6 @@
 'use client'
-import { Box, Button, Divider, Stack } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, Button, Stack } from '@mui/material'
+import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp'
 import { usePathname, useRouter } from 'next/navigation'
@@ -56,7 +56,7 @@ const TopNav = () => {
             pathname,
             router
           )}
-          <UserDetails/>
+          <UserDetails />
         </Box>
       </Box>
 
@@ -296,6 +296,5 @@ const renderTopMenu = (
     </Stack>
   )
 }
-
 
 export default TopNav

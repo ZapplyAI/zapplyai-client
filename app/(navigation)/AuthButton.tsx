@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button'
 import React from 'react'
+import Link from 'next/link'
 import { auth0 } from '@/lib/auth0'
-import {} from '@auth0/nextjs-auth0'
 
 const AuthButton = async () => {
   const session = await auth0.getSession()
@@ -27,7 +27,7 @@ const AuthButton = async () => {
   }
 
   return (
-    <a href={'/dashboard'}>
+    <Link href={'/dashboard'}>
       <Button
         variant="contained"
         sx={{
@@ -40,7 +40,7 @@ const AuthButton = async () => {
       >
         Go To Dashboard
       </Button>
-    </a>
+    </Link>
   )
 }
 
