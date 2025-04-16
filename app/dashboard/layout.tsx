@@ -1,42 +1,86 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import '@/styles/main.scss'
-import { DashboardProvider } from '@/app/dashboard/DashboardProvider'
 import { TopNav } from './(navigation)'
+import Sidebar from './(navigation)/Sidebar'
+import { DashboardProvider } from './DashboardContext'
 import { Box } from '@mui/material'
-import AuthProvider from '@/app/dashboard/AuthProvider'
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+
+  const handleUpgradeClick = () => {
+    setShowUpgradeModal(true)
+  }
+
   return (
-    <AuthProvider>
-      <DashboardProvider>
-        <TopNav />
-        <div
-          style={{
-            flexGrow: 1,
-            padding: '0px 150px',
-            display: 'flex',
-            flexDirection: 'column',
+    <DashboardProvider>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+          overflow: 'hidden',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1100,
           }}
         >
-          <main
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              borderLeft: '1px solid #5E5E5E',
-              borderRight: '1px solid #5E5E5E',
-              flexGrow: 1,
-              height: '100%',
+          <TopNav onUpgradeClick={handleUpgradeClick} />
+        </Box>
+        
+        <Box
+          sx={{
+            display: 'flex',
+            height: '100%',
+            marginTop: '61px',
+          }}
+        >
+          <Box
+            sx={{
+              position: 'fixed',
+              top: '61px',
+              left: 0,
+              bottom: 0,
+              width: '240px',
+              zIndex: 1000,
             }}
           >
-            {children}
-          </main>
-        </div>
-      </DashboardProvider>
-    </AuthProvider>
+            <Sidebar upgradeSubscription={() => setShowUpgradeModal(true)} />
+          </Box>
+          
+          <Box
+            sx={{
+              flexGrow: 1,
+              marginLeft: '240px',
+              overflowY: 'auto',
+              height: 'calc(100vh - 61px)',
+            }}
+          >
+            <main
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '24px',
+                minHeight: '100%',
+                alignItems: 'flex-start',
+              }}
+            >
+              {children}
+            </main>
+          </Box>
+        </Box>
+      </Box>
+    </DashboardProvider>
   )
 }

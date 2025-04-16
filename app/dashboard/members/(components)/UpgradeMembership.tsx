@@ -1,17 +1,47 @@
-import { Box, Radio, Dialog } from '@mui/material'
+import { Box, Dialog, Radio } from '@mui/material'
 import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
+import { subscriptions } from '@/services'
+import Spinner from '../../../../components/Spinner/Spinner'
 
 interface UpgradeMembershipProps {
   open: boolean
   onClose: (membershipUpdated: boolean) => void
 }
 
+export interface Plan {
+  id: string
+  name: string
+  monthly_fee: string
+  premium_calls_quota: number
+  overage_rate: string
+  context_window: number
+  team_support: true
+  description: string
+}
+
 const UpgradeMembership = ({ open, onClose }: UpgradeMembershipProps) => {
+  const [isProcessing, setProcessing] = React.useState<boolean>(false)
+  const [plans, setPlans] = React.useState<Plan[]>([])
   const handleClose = () => {
     onClose(false)
   }
+
+  React.useEffect(() => {
+    ;(async () => {
+      setProcessing(true)
+      try {
+        // @ts-ignore
+        const { success, response } = await subscriptions.getList()
+        if (success) {
+          setPlans(response)
+        }
+      } finally {
+        setProcessing(false)
+      }
+    })()
+  }, [])
 
   const style = {
     dialogContainer: {},
@@ -42,12 +72,12 @@ const UpgradeMembership = ({ open, onClose }: UpgradeMembershipProps) => {
       open={open}
       sx={style.dialogContainer}
       PaperProps={{
-        sx: { background: '#09090E',maxWidth: 'unset', width: 'auto' }, // Removes width restrictions
+        sx: { background: '#09090E', maxWidth: 'unset', width: 'auto' }, // Removes width restrictions
       }}
     >
       <Box sx={style.dialogBox}>
         <Box sx={style.subscriptionsContainer}>
-          {renderUpgradeDescriptionContents()}
+          {renderUpgradeDescriptionContents({ isProcessing, plans })}
         </Box>
         <Box sx={style.pricingSummaryContainer}>{renderSummaryContents()}</Box>
       </Box>
@@ -55,15 +85,21 @@ const UpgradeMembership = ({ open, onClose }: UpgradeMembershipProps) => {
   )
 }
 
-const renderUpgradeDescriptionContents = () => {
+const renderUpgradeDescriptionContents = ({
+  isProcessing,
+  plans,
+}: {
+  isProcessing: boolean
+  plans: Plan[]
+}) => {
   return (
     <React.Fragment>
-      <Typography variant="h3">Upgrade subscription</Typography>
-      <Typography variant="body2">
-        You are currently on a FREE subscription
-      </Typography>
+      <Typography variant="h3">You Upgrade subscription</Typography>
+      {/*<Typography variant="body2">*/}
+      {/*  You are currently on a FREE subscription*/}
+      {/*</Typography>*/}
 
-      <RadioGroupExample />
+      <RadioGroupExample isProcessing={isProcessing} plans={plans} />
     </React.Fragment>
   )
 }
@@ -72,36 +108,40 @@ const renderSummaryContents = () => {
   return (
     <React.Fragment>
       <Typography variant="h3">Summary</Typography>
-
     </React.Fragment>
   )
 }
 
-const RadioGroupExample = () => {
+const RadioGroupExample = ({
+  isProcessing,
+  plans,
+}: {
+  isProcessing: boolean
+  plans: Plan[]
+}) => {
   const [selectedValue, setSelectedValue] = useState<string | null>('Plus Plan')
 
   const handleSelection = (value: string) => {
     setSelectedValue(value)
   }
 
+  if (isProcessing || !plans.length) {
+    return <Spinner />
+  }
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      <RadioOption
-        label="Plus Plan"
-        description="20,000 requests / month"
-        price="15$"
-        selected={selectedValue === 'Plus Plan'}
-        onChange={() => handleSelection('Plus Plan')}
-        gradient="#7F5EFC, #F85EC1"
-      />
-      <RadioOption
-        label="Teams Plan"
-        description="500,000 requests / month"
-        price="30$"
-        selected={selectedValue === 'Teams Plan'}
-        onChange={() => handleSelection('Teams Plan')}
-        gradient="#FFB42A, #F85E8A"
-      />
+      {plans.map(plan => (
+        <RadioOption
+          key={plan.id}
+          label={plan.name}
+          description={plan.description}
+          price={plan.monthly_fee}
+          selected={selectedValue === 'Plus Plan'}
+          onChange={() => handleSelection('Plus Plan')}
+          gradient="#7F5EFC, #F85EC1"
+        />
+      ))}
     </Box>
   )
 }

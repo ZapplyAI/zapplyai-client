@@ -41,6 +41,5 @@
   ],
   "exclude": [
     "node_modules",
-    "./app_legacy"
   ]
 }
