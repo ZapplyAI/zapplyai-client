@@ -14,88 +14,7 @@ interface TopNavProps {
   onUpgradeClick: () => void;
 }
 
-const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
-  const { subscriptionType } = useDashboard()
-  const isFreeSubscription = subscriptionType === 'free'
-  const [dialogOpen, setDialogOpen] = useState(false)
-
-  const handleClose = (membershipUpdated: boolean) => {
-    setDialogOpen(false)
-  }
-
-  const upgradeSubscription = () => {
-    setDialogOpen(true)
-    onUpgradeClick()
-  }
-
-  return (
-    <React.Fragment>
-      <Box
-        sx={{
-          width: '100%',
-          padding: '0px 24px',
-          borderBottom: '#5E5E5E 1px solid',
-        }}
-      >
-        <Box
-          sx={{
-            padding: '12px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderLogoAndSubscription(subscriptionType)}
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {isFreeSubscription && (
-              <Button
-                onClick={upgradeSubscription}
-                sx={{
-                  padding: '4px 16px',
-                  marginRight: '16px',
-                }}
-              >
-                <TrendingUpIcon sx={{
-                  height: '16px',
-                  width: '16px',
-                  color: '#775EFF',
-                  marginRight: '8px',
-                }} />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: '13px',
-                    fontWeight: '300',
-                    fontFamily: 'JetBrains Mono',
-                    background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  Upgrade Subscription
-                </Typography>
-              </Button>
-            )}
-
-            <UserDetails />
-          </Box>
-        </Box>
-      </Box>
-
-      <UpgradeMembershipModal
-        open={dialogOpen}
-        onClose={membershipUpdated => handleClose(membershipUpdated)}
-      />
-    </React.Fragment>
-  )
-}
-
-const renderLogoAndSubscription = (
-  subscriptionType: 'plus' | 'team' | 'free'
-) => {
+const LogoAndSubscription = ({ subscriptionType }: { subscriptionType: 'plus' | 'team' | 'free' }) => {
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -169,12 +88,13 @@ const renderLogoAndSubscription = (
           </Typography>
         </motion.div>
       </Button>
-      {renderSubscriptionType(subscriptionType)}
+      <SubscriptionBadge subscriptionType={subscriptionType} />
     </Box>
   )
 }
 
-const renderSubscriptionType = (subscriptionType: 'plus' | 'team' | 'free') => {
+// Extracted to a separate component for clarity
+const SubscriptionBadge = ({ subscriptionType }: { subscriptionType: 'plus' | 'team' | 'free' }) => {
   const gradients = {
     plus: ['#7C5EFC', '#F95EC1'],
     team: ['#FFB12E', '#F86682'],
@@ -242,6 +162,85 @@ const renderSubscriptionType = (subscriptionType: 'plus' | 'team' | 'free') => {
         {subscriptionType}
       </Typography>
     </Box>
+  )
+}
+
+const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
+  const { subscriptionType } = useDashboard()
+  const isFreeSubscription = subscriptionType === 'free'
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const handleClose = (membershipUpdated: boolean) => {
+    setDialogOpen(false)
+  }
+
+  const upgradeSubscription = () => {
+    setDialogOpen(true)
+    onUpgradeClick()
+  }
+
+  return (
+    <React.Fragment>
+      <Box
+        sx={{
+          width: '100%',
+          padding: '0px 24px',
+          borderBottom: '#5E5E5E 1px solid',
+        }}
+      >
+        <Box
+          sx={{
+            padding: '12px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <LogoAndSubscription subscriptionType={subscriptionType} />
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {isFreeSubscription && (
+              <Button
+                onClick={upgradeSubscription}
+                sx={{
+                  padding: '4px 16px',
+                  marginRight: '16px',
+                }}
+              >
+                <TrendingUpIcon sx={{
+                  height: '16px',
+                  width: '16px',
+                  color: '#775EFF',
+                  marginRight: '8px',
+                }} />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontSize: '13px',
+                    fontWeight: '300',
+                    fontFamily: 'JetBrains Mono',
+                    background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Upgrade Subscription
+                </Typography>
+              </Button>
+            )}
+
+            <UserDetails />
+          </Box>
+        </Box>
+      </Box>
+
+      <UpgradeMembershipModal
+        open={dialogOpen}
+        onClose={membershipUpdated => handleClose(membershipUpdated)}
+      />
+    </React.Fragment>
   )
 }
 

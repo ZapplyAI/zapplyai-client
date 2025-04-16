@@ -8,6 +8,6 @@ export const auth0 = new Auth0Client({
   appBaseUrl: process.env.NEXT_PUBLIC_APP_BASE_URL,
   authorizationParameters: {
     scope: 'openid profile email',
-    audience: 'https://dev-ns2zh0uf5v48x7jl.us.auth0.com/api/v2/'
+    audience: 'https://dev-ns2zh0uf5v48x7jl.us.auth0.com/api/v2/',
   },
 })

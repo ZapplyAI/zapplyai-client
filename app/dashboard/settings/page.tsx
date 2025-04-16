@@ -323,7 +323,7 @@ export default function SettingsPage() {
           >
             <Box sx={{ padding: '24px' }}>
               <Typography variant="body1" sx={{ color: '#AAAAAA', mb: 3 }}>
-                Are you sure you want to cancel your subscription? You'll lose access to premium features at the end of your current billing period.
+                Are you sure you want to cancel your subscription? You&apos;ll lose access to premium features at the end of your current billing period.
               </Typography>
 
               <TextField

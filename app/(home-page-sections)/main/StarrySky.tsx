@@ -137,7 +137,7 @@ const StarrySky = ({ isMobile = false }: StarrySkyProps) => {
       },
       retina_detect: true,
     }),
-    []
+    [isMobile]
   )
 
   if (init) {

@@ -25,7 +25,7 @@ This document provides a detailed explanation of the authentication fixes implem
    - Added authentication interceptor to axios instance
    - Configured for client-side only execution
 
-5. **app/auth/error/page.tsx** (New file)
+5. **app/auth/error/_page.tsx** (New file)
    - Created dedicated error page for authentication failures
    - Added user-friendly error display and recovery options
 
@@ -94,7 +94,7 @@ export async function GET(request, { params }) {
     }
   }
   
-  // Handle callback route
+  // Handle _callback route
   if (path === 'callback') {
     try {
       // Extract the authorization code from the request URL
@@ -293,7 +293,7 @@ export const setupAuthInterceptor = (axiosInstance: AxiosInstance) => {
   axiosInstance.interceptors.request.use(
     async (config) => {
       try {
-        // Try to get token from cookie first (set by our Auth0 callback)
+        // Try to get token from cookie first (set by our Auth0 _callback)
         let token = getCookie('auth_token') as string | undefined
         
         // If no token in cookie, try to get from Auth0 session
@@ -342,7 +342,7 @@ if (typeof window !== 'undefined') {
 export default _axios
 ```
 
-### 5. Landing Page (`app/dashboard/landing/page.tsx`)
+### 5. Landing Page (`app/dashboard/landing/_page.tsx`)
 
 #### Previous Issues:
 - No verification of successful authentication
@@ -421,7 +421,7 @@ export default function LandingPage() {
 }
 ```
 
-### 6. Error Page (`app/auth/error/page.tsx`)
+### 6. Error Page (`app/auth/error/_page.tsx`)
 
 #### Previous Issues:
 - No dedicated error page for authentication failures

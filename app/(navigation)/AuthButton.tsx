@@ -5,7 +5,6 @@ import { auth0 } from '@/lib/auth0'
 
 const AuthButton = async () => {
   const session = await auth0.getSession()
-  console.log(session)
 
   if (!session) {
     return (

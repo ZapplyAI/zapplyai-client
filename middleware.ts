@@ -2,13 +2,17 @@ import type { NextRequest } from "next/server";
 import { auth0 } from "./lib/auth0";
 
 export async function middleware(request: NextRequest) {
+  const authResponse = await auth0.middleware(request)
+
+  // if path starts with /auth, let the auth middleware handle it
+  if (request.nextUrl.pathname.startsWith("/auth")) {
+    return authResponse
+  }
+
   return await auth0.middleware(request);
 }
 
 export const config = {
-
-
-
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
