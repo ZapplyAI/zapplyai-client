@@ -1,37 +1,115 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
-import PageCard from '@/app/dashboard/(components)/PageCard'
-import { Box, Divider, FormControl } from '@mui/material'
-import { Button, Input } from '@/components'
-import GoogleIcon from '@mui/icons-material/Google'
-import Typography from '@mui/material/Typography'
-import ContactSupportIcon from '@mui/icons-material/ContactSupport'
-import { useDashboard } from '@/app/dashboard/DashboardProvider'
-import { PageNav } from '@/app/dashboard/(navigation)'
+import { Box, LinearProgress, Typography } from '@mui/material'
+import { useDashboard } from './DashboardContext'
+
+const UsageProgress = ({ 
+  current, 
+  max,
+  label
+}: { 
+  current: number; 
+  max: number;
+  label: string;
+}) => {
+  const percentage = (current / max) * 100;
+  
+  return (
+    <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="body2" color="#AAAAAA">
+          {label}
+        </Typography>
+        <Typography variant="body2" color="#AAAAAA">
+          {current.toLocaleString()} / {max.toLocaleString()}
+        </Typography>
+      </Box>
+      
+      <LinearProgress 
+        variant="determinate" 
+        value={percentage} 
+        sx={{ 
+          height: 8,
+          width: '100%',
+          maxWidth: '400px',
+          borderRadius: 4,
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          '& .MuiLinearProgress-bar': {
+            background: 'linear-gradient(to right, #775EFF, #FF5EBF)',
+            borderRadius: 4,
+          }
+        }} 
+      />
+    </Box>
+  );
+};
 
 export default function MainPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
-  const { subscriptions } = useDashboard()
-  const [x, xf] = useState(0)
+  const { 
+    requestsUsedIndividual,
+    maxRequestsIndividual,
+    requestsUsedTeam,
+    maxRequestsTeam,
+    subscriptionType
+  } = useDashboard()
 
-  const y = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {}, [])
+  const showTeamUsage = subscriptionType === 'team'
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box
-        sx={{
-          padding: '12px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          // borderBottom: '#5E5E5E 1px solid',
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        width: '100%',
+        maxWidth: '800px',
+        alignSelf: 'flex-start',
+      }}
+    >
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        Usage Dashboard
+      </Typography>
+      
+      <Box 
+        sx={{ 
+          mb: 4,
+          border: '1px solid #5E5E5E',
+          borderRadius: '12px',
+          padding: '16px 24px',
         }}
       >
-        Content
+        <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
+          Your Usage
+        </Typography>
+        
+        <UsageProgress 
+          label="API Requests" 
+          current={requestsUsedIndividual} 
+          max={maxRequestsIndividual} 
+        />
       </Box>
+      
+      {showTeamUsage && (
+        <Box 
+          sx={{ 
+            border: '1px solid #5E5E5E',
+            borderRadius: '12px',
+            padding: '16px 24px',
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
+            Team Usage
+          </Typography>
+          
+          <UsageProgress 
+            label="Team API Requests" 
+            current={requestsUsedTeam} 
+            max={maxRequestsTeam} 
+          />
+        </Box>
+      )}
     </Box>
   )
 }

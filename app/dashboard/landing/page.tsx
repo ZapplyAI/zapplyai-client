@@ -1,106 +1,153 @@
 'use client'
-import React from 'react'
-import { useClientMediaQuery } from '@/helpers/IsMobile'
-import { Box, IconButton, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Divider, IconButton, Typography, Snackbar, Alert, Button } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CodeIcon from '@mui/icons-material/Code'
-import Button from '@/components/Button/Button'
+import Link from 'next/link'
+import { useDashboard } from '../DashboardContext'
 
 export default function LandingPage() {
-  const isMobile = useClientMediaQuery('(max-width: 600px)')
-  const randomNumber = '1234567890' // Static random number
+  const { copilotAccessCode } = useDashboard()
+  const [copySuccess, setCopySuccess] = useState(false)
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(randomNumber)
+  const handleCopyCode = () => {
+    if (copilotAccessCode) {
+      navigator.clipboard.writeText(copilotAccessCode)
+      setCopySuccess(true)
+    }
   }
 
-  const openInVSCode = () => {
-    // This would typically open a deep link to VS Code
-    // For now, we'll just open a URL that could be configured to handle VS Code deep linking
-    window.open('vscode://elastic/connect', '_blank')
-  }
-
-  // Styles based on UpgradeMembership component
-  const styles = {
-    container: {
-      width: '100%',
-      height: '100vh',
-      background: '#09090E',
-      padding: '40px',
-    },
-    iconContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 2,
-      marginBottom: 3,
-    },
-    numberContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 1,
-      padding: '15px',
-      backgroundColor: '#1B1A20',
-      borderRadius: '8px',
-      border: '1px solid #3C3C3C',
-      marginTop: 3,
-      marginBottom: 3,
-      maxWidth: '500px',
-    },
-    numberText: {
-      color: '#fff',
-      fontWeight: '200',
-    },
-    copyButton: {
-      color: '#fff',
-      '&:hover': {
-        background: 'rgba(255, 255, 255, 0.1)',
-      },
-    },
-    codeIcon: {
-      fontSize: 40,
-      background: 'linear-gradient(to right, #FFB42A, #F85E8A)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-    },
-    description: {
-      color: '#9E9E9E',
-      fontWeight: '200',
-      fontSize: '14px',
-      marginBottom: 2,
-    },
-    buttonContainer: {
-      marginTop: 2,
-    },
-    customButton: {
-      background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
-      color: '#fff',
-      fontWeight: '300',
-    },
+  const handleCloseSnackbar = () => {
+    setCopySuccess(false)
   }
 
   return (
-    <Box sx={styles.container}>
-        <Typography sx={styles.description}>
-          Use the number below to connect your VS Code instance to our platform
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        width: '100%',
+        maxWidth: '800px',
+        alignSelf: 'flex-start',
+      }}
+    >
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        VS Code Integration
+      </Typography>
+      
+      <Box 
+        sx={{ 
+          mb: 4,
+          border: '1px solid #5E5E5E',
+          borderRadius: '12px',
+          padding: '16px 24px',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5', display: 'flex', alignItems: 'center' }}>
+          <CodeIcon 
+            sx={{ 
+              mr: 1,
+              fontSize: 24,
+              background: 'linear-gradient(to right, #FFB42A, #F85E8A)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }} 
+          />
+          Your Copilot Access Code
+        </Typography>
+        
+        <Typography sx={{ mb: 2, color: '#AAAAAA', fontSize: '14px' }}>
+          Use this code to connect your VS Code instance to Elastic Copilot
         </Typography>
 
-        <Box sx={styles.numberContainer}>
-          <Typography variant="h6" sx={styles.numberText}>
-            {randomNumber}
+        <Box 
+          sx={{ 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: '15px',
+            borderRadius: '8px',
+            border: '1px solid #3C3C3C',
+            mb: 2,
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}
+        >
+          <Typography 
+            sx={{ 
+              fontFamily: 'monospace',
+              fontSize: '16px',
+              fontWeight: 400,
+              color: '#E5E5E5'
+            }}
+          >
+            {copilotAccessCode || 'No access code available'}
           </Typography>
-          <IconButton onClick={handleCopy} sx={styles.copyButton}>
-            <ContentCopyIcon />
+          <IconButton 
+            onClick={handleCopyCode} 
+            size="small"
+            sx={{
+              color: '#FFFFFF',
+              '&:hover': {
+                background: 'rgba(255, 255, 255, 0.1)',
+              },
+            }}
+            aria-label="Copy access code"
+          >
+            <ContentCopyIcon sx={{ fontSize: 18 }} />
           </IconButton>
         </Box>
+      </Box>
 
-        <Box sx={styles.buttonContainer}>
+      <Box 
+        sx={{ 
+          border: '1px solid #5E5E5E',
+          borderRadius: '12px',
+          padding: '16px 24px',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5' }}>
+          Launch VS Code Extension
+        </Typography>
+        
+        <Typography sx={{ mb: 2, color: '#AAAAAA', fontSize: '14px' }}>
+          Click the button below to open Elastic Copilot in VS Code
+        </Typography>
+
+        <Link href={'vscode://elastic-copilot'} passHref>
           <Button
-            label="Open in VS Code"
-            action={openInVSCode}
-            icon={<CodeIcon fontSize="small" />}
-            sx={styles.customButton}
-          />
-        </Box>
+            variant="contained"
+            sx={{ 
+              background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
+              color: '#FFFFFF',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              fontWeight: 500,
+              fontSize: '14px',
+              '&:hover': {
+                opacity: 0.9,
+                background: 'linear-gradient(to right, #7F5EFC, #F85EC1)',
+              },
+            }}
+          >
+            Open in VS Code
+          </Button>
+        </Link>
+      </Box>
+
+      <Snackbar 
+        open={copySuccess} 
+        autoHideDuration={3000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Access code copied to clipboard!
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }
