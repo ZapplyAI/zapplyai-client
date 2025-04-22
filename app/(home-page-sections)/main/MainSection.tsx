@@ -329,28 +329,28 @@ const renderVideo = (isMobile: boolean) => {
       borderTop: 'none',
     },
     videoContainer: {
-      width: '90%',
-      height: '81%',
+      // width: '90%',
+      // height: '81%',
       position: 'relative',
       overflow: 'hidden',
-      borderRadius: '4px',
+      borderRadius: '0px',
     }
   }
 
   return (
     <HorizontalCenterBox sx={style.rectangle}>
-      <div style={{ ...style.corner, ...style.topLeft } as any}></div>
-      <div style={{ ...style.corner, ...style.topRight } as any}></div>
+      {/*<div style={{ ...style.corner, ...style.topLeft } as any}></div>*/}
+      {/*<div style={{ ...style.corner, ...style.topRight } as any}></div>*/}
       <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
       <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
-      <Box sx={style.videoContainer}>
+      {/*<Box sx={style.videoContainer}>*/}
         <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&showinfo=0&modestbranding=1`}
           title="Elastic Copilot Introduction"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           style={{
             position: 'absolute',
+            zIndex: 200,
             top: 0,
             left: 0,
             width: '100%',
@@ -358,7 +358,7 @@ const renderVideo = (isMobile: boolean) => {
             border: 'none',
           } as React.CSSProperties}
         />
-      </Box>
+      {/*</Box>*/}
     </HorizontalCenterBox>
   )
 }

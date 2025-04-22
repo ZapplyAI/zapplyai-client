@@ -133,11 +133,12 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
       width: '100%',
       height: 'auto',
       position: 'relative',
-      padding: isMobile ? '0px' : '48px',
+      padding: isMobile ? '4px' : '48px',
       marginTop: '30px',
       marginBottom: '50px',
     },
     corner: {
+      pointerEvents: 'none',
       position: 'absolute',
       border: '1px solid #775EFF',
       zIndex: 1,
@@ -187,16 +188,12 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
     aspectRatioWrapper: {
       position: 'relative',
       width: '100%',
-      paddingTop: '56.25%', // 16:9 aspect ratio (9 / 16 = 0.5625)
+      paddingTop: '59.25%', // 16:9 aspect ratio (9 / 16 = 0.5625)
     }
   }
 
   return (
     <HorizontalCenterBox sx={style.rectangle}>
-      <div style={{ ...style.corner, ...style.topLeft } as any}></div>
-      <div style={{ ...style.corner, ...style.topRight } as any}></div>
-      <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
-      <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
       <Box sx={style.videoContainer}>
         <Box sx={style.aspectRatioWrapper}>
           <iframe
@@ -206,6 +203,7 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
             allowFullScreen
             style={{
               position: 'absolute',
+              zIndex: 20,
               top: 0,
               left: 0,
               width: '100%',
@@ -215,6 +213,10 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
           />
         </Box>
       </Box>
+      <div style={{ ...style.corner, ...style.topLeft } as any}></div>
+      <div style={{ ...style.corner, ...style.topRight } as any}></div>
+      <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
+      <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
     </HorizontalCenterBox>
   )
 }
