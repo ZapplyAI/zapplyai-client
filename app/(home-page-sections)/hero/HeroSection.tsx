@@ -131,9 +131,9 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
   const style = {
     rectangle: {
       width: '100%',
-      height: isMobile ? '190px' : 'auto',
+      height: 'auto',
       position: 'relative',
-      padding: isMobile ? '6px' : '22px',
+      padding: isMobile ? '0px' : '48px',
       marginTop: '30px',
       marginBottom: '50px',
     },
@@ -175,7 +175,7 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
       borderTop: 'none',
     },
     videoContainer: {
-      width: '90%',
+      width: '100%',
       height: 'auto',
       position: 'relative',
       overflow: 'hidden',

@@ -8,7 +8,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import Link from 'next/link'
 import AuthButton from '@/app/(navigation)/AuthButton'
-// import AuthButton from '@/app/(navigation)/AuthButton'
 
 interface TopNavProps {
   showAlert: () => void
@@ -240,20 +239,7 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
           </List>
 
           <Box sx={{ marginTop: '30px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <ClippedButton
-              onClick={() => {
-                showAlert()
-                setDrawerOpen(false)
-              }}
-              sx={{
-                fontFamily: 'Tektur, sans-serif',
-                fontSize: '0.9rem',
-                padding: '10px 16px',
-                width: '100%',
-              }}
-            >
-              Sign In
-            </ClippedButton>
+            <AuthButton/>
             <ClippedButton
               filled={true}
               onClick={() => {

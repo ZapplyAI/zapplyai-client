@@ -1,72 +1,41 @@
-import React from 'react'
-import { auth0 } from '@/lib/auth0'
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import ClippedButton from '@/app/(components)/ClippedButton'
+import { useClientMediaQuery } from '@/helpers/IsMobile'
 
-const AuthButton = async () => {
-  const session = await auth0.getSession()
+const AuthButton = () => {
+  const isMobile = useClientMediaQuery('(max-width: 600px)')
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
 
-  if (!session) {
-    return (
-      <a href="/auth/login">
-        <ClippedButton
-          // onClick={() => router.push('/auth/login')}
-          sx={{
-            fontFamily: 'Tektur, sans-serif',
-            fontSize: '0.9rem',
-            padding: '8px 16px',
-            marginRight: '15px',
-          }}
-        >
-          Sign In
-        </ClippedButton>
-      </a>
+  useEffect(() => {
+    const getSession = async () => {
+      const res = await fetch('/api/auth/session')
+      const session = await res.json()
+      setIsLoggedIn(!!session?.user)
+    }
 
-      // <a href={'/auth/login'}>
-      //   <Button
-      //     variant="contained"
-      //     sx={{
-      //       marginLeft: 'auto',
-      //       background: '#775EFF',
-      //       '&:hover': {
-      //         background: '#5E3FFF',
-      //       },
-      //     }}
-      //   >
-      //     Try now
-      //   </Button>
-      // </a>
-    )
+    getSession()
+  }, [])
+
+  if (isLoggedIn === null) {
+    return <div></div>
   }
 
   return (
-    <a href="/dashboard">
+    <a style={{width: isMobile ?  '100%' : 'auto'}} href={isLoggedIn ? '/dashboard' : '/auth/login'}>
       <ClippedButton
-        // onClick={() => router.push('/dashboard')}
         sx={{
+          width: isMobile? '100%' : 'auto',
           fontFamily: 'Tektur, sans-serif',
           fontSize: '0.9rem',
-          padding: '8px 16px',
+          padding: isMobile? '12px 16px' : '8px 16px',
           marginRight: '15px',
         }}
       >
-        Go To Dashboard
+        {isLoggedIn ? 'Go To Dashboard' : 'Sign In'}
       </ClippedButton>
     </a>
-
-    // <Link href={'/dashboard'}>
-    //   <Button
-    //     variant="contained"
-    //     sx={{
-    //       marginLeft: 'auto',
-    //       background: '#775EFF',
-    //       '&:hover': {
-    //         background: '#5E3FFF',
-    //       },
-    //     }}
-    //   >
-    //     Go To Dashboard
-    //   </Button>
-    // </Link>
   )
 }
 
