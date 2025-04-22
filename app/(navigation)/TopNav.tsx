@@ -36,8 +36,8 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
   const navLinks = [
     { name: 'Features', url: '#' },
     { name: 'Pricing', url: '#' },
-    { name: 'Documentation', url: '#' },
-    { name: 'Blog', url: '#' },
+    { name: 'Documentation', url: '/documentation' },
+    // { name: 'Blog', url: '#' },
   ]
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -74,28 +74,44 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
         }}
       >
         {/* Logo */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Image
-            src="/assets/svgs/LISA MARK EXP.svg"
-            alt="Logo"
-            width={32}
-            height={32}
-          />
-          {!isMobile && (
-            <Typography
-              variant={'h3' as any}
-              sx={{
-                fontSize: '1.2rem',
-                fontWeight: 600,
-                marginLeft: '10px',
-                fontFamily: 'Orbitron, sans-serif',
-                color: '#FFFFFF',
-              }}
-            >
-              Elastic Copilot
-            </Typography>
-          )}
-        </Box>
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              transition: 'opacity 0.2s ease',
+              '&:hover': {
+                opacity: 0.8,
+              }
+            }}
+          >
+            <Image
+              src="/assets/svgs/LISA MARK EXP.svg"
+              alt="Logo"
+              width={32}
+              height={32}
+              style={{ display: 'block', marginTop: '-4px' }}
+            />
+            {!isMobile && (
+              <Typography
+                variant={'h3' as any}
+                sx={{
+                  fontSize: '1.2rem',
+                  fontWeight: 600,
+                  marginLeft: '16px',
+                  marginBottom: '0',
+                  fontFamily: 'Orbitron, sans-serif',
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                Elastic Copilot
+              </Typography>
+            )}
+          </Box>
+        </Link>
 
         {/* Desktop Navigation */}
         {!isMobile && (
@@ -168,26 +184,31 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Image
-                src="/assets/svgs/LISA MARK EXP.svg"
-                alt="Elastic Copilot Logo"
-                width={28}
-                height={28}
-              />
-              <Typography
-                variant={'h3' as any}
-                sx={{
-                  fontSize: '1.1rem',
-                  fontWeight: 600,
-                  marginLeft: '10px',
-                  fontFamily: 'Orbitron, sans-serif',
-                  color: '#FFFFFF',
-                }}
-              >
-                Elastic Copilot
-              </Typography>
-            </Box>
+            <Link href="/" style={{ textDecoration: 'none' }} onClick={toggleDrawer(false)}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Image
+                  src="/assets/svgs/LISA MARK EXP.svg"
+                  alt="Elastic Copilot Logo"
+                  width={28}
+                  height={28}
+                  style={{ display: 'block' }}
+                />
+                <Typography
+                  variant={'h3' as any}
+                  sx={{
+                    fontSize: '1.1rem',
+                    fontWeight: 600,
+                    marginLeft: '10px',
+                    fontFamily: 'Orbitron, sans-serif',
+                    color: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  Elastic Copilot
+                </Typography>
+              </Box>
+            </Link>
             <IconButton
               onClick={toggleDrawer(false)}
               sx={{ color: '#FFFFFF' }}
@@ -246,6 +267,58 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
             >
               Get Started
             </ClippedButton>
+          </Box>
+
+          <Box
+            sx={{
+              marginTop: '40px',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '20px',
+              borderTop: '1px solid rgba(119, 94, 255, 0.2)',
+              paddingTop: '20px',
+            }}
+          >
+            {/* LinkedIn */}
+            <a
+              href="https://www.linkedin.com/company/elasticapp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/linkedin_icon.png"
+                alt="LinkedIn"
+                width={30}
+                height={30}
+                style={{ cursor: 'pointer' }}
+              />
+            </a>
+
+            {/* Telegram */}
+            <a href="mailto:support@elasticapp.io">
+              <Image
+                src="/icons/telegram_icon.png"
+                alt="Telegram"
+                width={30}
+                height={30}
+                style={{ cursor: 'pointer' }}
+              />
+            </a>
+
+            {/* X / Twitter */}
+            <a
+              href="https://twitter.com/your-company-handle" // replace with actual
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/twitter_x_icon.png"
+                alt="X"
+                width={30}
+                height={30}
+                style={{ cursor: 'pointer' }}
+              />
+            </a>
           </Box>
         </Drawer>
       </Box>

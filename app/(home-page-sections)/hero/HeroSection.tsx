@@ -126,18 +126,21 @@ const ParticleAnimation = () => {
 const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
   const borderL = '110px'
   const borderL_M = '55px'
+  const videoId = 'qjWzH8jk1rk'
 
   const style = {
     rectangle: {
       width: '100%',
-      height: isMobile ? '190px' : '380px',
+      height: isMobile ? '190px' : 'auto',
       position: 'relative',
+      padding: isMobile ? '6px' : '22px',
       marginTop: '30px',
       marginBottom: '50px',
     },
     corner: {
       position: 'absolute',
       border: '1px solid #775EFF',
+      zIndex: 1,
     },
     topLeft: {
       top: '0',
@@ -171,6 +174,21 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
       borderLeft: 'none',
       borderTop: 'none',
     },
+    videoContainer: {
+      width: '90%',
+      height: 'auto',
+      position: 'relative',
+      overflow: 'hidden',
+      borderRadius: '4px',
+      background: 'linear-gradient(135deg, rgba(119, 94, 255, 0.1), rgba(222, 58, 237, 0.1))',
+      backdropFilter: 'blur(5px)',
+      border: '1px solid rgba(119, 94, 255, 0.3)',
+    },
+    aspectRatioWrapper: {
+      position: 'relative',
+      width: '100%',
+      paddingTop: '56.25%', // 16:9 aspect ratio (9 / 16 = 0.5625)
+    }
   }
 
   return (
@@ -179,26 +197,24 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
       <div style={{ ...style.corner, ...style.topRight } as any}></div>
       <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
       <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
-      <HorizontalCenterBox
-        style={{ 
-          width: '90%', 
-          height: '81%', 
-          background: 'linear-gradient(135deg, rgba(119, 94, 255, 0.1), rgba(222, 58, 237, 0.1))',
-          backdropFilter: 'blur(5px)',
-          border: '1px solid rgba(119, 94, 255, 0.3)',
-        }}
-      >
-        <Typography 
-          variant={'body2'} 
-          sx={{ 
-            maxWidth: '75%', 
-            fontFamily: 'JetBrains Mono, monospace',
-            textAlign: 'center'
-          }}
-        >
-          Founder&apos;s video coming soon!
-        </Typography>
-      </HorizontalCenterBox>
+      <Box sx={style.videoContainer}>
+        <Box sx={style.aspectRatioWrapper}>
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&showinfo=0&modestbranding=1`}
+            title="Elastic Copilot Introduction"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              border: 'none',
+            } as React.CSSProperties}
+          />
+        </Box>
+      </Box>
     </HorizontalCenterBox>
   )
 }
@@ -210,7 +226,7 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
   return (
     <Box sx={{ position: 'relative', overflow: 'hidden' }}>
       <ParticleAnimation />
-      
+
       <Box
         sx={{
           margin: `0px ${isMobile ? theme.customSpacing?.sides.mobile : theme.customSpacing?.sides.desktop}`,
@@ -226,7 +242,7 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
           backdropFilter: 'blur(10px)',
         }}
       >
-        
+
         <Box sx={{ position: 'relative', zIndex: 1 }}>
           <Typography
             variant={'h1' as any}
@@ -241,7 +257,7 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
               lineHeight: 1.2,
               letterSpacing: '-0.01em',
               fontFamily: 'Orbitron, sans-serif',
-              maxWidth: isMobile ? '100%' : '70%',
+              maxWidth: isMobile ? '100%' : '850%',
             }}
           >
             Revolutionize Your Coding Experience with Elastic Copilot
@@ -250,7 +266,7 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
           <Typography
             variant={'h4' as any}
             sx={{
-              maxWidth: isMobile ? '100%' : '60%',
+              maxWidth: isMobile ? '100%' : '85%',
               marginBottom: isMobile ? '40px' : '50px',
               fontSize: isMobile ? '1.25rem' : '1.5rem',
               color: '#AEAEAE',
@@ -259,14 +275,14 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
               fontFamily: 'JetBrains Mono, monospace',
             }}
           >
-            Accelerate development, eliminate bugs, and unlock your full potential with our AI-powered coding assistant.
+            A VS Code extension that accesses your terminal, file system, and uses an in-editor browser to show real-time testing. Every development step is captured for future reference.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: '20px', marginBottom: '50px' }}>
-            <ClippedButton 
-              filled={true} 
+            <ClippedButton
+              filled={true}
               onClick={showAlert}
-              sx={{ 
+              sx={{
                 fontFamily: 'Tektur, sans-serif',
                 fontSize: '1.1rem',
                 padding: '12px 24px',
@@ -274,10 +290,10 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
             >
               Get Started
             </ClippedButton>
-            
-            <ClippedButton 
+
+            <ClippedButton
               onClick={showAlert}
-              sx={{ 
+              sx={{
                 fontFamily: 'Tektur, sans-serif',
                 fontSize: '1.1rem',
                 padding: '12px 24px',
@@ -287,9 +303,9 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
             </ClippedButton>
           </Box>
         </Box>
-        
+
         <FuturisticVideoPanel isMobile={isMobile} />
-        
+
         <DecorRect sx={{ top: '20px', right: '20px' }} />
         <DecorRect sx={{ bottom: '20px', left: '20px' }} />
       </Box>

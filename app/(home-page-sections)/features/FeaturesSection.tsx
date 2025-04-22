@@ -7,6 +7,10 @@ import CodeIcon from '@mui/icons-material/Code'
 import BugReportIcon from '@mui/icons-material/BugReport'
 import SpeedIcon from '@mui/icons-material/Speed'
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions'
+import TerminalIcon from '@mui/icons-material/Terminal'
+import FolderOpenIcon from '@mui/icons-material/FolderOpen'
+import WebIcon from '@mui/icons-material/Web'
+import HistoryIcon from '@mui/icons-material/History'
 
 interface FeaturesSectionProps {
   isMobile: boolean
@@ -92,27 +96,27 @@ export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
   
   const features = [
     {
-      title: 'Context-Aware Assistance',
-      description: 'Elastic Copilot understands your entire codebase, providing suggestions that fit perfectly with your existing code.',
-      icon: <CodeIcon sx={{ fontSize: 30 }} />,
+      title: 'Terminal Access',
+      description: 'Execute commands, install packages, run tests, and perform system operations directly from VS Code.',
+      icon: <TerminalIcon sx={{ fontSize: 30 }} />,
       gradient: 'linear-gradient(135deg, #775EFF, #9D5DFE)',
     },
     {
-      title: 'Intelligent Bug Detection',
-      description: 'Identify and fix bugs before they become problems with our advanced error detection system.',
-      icon: <BugReportIcon sx={{ fontSize: 30 }} />,
+      title: 'File System Integration',
+      description: 'Create, modify, and organize files and directories with full understanding of your project structure.',
+      icon: <FolderOpenIcon sx={{ fontSize: 30 }} />,
       gradient: 'linear-gradient(135deg, #9D5DFE, #DE3AED)',
     },
     {
-      title: 'Accelerated Development',
-      description: 'Write code faster with smart autocompletions and full function generation based on your comments.',
-      icon: <SpeedIcon sx={{ fontSize: 30 }} />,
+      title: 'In-Editor Browser',
+      description: 'Test web applications in real-time with an integrated browser that shows you exactly how your code works.',
+      icon: <WebIcon sx={{ fontSize: 30 }} />,
       gradient: 'linear-gradient(135deg, #DE3AED, #ED3A93)',
     },
     {
-      title: 'Seamless Integration',
-      description: 'Works with your favorite IDEs and tools, enhancing your existing workflow without disruption.',
-      icon: <IntegrationInstructionsIcon sx={{ fontSize: 30 }} />,
+      title: 'Development History',
+      description: 'Every step of development is captured, allowing you to review the process and go back to any point in time.',
+      icon: <HistoryIcon sx={{ fontSize: 30 }} />,
       gradient: 'linear-gradient(135deg, #ED3A93, #775EFF)',
     },
   ]

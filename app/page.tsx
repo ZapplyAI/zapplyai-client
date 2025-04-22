@@ -17,8 +17,9 @@ const SocialLinks = ({ isMobile }: { isMobile: boolean }) => {
     <div
       style={{
         position: 'fixed',
+        display: isMobile ? 'none' : 'block',
         top: isMobile ? '100px' : '150px',
-        left: isMobile ? '10px' : '20px',
+        left: isMobile ? '10px' : '25px',
         zIndex: 1000,
       }}
     >
@@ -35,24 +36,38 @@ const SocialLinks = ({ isMobile }: { isMobile: boolean }) => {
           backdropFilter: 'blur(5px)',
         }}
       >
-        <Image
-          src="/icons/linkedin_icon.png"
-          alt="LinkedIn"
-          width={isMobile ? 30 : 38}
-          height={isMobile ? 30 : 38}
-        />
-        <Image
-          src="/icons/telegram_icon.png"
-          alt="Telegram"
-          width={isMobile ? 30 : 38}
-          height={isMobile ? 30 : 38}
-        />
-        <Image
-          src="/icons/twitter_x_icon.png"
-          alt="X"
-          width={isMobile ? 30 : 38}
-          height={isMobile ? 30 : 38}
-        />
+        <a
+          href="https://www.linkedin.com/company/elasticapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/icons/linkedin_icon.png"
+            alt="LinkedIn"
+            width={isMobile ? 30 : 38}
+            height={isMobile ? 30 : 38}
+          />
+        </a>
+        <a href="mailto:support@elasticapp.io">
+          <Image
+            src="/icons/telegram_icon.png"
+            alt="Telegram"
+            width={isMobile ? 30 : 38}
+            height={isMobile ? 30 : 38}
+          />
+        </a>
+        <a
+          href="https://twitter.com/your-company-handle" // replace with actual link
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            src="/icons/twitter_x_icon.png"
+            alt="X"
+            width={isMobile ? 30 : 38}
+            height={isMobile ? 30 : 38}
+          />
+        </a>
       </Box>
     </div>
   )
@@ -77,15 +92,15 @@ export default function HomePage() {
       />
       <SocialLinks isMobile={isMobile} />
       <main style={{ paddingTop: '70px' }}>
-        <HeroSection 
-          isMobile={isMobile} 
-          showAlert={() => setUnavailabilityAlertOpen(true)} 
+        <HeroSection
+          isMobile={isMobile}
+          showAlert={() => setUnavailabilityAlertOpen(true)}
         />
         <FeaturesSection isMobile={isMobile} />
         <ExamplesSection isMobile={isMobile} />
-        <PricingSection 
-          isMobile={isMobile} 
-          showAlert={() => setUnavailabilityAlertOpen(true)} 
+        <PricingSection
+          isMobile={isMobile}
+          showAlert={() => setUnavailabilityAlertOpen(true)}
         />
         <Footer isMobile={isMobile} />
       </main>
