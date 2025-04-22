@@ -7,6 +7,7 @@ import ClippedButton from '@/app/(components)/ClippedButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import Link from 'next/link'
+import AuthButton from '@/app/(navigation)/AuthButton'
 // import AuthButton from '@/app/(navigation)/AuthButton'
 
 interface TopNavProps {
@@ -133,17 +134,18 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
                 {link.name}
               </Link>
             ))}
-            <ClippedButton
-              onClick={showAlert}
-              sx={{
-                fontFamily: 'Tektur, sans-serif',
-                fontSize: '0.9rem',
-                padding: '8px 16px',
-                marginRight: '15px',
-              }}
-            >
-              Sign In
-            </ClippedButton>
+            {/*<ClippedButton*/}
+            {/*  onClick={showAlert}*/}
+            {/*  sx={{*/}
+            {/*    fontFamily: 'Tektur, sans-serif',*/}
+            {/*    fontSize: '0.9rem',*/}
+            {/*    padding: '8px 16px',*/}
+            {/*    marginRight: '15px',*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  Sign In*/}
+            {/*</ClippedButton>*/}
+            <AuthButton/>
             <ClippedButton
               filled={true}
               onClick={showAlert}
