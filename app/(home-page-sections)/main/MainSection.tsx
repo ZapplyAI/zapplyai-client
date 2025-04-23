@@ -283,6 +283,7 @@ const renderStickySocialLinks = (isMobile: boolean) => {
 const renderVideo = (isMobile: boolean) => {
   const borderL = '110px'
   const borderL_M = '55px'
+  const videoId = 'qjWzH8jk1rk' // YouTube video ID extracted from https://youtu.be/qjWzH8jk1rk
 
   const style = {
     rectangle: {
@@ -293,6 +294,7 @@ const renderVideo = (isMobile: boolean) => {
     corner: {
       position: 'absolute',
       border: '1px solid #999999',
+      zIndex: 1,
     },
     topLeft: {
       top: '0',
@@ -326,21 +328,37 @@ const renderVideo = (isMobile: boolean) => {
       borderLeft: 'none',
       borderTop: 'none',
     },
+    videoContainer: {
+      // width: '90%',
+      // height: '81%',
+      position: 'relative',
+      overflow: 'hidden',
+      borderRadius: '0px',
+    }
   }
 
   return (
     <HorizontalCenterBox sx={style.rectangle}>
-      <div style={{ ...style.corner, ...style.topLeft } as any}></div>
-      <div style={{ ...style.corner, ...style.topRight } as any}></div>
+      {/*<div style={{ ...style.corner, ...style.topLeft } as any}></div>*/}
+      {/*<div style={{ ...style.corner, ...style.topRight } as any}></div>*/}
       <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
       <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
-      <HorizontalCenterBox
-        style={{ width: '90%', height: '81%', background: '#1D1D1D' }}
-      >
-        <Typography variant={'body2'} sx={{ maxWidth: '75%' }}>
-          Intro video is still in production!
-        </Typography>
-      </HorizontalCenterBox>
+      {/*<Box sx={style.videoContainer}>*/}
+        <iframe
+          title="Elastic Copilot Introduction"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{
+            position: 'absolute',
+            zIndex: 200,
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+          } as React.CSSProperties}
+        />
+      {/*</Box>*/}
     </HorizontalCenterBox>
   )
 }
