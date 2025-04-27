@@ -9,7 +9,5 @@ export async function GET() {
     })
   }
 
-  console.log(session.tokenSet.accessToken, 'kelso');
-
   return Response.json({ session: session.tokenSet.accessToken })
 }

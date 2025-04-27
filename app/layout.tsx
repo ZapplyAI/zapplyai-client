@@ -4,6 +4,7 @@ import '@/styles/global.css'
 import { dashboardTheme } from '@/styles/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
+import { Toaster } from 'sonner'
 
 export default function RootLayout({
   children,
@@ -23,6 +24,7 @@ export default function RootLayout({
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={dashboardTheme}>
+            <Toaster position="top-right" richColors />
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>

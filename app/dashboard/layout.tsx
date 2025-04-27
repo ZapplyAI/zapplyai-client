@@ -17,6 +17,10 @@ export default function DashboardLayout({
     setShowUpgradeModal(true)
   }
 
+  const handleModalClose = (membershipUpdated: boolean) => {
+    setShowUpgradeModal(false)
+  }
+
   return (
     <DashboardProvider>
       <Box
@@ -36,9 +40,13 @@ export default function DashboardLayout({
             zIndex: 1100,
           }}
         >
-          <TopNav onUpgradeClick={handleUpgradeClick} />
+          <TopNav
+            onUpgradeClick={handleUpgradeClick}
+            modalOpen={showUpgradeModal}
+            onModalClose={handleModalClose}
+          />
         </Box>
-        
+
         <Box
           sx={{
             display: 'flex',
@@ -58,7 +66,7 @@ export default function DashboardLayout({
           >
             <Sidebar upgradeSubscription={() => setShowUpgradeModal(true)} />
           </Box>
-          
+
           <Box
             sx={{
               flexGrow: 1,

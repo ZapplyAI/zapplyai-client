@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Divider } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/navigation'
@@ -11,12 +11,18 @@ import { useDashboard } from '../DashboardContext'
 import { motion } from 'framer-motion'
 
 interface TopNavProps {
-  onUpgradeClick: () => void;
+  onUpgradeClick: () => void
+  modalOpen: boolean
+  onModalClose: (membershipUpdated: boolean) => void
 }
 
-const LogoAndSubscription = ({ subscriptionType }: { subscriptionType: 'plus' | 'team' | 'free' }) => {
-  const router = useRouter();
-  const [isAnimating, setIsAnimating] = useState(false);
+const LogoAndSubscription = ({
+  subscriptionType,
+}: {
+  subscriptionType: 'plus' | 'team' | 'free'
+}) => {
+  const router = useRouter()
+  const [isAnimating, setIsAnimating] = useState(false)
 
   const logoAnimationVariants = {
     initial: { y: 0 },
@@ -25,20 +31,20 @@ const LogoAndSubscription = ({ subscriptionType }: { subscriptionType: 'plus' | 
       transition: {
         duration: 0.5,
         times: [0, 0.3, 0.5, 0.75, 1],
-        ease: "easeInOut"
-      }
-    }
-  };
+        ease: 'easeInOut',
+      },
+    },
+  }
 
   const handleHoverStart = () => {
     if (!isAnimating) {
-      setIsAnimating(true);
+      setIsAnimating(true)
     }
-  };
+  }
 
   const handleAnimationComplete = () => {
-    setIsAnimating(false);
-  };
+    setIsAnimating(false)
+  }
 
   return (
     <Box
@@ -59,13 +65,13 @@ const LogoAndSubscription = ({ subscriptionType }: { subscriptionType: 'plus' | 
           marginRight: '12px',
           '&:hover': {
             background: 'transparent',
-          }
+          },
         }}
       >
         <motion.div
           style={{ display: 'flex', alignItems: 'center' }}
           initial="initial"
-          animate={isAnimating ? "animate" : "initial"}
+          animate={isAnimating ? 'animate' : 'initial'}
           variants={logoAnimationVariants}
           onAnimationComplete={handleAnimationComplete}
         >
@@ -81,7 +87,7 @@ const LogoAndSubscription = ({ subscriptionType }: { subscriptionType: 'plus' | 
               marginBottom: 0,
               fontSize: '1.1rem',
               fontWeight: 400,
-              marginLeft: '12px'
+              marginLeft: '12px',
             }}
           >
             Elastic
@@ -94,7 +100,11 @@ const LogoAndSubscription = ({ subscriptionType }: { subscriptionType: 'plus' | 
 }
 
 // Extracted to a separate component for clarity
-const SubscriptionBadge = ({ subscriptionType }: { subscriptionType: 'plus' | 'team' | 'free' }) => {
+const SubscriptionBadge = ({
+  subscriptionType,
+}: {
+  subscriptionType: 'plus' | 'team' | 'free'
+}) => {
   const gradients = {
     plus: ['#7C5EFC', '#F95EC1'],
     team: ['#FFB12E', '#F86682'],
@@ -165,17 +175,11 @@ const SubscriptionBadge = ({ subscriptionType }: { subscriptionType: 'plus' | 't
   )
 }
 
-const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
+const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick, modalOpen, onModalClose }) => {
   const { subscriptionType } = useDashboard()
   const isFreeSubscription = subscriptionType === 'free'
-  const [dialogOpen, setDialogOpen] = useState(false)
-
-  const handleClose = (membershipUpdated: boolean) => {
-    setDialogOpen(false)
-  }
 
   const upgradeSubscription = () => {
-    setDialogOpen(true)
     onUpgradeClick()
   }
 
@@ -201,35 +205,35 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {isFreeSubscription && (
-              <Button
-                onClick={upgradeSubscription}
+            <Button
+              onClick={upgradeSubscription}
+              sx={{
+                padding: '4px 16px',
+                marginRight: '16px',
+              }}
+            >
+              <TrendingUpIcon
                 sx={{
-                  padding: '4px 16px',
-                  marginRight: '16px',
-                }}
-              >
-                <TrendingUpIcon sx={{
                   height: '16px',
                   width: '16px',
                   color: '#775EFF',
                   marginRight: '8px',
-                }} />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: '13px',
-                    fontWeight: '300',
-                    fontFamily: 'JetBrains Mono',
-                    background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}
-                >
-                  Upgrade Subscription
-                </Typography>
-              </Button>
-            )}
+                }}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: '13px',
+                  fontWeight: '300',
+                  fontFamily: 'JetBrains Mono',
+                  background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Upgrade Subscription
+              </Typography>
+            </Button>
 
             <UserDetails />
           </Box>
@@ -237,8 +241,8 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
       </Box>
 
       <UpgradeMembershipModal
-        open={dialogOpen}
-        onClose={membershipUpdated => handleClose(membershipUpdated)}
+        open={modalOpen}
+        onClose={onModalClose}
       />
     </React.Fragment>
   )

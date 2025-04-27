@@ -77,17 +77,11 @@ const renderSideMenu = (
 
   const baseMenuItems = [
     { label: 'Home', path: '', icon: HomeSharpIcon },
-    { label: 'VS Code', path: '/landing', icon: CodeIcon },
+    // { label: 'VS Code', path: '/landing', icon: CodeIcon },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
   ]
-  
-  const menuItems = subscriptionType === 'team' 
-    ? [
-        ...baseMenuItems.slice(0, 1),
-        { label: 'Members', path: '/members', icon: GroupsSharpIcon },
-        ...baseMenuItems.slice(1)
-      ] 
-    : baseMenuItems;
+
+  const menuItems = baseMenuItems;
 
   return (
     <Stack
@@ -106,7 +100,7 @@ const renderSideMenu = (
               ...style.buttonStyle,
               background: isActive ? 'rgba(119, 94, 255, 0.1)' : 'transparent',
               '&:hover': {
-                background: isActive 
+                background: isActive
                   ? 'rgba(119, 94, 255, 0.15)'
                   : 'rgba(255, 255, 255, 0.05)'
               }

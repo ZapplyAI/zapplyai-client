@@ -40,3 +40,5 @@ next-env.d.ts
 .editorconfig
 .gitattributes
 _env
+.env.local
+.env
