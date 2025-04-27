@@ -12,6 +12,8 @@ import { motion } from 'framer-motion'
 
 interface TopNavProps {
   onUpgradeClick: () => void
+  modalOpen: boolean
+  onModalClose: (membershipUpdated: boolean) => void
 }
 
 const LogoAndSubscription = ({
@@ -173,17 +175,11 @@ const SubscriptionBadge = ({
   )
 }
 
-const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
+const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick, modalOpen, onModalClose }) => {
   const { subscriptionType } = useDashboard()
   const isFreeSubscription = subscriptionType === 'free'
-  const [dialogOpen, setDialogOpen] = useState(false)
-
-  const handleClose = (membershipUpdated: boolean) => {
-    setDialogOpen(false)
-  }
 
   const upgradeSubscription = () => {
-    setDialogOpen(true)
     onUpgradeClick()
   }
 
@@ -245,8 +241,8 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick }) => {
       </Box>
 
       <UpgradeMembershipModal
-        open={dialogOpen}
-        onClose={membershipUpdated => handleClose(membershipUpdated)}
+        open={modalOpen}
+        onClose={onModalClose}
       />
     </React.Fragment>
   )
