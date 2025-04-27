@@ -1,45 +1,41 @@
-import Button from '@mui/material/Button'
-import React from 'react'
-import Link from 'next/link'
-import { auth0 } from '@/lib/auth0'
+'use client'
 
-const AuthButton = async () => {
-  const session = await auth0.getSession()
+import React, { useEffect, useState } from 'react'
+import ClippedButton from '@/app/(components)/ClippedButton'
+import { useClientMediaQuery } from '@/helpers/IsMobile'
 
-  if (!session) {
-    return (
-      <a href={'/auth/login'}>
-        <Button
-          variant="contained"
-          sx={{
-            marginLeft: 'auto',
-            background: '#775EFF',
-            '&:hover': {
-              background: '#5E3FFF',
-            },
-          }}
-        >
-          Try now
-        </Button>
-      </a>
-    )
+const AuthButton = () => {
+  const isMobile = useClientMediaQuery('(max-width: 600px)')
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const getSession = async () => {
+      const res = await fetch('/api/auth/session')
+      const session = await res.json()
+      setIsLoggedIn(!!session?.user)
+    }
+
+    getSession()
+  }, [])
+
+  if (isLoggedIn === null) {
+    return <div></div>
   }
 
   return (
-    <Link href={'/dashboard'}>
-      <Button
-        variant="contained"
+    <a style={{width: isMobile ?  '100%' : 'auto'}} href={isLoggedIn ? '/dashboard' : '/auth/login'}>
+      <ClippedButton
         sx={{
-          marginLeft: 'auto',
-          background: '#775EFF',
-          '&:hover': {
-            background: '#5E3FFF',
-          },
+          width: isMobile? '100%' : 'auto',
+          fontFamily: 'Tektur, sans-serif',
+          fontSize: '0.9rem',
+          padding: isMobile? '12px 16px' : '8px 16px',
+          marginRight: '15px',
         }}
       >
-        Go To Dashboard
-      </Button>
-    </Link>
+        {isLoggedIn ? 'Go To Dashboard' : 'Sign In'}
+      </ClippedButton>
+    </a>
   )
 }
 

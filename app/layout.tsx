@@ -1,5 +1,6 @@
 import React from 'react'
 import '@/styles/main.scss'
+import '@/styles/global.css'
 import { dashboardTheme } from '@/styles/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
