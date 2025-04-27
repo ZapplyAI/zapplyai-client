@@ -11,3 +11,4 @@ export const auth0 = new Auth0Client({
     audience: 'https://dev-ns2zh0uf5v48x7jl.us.auth0.com/api/v2/',
   },
 })
+
