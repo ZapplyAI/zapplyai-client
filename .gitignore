@@ -37,8 +37,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 .editorconfig
 .gitattributes
 _env
 .env.local
 .env
+.vscode
