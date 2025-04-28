@@ -4,19 +4,38 @@ const server = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
-const getToken = async (): Promise<string | null> => {
-  const { status, data: response } = await axios.get('/api/access')
+// Cache for the access token
+let cachedToken: string | null = null;
+let tokenExpiryTime: number | null = null;
 
-  if (status === 200 && !!response.session) {
-    return response.session
+const getToken = async (): Promise<string | null> => {
+  // If we have a cached token and it's not expired, use it
+  const currentTime = Date.now();
+  if (cachedToken && tokenExpiryTime && currentTime < tokenExpiryTime) {
+    return cachedToken;
   }
 
-  return null
+  try {
+    const { status, data: response } = await axios.get('/api/access')
+
+    if (status === 200 && !!response.session) {
+      // Cache the token and set an expiry time (e.g., 55 minutes to be safe with a 1-hour token)
+      cachedToken = response.session;
+      // Set expiry to 55 minutes from now (in milliseconds)
+      tokenExpiryTime = currentTime + (55 * 60 * 1000);
+      return cachedToken;
+    }
+  } catch (error) {
+    console.error('Error fetching access token:', error);
+  }
+
+  return null;
 }
 
 server.interceptors.request.use(async config => {
   const token = await getToken()
-  console.log(token, 'see you')
+  // Only log token status, not the actual token
+  console.log('Token available:', !!token)
 
   if (token) {
     // @ts-ignore

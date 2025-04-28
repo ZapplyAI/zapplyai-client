@@ -1,32 +1,43 @@
 import { useEffect, useState } from 'react'
-import _axios from '@/lib/axios'
+import { subscriptions } from '@/services'
 
 const useSubscriptionPlans = () => {
   const [subscriptionPlans, setSubscriptionPlans] = useState<any | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchSubscriptionPlans = async () => {
+  const fetchSubscriptionPlans = async (forceRefresh = false) => {
     console.log('\n\n Fetching subscription plans...')
+    setLoading(true)
+    setError(null)
 
     try {
-      const { data: response, status } = await _axios.get(
-        '/subscriptions/plans'
-      )
+      const { success, response } = await subscriptions.getList(forceRefresh)
 
-      console.log('\ndata', response)
-      setSubscriptionPlans(response.plans)
-      setLoading(false)
+      if (success) {
+        console.log('\ndata', response)
+        setSubscriptionPlans(response)
+      } else {
+        setError('Failed to fetch subscription plans')
+      }
     } catch (error) {
-      console.log(error)
+      console.error('Error in useSubscriptionPlans hook:', error)
+      setError(error instanceof Error ? error.message : 'Unknown error')
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchSubscriptionPlans()
+    fetchSubscriptionPlans(false) // Use cached data if available
   }, [])
 
-  return { subscriptionPlans, loading, error }
+  return {
+    subscriptionPlans,
+    loading,
+    error,
+    refreshPlans: () => fetchSubscriptionPlans(true) // Force refresh when needed
+  }
 }
 
 export default useSubscriptionPlans

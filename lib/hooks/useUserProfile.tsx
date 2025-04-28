@@ -34,15 +34,16 @@ export const useUserProfile = () => {
           setProfileError(null);
 
           try {
-            const profileData = await userProfileService.fetchUserProfile();
+            // Use the caching mechanism, but don't force refresh
+            const profileData = await userProfileService.fetchUserProfile(false);
             setProfile(profileData);
-            userProfileService.storeUserProfile(profileData);
+            // No need to explicitly store the profile as fetchUserProfile already updates the cache
           } catch (err) {
             console.error('Error in useUserProfile hook:', err);
             setProfileError(err instanceof Error ? err : new Error('Failed to fetch user profile'));
 
             // If we have a stored profile, keep using it despite the error
-            if (!profile && storedProfile) {
+            if (storedProfile) {
               setProfile(storedProfile);
             }
           } finally {
@@ -57,28 +58,30 @@ export const useUserProfile = () => {
       setProfile(null);
       userProfileService.clearUserProfile();
     }
-  }, [user, isLoading, error, profile]);
+  }, [user, isLoading, error]); // Removed profile from dependencies to prevent infinite loop
 
   return {
     profile,
     isProfileLoading: isLoading || isProfileLoading,
     profileError,
-    refreshProfile: async () => {
+    refreshProfile: async (forceRefresh = false) => {
       if (user) {
         setIsProfileLoading(true);
         setProfileError(null);
 
         try {
-          const profileData = await userProfileService.fetchUserProfile();
+          // Pass forceRefresh flag to bypass cache if needed
+          const profileData = await userProfileService.fetchUserProfile(forceRefresh);
+
           setProfile(profileData);
-          userProfileService.storeUserProfile(profileData);
+          // No need to explicitly store the profile as fetchUserProfile already updates the cache
         } catch (err) {
           console.error('Error refreshing user profile:', err);
           setProfileError(err instanceof Error ? err : new Error('Failed to refresh user profile'));
 
           // If we have a stored profile, keep using it despite the error
           const storedProfile = userProfileService.getStoredUserProfile();
-          if (!profile && storedProfile) {
+          if (storedProfile) {
             setProfile(storedProfile);
           }
         } finally {
