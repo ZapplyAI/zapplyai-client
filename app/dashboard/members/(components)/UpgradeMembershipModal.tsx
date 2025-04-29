@@ -362,6 +362,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
             variant="contained"
             fullWidth
             onClick={() => handleCheckout(selectedPlan?.id)}
+            disabled={loading}
             sx={{
               background: 'linear-gradient(to right, #7C5EFD, #FB5EC0)',
               borderRadius: '8px',
@@ -375,7 +376,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
               },
             }}
           >
-            Proceed to Checkout
+            {loading ? 'Processing...' : 'Proceed to Checkout'}
           </Button>
         </Box>
       )}

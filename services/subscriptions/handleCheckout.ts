@@ -13,7 +13,7 @@ export async function handleCheckoutServer(planId: string) {
   }
 
   const { data } = await _axios.post(
-    '/subscriptions/payments',
+    '/api/subscriptions/payments',
     {
       plan_id: planId,
       success_url: '/dashboard',

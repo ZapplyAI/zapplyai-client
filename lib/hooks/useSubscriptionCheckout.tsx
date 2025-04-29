@@ -12,10 +12,10 @@ const useSubscriptionCheckout = () => {
     setError(null)
 
     try {
-      const { status, data: response } = await axios.post('/subscriptions/payments', {
+      const { status, data: response } = await axios.post('/api/subscriptions/payments', {
         plan_id: planId,
-        success_url: `http://localhost:3000/dashboard?paymentStatus=success`,
-        cancel_url: `http://localhost:3000/dashboard`,
+        success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?paymentStatus=success`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
       })
 
       if (status >= 200 && response.data.checkout_url) {
