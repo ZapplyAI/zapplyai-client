@@ -20,7 +20,7 @@ export const auth0 = new Auth0Client({
   onCallback(err) {
     if (!err) {
       return NextResponse.redirect(
-        new URL('/dashboard', process.env.NEXT_PUBLIC_BASE_URL)
+        new URL('/dashboard/settings', process.env.NEXT_PUBLIC_BASE_URL)
       )
     }
   },
