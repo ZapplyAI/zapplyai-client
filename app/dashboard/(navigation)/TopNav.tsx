@@ -55,7 +55,7 @@ const LogoAndSubscription = ({
       }}
     >
       <Button
-        onClick={() => router.push('/dashboard')}
+        onClick={() => router.push('/')}
         onMouseEnter={handleHoverStart}
         sx={{
           display: 'flex',

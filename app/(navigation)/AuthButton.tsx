@@ -23,7 +23,7 @@ const AuthButton = () => {
   }
 
   return (
-    <a style={{width: isMobile ?  '100%' : 'auto'}} href={isLoggedIn ? '/dashboard' : '/auth/login'}>
+    <a style={{width: isMobile ?  '100%' : 'auto'}} href={isLoggedIn ? '/dashboard/settings' : '/auth/login'}>
       <ClippedButton
         sx={{
           width: isMobile? '100%' : 'auto',
