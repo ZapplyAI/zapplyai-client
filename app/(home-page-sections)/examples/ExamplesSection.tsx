@@ -38,13 +38,13 @@ const TabPanel = (props: TabPanelProps) => {
 }
 
 // Custom typing animation component
-const TypeWriter = ({ 
-  text, 
-  onComplete, 
+const TypeWriter = ({
+  text,
+  onComplete,
   typingSpeed = 30,
   initialDelay = 0
-}: { 
-  text: string, 
+}: {
+  text: string,
   onComplete?: () => void,
   typingSpeed?: number,
   initialDelay?: number
@@ -52,32 +52,32 @@ const TypeWriter = ({
   const [displayText, setDisplayText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isStarted, setIsStarted] = useState(false)
-  
+
   // Start typing after initial delay
   useEffect(() => {
     const startTimer = setTimeout(() => {
       setIsStarted(true)
     }, initialDelay)
-    
+
     return () => clearTimeout(startTimer)
   }, [initialDelay])
-  
+
   // Type one character at a time
   useEffect(() => {
     if (!isStarted) return
-    
+
     if (currentIndex < text.length) {
       const timer = setTimeout(() => {
         setDisplayText(prev => prev + text[currentIndex])
         setCurrentIndex(prev => prev + 1)
       }, typingSpeed)
-      
+
       return () => clearTimeout(timer)
     } else if (onComplete) {
       onComplete()
     }
   }, [currentIndex, text, typingSpeed, onComplete, isStarted])
-  
+
   return (
     <div style={{ whiteSpace: 'pre-wrap' }}>
       {displayText}
@@ -86,14 +86,14 @@ const TypeWriter = ({
 }
 
 // Animated code example component
-const AnimatedCodeExample = ({ 
-  code, 
-  explanation, 
-  language 
-}: { 
-  code: string, 
-  explanation: string, 
-  language: string 
+const AnimatedCodeExample = ({
+  code,
+  explanation,
+  language
+}: {
+  code: string,
+  explanation: string,
+  language: string
 }) => {
   const [isAnimating, setIsAnimating] = useState(true)
   const [displayedCode, setDisplayedCode] = useState('')
@@ -101,11 +101,11 @@ const AnimatedCodeExample = ({
   const [codeComplete, setCodeComplete] = useState(false)
   const [explanationComplete, setExplanationComplete] = useState(false)
   const [animationComplete, setAnimationComplete] = useState(false)
-  
+
   // Split code and explanation into lines for line-by-line typing
   const codeLines = code.split('\n')
   const explanationLines = explanation.split('\n')
-  
+
   // Reset animation when tab changes
   useEffect(() => {
     setIsAnimating(true)
@@ -115,14 +115,14 @@ const AnimatedCodeExample = ({
     setExplanationComplete(false)
     setAnimationComplete(false)
   }, [code, explanation])
-  
+
   // Set animation complete when both code and explanation are done
   useEffect(() => {
     if (codeComplete && explanationComplete) {
       setAnimationComplete(true)
     }
   }, [codeComplete, explanationComplete])
-  
+
   // Loop the animation
   useEffect(() => {
     if (animationComplete) {
@@ -134,11 +134,12 @@ const AnimatedCodeExample = ({
         setExplanationComplete(false)
         setAnimationComplete(false)
       }, 5000) // Wait 5 seconds before restarting
-      
+
       return () => clearTimeout(timer)
     }
   }, [animationComplete])
 
+  // @ts-ignore
   return (
     <Box
       sx={{
@@ -187,8 +188,8 @@ const AnimatedCodeExample = ({
             whiteSpace: 'pre',
           }}
         >
-          <TypeWriter 
-            text={code} 
+          <TypeWriter
+            text={code}
             typingSpeed={20}
             onComplete={() => setCodeComplete(true)}
           />
@@ -210,7 +211,7 @@ const AnimatedCodeExample = ({
           {code}
         </SyntaxHighlighter>
       )}
-        
+
         <Box
           sx={{
             position: 'absolute',
@@ -226,10 +227,10 @@ const AnimatedCodeExample = ({
         >
           {language}
         </Box>
-        
+
         <DecorRect sx={{ bottom: '10px', left: '10px' }} />
       </Box>
-      
+
       {/* Explanation section (right) */}
       <Box
         sx={{
@@ -259,8 +260,8 @@ const AnimatedCodeExample = ({
         }}
       >
         {isAnimating ? (
-          <TypeWriter 
-            text={explanation} 
+          <TypeWriter
+            text={explanation}
             typingSpeed={15}
             initialDelay={1000} // Start explanation a bit after code
             onComplete={() => setExplanationComplete(true)}
@@ -268,7 +269,7 @@ const AnimatedCodeExample = ({
         ) : (
           <div>{explanation}</div>
         )}
-        
+
         <Box
           sx={{
             position: 'absolute',
@@ -284,7 +285,7 @@ const AnimatedCodeExample = ({
         >
           Analysis
         </Box>
-        
+
         <DecorRect sx={{ bottom: '10px', right: '10px' }} />
       </Box>
     </Box>
@@ -463,7 +464,7 @@ This transformation follows modern TypeScript best practices while preserving th
           >
             See Elastic Copilot in Action
           </Typography>
-          
+
           <Typography
             variant={'body1' as any}
             sx={{
@@ -477,10 +478,10 @@ This transformation follows modern TypeScript best practices while preserving th
             From generating complex functions to fixing bugs and refactoring code, Elastic Copilot handles it all.
           </Typography>
         </Box>
-        
+
         <Box sx={{ borderBottom: 1, borderColor: 'rgba(119, 94, 255, 0.3)', marginBottom: '30px' }}>
-          <Tabs 
-            value={value} 
+          <Tabs
+            value={value}
             onChange={handleChange}
             variant={isMobile ? "scrollable" : "fullWidth"}
             scrollButtons={isMobile ? "auto" : undefined}
@@ -498,16 +499,16 @@ This transformation follows modern TypeScript best practices while preserving th
             }}
           >
             {examples.map((example, index) => (
-              <Tab 
-                key={index} 
-                label={example.title} 
+              <Tab
+                key={index}
+                label={example.title}
                 id={`example-tab-${index}`}
                 aria-controls={`example-tabpanel-${index}`}
               />
             ))}
           </Tabs>
         </Box>
-        
+
         {examples.map((example, index) => (
           <TabPanel key={index} value={value} index={index}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -522,13 +523,13 @@ This transformation follows modern TypeScript best practices while preserving th
               >
                 {example.title} Example
               </Typography>
-              
-              <AnimatedCodeExample 
-                code={example.code} 
-                explanation={example.explanation} 
-                language={example.language} 
+
+              <AnimatedCodeExample
+                code={example.code}
+                explanation={example.explanation}
+                language={example.language}
               />
-              
+
               <Typography
                 variant={'body2' as any}
                 sx={{
@@ -542,7 +543,7 @@ This transformation follows modern TypeScript best practices while preserving th
             </Box>
           </TabPanel>
         ))}
-        
+
         {/* Decorative elements */}
         <Box
           sx={{
@@ -555,7 +556,7 @@ This transformation follows modern TypeScript best practices while preserving th
             boxShadow: '0 0 10px rgba(119, 94, 255, 0.5)',
           }}
         />
-        
+
         <Box
           sx={{
             position: 'absolute',

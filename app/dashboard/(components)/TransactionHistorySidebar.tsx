@@ -9,18 +9,9 @@ import {
   Typography,
 } from '@mui/material'
 import { Transaction, useDashboard } from '../DashboardContext'
-import DashboardModal from './DashboardModal'
 import { axios } from '@/lib'
 
-interface TransactionHistoryModalProps {
-  open: boolean
-  onClose: () => void
-}
-
-const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({
-  open,
-  onClose,
-}) => {
+const TransactionHistorySidebar: React.FC = () => {
   const { transactions: contextTransactions } = useDashboard()
   const [apiTransactions, setApiTransactions] = useState<Transaction[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -34,12 +25,13 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({
         const { status, data } = await axios.get('/api/subscriptions/payments')
 
         if (status >= 200 && status < 300 && data?.payments) {
-          // Transform API response to a match Transaction type
+          // Transform API response to match Transaction type
           const transformedTransactions: Transaction[] = data.payments.map(
             (payment: any) => ({
               id: payment.id,
               date: payment.transaction_date,
               amount: parseFloat(payment.amount),
+              type: 'subscription', // Assuming all payments from API are subscriptions
               description: payment.plan?.name
                 ? `${payment.plan.name} Subscription`
                 : 'Subscription Payment',
@@ -58,19 +50,20 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({
       }
     }
 
-    if (open) {
-      ;(async () => fetchTransactions())()
-    }
-  }, [open])
+    // Fetch transactions when the component mounts
+    fetchTransactions()
+  }, [])
 
   // Use API transactions if available, fallback to context transactions
   const displayTransactions =
     apiTransactions.length > 0 ? apiTransactions : contextTransactions
 
+  // Limit to showing only the most recent 3 transactions
+  const recentTransactions = displayTransactions.slice(0, 3)
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
-      year: 'numeric',
       month: 'short',
       day: 'numeric',
     })
@@ -84,43 +77,59 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({
   }
 
   return (
-    <DashboardModal open={open} onClose={onClose} title="Transaction History">
+    <Box
+      sx={{
+        width: '100%',
+        padding: '8px 16px',
+        borderRadius: '8px',
+        backgroundColor: 'rgba(30, 30, 30, 0.5)',
+        marginBottom: '16px',
+      }}
+    >
+      <Typography
+        variant="subtitle2"
+        sx={{
+          color: '#E5E5E5',
+          fontWeight: 500,
+          marginBottom: '8px',
+          fontSize: '14px',
+        }}
+      >
+        Recent Transactions
+      </Typography>
+
       {isLoading ? (
         <Box
           sx={{
-            padding: '24px',
+            padding: '12px',
             textAlign: 'center',
             display: 'flex',
             justifyContent: 'center',
           }}
         >
-          <CircularProgress size={40} sx={{ color: '#775EFF' }} />
+          <CircularProgress size={24} sx={{ color: '#775EFF' }} />
         </Box>
       ) : error ? (
-        <Box sx={{ padding: '24px', textAlign: 'center' }}>
-          <Typography variant="body1" sx={{ color: '#FF5E5E' }}>
-            {error}
-          </Typography>
-        </Box>
-      ) : displayTransactions.length === 0 ? (
-        <Box sx={{ padding: '24px', textAlign: 'center' }}>
-          <Typography variant="body1" sx={{ color: '#AAAAAA' }}>
-            No transactions found
-          </Typography>
-        </Box>
+        <Typography variant="caption" sx={{ color: '#FF5E5E' }}>
+          {error}
+        </Typography>
+      ) : recentTransactions.length === 0 ? (
+        <Typography variant="caption" sx={{ color: '#AAAAAA' }}>
+          No transactions found
+        </Typography>
       ) : (
         <List
           sx={{
             padding: 0,
-            maxHeight: '400px',
+            maxHeight: '200px',
             overflow: 'auto',
           }}
         >
-          {displayTransactions.map(transaction => (
+          {recentTransactions.map((transaction, index) => (
             <React.Fragment key={transaction.id}>
               <ListItem
                 sx={{
-                  padding: '16px 24px',
+                  padding: '8px 0',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'flex-start',
@@ -132,75 +141,44 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'flex-start',
-                    marginBottom: '8px',
                   }}
                 >
                   <Box>
                     <Typography
-                      variant="body1"
-                      sx={{ color: '#E5E5E5', fontWeight: 500 }}
+                      variant="caption"
+                      sx={{ color: '#E5E5E5', fontWeight: 500, fontSize: '12px' }}
+                    >
+                      {formatDate(transaction.date)}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: '#AAAAAA', display: 'block', fontSize: '11px' }}
                     >
                       {transaction.description}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#AAAAAA' }}>
-                      {formatDate(transaction.date)}
-                    </Typography>
                   </Box>
                   <Typography
-                    variant="body1"
+                    variant="caption"
                     sx={{
                       color: '#E5E5E5',
                       fontWeight: 500,
                       fontFamily: 'JetBrains Mono',
+                      fontSize: '12px',
                     }}
                   >
                     {formatAmount(transaction.amount)}
                   </Typography>
                 </Box>
-
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    width: '100%',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      padding: '2px 8px',
-                      borderRadius: '4px',
-                      backgroundColor:
-                        transaction.type === 'subscription'
-                          ? 'rgba(119, 94, 255, 0.1)'
-                          : 'rgba(255, 94, 191, 0.1)',
-                      display: 'inline-flex',
-                    }}
-                  >
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color:
-                          transaction.type === 'subscription'
-                            ? '#775EFF'
-                            : '#FF5EBF',
-                        fontFamily: 'JetBrains Mono',
-                        fontSize: '11px',
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {transaction.type}
-                    </Typography>
-                  </Box>
-                </Box>
               </ListItem>
-              <Divider sx={{ backgroundColor: '#5E5E5E' }} />
+              {index < recentTransactions.length - 1 && (
+                <Divider sx={{ backgroundColor: '#5E5E5E', opacity: 0.5 }} />
+              )}
             </React.Fragment>
           ))}
         </List>
       )}
-    </DashboardModal>
+    </Box>
   )
 }
 
-export default TransactionHistoryModal
+export default TransactionHistorySidebar

@@ -21,7 +21,6 @@ export type Transaction = {
   id: string
   date: string
   amount: number
-  cardLastFour: string
   type: 'subscription' | 'one-time'
   description: string
 }
@@ -112,7 +111,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         id: '1',
         date: '2023-11-01T10:00:00Z',
         amount: 29.99,
-        cardLastFour: '4242',
         type: 'subscription',
         description: 'Monthly Plus Subscription'
       },
@@ -120,7 +118,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         id: '2',
         date: '2023-10-01T10:00:00Z',
         amount: 29.99,
-        cardLastFour: '4242',
         type: 'subscription',
         description: 'Monthly Plus Subscription'
       },
@@ -128,7 +125,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         id: '3',
         date: '2023-09-01T10:00:00Z',
         amount: 29.99,
-        cardLastFour: '4242',
         type: 'subscription',
         description: 'Monthly Plus Subscription'
       },
@@ -136,7 +132,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         id: '4',
         date: '2023-08-15T14:30:00Z',
         amount: 99.99,
-        cardLastFour: '5678',
         type: 'one-time',
         description: 'Token Pack Purchase'
       },
@@ -144,7 +139,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         id: '5',
         date: '2023-08-01T10:00:00Z',
         amount: 29.99,
-        cardLastFour: '4242',
         type: 'subscription',
         description: 'Monthly Plus Subscription'
       }

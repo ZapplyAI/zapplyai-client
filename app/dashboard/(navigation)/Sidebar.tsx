@@ -1,15 +1,14 @@
 'use client'
 import { Box, Button, Stack } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { usePathname, useRouter } from 'next/navigation'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import HomeSharpIcon from '@mui/icons-material/HomeSharp'
-import GroupsSharpIcon from '@mui/icons-material/GroupsSharp'
 import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
-import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import CodeIcon from '@mui/icons-material/Code'
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { useDashboard } from '../DashboardContext'
+import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
 interface SidebarProps {
   upgradeSubscription: () => void
@@ -20,11 +19,24 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription }) => {
   const pathname = usePathname()
   const { subscriptionType } = useDashboard()
   const isOnFreeSubscription = subscriptionType === 'free'
+  const [transactionModalOpen, setTransactionModalOpen] = useState(false)
+
+  const handleTransactionHistory = () => {
+    setTransactionModalOpen(true)
+  }
+
+  const handleLogout = () => {
+    // Clear user profile from localStorage on logout
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('userProfile');
+    }
+    router.push('/auth/logout')
+  }
 
   return (
     <Box
       sx={{
-        width: '240px',
+        width: '260px',
         height: '100%',
         borderRight: '1px solid #5E5E5E',
         padding: '24px 0',
@@ -35,8 +47,14 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription }) => {
         upgradeSubscription,
         pathname,
         router,
-        subscriptionType
+        subscriptionType,
+        handleTransactionHistory,
+        handleLogout
       )}
+      <TransactionHistoryModal
+        open={transactionModalOpen}
+        onClose={() => setTransactionModalOpen(false)}
+      />
     </Box>
   )
 }
@@ -46,7 +64,9 @@ const renderSideMenu = (
   upgradeSubscription: () => void,
   pathname: string,
   router: AppRouterInstance,
-  subscriptionType: 'free' | 'plus' | 'team'
+  subscriptionType: 'free' | 'plus' | 'team',
+  handleTransactionHistory: () => void,
+  handleLogout: () => void
 ) => {
   const style = {
     navContainer: {
@@ -75,35 +95,31 @@ const renderSideMenu = (
     },
   }
 
-  const baseMenuItems = [
-    { label: 'Home', path: '', icon: HomeSharpIcon },
+  const menuItems = [
+    // { label: 'Home', path: '', icon: HomeSharpIcon },
     // { label: 'VS Code', path: '/landing', icon: CodeIcon },
+    { label: 'Transaction History', path: '', icon: ReceiptLongIcon, onClick: handleTransactionHistory },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
+    { label: 'Logout', path: '', icon: LogoutIcon, onClick: handleLogout },
   ]
 
-  const menuItems = baseMenuItems;
-
   return (
-    <Stack
-      direction="column"
-      spacing={1}
-      sx={style.navContainer}
-    >
-      {menuItems.map(({ label, path, icon: Icon }) => {
-        const isActive = pathname === '/dashboard' + path
+    <Stack direction="column" spacing={1} sx={style.navContainer}>
+      {menuItems.map(({ label, path, icon: Icon, onClick }) => {
+        const isActive = path ? pathname === '/dashboard' + path : false;
 
         return (
           <Button
             key={label}
-            onClick={() => router.push('/dashboard' + path)}
+            onClick={onClick ? onClick : () => router.push('/dashboard' + path)}
             sx={{
               ...style.buttonStyle,
               background: isActive ? 'rgba(119, 94, 255, 0.1)' : 'transparent',
               '&:hover': {
                 background: isActive
                   ? 'rgba(119, 94, 255, 0.15)'
-                  : 'rgba(255, 255, 255, 0.05)'
-              }
+                  : 'rgba(255, 255, 255, 0.05)',
+              },
             }}
           >
             <Icon sx={style.icon(isActive)} />

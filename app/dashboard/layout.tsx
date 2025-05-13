@@ -60,7 +60,7 @@ export default function DashboardLayout({
               top: '61px',
               left: 0,
               bottom: 0,
-              width: '240px',
+              width: '260px',
               zIndex: 1000,
             }}
           >
@@ -70,7 +70,7 @@ export default function DashboardLayout({
           <Box
             sx={{
               flexGrow: 1,
-              marginLeft: '240px',
+              marginLeft: '260px',
               overflowY: 'auto',
               height: 'calc(100vh - 61px)',
             }}

@@ -4,20 +4,27 @@ import { useClientMediaQuery } from '@/helpers/IsMobile'
 import { Box, LinearProgress, Typography } from '@mui/material'
 import { useDashboard } from './DashboardContext'
 
-const UsageProgress = ({ 
-  current, 
+const UsageProgress = ({
+  current,
   max,
-  label
-}: { 
-  current: number; 
-  max: number;
-  label: string;
+  label,
+}: {
+  current: number
+  max: number
+  label: string
 }) => {
-  const percentage = (current / max) * 100;
-  
+  const percentage = (current / max) * 100
+
   return (
     <Box sx={{ mb: 3 }}>
-      <Box sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box
+        sx={{
+          mb: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <Typography variant="body2" color="#AAAAAA">
           {label}
         </Typography>
@@ -25,11 +32,11 @@ const UsageProgress = ({
           {current.toLocaleString()} / {max.toLocaleString()}
         </Typography>
       </Box>
-      
-      <LinearProgress 
-        variant="determinate" 
-        value={percentage} 
-        sx={{ 
+
+      <LinearProgress
+        variant="determinate"
+        value={percentage}
+        sx={{
           height: 8,
           width: '100%',
           maxWidth: '400px',
@@ -38,21 +45,21 @@ const UsageProgress = ({
           '& .MuiLinearProgress-bar': {
             background: 'linear-gradient(to right, #775EFF, #FF5EBF)',
             borderRadius: 4,
-          }
-        }} 
+          },
+        }}
       />
     </Box>
-  );
-};
+  )
+}
 
 export default function MainPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
-  const { 
+  const {
     requestsUsedIndividual,
     maxRequestsIndividual,
     requestsUsedTeam,
     maxRequestsTeam,
-    subscriptionType
+    subscriptionType,
   } = useDashboard()
 
   const showTeamUsage = subscriptionType === 'team'
@@ -71,9 +78,9 @@ export default function MainPage() {
       <Typography variant="h4" sx={{ mb: 3 }}>
         Usage Dashboard
       </Typography>
-      
-      <Box 
-        sx={{ 
+
+      <Box
+        sx={{
           mb: 4,
           border: '1px solid #5E5E5E',
           borderRadius: '12px',
@@ -83,17 +90,17 @@ export default function MainPage() {
         <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
           Your Usage
         </Typography>
-        
-        <UsageProgress 
-          label="API Requests" 
-          current={requestsUsedIndividual} 
-          max={maxRequestsIndividual} 
+
+        <UsageProgress
+          label="API Requests"
+          current={requestsUsedIndividual}
+          max={maxRequestsIndividual}
         />
       </Box>
-      
+
       {showTeamUsage && (
-        <Box 
-          sx={{ 
+        <Box
+          sx={{
             border: '1px solid #5E5E5E',
             borderRadius: '12px',
             padding: '16px 24px',
@@ -102,11 +109,11 @@ export default function MainPage() {
           <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
             Team Usage
           </Typography>
-          
-          <UsageProgress 
-            label="Team API Requests" 
-            current={requestsUsedTeam} 
-            max={maxRequestsTeam} 
+
+          <UsageProgress
+            label="Team API Requests"
+            current={requestsUsedTeam}
+            max={maxRequestsTeam}
           />
         </Box>
       )}
