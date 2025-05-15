@@ -232,69 +232,6 @@ export default function SettingsPage() {
             Cancel Subscription
           </Typography>
 
-          <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-            <Typography sx={{ color: '#AAAAAA', mr: 1 }}>
-              Your current plan:
-            </Typography>
-            <Box
-              sx={{
-                position: 'relative',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '78px',
-                height: '24px',
-              }}
-            >
-              <svg
-                width="78"
-                height="24"
-                viewBox="0 0 78 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="0.5"
-                  y="0.5"
-                  width="77"
-                  height="23"
-                  rx="3.5"
-                  stroke={`url(#paint0_linear_${subscriptionType})`}
-                />
-                <defs>
-                  <linearGradient
-                    id={`paint0_linear_${subscriptionType}`}
-                    x1="0"
-                    y1="12"
-                    x2="78"
-                    y2="12"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor={startColor} />
-                    <stop offset="1" stopColor={endColor} />
-                  </linearGradient>
-                </defs>
-              </svg>
-
-              <Typography
-                variant="body2"
-                sx={{
-                  position: 'absolute',
-                  background: `linear-gradient(to right, ${startColor}, ${endColor})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontSize: '14px',
-                  fontWeight: '300',
-                  fontFamily: 'Kanit',
-                  marginTop: '-2px',
-                  textTransform: 'capitalize',
-                }}
-              >
-                {subscriptionType}
-              </Typography>
-            </Box>
-          </Box>
-
           <Typography sx={{ mb: 3, color: '#AAAAAA' }}>
             Cancelling your subscription will downgrade your account to the free plan at the end of your current billing period.
           </Typography>

@@ -34,8 +34,6 @@ const getToken = async (): Promise<string | null> => {
 
 server.interceptors.request.use(async config => {
   const token = await getToken()
-  // Only log token status, not the actual token
-  console.log('Token available:', !!token)
 
   if (token) {
     // @ts-ignore
@@ -54,7 +52,6 @@ server.interceptors.response.use(
     if (typeof window !== 'undefined') {
       // Check if the error is a 401 Unauthorized response
       if (error.response && error.response.status === 401) {
-        console.log('Unauthorized access detected, redirecting to logout')
         // Show toast notification and then redirect to the Auth0 logout endpoint
         showToastAndThen(
           'Your session has expired. You will be logged out.',

@@ -94,7 +94,6 @@ const LogoAndSubscription = ({
           </Typography>
         </motion.div>
       </Button>
-      <SubscriptionBadge subscriptionType={subscriptionType} />
     </Box>
   )
 }

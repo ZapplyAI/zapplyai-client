@@ -12,11 +12,9 @@ export async function GET() {
     // Check if we have a cached plans that's not expired
     const currentTime = Date.now()
     if (cachedPlans && plansCacheTime && currentTime < plansCacheTime + CACHE_EXPIRY) {
-      console.log('Using cached subscription plans')
       return Response.json(cachedPlans)
     }
 
-    console.log('Fetching fresh subscription plans from API')
 
     // Get the session to authenticate the request to the backend
     const session = await auth0.getSession()

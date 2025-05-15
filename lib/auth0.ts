@@ -1,5 +1,6 @@
 import { Auth0Client } from '@auth0/nextjs-auth0/server'
 import { NextResponse } from 'next/server'
+// import { NextResponse } from 'next/server'
 
 export const auth0 = new Auth0Client({
   clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
@@ -17,11 +18,15 @@ export const auth0 = new Auth0Client({
     inactivityDuration: 60 * 60 * 24 * 7,
   },
   // @ts-ignore
-  onCallback(err) {
-    if (!err) {
-      return NextResponse.redirect(
-        new URL('/dashboard/settings', process.env.NEXT_PUBLIC_BASE_URL)
-      )
+  onCallback(err, context) {
+    if (!!err) return
+
+    if (!!context?.returnTo) {
+      return NextResponse.redirect(context.returnTo)
     }
+
+    return NextResponse.redirect(
+      new URL('/dashboard/settings', process.env.NEXT_PUBLIC_BASE_URL)
+    )
   },
 })

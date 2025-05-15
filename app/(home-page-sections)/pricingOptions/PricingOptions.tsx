@@ -222,7 +222,6 @@ const PricesAnim = () => {
   const onLoad = (splineApp: any) => {
     const object = splineApp.findObjectByName('RobotGroup')
     if (object) {
-      console.log('object', object)
       object.scale.x = 1.18
       object.scale.y = 1.18
       object.scale.z = 1.18
