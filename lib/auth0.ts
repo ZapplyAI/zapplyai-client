@@ -21,7 +21,7 @@ export const auth0 = new Auth0Client({
   onCallback(err, context) {
     if (!!err) return
 
-    if (!!context?.returnTo) {
+    if (!!context?.returnTo && context.returnTo !== '/') {
       return NextResponse.redirect(context.returnTo)
     }
 
