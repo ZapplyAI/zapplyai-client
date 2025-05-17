@@ -106,43 +106,7 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
         joinedAt: '2023-04-05T16:20:00Z'
       },
     ],
-    transactions: [
-      {
-        id: '1',
-        date: '2023-11-01T10:00:00Z',
-        amount: 29.99,
-        type: 'subscription',
-        description: 'Monthly Plus Subscription'
-      },
-      {
-        id: '2',
-        date: '2023-10-01T10:00:00Z',
-        amount: 29.99,
-        type: 'subscription',
-        description: 'Monthly Plus Subscription'
-      },
-      {
-        id: '3',
-        date: '2023-09-01T10:00:00Z',
-        amount: 29.99,
-        type: 'subscription',
-        description: 'Monthly Plus Subscription'
-      },
-      {
-        id: '4',
-        date: '2023-08-15T14:30:00Z',
-        amount: 99.99,
-        type: 'one-time',
-        description: 'Token Pack Purchase'
-      },
-      {
-        id: '5',
-        date: '2023-08-01T10:00:00Z',
-        amount: 29.99,
-        type: 'subscription',
-        description: 'Monthly Plus Subscription'
-      }
-    ],
+    transactions: [],
     subscriptionType: 'team',
     inviteTeamMember: async (email: string) => {
       console.log(`Invitation sent to ${email}`);
