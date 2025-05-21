@@ -33,16 +33,17 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({
       try {
         const { status, data } = await axios.get('/api/subscriptions/payments')
 
-        if (status >= 200 && status < 300 && data?.payments) {
+        if (status >= 200 && status < 300 && data?.data) {
           // Transform API response to a match Transaction type
-          const transformedTransactions: Transaction[] = data.payments.map(
+          const transformedTransactions: Transaction[] = data.data.map(
             (payment: any) => ({
               id: payment.id,
               date: payment.transaction_date,
               amount: parseFloat(payment.amount),
-              description: payment.plan?.name
-                ? `${payment.plan.name} Subscription`
-                : 'Subscription Payment',
+              type: payment.transaction_type === 'SUBSCRIPTION' ? 'subscription' : 'one-time',
+              description: payment.subscription_id
+                ? `Subscription (${payment.subscription_id})`
+                : 'Payment',
             })
           )
 

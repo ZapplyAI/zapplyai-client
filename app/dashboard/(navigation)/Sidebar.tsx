@@ -7,6 +7,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import LogoutIcon from '@mui/icons-material/Logout'
+import DataUsageIcon from '@mui/icons-material/DataUsage'
 import { useDashboard } from '../DashboardContext'
 import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
@@ -99,6 +100,7 @@ const renderSideMenu = (
     // { label: 'Home', path: '', icon: HomeSharpIcon },
     // { label: 'VS Code', path: '/landing', icon: CodeIcon },
     { label: 'Transaction History', path: '', icon: ReceiptLongIcon, onClick: handleTransactionHistory },
+    { label: 'Usage', path: '/usage', icon: DataUsageIcon },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
     { label: 'Logout', path: '', icon: LogoutIcon, onClick: handleLogout },
   ]
