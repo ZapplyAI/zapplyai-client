@@ -99,8 +99,8 @@ const renderSideMenu = (
   const menuItems = [
     // { label: 'Home', path: '', icon: HomeSharpIcon },
     // { label: 'VS Code', path: '/landing', icon: CodeIcon },
-    { label: 'Transaction History', path: '', icon: ReceiptLongIcon, onClick: handleTransactionHistory },
     { label: 'Usage', path: '/usage', icon: DataUsageIcon },
+    { label: 'Transaction History', path: '', icon: ReceiptLongIcon, onClick: handleTransactionHistory },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
     { label: 'Logout', path: '', icon: LogoutIcon, onClick: handleLogout },
   ]

@@ -28,7 +28,7 @@ export const auth0 = new Auth0Client({
     }
 
     return NextResponse.redirect(
-      new URL('/dashboard/settings', process.env.NEXT_PUBLIC_BASE_URL)
+      new URL('/dashboard/usage', process.env.NEXT_PUBLIC_BASE_URL)
     )
   },
 })

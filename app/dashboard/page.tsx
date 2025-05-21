@@ -6,7 +6,7 @@ export default function DashboardRedirect() {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace('/dashboard/settings')
+    router.replace('/dashboard/usage')
   }, [router])
 
   // Return null or a loading indicator while redirecting
