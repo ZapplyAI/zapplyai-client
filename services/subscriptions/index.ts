@@ -26,7 +26,7 @@ const subscriptions = {
       }
 
       console.log('Fetching fresh subscription plans from API')
-      const { data, status } = await axios.get('/api/subscriptions/plans')
+      const { data, status } = await axios.get('https://copilot-api-go-test-739610349551.europe-west2.run.app/api/subscriptions/plans')
 
       if (status === 200) {
         // Update cache

@@ -19,6 +19,19 @@ export interface UserProfilePlan {
   description: string;
 }
 
+export interface SubscriptionPlanBuckets {
+  gemini: number;
+  claude: number;
+  gpt: number;
+}
+
+export interface SubscriptionPlan {
+  type: string;
+  monthly_price: string;
+  total_credits: number;
+  buckets: SubscriptionPlanBuckets;
+}
+
 export interface UserProfileSubscription {
   id: string;
   plan: UserProfilePlan;

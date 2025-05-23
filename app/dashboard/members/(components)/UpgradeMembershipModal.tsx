@@ -21,22 +21,14 @@ import { useRouter } from 'next/navigation'
 import _axios from '@/lib/axios'
 import { handleCheckoutServer } from '@/services/subscriptions/handleCheckout'
 import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
+import { SubscriptionPlan } from '@/services/types'
 
 interface UpgradeMembershipProps {
   open: boolean
   onClose: (membershipUpdated: boolean) => void
 }
 
-interface SubscriptionPlan {
-  id: string
-  name: string
-  monthly_fee: string
-  premium_calls_quota: number
-  overage_rate: string | null
-  context_window: number
-  team_support: boolean
-  description: string
-}
+// Using the imported SubscriptionPlan interface from services/types.ts
 
 const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
   const { subscriptionPlans, loading, error } = useSubscriptionPlans()
@@ -168,26 +160,32 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 mb: 2,
                 fontFamily: '"JetBrains Mono", monospace',
                 background:
-                  selectedPlan.name.toLowerCase().includes('pro+') ||
-                  selectedPlan.name.toLowerCase().includes('pro plus')
+                  selectedPlan.type.toLowerCase().includes('pro+') ||
+                  selectedPlan.type.toLowerCase().includes('pro plus') ||
+                  selectedPlan.type.toLowerCase().includes('premium')
                     ? 'linear-gradient(to right, #7C5EFD, #FB5EC0)'
-                    : selectedPlan.name.toLowerCase().includes('pro')
+                    : selectedPlan.type.toLowerCase().includes('pro') ||
+                      selectedPlan.type.toLowerCase().includes('standard')
                       ? 'linear-gradient(to right, #FFB42A, #F85E8A)'
                       : 'none',
-                WebkitBackgroundClip: selectedPlan.name
+                WebkitBackgroundClip: selectedPlan.type
                   .toLowerCase()
-                  .includes('pro')
+                  .includes('pro') ||
+                  selectedPlan.type.toLowerCase().includes('premium') ||
+                  selectedPlan.type.toLowerCase().includes('standard')
                   ? 'text'
                   : 'border-box',
-                WebkitTextFillColor: selectedPlan.name
+                WebkitTextFillColor: selectedPlan.type
                   .toLowerCase()
-                  .includes('pro')
+                  .includes('pro') ||
+                  selectedPlan.type.toLowerCase().includes('premium') ||
+                  selectedPlan.type.toLowerCase().includes('standard')
                   ? 'transparent'
                   : '#808080',
                 fontWeight: 500,
               }}
             >
-              {selectedPlan.name}
+              {selectedPlan.type}
             </Typography>
             <List dense>
               <ListItem>
@@ -206,7 +204,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontFamily: 'Kanit, sans-serif',
                         }}
                       >
-                        Premium calls quota:
+                        Total credits:
                       </Box>
                       <Box
                         component="span"
@@ -215,71 +213,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontFamily: 'Kanit, sans-serif',
                         }}
                       >
-                        {selectedPlan.premium_calls_quota}
-                      </Box>
-                    </Box>
-                  }
-                />
-              </ListItem>
-              {selectedPlan.overage_rate && (
-                <ListItem>
-                  <ListItemIcon sx={{ minWidth: '24px' }}>
-                    <FiberManualRecordIcon
-                      sx={{ fontSize: 8, color: '#7C5EFD' }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Box component="span">
-                        <Box
-                          component="span"
-                          sx={{
-                            color: '#B5B5B5',
-                            fontFamily: 'Kanit, sans-serif',
-                          }}
-                        >
-                          Overage rate:
-                        </Box>
-                        <Box
-                          component="span"
-                          sx={{
-                            ml: 1,
-                            fontFamily: 'Kanit, sans-serif',
-                          }}
-                        >
-                          {selectedPlan.overage_rate}
-                        </Box>
-                      </Box>
-                    }
-                  />
-                </ListItem>
-              )}
-              <ListItem>
-                <ListItemIcon sx={{ minWidth: '24px' }}>
-                  <FiberManualRecordIcon
-                    sx={{ fontSize: 8, color: '#7C5EFD' }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Box component="span">
-                      <Box
-                        component="span"
-                        sx={{
-                          color: '#B5B5B5',
-                          fontFamily: 'Kanit, sans-serif',
-                        }}
-                      >
-                        Context window:
-                      </Box>
-                      <Box
-                        component="span"
-                        sx={{
-                          ml: 1,
-                          fontFamily: 'Kanit, sans-serif',
-                        }}
-                      >
-                        {selectedPlan.context_window}
+                        {selectedPlan.total_credits}
                       </Box>
                     </Box>
                   }
@@ -301,7 +235,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontFamily: 'Kanit, sans-serif',
                         }}
                       >
-                        Team support:
+                        Gemini credits:
                       </Box>
                       <Box
                         component="span"
@@ -310,7 +244,69 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontFamily: 'Kanit, sans-serif',
                         }}
                       >
-                        {selectedPlan.team_support ? 'Yes' : 'No'}
+                        {selectedPlan.buckets.gemini}
+                      </Box>
+                    </Box>
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon sx={{ minWidth: '24px' }}>
+                  <FiberManualRecordIcon
+                    sx={{ fontSize: 8, color: '#7C5EFD' }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Box component="span">
+                      <Box
+                        component="span"
+                        sx={{
+                          color: '#B5B5B5',
+                          fontFamily: 'Kanit, sans-serif',
+                        }}
+                      >
+                        Claude credits:
+                      </Box>
+                      <Box
+                        component="span"
+                        sx={{
+                          ml: 1,
+                          fontFamily: 'Kanit, sans-serif',
+                        }}
+                      >
+                        {selectedPlan.buckets.claude}
+                      </Box>
+                    </Box>
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon sx={{ minWidth: '24px' }}>
+                  <FiberManualRecordIcon
+                    sx={{ fontSize: 8, color: '#7C5EFD' }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Box component="span">
+                      <Box
+                        component="span"
+                        sx={{
+                          color: '#B5B5B5',
+                          fontFamily: 'Kanit, sans-serif',
+                        }}
+                      >
+                        GPT credits:
+                      </Box>
+                      <Box
+                        component="span"
+                        sx={{
+                          ml: 1,
+                          fontFamily: 'Kanit, sans-serif',
+                        }}
+                      >
+                        {selectedPlan.buckets.gpt}
                       </Box>
                     </Box>
                   }
@@ -342,7 +338,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 color: '#FFFFFF',
               }}
             >
-              {parseFloat(selectedPlan.monthly_fee).toFixed(0)}$
+              {selectedPlan.monthly_price}
             </Typography>
             <Typography
               sx={{
@@ -361,7 +357,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
           <Button
             variant="contained"
             fullWidth
-            onClick={() => handleCheckout(selectedPlan?.id)}
+            onClick={() => handleCheckout(selectedPlan?.type)}
             disabled={loading}
             sx={{
               background: 'linear-gradient(to right, #7C5EFD, #FB5EC0)',
@@ -395,16 +391,16 @@ const RadioGroupExample = ({
   selectedPlan,
   onPlanSelect,
 }: RadioGroupExampleProps) => {
-  const getGradientForPlan = (planName: string) => {
-    if (!planName) return '#808080, #808080' // Default gray
+  const getGradientForPlan = (planType: string) => {
+    if (!planType) return '#808080, #808080' // Default gray
 
-    const name = planName.toLowerCase()
-    if (name.includes('pro+') || name.includes('pro plus')) {
-      return '#7C5EFD, #FB5EC0' // Pro+ gradient
-    } else if (name.includes('pro')) {
-      return '#FFB42A, #F85E8A' // Pro gradient
-    } else if (name.includes('free')) {
-      return '#808080, #808080' // Free tier gray
+    const type = planType.toLowerCase()
+    if (type.includes('pro+') || type.includes('pro plus') || type.includes('premium')) {
+      return '#7C5EFD, #FB5EC0' // Premium/Pro+ gradient
+    } else if (type.includes('pro') || type.includes('standard')) {
+      return '#FFB42A, #F85E8A' // Pro/Standard gradient
+    } else if (type.includes('free') || type.includes('basic')) {
+      return '#808080, #808080' // Free/Basic tier gray
     }
 
     return '#808080, #808080' // Default gray
@@ -417,14 +413,14 @@ const RadioGroupExample = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', mt: 2 }}>
       {map(subscriptionPlans, plan => {
-        const gradient = getGradientForPlan(plan.name)
+        const gradient = getGradientForPlan(plan.type)
         return (
           <RadioOption
-            key={plan.id}
-            label={plan.name}
-            description={plan.description}
-            price={plan.monthly_fee}
-            selected={selectedPlan?.id === plan.id}
+            key={plan.type}
+            label={plan.type}
+            description={`Total Credits: ${plan.total_credits}`}
+            price={plan.monthly_price}
+            selected={selectedPlan?.type === plan.type}
             onChange={() => onPlanSelect(plan)}
             gradient={gradient}
           />

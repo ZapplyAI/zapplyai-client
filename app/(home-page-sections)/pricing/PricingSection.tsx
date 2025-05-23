@@ -139,19 +139,6 @@ const PricingCard = ({
         ))}
       </Box>
 
-      <ClippedButton
-        filled={isPopular}
-        onClick={showAlert}
-        sx={{
-          fontFamily: 'Tektur, sans-serif',
-          fontSize: '1rem',
-          padding: '12px 24px',
-          marginTop: 'auto',
-        }}
-      >
-        Get Started
-      </ClippedButton>
-
       <DecorRect sx={{ bottom: '15px', right: '15px' }} />
     </Box>
   )

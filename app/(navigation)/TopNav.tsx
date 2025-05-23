@@ -145,17 +145,6 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
             {/*  Sign In*/}
             {/*</ClippedButton>*/}
             <AuthButton/>
-            <ClippedButton
-              filled={true}
-              onClick={showAlert}
-              sx={{
-                fontFamily: 'Tektur, sans-serif',
-                fontSize: '0.9rem',
-                padding: '8px 16px',
-              }}
-            >
-              Get Started
-            </ClippedButton>
           </Box>
         )}
 
@@ -240,21 +229,6 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
 
           <Box sx={{ marginTop: '30px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
             <AuthButton/>
-            <ClippedButton
-              filled={true}
-              onClick={() => {
-                showAlert()
-                setDrawerOpen(false)
-              }}
-              sx={{
-                fontFamily: 'Tektur, sans-serif',
-                fontSize: '0.9rem',
-                padding: '10px 16px',
-                width: '100%',
-              }}
-            >
-              Get Started
-            </ClippedButton>
           </Box>
 
           <Box

@@ -281,17 +281,6 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
           </Typography>
 
           <Box sx={{ display: 'flex', gap: '20px', marginBottom: '50px' }}>
-            <ClippedButton
-              filled={true}
-              onClick={showAlert}
-              sx={{
-                fontFamily: 'Tektur, sans-serif',
-                fontSize: '1.1rem',
-                padding: '12px 24px',
-              }}
-            >
-              Get Started
-            </ClippedButton>
 
             <ClippedButton
               onClick={showAlert}
