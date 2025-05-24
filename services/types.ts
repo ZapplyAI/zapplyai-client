@@ -46,6 +46,7 @@ export interface UserProfile {
   id: string;
   email: string;
   email_verified: boolean;
+  subscription_id?: string;
   created_at: string;
-  subscription: UserProfileSubscription;
+  subscription?: UserProfileSubscription;
 }

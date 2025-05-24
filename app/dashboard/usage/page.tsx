@@ -38,8 +38,14 @@ export default function UsagePage() {
 
   useEffect(() => {
     const fetchUsageData = async () => {
-      // Get subscription ID from profile if available, otherwise use a default ID for testing
-      const subscriptionId = profile?.subscription?.id || 'sub-01JVS7285JNT86NWT062G7003G';
+      // Only fetch usage data if the user has a subscription ID
+      if (!profile?.subscription_id) {
+        setError('No subscription found for this account')
+        setIsLoading(false)
+        return
+      }
+
+      const subscriptionId = profile.subscription_id;
 
       setIsLoading(true)
       setError(null)
@@ -59,9 +65,11 @@ export default function UsagePage() {
       }
     }
 
-    // Always fetch usage data, even if profile.subscription.id is not available
-    fetchUsageData()
-  }, [profile])
+    // Only fetch usage data if profile is loaded
+    if (!isProfileLoading) {
+      fetchUsageData()
+    }
+  }, [profile, isProfileLoading])
 
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A'
