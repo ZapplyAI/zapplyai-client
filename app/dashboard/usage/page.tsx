@@ -189,16 +189,6 @@ export default function UsagePage() {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" sx={{ color: '#AAAAAA' }}>
-                    Next Billing Date
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: '#E5E5E5', fontWeight: 500 }}>
-                    {formatDate(usageData.next_billing_date)} ({getDaysRemaining()})
-                  </Typography>
-                </Box>
-              </Grid>
             </Grid>
           </Box>
 
@@ -223,25 +213,6 @@ export default function UsagePage() {
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#E5E5E5', fontFamily: 'JetBrains Mono' }}>
                       {bucket.credits_used.toLocaleString()} credits
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                    <LinearProgress
-                      variant="determinate"
-                      value={Math.min(100, (bucket.credits_used / 100) * 100)}
-                      sx={{
-                        height: 8,
-                        borderRadius: 4,
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        flexGrow: 1,
-                        '& .MuiLinearProgress-bar': {
-                          borderRadius: 4,
-                          background: 'linear-gradient(to right, #775EFF, #FF5EBF)',
-                        },
-                      }}
-                    />
-                    <Typography variant="caption" sx={{ ml: 1, color: '#AAAAAA', fontFamily: 'JetBrains Mono' }}>
-                      {Math.min(100, Math.round((bucket.credits_used / 100) * 100))}%
                     </Typography>
                   </Box>
                 </Box>

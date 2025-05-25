@@ -8,18 +8,12 @@ import {
   ListItemText,
   Radio,
 } from '@mui/material'
-import React, { startTransition, useState } from 'react'
+import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import map from 'lodash/map'
 import useSubscriptionPlans from '@/lib/hooks/useSubscriptionPlans'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import { subscriptions } from '@/services'
-import { Plan } from '@/app/dashboard/members/(components)/UpgradeMembership'
-import { Spinner } from '@/components'
-import { useRouter } from 'next/navigation'
-import _axios from '@/lib/axios'
-import { handleCheckoutServer } from '@/services/subscriptions/handleCheckout'
 import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
 import { SubscriptionPlan } from '@/services/types'
 
@@ -165,23 +159,21 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                   selectedPlan.type.toLowerCase().includes('premium')
                     ? 'linear-gradient(to right, #7C5EFD, #FB5EC0)'
                     : selectedPlan.type.toLowerCase().includes('pro') ||
-                      selectedPlan.type.toLowerCase().includes('standard')
+                        selectedPlan.type.toLowerCase().includes('standard')
                       ? 'linear-gradient(to right, #FFB42A, #F85E8A)'
                       : 'none',
-                WebkitBackgroundClip: selectedPlan.type
-                  .toLowerCase()
-                  .includes('pro') ||
+                WebkitBackgroundClip:
+                  selectedPlan.type.toLowerCase().includes('pro') ||
                   selectedPlan.type.toLowerCase().includes('premium') ||
                   selectedPlan.type.toLowerCase().includes('standard')
-                  ? 'text'
-                  : 'border-box',
-                WebkitTextFillColor: selectedPlan.type
-                  .toLowerCase()
-                  .includes('pro') ||
+                    ? 'text'
+                    : 'border-box',
+                WebkitTextFillColor:
+                  selectedPlan.type.toLowerCase().includes('pro') ||
                   selectedPlan.type.toLowerCase().includes('premium') ||
                   selectedPlan.type.toLowerCase().includes('standard')
-                  ? 'transparent'
-                  : '#808080',
+                    ? 'transparent'
+                    : '#808080',
                 fontWeight: 500,
               }}
             >
@@ -338,7 +330,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 color: '#FFFFFF',
               }}
             >
-              {selectedPlan.monthly_price}
+              ${selectedPlan.monthly_price}
             </Typography>
             <Typography
               sx={{
@@ -395,7 +387,11 @@ const RadioGroupExample = ({
     if (!planType) return '#808080, #808080' // Default gray
 
     const type = planType.toLowerCase()
-    if (type.includes('pro+') || type.includes('pro plus') || type.includes('premium')) {
+    if (
+      type.includes('pro+') ||
+      type.includes('pro plus') ||
+      type.includes('premium')
+    ) {
       return '#7C5EFD, #FB5EC0' // Premium/Pro+ gradient
     } else if (type.includes('pro') || type.includes('standard')) {
       return '#FFB42A, #F85E8A' // Pro/Standard gradient
@@ -520,7 +516,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           alignItems: 'center',
         }}
       >
-        {price}$
+        ${price}
       </Typography>
     </Box>
   )

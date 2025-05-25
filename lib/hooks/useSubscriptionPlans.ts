@@ -27,14 +27,16 @@ const useSubscriptionPlans = () => {
   }
 
   useEffect(() => {
-    fetchSubscriptionPlans(false) // Use cached data if available
+    fetchSubscriptionPlans(false)
   }, [])
 
   return {
-    subscriptionPlans,
+    subscriptionPlans: subscriptionPlans?.filter(
+      (plan: any) => plan.type !== 'FREE'
+    ) || [],
     loading,
     error,
-    refreshPlans: () => fetchSubscriptionPlans(true) // Force refresh when needed
+    refreshPlans: () => fetchSubscriptionPlans(true), // Force refresh when needed
   }
 }
 
