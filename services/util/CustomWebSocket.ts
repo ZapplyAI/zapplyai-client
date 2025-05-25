@@ -18,7 +18,7 @@ export default class CustomWebSocket {
   }
 
   private mockWebSocket(url: string) {
-    console.log(`Mock WebSocket initialized for URL: ${url}`)
+    // console.log(`Mock WebSocket initialized for URL: ${url}`)
 
     // Automatically trigger messages when a new instance is created
     setTimeout(() => {
@@ -38,14 +38,14 @@ export default class CustomWebSocket {
       })
       this.onmessage(event)
     }
-    console.log(`CustomWebSocket sending mock data:`, data)
+    // console.log(`CustomWebSocket sending mock data:`, data)
   }
 
   send(data: string) {
     if (this.ws) {
       this.ws.send(data)
     } else {
-      console.log(`Mock WebSocket cannot send data:`, data)
+      // console.log(`Mock WebSocket cannot send data:`, data)
     }
   }
 
@@ -53,7 +53,7 @@ export default class CustomWebSocket {
     if (this.ws) {
       this.ws.close()
     } else {
-      console.log('Mock WebSocket closed')
+      // console.log('Mock WebSocket closed')
     }
   }
 }

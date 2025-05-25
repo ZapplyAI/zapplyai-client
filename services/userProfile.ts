@@ -18,11 +18,9 @@ const userProfileService = {
       // Check if we have a cached profile that's not expired and forceRefresh is not requested
       const currentTime = Date.now();
       if (!forceRefresh && cachedProfile && profileCacheTime && currentTime < profileCacheTime + CACHE_EXPIRY) {
-        console.log('Using cached user profile');
         return cachedProfile;
       }
 
-      console.log('Fetching fresh user profile from API');
       const { data } = await axios.get('/api/auth/me');
 
       // Update cache

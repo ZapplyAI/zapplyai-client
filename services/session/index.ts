@@ -4,12 +4,10 @@ import { customFetch, Response } from '@/services'
 const session = {
   initialize: async (name: string): Promise<Response> => {
     try {
-      console.log('SESSION -> /projects/start/')
       return await customFetch('/projects/start/', 'post', {
         name,
       })
     } catch (e) {
-      console.log(e)
       return {
         success: false,
       }
@@ -21,14 +19,13 @@ const session = {
     currentStep: string
   ): Promise<Response> => {
     try {
-      console.log('SESSION -> /projects/interact/')
       return await customFetch('/projects/interact/', 'post', {
         app_ref: dialogId,
         response: message,
         current_step: currentStep,
       })
     } catch (e) {
-      console.log(e)
+      // console.log(e)
 
       return {
         success: false,

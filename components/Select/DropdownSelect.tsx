@@ -19,7 +19,6 @@ const DropdownSelect = ({
     <Select
       value={currentValue}
       onChange={event => {
-        console.log('Selecting id', event.target.value)
         onChange(event.target.value)
       }}
       // IconComponent={(props) => (<UilAngleRightB {...props} sx={{transform: 'rotate(90deg)'}}/>)}

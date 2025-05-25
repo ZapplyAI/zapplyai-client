@@ -109,7 +109,6 @@ export const DashboardProvider = ({ children }: { children: ReactNode }) => {
     transactions: [],
     subscriptionType: 'team',
     inviteTeamMember: async (email: string) => {
-      console.log(`Invitation sent to ${email}`);
       return true;
     }
   });

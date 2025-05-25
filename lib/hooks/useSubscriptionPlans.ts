@@ -7,7 +7,6 @@ const useSubscriptionPlans = () => {
   const [error, setError] = useState<string | null>(null)
 
   const fetchSubscriptionPlans = async (forceRefresh = false) => {
-    console.log('\n\n Fetching subscription plans...')
     setLoading(true)
     setError(null)
 
@@ -15,7 +14,6 @@ const useSubscriptionPlans = () => {
       const { success, response } = await subscriptions.getList(forceRefresh)
 
       if (success) {
-        console.log('\ndata', response)
         setSubscriptionPlans(response)
       } else {
         setError('Failed to fetch subscription plans')

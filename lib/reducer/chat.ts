@@ -79,7 +79,6 @@ const chatSlice = createSlice({
       updateDialog(state, updatedDialog)
     },
     addMessageToFeed(state, action: PayloadAction<Message>) {
-      console.log('!addMessageToFeed, action', action)
       const openDialog = getOpenDialog(state)
       if (openDialog === undefined) {
         return
