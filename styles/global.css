@@ -1,3 +1,8 @@
+/* Global Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Navigation and Footer Link Styles */
 .nav-link:hover, .footer-link:hover {
   color: #775EFF !important;

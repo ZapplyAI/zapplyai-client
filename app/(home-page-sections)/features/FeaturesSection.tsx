@@ -17,12 +17,12 @@ interface FeaturesSectionProps {
 }
 
 // Feature card component
-const FeatureCard = ({ 
-  title, 
-  description, 
-  icon, 
-  gradient 
-}: { 
+const FeatureCard = ({
+  title,
+  description,
+  icon,
+  gradient
+}: {
   title: string
   description: string
   icon: React.ReactNode
@@ -60,7 +60,7 @@ const FeatureCard = ({
       >
         {icon}
       </Box>
-      
+
       <Typography
         variant={'h3' as any}
         sx={{
@@ -73,7 +73,7 @@ const FeatureCard = ({
       >
         {title}
       </Typography>
-      
+
       <Typography
         variant={'body1' as any}
         sx={{
@@ -85,7 +85,7 @@ const FeatureCard = ({
       >
         {description}
       </Typography>
-      
+
       <DecorRect sx={{ bottom: '10px', right: '10px' }} />
     </Box>
   )
@@ -93,7 +93,7 @@ const FeatureCard = ({
 
 export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
   const theme = useTheme()
-  
+
   const features = [
     {
       title: 'Terminal Access',
@@ -123,6 +123,7 @@ export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
 
   return (
     <Box
+      id="features"
       sx={{
         position: 'relative',
         padding: isMobile ? '60px 20px' : '100px 0',
@@ -148,7 +149,7 @@ export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
           >
             Supercharge Your Coding
           </Typography>
-          
+
           <Typography
             variant={'body1' as any}
             sx={{
@@ -162,7 +163,7 @@ export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
             Elastic Copilot combines AI power with developer-focused features to transform how you write code.
           </Typography>
         </Box>
-        
+
         <Grid container spacing={4}>
           {features.map((feature, index) => (
             <Grid item xs={12} md={6} key={index}>
@@ -175,7 +176,7 @@ export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
             </Grid>
           ))}
         </Grid>
-        
+
         {/* Decorative elements */}
         <Box
           sx={{
@@ -187,7 +188,7 @@ export const FeaturesSection = ({ isMobile }: FeaturesSectionProps) => {
             background: 'linear-gradient(to bottom, rgba(119, 94, 255, 0), rgba(119, 94, 255, 1))',
           }}
         />
-        
+
         <Box
           sx={{
             position: 'absolute',

@@ -162,7 +162,7 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
     },
     {
       title: 'Pro',
-      price: '15',
+      price: '$15',
       description: 'For professional developers',
       features: [
         'Priority usage of the Base Model',
@@ -176,7 +176,7 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
     },
     {
       title: 'Pro+',
-      price: '25',
+      price: '$25',
       description: 'For ultra professional developers',
       features: [
         'Priority usage of the Base Model',
@@ -192,6 +192,7 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
 
   return (
     <Box
+      id="pricing"
       sx={{
         position: 'relative',
         padding: isMobile ? '60px 20px' : '100px 0',
@@ -283,16 +284,17 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
             Contact us for enterprise pricing and custom solutions tailored to your organization.
           </Typography>
 
-          <ClippedButton
-            onClick={showAlert}
-            sx={{
-              fontFamily: 'Tektur, sans-serif',
-              fontSize: '1rem',
-              padding: '12px 24px',
-            }}
-          >
-            Contact Sales
-          </ClippedButton>
+          <a href="mailto:sales@elasticapp.io">
+            <ClippedButton
+              sx={{
+                fontFamily: 'Tektur, sans-serif',
+                fontSize: '1rem',
+                padding: '12px 24px',
+              }}
+            >
+              Contact Sales
+            </ClippedButton>
+          </a>
 
           <DecorRect sx={{ top: '15px', left: '15px' }} />
           <DecorRect sx={{ bottom: '15px', right: '15px' }} />
