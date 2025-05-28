@@ -34,8 +34,8 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
   }, [scrolled])
 
   const navLinks = [
-    { name: 'Features', url: '#' },
-    { name: 'Pricing', url: '#' },
+    { name: 'Features', url: '#features' },
+    { name: 'Pricing', url: '#pricing' },
     { name: 'Documentation', url: '/documentation' },
     // { name: 'Blog', url: '#' },
   ]

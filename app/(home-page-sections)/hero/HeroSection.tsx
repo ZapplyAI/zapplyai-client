@@ -1,15 +1,11 @@
 'use client'
 import React from 'react'
-import { Box, Button, useTheme } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import {
-  HorizontalCenterBox,
-  HorizontalLeftAlignBox,
-  VerticalLeftAlignBox,
-} from '@/components/layouts/CenterBox'
+import { HorizontalCenterBox } from '@/components/layouts/CenterBox'
 import DecorRect from '@/app/(components)/DecorRect'
-import Image from 'next/image'
 import ClippedButton from '@/app/(components)/ClippedButton'
+import { EXTENSION_URL } from '@/constants'
 
 interface HeroSectionProps {
   isMobile: boolean
@@ -52,7 +48,7 @@ const ParticleAnimation = () => {
         vx: (Math.random() - 0.5) * 0.2,
         vy: (Math.random() - 0.5) * 0.2,
         size: Math.random() * 2 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)]
+        color: colors[Math.floor(Math.random() * colors.length)],
       })
     }
 
@@ -116,7 +112,7 @@ const ParticleAnimation = () => {
         pointerEvents: 'none',
         zIndex: 0,
         opacity: 0.6,
-        maxHeight: '900px'
+        maxHeight: '900px',
       }}
     />
   )
@@ -181,7 +177,8 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
       position: 'relative',
       overflow: 'hidden',
       borderRadius: '4px',
-      background: 'linear-gradient(135deg, rgba(119, 94, 255, 0.1), rgba(222, 58, 237, 0.1))',
+      background:
+        'linear-gradient(135deg, rgba(119, 94, 255, 0.1), rgba(222, 58, 237, 0.1))',
       backdropFilter: 'blur(5px)',
       border: '1px solid rgba(119, 94, 255, 0.3)',
     },
@@ -189,7 +186,7 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
       position: 'relative',
       width: '100%',
       paddingTop: '59.25%', // 16:9 aspect ratio (9 / 16 = 0.5625)
-    }
+    },
   }
 
   return (
@@ -201,15 +198,17 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
             title="Elastic Copilot Introduction"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-            style={{
-              position: 'absolute',
-              zIndex: 20,
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              border: 'none',
-            } as React.CSSProperties}
+            style={
+              {
+                position: 'absolute',
+                zIndex: 20,
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none',
+              } as React.CSSProperties
+            }
           />
         </Box>
       </Box>
@@ -221,7 +220,6 @@ const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
   )
 }
 
-
 export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
   const theme = useTheme()
 
@@ -231,7 +229,11 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
 
       <Box
         sx={{
-          margin: `0px ${isMobile ? theme.customSpacing?.sides.mobile : theme.customSpacing?.sides.desktop}`,
+          margin: `0px ${
+            isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop
+          }`,
           border: '1px solid rgba(119, 94, 255, 0.3)',
           borderTop: 'none',
           position: 'relative',
@@ -244,7 +246,6 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
           backdropFilter: 'blur(10px)',
         }}
       >
-
         <Box sx={{ position: 'relative', zIndex: 1 }}>
           <Typography
             variant={'h1' as any}
@@ -262,7 +263,7 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
               maxWidth: isMobile ? '100%' : '850%',
             }}
           >
-            Revolutionize Your Coding Experience with Elastic Copilot
+            Enhance code quality with full model context
           </Typography>
 
           <Typography
@@ -277,21 +278,23 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
               fontFamily: 'JetBrains Mono, monospace',
             }}
           >
-            A VS Code extension that accesses your terminal, file system, and uses an in-editor browser to show real-time testing. Every development step is captured for future reference.
+            Write high-quality code in VS Code with Elastic Co-Pilot. Leverage
+            the full context window of industry-leading AI models and deliver
+            production-ready projects. No context caps, EVER.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: '20px', marginBottom: '50px' }}>
-
-            <ClippedButton
-              onClick={showAlert}
-              sx={{
-                fontFamily: 'Tektur, sans-serif',
-                fontSize: '1.1rem',
-                padding: '12px 24px',
-              }}
-            >
-              Watch Demo
-            </ClippedButton>
+            <a href={EXTENSION_URL} target={'_blank'} rel={'noreferrer'}>
+              <ClippedButton
+                sx={{
+                  fontFamily: 'Tektur, sans-serif',
+                  fontSize: '1.1rem',
+                  padding: '12px 24px',
+                }}
+              >
+                Download For VS Code
+              </ClippedButton>
+            </a>
           </Box>
         </Box>
 

@@ -12,33 +12,33 @@ interface FooterProps {
 
 export const Footer = ({ isMobile = false }: FooterProps) => {
   const theme = useTheme()
-  
+
   const footerLinks = [
     {
       title: 'Product',
       links: [
-        { name: 'Features', url: '#' },
-        { name: 'Pricing', url: '#' },
-        { name: 'Integrations', url: '#' },
-        { name: 'Changelog', url: '#' },
+        { name: 'Features', url: '#features' },
+        { name: 'Pricing', url: '#pricing' },
+        // { name: 'Integrations', url: '#' },
+        // { name: 'Changelog', url: '#' },
       ],
     },
     {
       title: 'Resources',
       links: [
         { name: 'Documentation', url: '#' },
-        { name: 'Tutorials', url: '#' },
-        { name: 'Blog', url: '#' },
-        { name: 'Community', url: '#' },
+        // { name: 'Tutorials', url: '#' },
+        // { name: 'Blog', url: '#' },
+        // { name: 'Community', url: '#' },
       ],
     },
     {
       title: 'Company',
       links: [
-        { name: 'About Us', url: '#' },
-        { name: 'Careers', url: '#' },
+        // { name: 'About Us', url: '#' },
+        // { name: 'Careers', url: '#' },
         { name: 'Contact', url: '#' },
-        { name: 'Legal', url: '#' },
+        // { name: 'Legal', url: '#' },
       ],
     },
   ]
@@ -81,7 +81,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
                   Elastic Copilot
                 </Typography>
               </Box>
-              
+
               <Typography
                 variant={'body1' as any}
                 sx={{
@@ -93,7 +93,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               >
                 Elastic Copilot is the best context-aware pair programmer to help you or your team with development.
               </Typography>
-              
+
               <Box sx={{ display: 'flex', gap: '15px' }}>
                 <Box
                   sx={{
@@ -117,7 +117,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
                     height={20}
                   />
                 </Box>
-                
+
                 <Box
                   sx={{
                     width: '40px',
@@ -140,7 +140,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
                     height={20}
                   />
                 </Box>
-                
+
                 <Box
                   sx={{
                     width: '40px',
@@ -166,7 +166,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               </Box>
             </Box>
           </Grid>
-          
+
           {footerLinks.map((section, index) => (
             <Grid item xs={12} sm={4} md={2} key={index}>
               <Typography
@@ -181,11 +181,11 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               >
                 {section.title}
               </Typography>
-              
+
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {section.links.map((link, linkIndex) => (
-                  <Link 
-                    href={link.url} 
+                  <Link
+                    href={link.url}
                     key={linkIndex}
                     style={{
                       fontSize: '0.9rem',
@@ -202,7 +202,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               </Box>
             </Grid>
           ))}
-          
+
           <Grid item xs={12} md={2}>
             <Typography
               variant={'h4' as any}
@@ -216,32 +216,23 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
             >
               Contact
             </Typography>
-            
-            <Typography
-              variant={'body2' as any}
-              sx={{
-                fontSize: '0.9rem',
-                color: '#AEAEAE',
-                fontFamily: 'JetBrains Mono, monospace',
-                marginBottom: '10px',
-              }}
-            >
-              hello@elasticcopilot.com
-            </Typography>
-            
-            <Typography
-              variant={'body2' as any}
-              sx={{
-                fontSize: '0.9rem',
-                color: '#AEAEAE',
-                fontFamily: 'JetBrains Mono, monospace',
-              }}
-            >
-              San Francisco, CA
-            </Typography>
+
+            <a href="mailto:support@elasticapp.io">
+              <Typography
+                variant={'body2' as any}
+                sx={{
+                  fontSize: '0.9rem',
+                  color: '#AEAEAE',
+                  fontFamily: 'JetBrains Mono, monospace',
+                  marginBottom: '10px',
+                }}
+              >
+                support@elasticapp.io
+              </Typography>
+            </a>
           </Grid>
         </Grid>
-        
+
         <Box
           sx={{
             marginTop: '60px',
@@ -262,54 +253,54 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               fontFamily: 'JetBrains Mono, monospace',
             }}
           >
-            © 2025 Elastic Copilot. All rights reserved.
+            © {new Date().getFullYear()} Elastic Copilot. All rights reserved.
           </Typography>
-          
-          <Box sx={{ display: 'flex', gap: '20px' }}>
-            <Link 
-              href="#" 
-              style={{
-                fontSize: '0.8rem',
-                color: '#666666',
-                fontFamily: 'JetBrains Mono, monospace',
-                textDecoration: 'none',
-                transition: 'color 0.3s ease',
-              }}
-              className="footer-link"
-            >
-              Privacy Policy
-            </Link>
-            
-            <Link 
-              href="#" 
-              style={{
-                fontSize: '0.8rem',
-                color: '#666666',
-                fontFamily: 'JetBrains Mono, monospace',
-                textDecoration: 'none',
-                transition: 'color 0.3s ease',
-              }}
-              className="footer-link"
-            >
-              Terms of Service
-            </Link>
-            
-            <Link 
-              href="#" 
-              style={{
-                fontSize: '0.8rem',
-                color: '#666666',
-                fontFamily: 'JetBrains Mono, monospace',
-                textDecoration: 'none',
-                transition: 'color 0.3s ease',
-              }}
-              className="footer-link"
-            >
-              Cookie Policy
-            </Link>
-          </Box>
+
+          {/*<Box sx={{ display: 'flex', gap: '20px' }}>*/}
+          {/*  <Link*/}
+          {/*    href="#"*/}
+          {/*    style={{*/}
+          {/*      fontSize: '0.8rem',*/}
+          {/*      color: '#666666',*/}
+          {/*      fontFamily: 'JetBrains Mono, monospace',*/}
+          {/*      textDecoration: 'none',*/}
+          {/*      transition: 'color 0.3s ease',*/}
+          {/*    }}*/}
+          {/*    className="footer-link"*/}
+          {/*  >*/}
+          {/*    Privacy Policy*/}
+          {/*  </Link>*/}
+
+          {/*  <Link*/}
+          {/*    href="#"*/}
+          {/*    style={{*/}
+          {/*      fontSize: '0.8rem',*/}
+          {/*      color: '#666666',*/}
+          {/*      fontFamily: 'JetBrains Mono, monospace',*/}
+          {/*      textDecoration: 'none',*/}
+          {/*      transition: 'color 0.3s ease',*/}
+          {/*    }}*/}
+          {/*    className="footer-link"*/}
+          {/*  >*/}
+          {/*    Terms of Service*/}
+          {/*  </Link>*/}
+
+          {/*  <Link*/}
+          {/*    href="#"*/}
+          {/*    style={{*/}
+          {/*      fontSize: '0.8rem',*/}
+          {/*      color: '#666666',*/}
+          {/*      fontFamily: 'JetBrains Mono, monospace',*/}
+          {/*      textDecoration: 'none',*/}
+          {/*      transition: 'color 0.3s ease',*/}
+          {/*    }}*/}
+          {/*    className="footer-link"*/}
+          {/*  >*/}
+          {/*    Cookie Policy*/}
+          {/*  </Link>*/}
+          {/*</Box>*/}
         </Box>
-        
+
         <DecorRect sx={{ top: '20px', right: '20px' }} />
         <DecorRect sx={{ bottom: '20px', left: '20px' }} />
       </Box>
