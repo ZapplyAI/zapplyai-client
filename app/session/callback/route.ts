@@ -14,5 +14,7 @@ export async function GET(req: Request) {
   const callbackUrl = queryParams.get('callback_url')
   queryParams.delete('callback_url')
 
-  return NextResponse.redirect(`${callbackUrl}?${queryParams}`)
+  return NextResponse.redirect(
+    `${callbackUrl!.split('://')[0]}://elastic-ai.elastic-code?${queryParams}`
+  )
 }
