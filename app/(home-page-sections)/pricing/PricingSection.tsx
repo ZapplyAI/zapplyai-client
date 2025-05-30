@@ -1,10 +1,13 @@
 'use client'
 import React from 'react'
-import { Box, Grid, useTheme } from '@mui/material'
+import { Box, CircularProgress, Grid, useTheme } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import DecorRect from '@/app/(components)/DecorRect'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import CheckIcon from '@mui/icons-material/Check'
+import useSubscriptionPlans from '@/lib/hooks/useSubscriptionPlans'
+import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
+import { SubscriptionPlan } from '@/services/types'
 
 interface PricingSectionProps {
   isMobile: boolean
@@ -19,6 +22,7 @@ const PricingCard = ({
   features,
   isPopular,
   showAlert,
+  planType,
 }: {
   title: string
   price: string
@@ -26,7 +30,9 @@ const PricingCard = ({
   features: string[]
   isPopular?: boolean
   showAlert: () => void
+  planType: string
 }) => {
+  const { handleCheckout, loading: checkoutLoading } = useSubscriptionCheckout();
   return (
     <Box
       sx={{
@@ -115,7 +121,7 @@ const PricingCard = ({
             sx={{
               display: 'flex',
               alignItems: 'center',
-              marginBottom: '15px'
+              marginBottom: '15px',
             }}
           >
             <CheckIcon
@@ -139,26 +145,115 @@ const PricingCard = ({
         ))}
       </Box>
 
+      {/* Add Get Started button for all plans except free */}
+      {title.toLowerCase() !== 'free' && (
+        <ClippedButton
+          onClick={() => handleCheckout(planType)}
+          disabled={checkoutLoading}
+          sx={{
+            fontFamily: 'Tektur, sans-serif',
+            fontSize: '1rem',
+            padding: '12px 24px',
+            marginBottom: '20px',
+            background: isPopular
+              ? 'linear-gradient(90deg, #775EFF, #DE3AED)'
+              : 'linear-gradient(90deg, #775EFF, #775EFF)',
+            '&:hover': {
+              background: isPopular
+                ? 'linear-gradient(90deg, #6B4FE0, #C935D3)'
+                : 'linear-gradient(90deg, #6B4FE0, #6B4FE0)',
+            },
+          }}
+        >
+          {checkoutLoading ? 'Processing...' : 'Get Started'}
+        </ClippedButton>
+      )}
+
       <DecorRect sx={{ bottom: '15px', right: '15px' }} />
     </Box>
   )
 }
 
-export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => {
+export const PricingSection = ({
+  isMobile,
+  showAlert,
+}: PricingSectionProps) => {
   const theme = useTheme()
+  const { subscriptionPlans, loading, error } = useSubscriptionPlans()
 
-  const pricingPlans = [
+  // Map API subscription plans to the format expected by PricingCard
+  const mapSubscriptionPlanToPricingPlan = (plan: SubscriptionPlan) => {
+    // Default features for all plans
+    const baseFeatures = [
+      'Priority usage of the Base Model',
+      'Unlimited basic requests',
+      'Admin dashboard',
+      'Priority support',
+    ]
+
+    // Determine plan-specific features and details
+    let title = plan.type
+    let description = ''
+    let isPopular = false
+    let features = [...baseFeatures]
+
+    // Set plan-specific details based on plan type
+    if (plan.type.toLowerCase().includes('free')) {
+      title = 'Free'
+      description = 'Perfect for trying out Elastic Copilot'
+      features = [
+        'Unlimited usage of the Base Model',
+        `${plan.total_credits} premium calls to GPT-4/Claude per month`,
+      ]
+    } else if (
+      plan.type.toLowerCase().includes('pro+') ||
+      plan.type.toLowerCase().includes('pro plus') ||
+      plan.type.toLowerCase().includes('premium')
+    ) {
+      title = 'Pro+'
+      description = 'For ultra professional developers'
+      isPopular = false
+      features = [
+        ...baseFeatures,
+        `${plan.total_credits} premium calls per month`,
+        'Additional premium calls available at $0.05 each',
+      ]
+    } else if (
+      plan.type.toLowerCase().includes('pro') ||
+      plan.type.toLowerCase().includes('standard')
+    ) {
+      title = 'Pro'
+      description = 'For professional developers'
+      isPopular = true
+      features = [
+        ...baseFeatures,
+        `${plan.total_credits} premium calls per month`,
+        'Additional premium calls available at $0.08 each',
+      ]
+    }
+
+    return {
+      title,
+      price: `$${plan.monthly_price}`,
+      description,
+      features,
+      isPopular,
+      planType: plan.type,
+    }
+  }
+
+  // Fallback pricing plans for when API fails or returns no plans
+  const fallbackPlans = [
     {
       title: 'Free',
       price: '$0',
       description: 'Perfect for trying out Elastic Copilot',
       features: [
-        // 'Basic code completion',
-        // 'Limited context awareness',
         'Unlimited usage of the Base Model',
         '20 premium calls to GPT-4/Claude per month',
       ],
       isPopular: false,
+      planType: 'FREE',
     },
     {
       title: 'Pro',
@@ -166,13 +261,14 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
       description: 'For professional developers',
       features: [
         'Priority usage of the Base Model',
-        '700 premium calls per month',
-        'Additional premium calls available at $0.08 each',
         'Unlimited basic requests',
         'Admin dashboard',
         'Priority support',
+        '500 premium calls per month',
+        'Additional premium calls available at $0.08 each',
       ],
       isPopular: true,
+      planType: 'PRO',
     },
     {
       title: 'Pro+',
@@ -180,15 +276,22 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
       description: 'For ultra professional developers',
       features: [
         'Priority usage of the Base Model',
-        '1500 premium calls per month',
-        'Additional premium calls available at $0.05 each',
         'Unlimited basic requests',
         'Admin dashboard',
         'Priority support',
+        '1000 premium calls per month',
+        'Additional premium calls available at $0.05 each',
       ],
       isPopular: false,
+      planType: 'PRO_PLUS',
     },
-  ]
+  ];
+
+  // Create pricing plans from API data or use fallback if loading/error
+  const pricingPlans =
+    loading || error || !subscriptionPlans || subscriptionPlans.length === 0
+      ? fallbackPlans
+      : subscriptionPlans.map(mapSubscriptionPlanToPricingPlan)
 
   return (
     <Box
@@ -201,7 +304,11 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
     >
       <Box
         sx={{
-          margin: `0px ${isMobile ? theme.customSpacing?.sides.mobile : theme.customSpacing?.sides.desktop}`,
+          margin: `0px ${
+            isMobile
+              ? theme.customSpacing?.sides.mobile
+              : theme.customSpacing?.sides.desktop
+          }`,
           position: 'relative',
         }}
       >
@@ -229,24 +336,57 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
               margin: '0',
             }}
           >
-            Select the perfect plan for your needs and start coding smarter today.
+            Select the perfect plan for your needs and start coding smarter
+            today.
           </Typography>
         </Box>
 
-        <Grid container spacing={4}>
-          {pricingPlans.map((plan, index) => (
-            <Grid item xs={12} md={4} key={index}>
-              <PricingCard
-                title={plan.title}
-                price={plan.price}
-                description={plan.description}
-                features={plan.features}
-                isPopular={plan.isPopular}
-                showAlert={showAlert}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        {loading ? (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              py: 8,
+            }}
+          >
+            <CircularProgress sx={{ color: '#775EFF' }} />
+          </Box>
+        ) : error ? (
+          <Box sx={{ textAlign: 'center', width: '100%', py: 4 }}>
+            <Typography variant="body1" sx={{ color: '#AEAEAE' }}>
+              Unable to load pricing plans. Please try again later.
+            </Typography>
+          </Box>
+        ) : (
+          <Grid container spacing={4}>
+            {pricingPlans.map(
+              (
+                plan: {
+                  title: string
+                  price: string
+                  description: string
+                  features: string[]
+                  isPopular: boolean | undefined
+                  planType: string
+                },
+                index: React.Key | null | undefined
+              ) => (
+                <Grid item xs={12} md={4} key={index}>
+                  <PricingCard
+                    title={plan.title}
+                    price={plan.price}
+                    description={plan.description}
+                    features={plan.features}
+                    isPopular={plan.isPopular}
+                    planType={plan.planType}
+                    showAlert={showAlert}
+                  />
+                </Grid>
+              )
+            )}
+          </Grid>
+        )}
 
         <Box
           sx={{
@@ -281,7 +421,8 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
               marginBottom: '20px',
             }}
           >
-            Contact us for enterprise pricing and custom solutions tailored to your organization.
+            Contact us for enterprise pricing and custom solutions tailored to
+            your organization.
           </Typography>
 
           <a href="mailto:sales@elasticapp.io">
@@ -308,7 +449,8 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
             right: isMobile ? '20px' : '100px',
             width: '1px',
             height: '60px',
-            background: 'linear-gradient(to bottom, rgba(119, 94, 255, 0), rgba(119, 94, 255, 1))',
+            background:
+              'linear-gradient(to bottom, rgba(119, 94, 255, 0), rgba(119, 94, 255, 1))',
           }}
         />
 
@@ -319,7 +461,8 @@ export const PricingSection = ({ isMobile, showAlert }: PricingSectionProps) => 
             left: isMobile ? '20px' : '100px',
             width: '1px',
             height: '60px',
-            background: 'linear-gradient(to top, rgba(119, 94, 255, 0), rgba(119, 94, 255, 1))',
+            background:
+              'linear-gradient(to top, rgba(119, 94, 255, 0), rgba(119, 94, 255, 1))',
           }}
         />
       </Box>

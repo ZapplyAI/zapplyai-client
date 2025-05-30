@@ -208,8 +208,11 @@ export default function UsagePage() {
               usageData.buckets.map((bucket, index) => (
                 <Box key={bucket.model} sx={{ mb: index < usageData.buckets.length - 1 ? 3 : 0 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
-                      {bucket.model}
+                    <Typography variant="body2" sx={{ color: '#E5E5E5', textTransform: 'capitalize' }}>
+                      {bucket.model === 'gemini' ? 'Google (Gemini)' :
+                       bucket.model === 'claude' ? 'Anthropic (Claude)' :
+                       bucket.model === 'gpt' ? 'OpenAI (GPT)' :
+                       bucket.model}
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#E5E5E5', fontFamily: 'JetBrains Mono' }}>
                       {bucket.credits_used.toLocaleString()} credits

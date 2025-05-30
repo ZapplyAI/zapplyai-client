@@ -257,24 +257,22 @@ const renderStickySocialLinks = (isMobile: boolean) => {
           border: '1px solid #5E5E5E',
         }}
       >
-        <Image
-          src="/icons/linkedin_icon.png"
-          alt="LinkedIn"
-          width={isMobile ? 30 : 38}
-          height={isMobile ? 30 : 38}
-        />
-        <Image
-          src="/icons/telegram_icon.png"
-          alt="Telegram"
-          width={isMobile ? 30 : 38}
-          height={isMobile ? 30 : 38}
-        />
-        <Image
-          src="/icons/twitter_x_icon.png"
-          alt="X"
-          width={isMobile ? 30 : 38}
-          height={isMobile ? 30 : 38}
-        />
+        <a href="https://www.linkedin.com/company/elasticapp/" target="_blank" rel="noopener noreferrer">
+          <Image
+            src="/icons/linkedin_icon.png"
+            alt="LinkedIn"
+            width={isMobile ? 30 : 38}
+            height={isMobile ? 30 : 38}
+          />
+        </a>
+        <a href="https://x.com/elasticopilot?s=21&t=_eDlVpq83vwZw9mRvlBoIA" target="_blank" rel="noopener noreferrer">
+          <Image
+            src="/icons/twitter_x_icon.png"
+            alt="X"
+            width={isMobile ? 30 : 38}
+            height={isMobile ? 30 : 38}
+          />
+        </a>
       </VerticalCenterBox>
     </div>
   )

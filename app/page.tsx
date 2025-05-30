@@ -37,7 +37,7 @@ const SocialLinks = ({ isMobile }: { isMobile: boolean }) => {
         }}
       >
         <a
-          href="https://www.linkedin.com/company/elasticapp"
+          href="https://www.linkedin.com/company/elasticapp/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -48,16 +48,8 @@ const SocialLinks = ({ isMobile }: { isMobile: boolean }) => {
             height={isMobile ? 30 : 38}
           />
         </a>
-        <a href="mailto:support@elasticapp.io">
-          <Image
-            src="/icons/telegram_icon.png"
-            alt="Telegram"
-            width={isMobile ? 30 : 38}
-            height={isMobile ? 30 : 38}
-          />
-        </a>
         <a
-          href="https://twitter.com/your-company-handle" // replace with actual link
+          href="https://x.com/elasticopilot?s=21&t=_eDlVpq83vwZw9mRvlBoIA"
           target="_blank"
           rel="noopener noreferrer"
         >

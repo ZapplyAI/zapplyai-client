@@ -30,10 +30,37 @@ const useSubscriptionPlans = () => {
     fetchSubscriptionPlans(false)
   }, [])
 
+  // Create a free plan if it doesn't exist
+  const createFreePlan = () => {
+    return {
+      type: 'FREE',
+      monthly_price: '0',
+      total_credits: 20,
+      buckets: {
+        gemini: 5,
+        claude: 5,
+        gpt: 10
+      }
+    };
+  };
+
+  // Get all plans including FREE
+  const getAllPlans = () => {
+    if (!subscriptionPlans) return [];
+
+    // Check if FREE plan exists
+    const freePlanExists = subscriptionPlans.some((plan: any) => plan.type === 'FREE');
+
+    // If FREE plan doesn't exist, add it
+    if (!freePlanExists) {
+      return [createFreePlan(), ...subscriptionPlans];
+    }
+
+    return subscriptionPlans;
+  };
+
   return {
-    subscriptionPlans: subscriptionPlans?.filter(
-      (plan: any) => plan.type !== 'FREE'
-    ) || [],
+    subscriptionPlans: getAllPlans(),
     loading,
     error,
     refreshPlans: () => fetchSubscriptionPlans(true), // Force refresh when needed

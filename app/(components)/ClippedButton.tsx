@@ -7,6 +7,7 @@ interface ClippedButtonProps {
   filled?: boolean
   sx?: SxProps<Theme>
   children?: ReactNode // Allow passing children
+  disabled?: boolean
 }
 
 const ClippedButton = ({
@@ -14,6 +15,7 @@ const ClippedButton = ({
   filled = false,
   sx,
   children,
+  disabled = false,
 }: ClippedButtonProps) => {
   const style = {
     baseButton: {
@@ -71,7 +73,11 @@ const ClippedButton = ({
   }
 
   return (
-    <MUIButton sx={{ ...style.baseButton, ...sx } as any} onClick={onClick}>
+    <MUIButton
+      sx={{ ...style.baseButton, ...sx } as any}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </MUIButton>
   )

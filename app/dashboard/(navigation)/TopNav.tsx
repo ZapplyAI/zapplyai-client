@@ -1,10 +1,11 @@
 'use client'
-import { Box, Button } from '@mui/material'
+import { Box, Button, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import MenuIcon from '@mui/icons-material/Menu'
 import UpgradeMembershipModal from '@/app/dashboard/members/(components)/UpgradeMembershipModal'
 import UserDetails from './UserDetails'
 import { useDashboard } from '../DashboardContext'
@@ -14,6 +15,8 @@ interface TopNavProps {
   onUpgradeClick: () => void
   modalOpen: boolean
   onModalClose: (membershipUpdated: boolean) => void
+  isMobile?: boolean
+  onMenuClick?: () => void
 }
 
 const LogoAndSubscription = ({
@@ -174,7 +177,7 @@ const SubscriptionBadge = ({
   )
 }
 
-const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick, modalOpen, onModalClose }) => {
+const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick, modalOpen, onModalClose, isMobile = false, onMenuClick }) => {
   const { subscriptionType } = useDashboard()
   const isFreeSubscription = subscriptionType === 'free'
 
@@ -187,54 +190,77 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick, modalOpen, onModalClose
       <Box
         sx={{
           width: '100%',
-          padding: '0px 24px',
+          padding: isMobile ? '0px 16px' : '0px 24px',
           borderBottom: '#5E5E5E 1px solid',
         }}
       >
         <Box
           sx={{
-            padding: '12px',
+            padding: isMobile ? '8px' : '12px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {isMobile && onMenuClick && (
+              <IconButton
+                onClick={onMenuClick}
+                sx={{
+                  marginRight: '8px',
+                  color: '#E5E5E5',
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <LogoAndSubscription subscriptionType={subscriptionType} />
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button
-              onClick={upgradeSubscription}
-              sx={{
-                padding: '4px 16px',
-                marginRight: '16px',
-              }}
-            >
-              <TrendingUpIcon
+            {!isMobile ? (
+              <Button
+                onClick={upgradeSubscription}
                 sx={{
-                  height: '16px',
-                  width: '16px',
-                  color: '#775EFF',
-                  marginRight: '8px',
-                }}
-              />
-              <Typography
-                variant="body2"
-                sx={{
-                  fontSize: '13px',
-                  fontWeight: '300',
-                  fontFamily: 'JetBrains Mono',
-                  background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  padding: '4px 16px',
+                  marginRight: '16px',
                 }}
               >
-                Upgrade Subscription
-              </Typography>
-            </Button>
+                <TrendingUpIcon
+                  sx={{
+                    height: '16px',
+                    width: '16px',
+                    color: '#775EFF',
+                    marginRight: '8px',
+                  }}
+                />
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontSize: '13px',
+                    fontWeight: '300',
+                    fontFamily: 'JetBrains Mono',
+                    background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Upgrade Subscription
+                </Typography>
+              </Button>
+            ) : (
+              <IconButton
+                onClick={upgradeSubscription}
+                sx={{
+                  marginRight: '8px',
+                  color: '#775EFF',
+                }}
+              >
+                <TrendingUpIcon />
+              </IconButton>
+            )}
 
-            <UserDetails />
+            <UserDetails isMobile={isMobile} />
           </Box>
         </Box>
       </Box>

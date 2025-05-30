@@ -13,9 +13,10 @@ import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
 interface SidebarProps {
   upgradeSubscription: () => void
+  closeSidebar?: () => void
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription }) => {
+const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription, closeSidebar }) => {
   const router = useRouter()
   const pathname = usePathname()
   const { subscriptionType } = useDashboard()
@@ -24,6 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription }) => {
 
   const handleTransactionHistory = () => {
     setTransactionModalOpen(true)
+    if (closeSidebar) closeSidebar();
   }
 
   const handleLogout = () => {
@@ -31,6 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription }) => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('userProfile');
     }
+    if (closeSidebar) closeSidebar();
     router.push('/auth/logout')
   }
 
@@ -50,7 +53,8 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription }) => {
         router,
         subscriptionType,
         handleTransactionHistory,
-        handleLogout
+        handleLogout,
+        closeSidebar
       )}
       <TransactionHistoryModal
         open={transactionModalOpen}
@@ -67,7 +71,8 @@ const renderSideMenu = (
   router: AppRouterInstance,
   subscriptionType: 'free' | 'plus' | 'team',
   handleTransactionHistory: () => void,
-  handleLogout: () => void
+  handleLogout: () => void,
+  closeSidebar?: () => void
 ) => {
   const style = {
     navContainer: {
@@ -113,7 +118,10 @@ const renderSideMenu = (
         return (
           <Button
             key={label}
-            onClick={onClick ? onClick : () => router.push('/dashboard' + path)}
+            onClick={onClick ? onClick : () => {
+              if (closeSidebar) closeSidebar();
+              router.push('/dashboard' + path);
+            }}
             sx={{
               ...style.buttonStyle,
               background: isActive ? 'rgba(119, 94, 255, 0.1)' : 'transparent',

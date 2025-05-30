@@ -5,11 +5,21 @@ import { useUser } from '@auth0/nextjs-auth0'
 const useSubscriptionCheckout = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  // const {user} = useUser();
+  const { user, isLoading } = useUser();
 
   const handleCheckout = async (planType: string) => {
     setLoading(true)
     setError(null)
+
+    // Check if user is logged in
+    if (!isLoading && !user) {
+      // User is not logged in, redirect to login page
+      // Add callback_url parameter to redirect back to the current page after login
+      const currentUrl = window.location.href;
+      window.location.href = `/session/auth?callback_url=${encodeURIComponent(currentUrl)}`;
+      setLoading(false);
+      return;
+    }
 
     try {
       const { status, data: response } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/payments`, {

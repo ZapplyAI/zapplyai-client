@@ -21,7 +21,11 @@ import ReceiptIcon from '@mui/icons-material/Receipt'
 import LogoutIcon from '@mui/icons-material/Logout'
 import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
-const UserDetails = () => {
+interface UserDetailsProps {
+  isMobile?: boolean;
+}
+
+const UserDetails: React.FC<UserDetailsProps> = ({ isMobile = false }) => {
   const { user, error, isLoading } = useUser()
   const { profile, isProfileLoading, profileError } = useUserProfile()
   const router = useRouter()
@@ -71,40 +75,66 @@ const UserDetails = () => {
         alignItems: 'center',
       }}
     >
-      <Button
-        onClick={handleMenuOpen}
-        sx={{
-          textTransform: 'none',
-          padding: '4px 8px',
-          borderRadius: '8px',
-          '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
-          }
-        }}
-        endIcon={<KeyboardArrowDownIcon sx={{ color: '#585858' }} />}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      {isMobile ? (
+        <IconButton
+          onClick={handleMenuOpen}
+          sx={{
+            padding: '4px',
+            borderRadius: '8px',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}
+        >
           <Avatar
             src={userData?.picture as string | undefined}
             alt="Profile"
             sx={{
               height: '24px',
               width: '24px',
-              marginRight: '8px',
               fontSize: '12px',
               bgcolor: '#775EFF'
             }}
           >
             {userData?.name?.charAt(0) || userData?.email?.charAt(0) || 'U'}
           </Avatar>
-          <Typography
-            variant="body1"
-            sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
-          >
-            {userData?.email}
-          </Typography>
-        </Box>
-      </Button>
+        </IconButton>
+      ) : (
+        <Button
+          onClick={handleMenuOpen}
+          sx={{
+            textTransform: 'none',
+            padding: '4px 8px',
+            borderRadius: '8px',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            }
+          }}
+          endIcon={<KeyboardArrowDownIcon sx={{ color: '#585858' }} />}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={userData?.picture as string | undefined}
+              alt="Profile"
+              sx={{
+                height: '24px',
+                width: '24px',
+                marginRight: '8px',
+                fontSize: '12px',
+                bgcolor: '#775EFF'
+              }}
+            >
+              {userData?.name?.charAt(0) || userData?.email?.charAt(0) || 'U'}
+            </Avatar>
+            <Typography
+              variant="body1"
+              sx={{ fontFamily: 'JetBrains Mono', color: '#585858' }}
+            >
+              {userData?.email}
+            </Typography>
+          </Box>
+        </Button>
+      )}
 
       <Menu
         anchorEl={anchorEl}
@@ -115,7 +145,7 @@ const UserDetails = () => {
             backgroundColor: '#1E1E1E',
             border: '1px solid #5E5E5E',
             borderRadius: '8px',
-            minWidth: '240px',
+            minWidth: isMobile ? '200px' : '240px',
             marginTop: '8px',
             boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.25)',
           }

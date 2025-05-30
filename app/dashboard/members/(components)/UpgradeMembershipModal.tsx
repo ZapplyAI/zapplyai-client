@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
   Radio,
+  IconButton,
 } from '@mui/material'
 import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
@@ -14,8 +15,10 @@ import { styled } from '@mui/system'
 import map from 'lodash/map'
 import useSubscriptionPlans from '@/lib/hooks/useSubscriptionPlans'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import CloseIcon from '@mui/icons-material/Close'
 import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
 import { SubscriptionPlan } from '@/services/types'
+import { useClientMediaQuery } from '@/helpers/IsMobile'
 
 interface UpgradeMembershipProps {
   open: boolean
@@ -25,29 +28,43 @@ interface UpgradeMembershipProps {
 // Using the imported SubscriptionPlan interface from services/types.ts
 
 const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
+  const isMobile = useClientMediaQuery('(max-width: 600px)')
   const { subscriptionPlans, loading, error } = useSubscriptionPlans()
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(
     null
   )
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error}</p>
-
   const handleClose = () => onClose(false)
   const handlePlanSelection = (plan: SubscriptionPlan) => setSelectedPlan(plan)
+
+  // Filter out the free plan
+  const paidPlans = subscriptionPlans?.filter(
+    (plan: SubscriptionPlan) =>
+      plan.type !== 'FREE' &&
+      plan.monthly_price !== '0' &&
+      !plan.type.toLowerCase().includes('free')
+  ) || []
 
   const style = {
     dialogContainer: {},
     dialogBox: {
       border: '1px #3C3C3C solid',
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: isMobile ? 'column' : 'row',
+    },
+    mobileHeader: {
+      display: isMobile ? 'flex' : 'none',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: '16px 24px',
+      borderBottom: '1px solid #3C3C3C',
     },
     subscriptionsContainer: {
       display: 'flex',
       alignItems: 'start',
       flexDirection: 'column',
-      padding: '35px 45px',
+      padding: isMobile ? '20px 24px' : '35px 45px',
+      width: isMobile ? '100%' : 'auto',
     },
     pricingSummaryContainer: {
       display: 'flex',
@@ -55,9 +72,10 @@ const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
       flexDirection: 'column',
       alignItems: 'start',
       background: '#0F0F15',
-      borderLeft: '1px solid #3C3C3C',
-      padding: '35px 45px',
-      minWidth: '350px',
+      borderLeft: isMobile ? 'none' : '1px solid #3C3C3C',
+      borderTop: isMobile ? '1px solid #3C3C3C' : 'none',
+      padding: isMobile ? '20px 24px' : '35px 45px',
+      minWidth: isMobile ? '100%' : '350px',
       justifyContent: 'space-between',
     },
   }
@@ -67,22 +85,53 @@ const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
       onClose={handleClose}
       open={open}
       sx={style.dialogContainer}
+      fullScreen={isMobile}
       PaperProps={{
-        sx: { background: '#09090E', maxWidth: 'unset', width: 'auto' }, // Removes width restrictions
+        sx: {
+          background: '#09090E',
+          maxWidth: isMobile ? '100%' : 'unset',
+          width: isMobile ? '100%' : 'auto',
+          margin: isMobile ? 0 : undefined,
+          height: isMobile ? '100%' : 'auto',
+        },
       }}
     >
-      <Box sx={style.dialogBox}>
-        <Box sx={style.subscriptionsContainer}>
-          {renderUpgradeDescriptionContents(
-            subscriptionPlans,
-            selectedPlan,
-            handlePlanSelection
+      {loading ? (
+        <Box sx={{ p: 4, display: 'flex', justifyContent: 'center' }}>
+          <Typography>Loading...</Typography>
+        </Box>
+      ) : error ? (
+        <Box sx={{ p: 4, display: 'flex', justifyContent: 'center' }}>
+          <Typography>Error: {error}</Typography>
+        </Box>
+      ) : (
+        <Box sx={style.dialogBox}>
+          {isMobile && (
+            <Box sx={style.mobileHeader}>
+              <Typography variant="h6" sx={{ color: '#E5E5E5' }}>
+                Upgrade subscription
+              </Typography>
+              <IconButton
+                onClick={handleClose}
+                size="small"
+                sx={{ color: '#7E7E7E' }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
           )}
+          <Box sx={style.subscriptionsContainer}>
+            {renderUpgradeDescriptionContents(
+              paidPlans,
+              selectedPlan,
+              handlePlanSelection
+            )}
+          </Box>
+          <Box sx={style.pricingSummaryContainer}>
+            <SummaryContents selectedPlan={selectedPlan} />
+          </Box>
         </Box>
-        <Box sx={style.pricingSummaryContainer}>
-          <SummaryContents selectedPlan={selectedPlan} />
-        </Box>
-      </Box>
+      )}
     </Dialog>
   )
 }
@@ -92,10 +141,12 @@ const renderUpgradeDescriptionContents = (
   selectedPlan: SubscriptionPlan | null,
   handlePlanSelection: (plan: SubscriptionPlan) => void
 ) => {
+  const isMobile = useClientMediaQuery('(max-width: 600px)')
+
   return (
     <React.Fragment>
-      <Typography variant="h3">Upgrade subscription</Typography>
-      <Typography variant="body2">
+      {!isMobile && <Typography variant="h3">Upgrade subscription</Typography>}
+      <Typography variant="body2" sx={{ mt: isMobile ? 0 : undefined }}>
         You are currently on a FREE subscription
       </Typography>
 
@@ -113,6 +164,7 @@ interface SummaryContentsProps {
 }
 
 const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
+  const isMobile = useClientMediaQuery('(max-width: 600px)')
   const { handleCheckout, loading } = useSubscriptionCheckout()
 
   // const handleCheckout = () => {
@@ -141,6 +193,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
         flexDirection: 'column',
         height: '100%',
         justifyContent: 'space-between',
+        width: '100%',
       }}
     >
       <Box>
@@ -149,10 +202,11 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
         ) : (
           <Box sx={{ mt: 2 }}>
             <Typography
-              variant="h6"
+              variant={isMobile ? "subtitle1" : "h6"}
               sx={{
-                mb: 2,
+                mb: isMobile ? 1 : 2,
                 fontFamily: '"JetBrains Mono", monospace',
+                fontSize: isMobile ? '16px' : undefined,
                 background:
                   selectedPlan.type.toLowerCase().includes('pro+') ||
                   selectedPlan.type.toLowerCase().includes('pro plus') ||
@@ -179,11 +233,15 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
             >
               {selectedPlan.type}
             </Typography>
-            <List dense>
+            <List dense sx={{
+              '& .MuiListItem-root': {
+                padding: isMobile ? '2px 0' : '8px 0'
+              }
+            }}>
               <ListItem>
-                <ListItemIcon sx={{ minWidth: '24px' }}>
+                <ListItemIcon sx={{ minWidth: isMobile ? '20px' : '24px' }}>
                   <FiberManualRecordIcon
-                    sx={{ fontSize: 8, color: '#7C5EFD' }}
+                    sx={{ fontSize: isMobile ? 6 : 8, color: '#7C5EFD' }}
                   />
                 </ListItemIcon>
                 <ListItemText
@@ -194,6 +252,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           color: '#B5B5B5',
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         Total credits:
@@ -203,6 +262,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           ml: 1,
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         {selectedPlan.total_credits}
@@ -212,9 +272,9 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 />
               </ListItem>
               <ListItem>
-                <ListItemIcon sx={{ minWidth: '24px' }}>
+                <ListItemIcon sx={{ minWidth: isMobile ? '20px' : '24px' }}>
                   <FiberManualRecordIcon
-                    sx={{ fontSize: 8, color: '#7C5EFD' }}
+                    sx={{ fontSize: isMobile ? 6 : 8, color: '#7C5EFD' }}
                   />
                 </ListItemIcon>
                 <ListItemText
@@ -225,6 +285,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           color: '#B5B5B5',
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         Gemini credits:
@@ -234,6 +295,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           ml: 1,
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         {selectedPlan.buckets.gemini}
@@ -243,9 +305,9 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 />
               </ListItem>
               <ListItem>
-                <ListItemIcon sx={{ minWidth: '24px' }}>
+                <ListItemIcon sx={{ minWidth: isMobile ? '20px' : '24px' }}>
                   <FiberManualRecordIcon
-                    sx={{ fontSize: 8, color: '#7C5EFD' }}
+                    sx={{ fontSize: isMobile ? 6 : 8, color: '#7C5EFD' }}
                   />
                 </ListItemIcon>
                 <ListItemText
@@ -256,6 +318,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           color: '#B5B5B5',
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         Claude credits:
@@ -265,6 +328,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           ml: 1,
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         {selectedPlan.buckets.claude}
@@ -274,9 +338,9 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 />
               </ListItem>
               <ListItem>
-                <ListItemIcon sx={{ minWidth: '24px' }}>
+                <ListItemIcon sx={{ minWidth: isMobile ? '20px' : '24px' }}>
                   <FiberManualRecordIcon
-                    sx={{ fontSize: 8, color: '#7C5EFD' }}
+                    sx={{ fontSize: isMobile ? 6 : 8, color: '#7C5EFD' }}
                   />
                 </ListItemIcon>
                 <ListItemText
@@ -287,6 +351,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           color: '#B5B5B5',
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         GPT credits:
@@ -296,6 +361,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                         sx={{
                           ml: 1,
                           fontFamily: 'Kanit, sans-serif',
+                          fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
                         {selectedPlan.buckets.gpt}
@@ -318,14 +384,14 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
               alignItems: 'center',
               mb: 2,
               fontFamily: 'Kanit, sans-serif',
-              fontSize: '24px',
+              fontSize: isMobile ? '20px' : '24px',
               fontWeight: 300,
             }}
           >
             <Typography
               sx={{
                 fontFamily: 'Kanit, sans-serif',
-                fontSize: '24px',
+                fontSize: isMobile ? '20px' : '24px',
                 fontWeight: 300,
                 color: '#FFFFFF',
               }}
@@ -335,7 +401,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
             <Typography
               sx={{
                 fontFamily: 'Kanit, sans-serif',
-                fontSize: '14px',
+                fontSize: isMobile ? '12px' : '14px',
                 fontWeight: 300,
                 color: '#B5B5B5',
                 ml: 1,
@@ -354,11 +420,11 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
             sx={{
               background: 'linear-gradient(to right, #7C5EFD, #FB5EC0)',
               borderRadius: '8px',
-              padding: '12px 0',
+              padding: isMobile ? '10px 0' : '12px 0',
               fontFamily: 'Kanit, sans-serif',
               textTransform: 'none',
               fontWeight: 400,
-              fontSize: '16px',
+              fontSize: isMobile ? '14px' : '16px',
               '&:hover': {
                 background: 'linear-gradient(to right, #6B4FE0, #E54DAF)',
               },
@@ -383,6 +449,7 @@ const RadioGroupExample = ({
   selectedPlan,
   onPlanSelect,
 }: RadioGroupExampleProps) => {
+  const isMobile = useClientMediaQuery('(max-width: 600px)')
   const getGradientForPlan = (planType: string) => {
     if (!planType) return '#808080, #808080' // Default gray
 
@@ -407,7 +474,13 @@ const RadioGroupExample = ({
   // }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', mt: 2 }}>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '10px',
+      mt: 2,
+      width: '100%',
+    }}>
       {map(subscriptionPlans, plan => {
         const gradient = getGradientForPlan(plan.type)
         return (
@@ -419,6 +492,7 @@ const RadioGroupExample = ({
             selected={selectedPlan?.type === plan.type}
             onChange={() => onPlanSelect(plan)}
             gradient={gradient}
+            isMobile={isMobile}
           />
         )
       })}
@@ -433,6 +507,7 @@ interface RadioOptionProps {
   selected: boolean
   onChange: () => void
   gradient: string // Gradient for both radio and text
+  isMobile?: boolean
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
@@ -442,20 +517,21 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   selected,
   onChange,
   gradient,
+  isMobile = false,
 }) => {
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
-        padding: '20px 15px',
+        padding: isMobile ? '15px 10px' : '20px 15px',
         borderRadius: '8px',
         border: '1px solid #3C3C3C',
         backgroundColor: '#1B1A20',
         cursor: 'pointer',
         transition: 'background-color 0.2s ease',
         '&:hover': { backgroundColor: '#222127' },
-        maxWidth: '450px',
+        maxWidth: isMobile ? '100%' : '450px',
         width: '100%',
         position: 'relative',
       }}

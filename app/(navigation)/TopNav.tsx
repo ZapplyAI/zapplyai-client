@@ -243,7 +243,7 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
           >
             {/* LinkedIn */}
             <a
-              href="https://www.linkedin.com/company/elasticapp"
+              href="https://www.linkedin.com/company/elasticapp/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -256,20 +256,9 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
               />
             </a>
 
-            {/* Telegram */}
-            <a href="mailto:support@elasticapp.io">
-              <Image
-                src="/icons/telegram_icon.png"
-                alt="Telegram"
-                width={30}
-                height={30}
-                style={{ cursor: 'pointer' }}
-              />
-            </a>
-
             {/* X / Twitter */}
             <a
-              href="https://twitter.com/your-company-handle" // replace with actual
+              href="https://x.com/elasticopilot?s=21&t=_eDlVpq83vwZw9mRvlBoIA"
               target="_blank"
               rel="noopener noreferrer"
             >

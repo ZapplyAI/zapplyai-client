@@ -26,7 +26,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
     {
       title: 'Resources',
       links: [
-        { name: 'Documentation', url: '#' },
+        { name: 'Documentation', url: '/docs' },
         // { name: 'Tutorials', url: '#' },
         // { name: 'Blog', url: '#' },
         // { name: 'Community', url: '#' },
@@ -37,7 +37,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
       links: [
         // { name: 'About Us', url: '#' },
         // { name: 'Careers', url: '#' },
-        { name: 'Contact', url: '#' },
+        { name: 'Contact', url: 'mailto:support@elasticapp.io' },
         // { name: 'Legal', url: '#' },
       ],
     },
@@ -95,74 +95,55 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               </Typography>
 
               <Box sx={{ display: 'flex', gap: '15px' }}>
-                <Box
-                  sx={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid rgba(119, 94, 255, 0.5)',
-                    transition: 'background 0.3s ease',
-                    '&:hover': {
-                      background: 'rgba(119, 94, 255, 0.1)',
-                    },
-                  }}
-                >
-                  <Image
-                    src="/icons/linkedin_icon.png"
-                    alt="LinkedIn"
-                    width={20}
-                    height={20}
-                  />
-                </Box>
+                <a href="https://www.linkedin.com/company/elasticapp/" target="_blank" rel="noopener noreferrer">
+                  <Box
+                    sx={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '1px solid rgba(119, 94, 255, 0.5)',
+                      transition: 'background 0.3s ease',
+                      '&:hover': {
+                        background: 'rgba(119, 94, 255, 0.1)',
+                      },
+                    }}
+                  >
+                    <Image
+                      src="/icons/linkedin_icon.png"
+                      alt="LinkedIn"
+                      width={20}
+                      height={20}
+                    />
+                  </Box>
+                </a>
 
-                <Box
-                  sx={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid rgba(119, 94, 255, 0.5)',
-                    transition: 'background 0.3s ease',
-                    '&:hover': {
-                      background: 'rgba(119, 94, 255, 0.1)',
-                    },
-                  }}
-                >
-                  <Image
-                    src="/icons/telegram_icon.png"
-                    alt="Telegram"
-                    width={20}
-                    height={20}
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid rgba(119, 94, 255, 0.5)',
-                    transition: 'background 0.3s ease',
-                    '&:hover': {
-                      background: 'rgba(119, 94, 255, 0.1)',
-                    },
-                  }}
-                >
-                  <Image
-                    src="/icons/twitter_x_icon.png"
-                    alt="X"
-                    width={20}
-                    height={20}
-                  />
-                </Box>
+                <a href="https://x.com/elasticopilot?s=21&t=_eDlVpq83vwZw9mRvlBoIA" target="_blank" rel="noopener noreferrer">
+                  <Box
+                    sx={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '1px solid rgba(119, 94, 255, 0.5)',
+                      transition: 'background 0.3s ease',
+                      '&:hover': {
+                        background: 'rgba(119, 94, 255, 0.1)',
+                      },
+                    }}
+                  >
+                    <Image
+                      src="/icons/twitter_x_icon.png"
+                      alt="X"
+                      width={20}
+                      height={20}
+                    />
+                  </Box>
+                </a>
               </Box>
             </Box>
           </Grid>
