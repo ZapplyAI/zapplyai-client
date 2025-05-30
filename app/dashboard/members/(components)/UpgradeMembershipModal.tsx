@@ -124,7 +124,8 @@ const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
             {renderUpgradeDescriptionContents(
               paidPlans,
               selectedPlan,
-              handlePlanSelection
+              handlePlanSelection,
+              isMobile
             )}
           </Box>
           <Box sx={style.pricingSummaryContainer}>
@@ -139,9 +140,9 @@ const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
 const renderUpgradeDescriptionContents = (
   subscriptionPlans: any,
   selectedPlan: SubscriptionPlan | null,
-  handlePlanSelection: (plan: SubscriptionPlan) => void
+  handlePlanSelection: (plan: SubscriptionPlan) => void,
+  isMobile: boolean
 ) => {
-  const isMobile = useClientMediaQuery('(max-width: 600px)')
 
   return (
     <React.Fragment>

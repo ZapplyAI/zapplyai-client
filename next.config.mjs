@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "variables"; @import "mixins";`,
+    prependData: `@use "variables" as *; @use "mixins" as *;`,
   },
   webpack(config) {
     config.module.rules.push({
