@@ -13,7 +13,7 @@ export async function handleCheckoutServer(planType: string) {
   }
 
   const { data } = await _axios.post(
-    'https://copilot-api-go-test-739610349551.europe-west2.run.app/api/subscriptions/payments',
+    `${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/payments`,
     {
       plan: planType,
       success_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/dashboard?paymentStatus=success`,

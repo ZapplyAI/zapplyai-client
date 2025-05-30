@@ -12,7 +12,7 @@ const useSubscriptionCheckout = () => {
     setError(null)
 
     try {
-      const { status, data: response } = await axios.post('https://copilot-api-go-test-739610349551.europe-west2.run.app/api/subscriptions/payments', {
+      const { status, data: response } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/payments`, {
         plan: planType,
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?paymentStatus=success`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,

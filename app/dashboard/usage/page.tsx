@@ -50,7 +50,7 @@ export default function UsagePage() {
       setIsLoading(true)
       setError(null)
       try {
-        const { status, data } = await axios.get(`https://copilot-api-go-test-739610349551.europe-west2.run.app/api/subscriptions/${subscriptionId}`)
+        const { status, data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/${subscriptionId}`)
 
         if (status >= 200 && status < 300 && data) {
           setUsageData(data)

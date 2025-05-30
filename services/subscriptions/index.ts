@@ -24,7 +24,7 @@ const subscriptions = {
         }
       }
 
-      const { data, status } = await axios.get('https://copilot-api-go-test-739610349551.europe-west2.run.app/api/subscriptions/plans')
+      const { data, status } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/plans`)
 
       if (status === 200) {
         // Update cache
