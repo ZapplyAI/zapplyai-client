@@ -37,7 +37,10 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
       links: [
         // { name: 'About Us', url: '#' },
         // { name: 'Careers', url: '#' },
-        { name: 'Contact', url: 'mailto:support@elasticapp.io' },
+        { name: 'Contact', url: 'mailto:founders@elasticapp.io' },
+        { name: 'Privacy Policy', url: '/privacy-policy' },
+        { name: 'Terms of Use', url: '/terms-of-use' },
+        { name: 'Security Policy', url: '/security-policy' },
         // { name: 'Legal', url: '#' },
       ],
     },
@@ -198,7 +201,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
               Contact
             </Typography>
 
-            <a href="mailto:support@elasticapp.io">
+            <a href="mailto:founders@elasticapp.io">
               <Typography
                 variant={'body2' as any}
                 sx={{
@@ -208,7 +211,7 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
                   marginBottom: '10px',
                 }}
               >
-                support@elasticapp.io
+                founders@elasticapp.io
               </Typography>
             </a>
           </Grid>
@@ -237,49 +240,63 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
             © {new Date().getFullYear()} Elastic Copilot. All rights reserved.
           </Typography>
 
-          {/*<Box sx={{ display: 'flex', gap: '20px' }}>*/}
-          {/*  <Link*/}
-          {/*    href="#"*/}
-          {/*    style={{*/}
-          {/*      fontSize: '0.8rem',*/}
-          {/*      color: '#666666',*/}
-          {/*      fontFamily: 'JetBrains Mono, monospace',*/}
-          {/*      textDecoration: 'none',*/}
-          {/*      transition: 'color 0.3s ease',*/}
-          {/*    }}*/}
-          {/*    className="footer-link"*/}
-          {/*  >*/}
-          {/*    Privacy Policy*/}
-          {/*  </Link>*/}
+          <Box sx={{ display: 'flex', gap: '20px' }}>
+            <Link
+              href="/privacy-policy"
+              style={{
+                fontSize: '0.8rem',
+                color: '#666666',
+                fontFamily: 'JetBrains Mono, monospace',
+                textDecoration: 'none',
+                transition: 'color 0.3s ease',
+              }}
+              className="footer-link"
+            >
+              Privacy Policy
+            </Link>
 
-          {/*  <Link*/}
-          {/*    href="#"*/}
-          {/*    style={{*/}
-          {/*      fontSize: '0.8rem',*/}
-          {/*      color: '#666666',*/}
-          {/*      fontFamily: 'JetBrains Mono, monospace',*/}
-          {/*      textDecoration: 'none',*/}
-          {/*      transition: 'color 0.3s ease',*/}
-          {/*    }}*/}
-          {/*    className="footer-link"*/}
-          {/*  >*/}
-          {/*    Terms of Service*/}
-          {/*  </Link>*/}
+            <Link
+              href="/terms-of-use"
+              style={{
+                fontSize: '0.8rem',
+                color: '#666666',
+                fontFamily: 'JetBrains Mono, monospace',
+                textDecoration: 'none',
+                transition: 'color 0.3s ease',
+              }}
+              className="footer-link"
+            >
+              Terms of Use
+            </Link>
 
-          {/*  <Link*/}
-          {/*    href="#"*/}
-          {/*    style={{*/}
-          {/*      fontSize: '0.8rem',*/}
-          {/*      color: '#666666',*/}
-          {/*      fontFamily: 'JetBrains Mono, monospace',*/}
-          {/*      textDecoration: 'none',*/}
-          {/*      transition: 'color 0.3s ease',*/}
-          {/*    }}*/}
-          {/*    className="footer-link"*/}
-          {/*  >*/}
-          {/*    Cookie Policy*/}
-          {/*  </Link>*/}
-          {/*</Box>*/}
+            <Link
+              href="/security-policy"
+              style={{
+                fontSize: '0.8rem',
+                color: '#666666',
+                fontFamily: 'JetBrains Mono, monospace',
+                textDecoration: 'none',
+                transition: 'color 0.3s ease',
+              }}
+              className="footer-link"
+            >
+              Security Policy
+            </Link>
+
+            {/*<Link*/}
+            {/*  href="#"*/}
+            {/*  style={{*/}
+            {/*    fontSize: '0.8rem',*/}
+            {/*    color: '#666666',*/}
+            {/*    fontFamily: 'JetBrains Mono, monospace',*/}
+            {/*    textDecoration: 'none',*/}
+            {/*    transition: 'color 0.3s ease',*/}
+            {/*  }}*/}
+            {/*  className="footer-link"*/}
+            {/*>*/}
+            {/*  Cookie Policy*/}
+            {/*</Link>*/}
+          </Box>
         </Box>
 
         <DecorRect sx={{ top: '20px', right: '20px' }} />

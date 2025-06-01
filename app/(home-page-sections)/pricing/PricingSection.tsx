@@ -211,7 +211,7 @@ export const PricingSection = ({
       plan.type.toLowerCase().includes('premium')
     ) {
       title = 'Pro+'
-      description = 'For ultra professional developers'
+      description = ''
       isPopular = false
       features = [
         ...baseFeatures,
@@ -223,7 +223,7 @@ export const PricingSection = ({
       plan.type.toLowerCase().includes('standard')
     ) {
       title = 'Pro'
-      description = 'For professional developers'
+      description = ''
       isPopular = true
       features = [
         ...baseFeatures,
@@ -425,7 +425,7 @@ export const PricingSection = ({
             your organization.
           </Typography>
 
-          <a href="mailto:sales@elasticapp.io">
+          <a href="mailto:founders@elasticapp.io">
             <ClippedButton
               sx={{
                 fontFamily: 'Tektur, sans-serif',

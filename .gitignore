@@ -44,3 +44,4 @@ _env
 .env.local
 .env
 .vscode
+.junie
