@@ -78,7 +78,7 @@ export default function PrivacyPolicyPage() {
               Your privacy is important to us. This Privacy Policy explains what information Elastic Copilot
               collects, how we use and share that information, and the choices you have. This policy
               applies to all users of the Elastic Copilot VS Code extension, our website (https://elasticapp.ai),
-              and any related services (collectively, the "Service"). By using Elastic Copilot, you agree to the
+              and any related services (collectively, the &quot;Service&quot;). By using Elastic Copilot, you agree to the
               collection and use of information as described in this Privacy Policy. If you do not agree, please
               do not use the Service.
             </Typography>
@@ -238,7 +238,7 @@ export default function PrivacyPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         <strong>AI Outputs:</strong> The suggestions or explanations returned by the AI (the
-                        "Suggestions") may be temporarily logged on our servers (for example, to send
+                        &quot;Suggestions&quot;) may be temporarily logged on our servers (for example, to send
                         them to your editor and to allow you to view past AI responses in your
                         development history). These outputs are typically derived from your inputs and
                         do not usually contain additional personal data beyond what you provided.
@@ -259,9 +259,9 @@ export default function PrivacyPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         <strong>Click and Action Data:</strong> We may collect data on your interactions with Elastic
-                        Copilot's interface – for instance, whether you accepted an AI suggestion, edited
+                        Copilot&apos;s interface – for instance, whether you accepted an AI suggestion, edited
                         it, or ignored it. We might log which commands or features you use (e.g.,
-                        "Explain code" vs "Write tests" features) and how often, as well as timestamps of usage.
+                        &quot;Explain code&quot; vs &quot;Write tests&quot; features) and how often, as well as timestamps of usage.
                         This information helps us understand feature usage and improve the user
                         experience.
                       </Box>
@@ -280,10 +280,10 @@ export default function PrivacyPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
-                        <strong>Terminal and File Operations:</strong> If you use Elastic Copilot's features that execute
+                        <strong>Terminal and File Operations:</strong> If you use Elastic Copilot&apos;s features that execute
                         terminal commands or modify files (with your permission), we may log the fact
-                        that an operation was executed (e.g., "Ran npm install via Copilot" or "Created
-                        new file X via Copilot"), along with success/failure information or error logs. We
+                        that an operation was executed (e.g., &quot;Ran npm install via Copilot&quot; or &quot;Created
+                        new file X via Copilot&quot;), along with success/failure information or error logs. We
                         do not collect the full contents of your files via such logging, but we might
                         capture file names or command parameters for telemetry.
                       </Box>
@@ -438,7 +438,7 @@ export default function PrivacyPolicyPage() {
                         any data you explicitly permit. For example, if Elastic Copilot were to read a
                         Google Docs file because you ask it to analyze some content there, it will access
                         that content only for the purpose of fulfilling your request. We will abide by
-                        Google's API user data policy and will not use data from your Google account for
+                        Google&apos;s API user data policy and will not use data from your Google account for
                         any purpose other than providing the requested service to you.
                       </Box>
                     </Typography>
@@ -459,7 +459,7 @@ export default function PrivacyPolicyPage() {
                         <strong>Other Integrations:</strong> For any future integrations (e.g., GitHub, GitLab, Jira, etc.),
                         similar principles will apply: we will only collect the minimal data needed from
                         those services and only after you have authenticated/authorized the integration.
-                        We will be transparent about what is collected and how it's used at the time you
+                        We will be transparent about what is collected and how it&apos;s used at the time you
                         connect any integration.
                       </Box>
                     </Typography>
@@ -484,7 +484,7 @@ export default function PrivacyPolicyPage() {
               code and technical data, and any personal information appearing in code (e.g. names, email
               addresses in config files) will be handled as described in this policy, but please minimize any
               sensitive personal data you expose to the Service. We do not knowingly collect any data about
-              children under 13, and our Service is not directed to children (see "Children's Privacy" below).
+              children under 13, and our Service is not directed to children (see &quot;Children&apos;s Privacy&quot; below).
             </Typography>
           </Box>
 
@@ -542,12 +542,12 @@ export default function PrivacyPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   <strong>To Provide and Maintain the Service:</strong> We use your information to operate Elastic
-                  Copilot's core functionalities. This includes using your code snippets and prompts to
+                  Copilot&apos;s core functionalities. This includes using your code snippets and prompts to
                   generate AI suggestions, using your account data to log you in and personalize your
                   environment, and processing transactions for paid plans. For example, we take the code
-                  context you've provided and send it to our AI model providers (like OpenAI or Anthropic)
+                  context you&apos;ve provided and send it to our AI model providers (like OpenAI or Anthropic)
                   to generate the completion or explanation you requested. Without your data, these
-                  features wouldn't work.
+                  features wouldn&apos;t work.
                 </Box>
               </Typography>
               <Typography
@@ -565,7 +565,7 @@ export default function PrivacyPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   <strong>To Improve and Develop the Platform:</strong> We continually work on enhancing Elastic
-                  Copilot's capabilities, performance, and user experience. We analyze usage data and
+                  Copilot&apos;s capabilities, performance, and user experience. We analyze usage data and
                   feedback to:
                   <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
                     <Typography
@@ -583,7 +583,7 @@ export default function PrivacyPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         Debug and fix errors or outages. (For instance, error logs and telemetry might
-                        alert us that a certain feature is crashing the extension, and we'll use that data to
+                        alert us that a certain feature is crashing the extension, and we&apos;ll use that data to
                         repair the issue.)
                       </Box>
                     </Typography>
@@ -624,7 +624,7 @@ export default function PrivacyPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         Develop new features. Understanding which features are most used (e.g.,
-                        "generate code" vs "run tests") and how users interact with the tool guides our
+                        &quot;generate code&quot; vs &quot;run tests&quot;) and how users interact with the tool guides our
                         development priorities. We may also use user feedback submitted to us (via
                         email or forums) to design improvements.
                       </Box>
@@ -724,7 +724,7 @@ export default function PrivacyPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
-                        Support responses: If you contact us with a problem or question, we'll use your
+                        Support responses: If you contact us with a problem or question, we&apos;ll use your
                         email and any info you provide to respond. We may ask for additional diagnostic
                         data (like logs) if needed to assist you.
                       </Box>
@@ -745,7 +745,7 @@ export default function PrivacyPolicyPage() {
                       <Box component="span">
                         We may also send you product announcements or promotional communications
                         to your email if you have opted-in to receive them. You can unsubscribe from
-                        marketing emails at any time by clicking the "unsubscribe" link, or adjusting
+                        marketing emails at any time by clicking the &quot;unsubscribe&quot; link, or adjusting
                         preferences in your account settings. Transactional and account-critical emails,
                         however, may still be sent even if you opt out of marketing, as they are necessary
                         for the Service.
@@ -817,7 +817,7 @@ export default function PrivacyPolicyPage() {
                 <Box component="span">
                   <strong>Aggregated and Anonymized Data:</strong> We may aggregate or anonymize data so it can no
                   longer be linked to you or your organization. We might use this aggregated data for
-                  purposes such as analyzing trends (e.g., "X% of users use feature Y weekly"), academic
+                  purposes such as analyzing trends (e.g., &quot;X% of users use feature Y weekly&quot;), academic
                   research, or marketing (e.g., publishing the number of code completions generated by
                   Elastic Copilot across all users). This aggregated information contains no personally
                   identifiable information and no private code content tied to any individual.
@@ -919,11 +919,11 @@ export default function PrivacyPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  <strong>Cloud Hosting and Storage (Infrastructure):</strong> Elastic Copilot's servers and databases
+                  <strong>Cloud Hosting and Storage (Infrastructure):</strong> Elastic Copilot&quot;s servers and databases
                   are hosted on Google Cloud Platform (GCP) in the United States. All your data
                   (account info, usage logs, any stored code context, etc.) is stored on secure servers in
                   data centers located in the U.S. GCP, as our cloud provider, technically processes data
-                  as needed for storage and backup. We rely on GCP's robust security certifications and
+                  as needed for storage and backup. We rely on GCP&quot;s robust security certifications and
                   compliance with privacy standards. GCP does not access your content except as
                   needed to maintain the cloud service (and as permitted by law or our agreement with
                   them).
@@ -998,7 +998,7 @@ export default function PrivacyPolicyPage() {
                   AI-generated content or code snippets you asked it to summarize) and will listen for
                   messages you send to it via Slack. Similarly, if you ask Elastic Copilot to analyze a
                   Google Doc, we send the document content to our AI for analysis. These actions are
-                  under your control, and the data shared is only what is necessary for the integration's
+                  under your control, and the data shared is only what is necessary for the integration&quot;s
                   function. Slack and Google will handle any data on their side according to their own
                   privacy policies, so we encourage you to review those if you use the integrations.
                 </Box>
@@ -1019,7 +1019,7 @@ export default function PrivacyPolicyPage() {
                 <Box component="span">
                   <strong>Service Providers and Subprocessors:</strong> Elastic AI may engage trusted third-party
                   companies to perform certain business-related functions. These parties are our service
-                  providers (or "subprocessors") and may handle your data on our behalf, under strict
+                  providers (or &quot;subprocessors&quot;) and may handle your data on our behalf, under strict
                   confidentiality and data protection terms. For example:
                   <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
                     <Typography
@@ -1167,7 +1167,7 @@ export default function PrivacyPolicyPage() {
                   <strong>With Your Consent:</strong> Aside from the cases above, we will share your personal
                   information with third parties only with your consent. For instance, if we ever want to
                   use a quote from your feedback or identify your company as a user on our website, we
-                  would seek your permission. Or if there's a new integration that requires sharing data in
+                  would seek your permission. Or if there&quot;s a new integration that requires sharing data in
                   a way not covered here, we would ask for your consent explicitly.
                 </Box>
               </Typography>
@@ -1514,7 +1514,7 @@ export default function PrivacyPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   <strong>Deletion Upon Request:</strong> You have the right to request deletion of your personal data
-                  (see "Your Rights" below). Upon such a request, and verification of identity, we will delete
+                  (see &quot;Your Rights&quot; below). Upon such a request, and verification of identity, we will delete
                   or anonymize your personal information from our active databases, unless retaining it is
                   required for legitimate business or legal purposes. Where data has been provided to
                   third-party processors (like AI providers for processing or Stripe for payment), we will
@@ -1701,7 +1701,7 @@ export default function PrivacyPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  <strong>User Responsibilities:</strong> Despite our efforts, no system is 100% secure. It's important
+                  <strong>User Responsibilities:</strong> Despite our efforts, no system is 100% secure. It&quot;s important
                   that you also take precautions: Use a strong, unique password for Elastic Copilot and do
                   not share it. Keep your VS Code and extension updated to the latest versions. If you
                   suspect any unauthorized access to your account, notify us immediately. We also
@@ -1992,7 +1992,7 @@ export default function PrivacyPolicyPage() {
                   Privacy Act (CCPA) provides you specific rights such as the right to know, right to delete,
                   and right to opt-out of sale of personal info. We have covered access and deletion
                   above. As we do not sell your data, the opt-out of sale is not applicable. We also will not
-                  discriminate against you for exercising any privacy rights (meaning we won't deny
+                  discriminate against you for exercising any privacy rights (meaning we won&quot;t deny
                   service or provide different quality of service just because you made a privacy request).
                 </Box>
               </Typography>
@@ -2067,7 +2067,7 @@ export default function PrivacyPolicyPage() {
                 },
               }}
             >
-              Children's Privacy
+              Children&apos;s Privacy
             </Typography>
             <Typography
               variant="body1"
@@ -2126,7 +2126,7 @@ export default function PrivacyPolicyPage() {
             >
               We may update this Privacy Policy from time to time to reflect changes in our practices,
               technologies, legal requirements, or other factors. When we update the policy, we will change
-              the "Last Updated" date at the top of this document. If the changes are material, we will provide
+              the &quot;Last Updated&quot; date at the top of this document. If the changes are material, we will provide
               a more prominent notice (such as by email notification or a message within the application).
               Your continued use of Elastic Copilot after any changes to this Privacy Policy signifies
               your acceptance of the updated terms, to the extent permitted by law. We encourage you to

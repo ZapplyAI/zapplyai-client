@@ -97,7 +97,7 @@ export default function SecurityPolicyPage() {
               system can be 100% immune to threats, we are committed to continuously improving our
               security posture. If you have any questions or discover any potential vulnerabilities, please
               contact our security team at founders@elasticapp.io. We also maintain a responsible
-              disclosure program (see "Vulnerability Disclosure" below) for researchers to report issues.
+              disclosure program (see &quot;Vulnerability Disclosure&quot; below) for researchers to report issues.
             </Typography>
           </Box>
 
@@ -136,10 +136,10 @@ export default function SecurityPolicyPage() {
                 marginBottom: '24px',
               }}
             >
-              <strong>Hosting Environment:</strong> Elastic Copilot's backend systems are hosted on Google Cloud
+              <strong>Hosting Environment:</strong> Elastic Copilot&apos;s backend systems are hosted on Google Cloud
               Platform (GCP) in the United States. We chose GCP for its strong security track record and
               compliance certifications. Our servers (including application servers, databases, and storage)
-              run in GCP's U.S. data centers, which employ state-of-the-art physical and environmental
+              run in GCP&apos;s U.S. data centers, which employ state-of-the-art physical and environmental
               security controls. Production systems are in a virtual private cloud (VPC) with network access
               controls in place. We also isolate environments (e.g., development, staging, production) to limit
               exposure and test changes safely before deploying to production.
@@ -302,7 +302,7 @@ export default function SecurityPolicyPage() {
                 marginBottom: '24px',
               }}
             >
-              <strong>Monitoring and Incident Response:</strong> We have monitoring in place for our infrastructure's
+              <strong>Monitoring and Incident Response:</strong> We have monitoring in place for our infrastructure&apos;s
               health and security. This includes:
             </Typography>
             <Box sx={{ marginLeft: '20px', marginBottom: '20px' }}>
@@ -320,7 +320,7 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  <strong>Intrusion Detection:</strong> We utilize monitoring services (like GCP's Cloud
+                  <strong>Intrusion Detection:</strong> We utilize monitoring services (like GCP&apos;s Cloud
                   Monitoring/Logging, and third-party services such as Datadog) to alert on unusual
                   patterns, such as multiple failed login attempts, spikes in error rates, or anomalous
                   network traffic.
@@ -479,7 +479,7 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  The Elastic Copilot extension running in your VS Code will index your project's codebase
+                  The Elastic Copilot extension running in your VS Code will index your project&apos;s codebase
                   on your local machine. This indexing involves analyzing your files (and possibly
                   generating embeddings or summaries of them) so that the AI can quickly retrieve
                   relevant context for your queries.
@@ -520,7 +520,7 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  For example, if you ask "Find usage of function X in my code", the extension might scan
+                  For example, if you ask &quot;Find usage of function X in my code&quot;, the extension might scan
                   your code locally, find references, and only send the minimal necessary data (like file
                   names and line references or small code excerpts) to our servers or to the AI model, if at
                   all needed. Many such queries can be answered by the extension itself without
@@ -543,7 +543,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>No Whole Repo Uploads:</strong> Unlike some tools that might upload your entire repository to
                   a cloud server for analysis, Elastic Copilot does not do that. We believe your code
-                  should stay with you unless there's a very good reason to transmit it.
+                  should stay with you unless there&apos;s a very good reason to transmit it.
                 </Box>
               </Typography>
               <Typography
@@ -577,8 +577,8 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                       <Box component="span">
-                        Only the portion of code or context that's necessary for the AI to perform the task is
-                        sent. For instance, if you ask "Explain this function" and have a function highlighted, the
+                        Only the portion of code or context that&apos;s necessary for the AI to perform the task is
+                        sent. For instance, if you ask &quot;Explain this function&quot; and have a function highlighted, the
                         extension will send just that function (and perhaps some relevant context around it) to
                         our cloud service which then routes to an AI model.
                       </Box>
@@ -598,7 +598,7 @@ export default function SecurityPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                       <Box component="span">
                         We never send your entire project in one go to any third-party. We break down
-                        requests to only what's needed for the specific completion or answer.
+                        requests to only what&apos;s needed for the specific completion or answer.
                       </Box>
                     </Typography>
                     <Typography
@@ -657,8 +657,8 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                       <Box component="span">
-                        No caching of your prompts or the AI's responses on the server. (Normally, we might
-                        cache recent prompts to allow features like "history" in the chat – but for Privacy Mode,
+                        No caching of your prompts or the AI&apos;s responses on the server. (Normally, we might
+                        cache recent prompts to allow features like &quot;history&quot; in the chat – but for Privacy Mode,
                         that cache is either disabled or kept client-side.)
                       </Box>
                     </Typography>
@@ -676,7 +676,7 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                       <Box component="span">
-                        Stripping code from logs: our server's logs for Privacy Mode requests will not store code.
+                        Stripping code from logs: our server&apos;s logs for Privacy Mode requests will not store code.
                         They might record that a request happened and its size or processing time, but not the
                         content. We have built filters that detect code-like patterns in logs and redact them for
                         Privacy Mode users.
@@ -774,7 +774,7 @@ export default function SecurityPolicyPage() {
                       <Box component="span">
                         We also allow you to exclude certain folders or files from being used by Elastic Copilot
                         (through settings or ignore lists). For instance, you might exclude the node_modules
-                        directory or any file with secrets. Excluded content won't be sent to the AI or even
+                        directory or any file with secrets. Excluded content won&apos;t be sent to the AI or even
                         indexed.
                       </Box>
                     </Typography>
@@ -793,9 +793,9 @@ export default function SecurityPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                       <Box component="span">
                         If you use the in-editor browser or terminal features, note that those are essentially your
-                        environment – when you run a terminal command via Copilot, it's executing locally in VS
+                        environment – when you run a terminal command via Copilot, it&apos;s executing locally in VS
                         Code as if you typed it. We do not intercept or log the output of your terminal commands
-                        (unless it's needed for the AI to respond and even then it's treated as any other prompt).
+                        (unless it&apos;s needed for the AI to respond and even then it&apos;s treated as any other prompt).
                         Similarly, the in-editor browser is a local tool – any browsing you do there is like using a
                         regular browser (though keep in mind if you navigate to external sites, those sites will
                         see your traffic like a normal web browser would).
@@ -817,7 +817,7 @@ export default function SecurityPolicyPage() {
               }}
             >
               In summary, your code stays as much on your machine as possible. We transmit only
-              what's needed, and we have features to give you control over that transmission. Our aim is to
+              what&apos;s needed, and we have features to give you control over that transmission. Our aim is to
               make Elastic Copilot useful without compromising the privacy of your source code.
             </Typography>
           </Box>
@@ -878,7 +878,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   <strong>Privacy Mode:</strong> As discussed, this is a single switch to significantly limit data retention
-                  and sharing. It's configurable per account (and in enterprise, can be enforced
+                  and sharing. It&apos;s configurable per account (and in enterprise, can be enforced
                   organization-wide). We encourage users to turn this on if they prefer that none of their
                   code is stored by us even temporarily. When off, some data might be retained for
                   improving the service (as described in Privacy Policy), but when on, we effectively
@@ -900,8 +900,8 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   <strong>Telemetry Opt-Out:</strong> We allow users to opt out of non-essential telemetry. In your
-                  settings, you might find options like "Send usage statistics" or "Help improve Elastic
-                  Copilot by sending anonymized data." You can choose to disable these. When disabled,
+                  settings, you might find options like &quot;Send usage statistics&quot; or &quot;Help improve Elastic
+                  Copilot by sending anonymized data.&quot; You can choose to disable these. When disabled,
                   the extension will minimize or stop sending usage metrics or device info that are
                   optional. (Critical analytics for service function, like counting API usage for your plan
                   limits, will still occur, but those are tied to providing the service.)
@@ -923,9 +923,9 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>File/Directory Exclusions:</strong> You can configure patterns or specific files that Elastic
                   Copilot should ignore. For example, you might list secrets files, or large data files, or any
-                  proprietary code you don't want even the AI to see. The extension will then exclude
+                  proprietary code you don&apos;t want even the AI to see. The extension will then exclude
                   those from context when constructing prompts. This gives you fine-grained control:
-                  maybe you're okay using Copilot on most of your code but not on a specific sensitive
+                  maybe you&apos;re okay using Copilot on most of your code but not on a specific sensitive
                   module—just exclude it.
                 </Box>
               </Typography>
@@ -944,8 +944,8 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   <strong>Manual Control of Queries:</strong> You always have the choice of what query to ask and what
-                  code to include. Elastic Copilot doesn't automatically send your code anywhere without
-                  you triggering a feature. For instance, it doesn't just scan your entire project in the cloud
+                  code to include. Elastic Copilot doesn&apos;t automatically send your code anywhere without
+                  you triggering a feature. For instance, it doesn&apos;t just scan your entire project in the cloud
                   by itself; it reacts to your commands. If you are working on particularly sensitive code,
                   you might choose not to use the AI features on that part at all.
                 </Box>
@@ -966,7 +966,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>On-Premises Option:</strong> For enterprise customers with strict data governance, we are
                   exploring offering an on-prem or self-hosted deployment of Elastic Copilot. This would
-                  allow all data processing to occur within your organization's environment (including
+                  allow all data processing to occur within your organization&apos;s environment (including
                   possibly running AI models on infrastructure you control). If available, enterprises could
                   choose this option to ensure no code ever leaves their private network. (Contact our
                   sales team for discussion of enterprise on-prem solutions.)
@@ -1010,9 +1010,9 @@ export default function SecurityPolicyPage() {
                   you often can choose scopes or what data you allow to be shared. For instance, Slack
                   might allow you to restrict the channels the Copilot bot can access. Google OAuth allows
                   you to scope if we only get your basic profile versus broader permissions. We request
-                  only the minimum scopes needed, and you have to approve them. If you're not
+                  only the minimum scopes needed, and you have to approve them. If you&apos;re not
                   comfortable, you can deny or revoke those permissions, and Elastic Copilot will respect
-                  that (the integration simply won't function without them, but it's your choice).
+                  that (the integration simply won&apos;t function without them, but it&apos;s your choice).
                 </Box>
               </Typography>
             </Box>
@@ -1027,11 +1027,11 @@ export default function SecurityPolicyPage() {
               }}
             >
               <strong>Transparency of Data Flows:</strong> We document and communicate what data gets shared when
-              you use a feature. Our UI or docs may include notes like "this action will send the selected code
-              to the AI for analysis." We want you to understand and configure what happens with your
+              you use a feature. Our UI or docs may include notes like &quot;this action will send the selected code
+              to the AI for analysis.&quot; We want you to understand and configure what happens with your
               data. In the Privacy Policy, we list out exactly what third-party services see (e.g., OpenAI sees
-              code for completions, Stripe sees email and billing info, etc.). There shouldn't be any mystery. If
-              something is unclear, users can ask us and we'll clarify what data is involved.
+              code for completions, Stripe sees email and billing info, etc.). There shouldn&apos;t be any mystery. If
+              something is unclear, users can ask us and we&apos;ll clarify what data is involved.
             </Typography>
             <Typography
               variant="body1"
@@ -1087,7 +1087,7 @@ export default function SecurityPolicyPage() {
             >
               Elastic Copilot is a powerful assistant that can do more than just suggest code – it can
               potentially run commands, modify files, or automate tasks. With great power comes great
-              responsibility, so we have built permission checkpoints into the assistant's operation. We want
+              responsibility, so we have built permission checkpoints into the assistant&apos;s operation. We want
               to ensure you remain in full control of any action that affects your system or code.
             </Typography>
             <Typography
@@ -1154,8 +1154,8 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
-                        If the AI suggests "I can create a new file with the refactored code. Do you want
-                        to proceed?", you will get a prompt or a dialogue to approve or cancel.
+                        If the AI suggests &quot;I can create a new file with the refactored code. Do you want
+                        to proceed?&quot;, you will get a prompt or a dialogue to approve or cancel.
                       </Box>
                     </Typography>
                     <Typography
@@ -1173,8 +1173,8 @@ export default function SecurityPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         If you ask Elastic Copilot to run tests or execute a script via the terminal
-                        integration, it will either copy the command for you to run, or explicitly ask "Run
-                        this command?" before executing. You must approve the exact command that will
+                        integration, it will either copy the command for you to run, or explicitly ask &quot;Run
+                        this command?&quot; before executing. You must approve the exact command that will
                         run.
                       </Box>
                     </Typography>
@@ -1193,7 +1193,7 @@ export default function SecurityPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         When using the in-editor browser or any automation that might navigate or
-                        perform actions, you will see what it's trying to do and can stop it if needed.
+                        perform actions, you will see what it&apos;s trying to do and can stop it if needed.
                       </Box>
                     </Typography>
                   </Box>
@@ -1232,8 +1232,8 @@ export default function SecurityPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         File System Write Access: Allowed for certain directories only, or always prompt.
-                        You could say "the AI can never delete files, only create/modify with
-                        confirmation".
+                        You could say &quot;the AI can never delete files, only create/modify with
+                        confirmation&quot;.
                       </Box>
                     </Typography>
                     <Typography
@@ -1289,7 +1289,7 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  <strong>Safe Mode:</strong> We provide a "Safe Mode" toggle where you can put the assistant in a more
+                  <strong>Safe Mode:</strong> We provide a &quot;Safe Mode&quot; toggle where you can put the assistant in a more
                   restricted mode. In Safe Mode, the assistant may only provide suggestions and
                   explanations, but cannot execute any operation or make changes, even if you ask it to.
                   This mode can be useful if you want to ensure nothing unintended happens—keeping
@@ -1312,7 +1312,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>Timeouts and Auto-Declines:</strong> If a permission prompt is presented and you do not
                   respond (say you stepped away), we do not assume consent. The request will time out
-                  and default to "no action". This prevents scenarios where a user might accidentally
+                  and default to &quot;no action&quot;. This prevents scenarios where a user might accidentally
                   trigger something and not see the prompt.
                 </Box>
               </Typography>
@@ -1332,8 +1332,8 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>Audit of Actions:</strong> All automated actions that do get executed (with your permission) are
                   logged (see Audit Logging section). This means you can always review what was done.
-                  For example, "On 2025-06-01 10:00 UTC, Copilot executed npm test and created
-                  utils/helper.js file with user's approval." This record is available to you and (in enterprise
+                  For example, &quot;On 2025-06-01 10:00 UTC, Copilot executed npm test and created
+                  utils/helper.js file with user&apos;s approval.&quot; This record is available to you and (in enterprise
                   scenarios) to your team admins. It ensures accountability.
                 </Box>
               </Typography>
@@ -1354,7 +1354,7 @@ export default function SecurityPolicyPage() {
                   <strong>No Hidden Changes:</strong> We ensure that any changes to your code are either done through
                   the VS Code editor where they are visible as diffs/edits, or through commands you can
                   inspect. Elastic Copilot will not silently alter a file in the background. If it creates or
-                  modifies a file, you'll see the changes (for instance, the file opens in your editor or is
+                  modifies a file, you&apos;ll see the changes (for instance, the file opens in your editor or is
                   highlighted in source control). If it runs a command, you see the output and result. This
                   transparency is crucial for trust.
                 </Box>
@@ -1393,9 +1393,9 @@ export default function SecurityPolicyPage() {
               }}
             >
               This permission-based design is akin to having a junior developer or co-pilot who always asks
-              you "Is it okay if I do this?" before proceeding with anything critical. The goal is to prevent
+              you &quot;Is it okay if I do this?&quot; before proceeding with anything critical. The goal is to prevent
               accidental damage and to give you confidence that Elastic Copilot will not go rogue or execute
-              unintended actions. You maintain the driver's seat; Elastic Copilot executes only when you give
+              unintended actions. You maintain the driver&apos;s seat; Elastic Copilot executes only when you give
               it the green light.
             </Typography>
           </Box>
@@ -1454,7 +1454,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   When Elastic Copilot sends data to the cloud or a third-party, we often display an
-                  indicator (for instance, a small cloud icon or message "Contacting AI model…"). You're
+                  indicator (for instance, a small cloud icon or message &quot;Contacting AI model…&quot;). You&quot;re
                   not left guessing whether something is happening locally or on a server – we tell you.
                 </Box>
               </Typography>
@@ -1490,7 +1490,7 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>1.</Box>
                       <Box component="span">
-                        "Reading tests/test_example.py…"
+                        &quot;Reading tests/test_example.py…&quot;
                       </Box>
                     </Typography>
                     <Typography
@@ -1507,7 +1507,7 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>2.</Box>
                       <Box component="span">
-                        "Running npm test…"
+                        &quot;Running npm test…&quot;
                       </Box>
                     </Typography>
                     <Typography
@@ -1524,11 +1524,11 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>3.</Box>
                       <Box component="span">
-                        "Tests failed on X, analyzing error…"
+                        &quot;Tests failed on X, analyzing error…&quot;
                       </Box>
                     </Typography>
                   </Box>
-                  This gives you insight into the AI's thought process and sequence of operations.
+                  This gives you insight into the AI&apos;s thought process and sequence of operations.
                 </Box>
               </Typography>
               <Typography
@@ -1546,8 +1546,8 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   The in-editor browser explicitly shows you the pages it loads; the terminal shows you the
-                  commands. Essentially, we try to surface the AI's "thinking" or at least its "doing" in the
-                  UI. If it has an internal chain-of-thought, we can't display that entirely (that's internal to
+                  commands. Essentially, we try to surface the AI&apos;s &quot;thinking&quot; or at least its &quot;doing&quot; in the
+                  UI. If it has an internal chain-of-thought, we can&apos;t display that entirely (that&apos;s internal to
                   the model), but every external action is surfaced.
                 </Box>
               </Typography>
@@ -1566,7 +1566,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   We publish documentation (and this policy) explaining data flows and behaviors. If
-                  there's anything you're unsure about, we aim to document it or answer questions.
+                  there&apos;s anything you&apos;re unsure about, we aim to document it or answer questions.
                 </Box>
               </Typography>
               <Typography
@@ -1666,8 +1666,8 @@ export default function SecurityPolicyPage() {
                   summaries of usage for their developers. This could include how many requests were
                   made, what types of actions were performed, etc. We ensure this is done in a
                   privacy-respecting manner (e.g., it might focus on metadata rather than actual code
-                  content). The purpose is to let companies ensure their internal policies (like "don't paste
-                  customer data into external tools") are being followed. Admins could see if someone is
+                  content). The purpose is to let companies ensure their internal policies (like &quot;don&apos;t paste
+                  customer data into external tools&quot;) are being followed. Admins could see if someone is
                   excessively using the web search integration or exporting data.
                 </Box>
               </Typography>
@@ -1706,7 +1706,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>User Access to Logs:</strong> You own your data, including logs of your activities. We will
                   provide ways for you to access your own audit logs. For instance, the extension might
-                  have a "Recent Actions" panel or we might offer an export of your activity. Enterprise
+                  have a &quot;Recent Actions&quot; panel or we might offer an export of your activity. Enterprise
                   customers can request comprehensive logs for their environment if needed for an audit
                   or investigation.
                 </Box>
@@ -1743,9 +1743,9 @@ export default function SecurityPolicyPage() {
                 marginBottom: '24px',
               }}
             >
-              <strong>Incident Transparency:</strong> If a user raises a concern ("I think Elastic Copilot did X that I didn't
-              expect"), we have internal logs to investigate and provide clarity on what happened. We strive
-              not to have any "black box" operations—if something happened, we should be able to tell you
+              <strong>Incident Transparency:</strong> If a user raises a concern (&quot;I think Elastic Copilot did X that I didn&apos;t
+              expect&quot;), we have internal logs to investigate and provide clarity on what happened. We strive
+              not to have any &quot;black box&quot; operations—if something happened, we should be able to tell you
               the what and why from our logs. Transparency builds trust, and we are committed to both.
             </Typography>
             <Typography
@@ -1759,7 +1759,7 @@ export default function SecurityPolicyPage() {
                 fontWeight: 'bold',
               }}
             >
-              In summary, everything Elastic Copilot does can be traced and reviewed. Whether it's by
+              In summary, everything Elastic Copilot does can be traced and reviewed. Whether it&apos;s by
               you in real-time via on-screen cues, or later via audit logs, you have visibility. There are no
               hidden surreptitious behaviors. If you ever feel something unclear is happening, we want to
               know so we can address it.
@@ -1844,11 +1844,11 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  <strong>Role-Based Access Control (RBAC):</strong> Within Elastic Copilot's team management, we
+                  <strong>Role-Based Access Control (RBAC):</strong> Within Elastic Copilot&apos;s team management, we
                   provide roles such as Admin, Member, Viewer, etc. Admins can manage subscriptions,
                   view usage, and set policies, while regular members just use the tool. We also allow
-                  scoping of permissions – e.g., certain members might not be allowed to use the "web
-                  search" feature if an admin disables it for security, or an admin could restrict usage of
+                  scoping of permissions – e.g., certain members might not be allowed to use the &quot;web
+                  search&quot; feature if an admin disables it for security, or an admin could restrict usage of
                   certain AI models if needed.
                 </Box>
               </Typography>
@@ -1884,7 +1884,7 @@ export default function SecurityPolicyPage() {
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
                         Enforce Privacy Mode for all users (or ensure no data leaves their environment
-                        beyond what's necessary).
+                        beyond what&apos;s necessary).
                       </Box>
                     </Typography>
                     <Typography
@@ -1901,8 +1901,8 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
-                        Set organization-wide settings like "disallow code snippet logging" or "require
-                        confirmation for all actions" as defaults.
+                        Set organization-wide settings like &quot;disallow code snippet logging&quot; or &quot;require
+                        confirmation for all actions&quot; as defaults.
                       </Box>
                     </Typography>
                     <Typography
@@ -1937,7 +1937,7 @@ export default function SecurityPolicyPage() {
                     >
                       <Box component="span" sx={{ marginRight: '10px' }}>○</Box>
                       <Box component="span">
-                        Manage integrations (for example, connecting the organization's Slack
+                        Manage integrations (for example, connecting the organization&apos;s Slack
                         workspace so all users can use that integration seamlessly).
                       </Box>
                     </Typography>
@@ -1960,8 +1960,8 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   <strong>Data Residency and Isolation:</strong> While our primary data storage is in the U.S., we
                   understand some enterprises (especially outside the U.S.) might have data residency
-                  requirements. We plan to offer options such as EU data hosting if there's demand. We
-                  also logically isolate customer data – an enterprise's data (account info, usage) is
+                  requirements. We plan to offer options such as EU data hosting if there&apos;s demand. We
+                  also logically isolate customer data – an enterprise&apos;s data (account info, usage) is
                   separated so that no other tenant can access it. With on-prem solutions, physical
                   isolation is possible too.
                 </Box>
@@ -2078,9 +2078,9 @@ export default function SecurityPolicyPage() {
                   AI model (maybe they have a fine-tuned model or they prefer a specific provider for
                   confidentiality). We plan to allow flexible AI backends – e.g., if an enterprise has an
                   instance of GPT-4 on Azure or a self-hosted model, Elastic Copilot could be configured
-                  to use that for their team's requests. Similarly, as mentioned, a full on-prem deployment
+                  to use that for their team&apos;s requests. Similarly, as mentioned, a full on-prem deployment
                   could be arranged for maximal isolation (where the entire Elastic Copilot service runs in
-                  the company's private cloud).
+                  the company&apos;s private cloud).
                 </Box>
               </Typography>
               <Typography
@@ -2121,7 +2121,7 @@ export default function SecurityPolicyPage() {
                   <strong>Vulnerability Management:</strong> We actively manage vulnerabilities in our software. This
                   includes subscribing to CVE alerts for dependencies, running static code analysis,
                   dependency scanning, and engaging in periodic penetration tests. Enterprises often ask
-                  about this, and we're prepared to share our vulnerability management process. We
+                  about this, and we&apos;re prepared to share our vulnerability management process. We
                   patch critical vulns typically within 24-48 hours.
                 </Box>
               </Typography>
@@ -2139,10 +2139,10 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  <strong>Data Segregation:</strong> In multi-tenant cloud, we ensure that one customer's data is
-                  segregated from another's using account scoping at the application level. Additionally,
-                  for things like AI model usage, we don't mix context between users – every request to
-                  the model is isolated to your session and context. (The AI itself doesn't retain info across
+                  <strong>Data Segregation:</strong> In multi-tenant cloud, we ensure that one customer&apos;s data is
+                  segregated from another&apos;s using account scoping at the application level. Additionally,
+                  for things like AI model usage, we don&apos;t mix context between users – every request to
+                  the model is isolated to your session and context. (The AI itself doesn&apos;t retain info across
                   requests by design, especially with no retention setting.)
                 </Box>
               </Typography>
@@ -2164,7 +2164,7 @@ export default function SecurityPolicyPage() {
                   comply with their internal policies. For instance, if a company disallows use of any cloud
                   AI for certain code (e.g., code containing secrets or regulated data), they can enforce
                   that through Elastic Copilot settings (like blacklisting certain file patterns or disabling the
-                  tool in certain project folders). We're exploring integration with DLP (Data Loss
+                  tool in certain project folders). We&apos;re exploring integration with DLP (Data Loss
                   Prevention) solutions such that if someone tries to send something sensitive, it can be
                   blocked or flagged.
                 </Box>
@@ -2240,7 +2240,7 @@ export default function SecurityPolicyPage() {
               >
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
-                  If you believe you've found a security vulnerability in Elastic Copilot or any related
+                  If you believe you&apos;ve found a security vulnerability in Elastic Copilot or any related
                   component, please notify us immediately at founders@elasticapp.io. Include as much
                   detail as possible in your report, such as steps to reproduce the issue, potential impact,
                   and any relevant information.
@@ -2323,7 +2323,7 @@ export default function SecurityPolicyPage() {
                   responsibly and in good faith. As long as your testing is within scope of our program
                   and not harming other users or systems (for example, no data exfiltration or privacy
                   violations of other users), we consider it authorized. Please avoid automated scanning
-                  that could degrade the service, and never attempt to access another user's data. Test
+                  that could degrade the service, and never attempt to access another user&apos;s data. Test
                   against your own accounts or test accounts.
                 </Box>
               </Typography>
@@ -2342,7 +2342,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span" sx={{ marginRight: '10px' }}>●</Box>
                 <Box component="span">
                   We are open to security researchers testing our service and will outline any scope or
-                  rules on our website's security page (for example, which domains or products are
+                  rules on our website&apos;s security page (for example, which domains or products are
                   in-scope, and any specific exclusions like not testing payment processing or third-party
                   services beyond our control).
                 </Box>
@@ -2363,7 +2363,7 @@ export default function SecurityPolicyPage() {
                 <Box component="span">
                   In some cases, we may offer a bug bounty or token of appreciation for significant
                   discoveries, especially if we establish a formal bug bounty program. Even if not, our
-                  gratitude will be immense, and we'll certainly acknowledge your help.
+                  gratitude will be immense, and we&apos;ll certainly acknowledge your help.
                 </Box>
               </Typography>
             </Box>
@@ -2378,7 +2378,7 @@ export default function SecurityPolicyPage() {
               }}
             >
               Your trust in Elastic Copilot is critical. We strive to maintain that trust by keeping security a top
-              priority, being transparent about our practices (as we've done in this policy), and by continuously
+              priority, being transparent about our practices (as we&apos;ve done in this policy), and by continuously
               improving in response to new challenges and feedback. We encourage our users and the
               security community to engage with us on security matters—together we can ensure Elastic
               Copilot remains a secure and reliable tool to supercharge your coding.
@@ -2420,10 +2420,10 @@ export default function SecurityPolicyPage() {
                 marginBottom: '24px',
               }}
             >
-              For any questions or concerns about Elastic Copilot's security, you can reach our team at
+              For any questions or concerns about Elastic Copilot&apos;s security, you can reach our team at
               founders@elasticapp.io. We also provide additional technical details and updates on our
               [Security & Trust webpage] (referenced on our site), where we may publish system status,
-              penetration test summaries, or security whitepapers for those interested.
+              penetration test summaries, or security white papers for those interested.
             </Typography>
             <Typography
               variant="body1"
