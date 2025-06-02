@@ -150,7 +150,7 @@ const PlanComparisonCard: React.FC<PlanComparisonCardProps> = ({ currentPlanName
       </Grid>
 
       <Typography variant="body2" sx={{ mb: 2, color: '#E5E5E5' }}>
-        By upgrading to {nextPlan.type}, you'll get:
+        By upgrading to {nextPlan.type}, you&apos;ll get:
       </Typography>
 
       <Grid container spacing={2} sx={{ mb: 3 }}>
