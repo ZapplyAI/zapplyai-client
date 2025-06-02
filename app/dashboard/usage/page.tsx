@@ -8,11 +8,17 @@ import {
   Divider,
   Paper,
   Grid,
-  LinearProgress
+  LinearProgress,
+  Button
 } from '@mui/material'
 import useUserProfile from '@/lib/hooks/useUserProfile'
+import useSubscriptionPlans from '@/lib/hooks/useSubscriptionPlans'
+import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
 import { axios } from '@/lib'
 import DataUsageIcon from '@mui/icons-material/DataUsage'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 
 // Define the type for the usage data response
 interface UsageData {
@@ -28,6 +34,208 @@ interface UsageData {
   }[]
   created_at: string
 }
+
+// Helper function to format numbers with commas for values over 999
+const formatNumber = (num: number): string => {
+  return num >= 1000 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : num.toString();
+}
+
+// Plan Comparison Card Component
+interface PlanComparisonCardProps {
+  currentPlanName: string;
+  isMobile: boolean;
+}
+
+const PlanComparisonCard: React.FC<PlanComparisonCardProps> = ({ currentPlanName, isMobile }) => {
+  const { subscriptionPlans, loading, error } = useSubscriptionPlans();
+  const { handleCheckout, loading: checkoutLoading } = useSubscriptionCheckout();
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+        <CircularProgress size={30} sx={{ color: '#775EFF' }} />
+      </Box>
+    );
+  }
+
+  if (error || !subscriptionPlans || subscriptionPlans.length === 0) {
+    return null;
+  }
+
+  // Sort plans by monthly_price in ascending order
+  const sortedPlans = [...subscriptionPlans].sort(
+    (a, b) => parseFloat(a.monthly_price) - parseFloat(b.monthly_price)
+  );
+
+  // Find current plan index
+  const currentPlanIndex = sortedPlans.findIndex(
+    plan => plan.type === currentPlanName
+  );
+
+  // If current plan not found or is the highest tier, don't show comparison
+  if (currentPlanIndex === -1 || currentPlanIndex === sortedPlans.length - 1) {
+    return null;
+  }
+
+  // Get next tier plan
+  const nextPlan = sortedPlans[currentPlanIndex + 1];
+  const currentPlan = sortedPlans[currentPlanIndex];
+
+  // Calculate credit differences
+  const totalCreditsDiff = nextPlan.total_credits - currentPlan.total_credits;
+  const geminiCreditsDiff = (nextPlan.buckets.gemini || 0) - (currentPlan.buckets.gemini || 0);
+  const claudeCreditsDiff = (nextPlan.buckets.claude || 0) - (currentPlan.buckets.claude || 0);
+  const gptCreditsDiff = (nextPlan.buckets.gpt || 0) - (currentPlan.buckets.gpt || 0);
+
+  return (
+    <Box
+      sx={{
+        border: '1px solid #5E5E5E',
+        borderRadius: '12px',
+        padding: '16px 24px',
+        mt: 4,
+        background: 'linear-gradient(135deg, rgba(119, 94, 255, 0.1), rgba(222, 58, 237, 0.1))',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{
+          mb: 2,
+          color: '#E5E5E5',
+          display: 'flex',
+          alignItems: 'center',
+          fontFamily: 'Tektur, sans-serif',
+        }}
+      >
+        <TrendingUpIcon sx={{ mr: 1 }} />
+        Upgrade Comparison
+      </Typography>
+
+      <Box sx={{ position: 'absolute', top: 10, right: 10, opacity: 0.1 }}>
+        <TrendingUpIcon sx={{ fontSize: 100, transform: 'rotate(45deg)' }} />
+      </Box>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ color: '#AAAAAA' }}>
+              Current Plan
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#E5E5E5', fontWeight: 500 }}>
+              {currentPlan.type} (${currentPlan.monthly_price}/month)
+            </Typography>
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ color: '#AAAAAA' }}>
+              Next Tier
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: 500,
+                background: 'linear-gradient(90deg, #775EFF, #DE3AED)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              {nextPlan.type} (${nextPlan.monthly_price}/month)
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Typography variant="body2" sx={{ mb: 2, color: '#E5E5E5' }}>
+        By upgrading to {nextPlan.type}, you'll get:
+      </Typography>
+
+      <Grid container spacing={2} sx={{ mb: 3 }}>
+        <Grid item xs={12} sm={6}>
+          <Box sx={{
+            p: 2,
+            border: '1px solid rgba(119, 94, 255, 0.3)',
+            borderRadius: '8px',
+            background: 'rgba(10, 9, 14, 0.7)',
+          }}>
+            <Typography variant="body2" sx={{ color: '#AAAAAA', mb: 1 }}>
+              Additional Credits
+            </Typography>
+            <Typography variant="h6" sx={{
+              color: '#E5E5E5',
+              fontFamily: 'JetBrains Mono, monospace',
+              fontSize: '1.1rem',
+            }}>
+              +{formatNumber(totalCreditsDiff)} total credits
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              {geminiCreditsDiff > 0 && (
+                <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
+                  +{formatNumber(geminiCreditsDiff)} Gemini credits
+                </Typography>
+              )}
+              {claudeCreditsDiff > 0 && (
+                <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
+                  +{formatNumber(claudeCreditsDiff)} Claude credits
+                </Typography>
+              )}
+              {gptCreditsDiff > 0 && (
+                <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
+                  +{formatNumber(gptCreditsDiff)} GPT credits
+                </Typography>
+              )}
+            </Box>
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Box sx={{
+            p: 2,
+            border: '1px solid rgba(222, 58, 237, 0.3)',
+            borderRadius: '8px',
+            background: 'rgba(10, 9, 14, 0.7)',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}>
+            <Typography variant="body2" sx={{ color: '#AAAAAA', mb: 1 }}>
+              Value Comparison
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#E5E5E5' }}>
+              {Math.round((totalCreditsDiff / parseFloat(nextPlan.monthly_price)) * 100) / 100} credits per dollar
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#AAAAAA', mt: 1 }}>
+              vs. {Math.round((currentPlan.total_credits / parseFloat(currentPlan.monthly_price)) * 100) / 100} on your current plan
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Button
+        variant="contained"
+        onClick={() => handleCheckout(nextPlan.type)}
+        disabled={checkoutLoading}
+        sx={{
+          background: 'linear-gradient(90deg, #775EFF, #DE3AED)',
+          borderRadius: '8px',
+          padding: '10px 24px',
+          fontFamily: 'Tektur, sans-serif',
+          textTransform: 'none',
+          '&:hover': {
+            background: 'linear-gradient(90deg, #6B4FE0, #C935D3)',
+          },
+        }}
+        startIcon={<TrendingUpIcon />}
+      >
+        {checkoutLoading ? 'Processing...' : `Upgrade to ${nextPlan.type}`}
+      </Button>
+    </Box>
+  );
+};
 
 export default function UsagePage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
@@ -226,6 +434,9 @@ export default function UsagePage() {
               </Typography>
             )}
           </Box>
+
+          {/* Plan Comparison Card */}
+          <PlanComparisonCard currentPlanName={usageData.plan} isMobile={isMobile} />
         </>
       ) : (
         <Box

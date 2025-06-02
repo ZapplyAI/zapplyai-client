@@ -181,117 +181,55 @@ export const PricingSection = ({
   const theme = useTheme()
   const { subscriptionPlans, loading, error } = useSubscriptionPlans()
 
+  // Helper function to format numbers with commas for values over 999
+  const formatNumber = (num: number): string => {
+    return num >= 1000 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : num.toString();
+  }
+
   // Map API subscription plans to the format expected by PricingCard
-  const mapSubscriptionPlanToPricingPlan = (plan: SubscriptionPlan) => {
-    // Default features for all plans
-    const baseFeatures = [
-      'Priority usage of the Base Model',
-      'Unlimited basic requests',
-      'Admin dashboard',
-      'Priority support',
-    ]
+  const mapSubscriptionPlanToPricingPlan = (plan: SubscriptionPlan, index: number) => {
+    // Generate features list based on the buckets data
+    const features = []
 
-    // Determine plan-specific features and details
-    let title = plan.type
-    let description = ''
-    let isPopular = false
-    let features = [...baseFeatures]
-
-    // Set plan-specific details based on plan type
-    if (plan.type.toLowerCase().includes('free')) {
-      title = 'Free'
-      description = 'Perfect for trying out Elastic Copilot'
-      features = [
-        'Unlimited usage of the Base Model',
-        `${plan.total_credits} premium calls to GPT-4/Claude per month`,
-      ]
-    } else if (
-      plan.type.toLowerCase().includes('pro+') ||
-      plan.type.toLowerCase().includes('pro plus') ||
-      plan.type.toLowerCase().includes('premium')
-    ) {
-      title = 'Pro+'
-      description = ''
-      isPopular = false
-      features = [
-        ...baseFeatures,
-        `${plan.total_credits} premium calls per month`,
-        'Additional premium calls available at $0.05 each',
-      ]
-    } else if (
-      plan.type.toLowerCase().includes('pro') ||
-      plan.type.toLowerCase().includes('standard')
-    ) {
-      title = 'Pro'
-      description = ''
-      isPopular = true
-      features = [
-        ...baseFeatures,
-        `${plan.total_credits} premium calls per month`,
-        'Additional premium calls available at $0.08 each',
-      ]
+    // Add features for each provider if they exist in the buckets
+    if (plan.buckets.claude) {
+      features.push(`${formatNumber(plan.buckets.claude)} Claude credits`)
     }
 
+    if (plan.buckets.gemini) {
+      features.push(`${formatNumber(plan.buckets.gemini)} Gemini credits`)
+    }
+
+    if (plan.buckets.gpt) {
+      features.push(`${formatNumber(plan.buckets.gpt)} GPT credits`)
+    }
+
+    // Add total credits feature
+    features.push(`${formatNumber(plan.total_credits)} total credits`)
+
     return {
-      title,
+      title: plan.type,
       price: `$${plan.monthly_price}`,
-      description,
+      description: '',
       features,
-      isPopular,
+      isPopular: plan.type === 'STANDARD', // Only the STANDARD plan should be tagged as Most Popular
       planType: plan.type,
     }
   }
 
-  // Fallback pricing plans for when API fails or returns no plans
-  const fallbackPlans = [
-    {
-      title: 'Free',
-      price: '$0',
-      description: 'Perfect for trying out Elastic Copilot',
-      features: [
-        'Unlimited usage of the Base Model',
-        '20 premium calls to GPT-4/Claude per month',
-      ],
-      isPopular: false,
-      planType: 'FREE',
-    },
-    {
-      title: 'Pro',
-      price: '$15',
-      description: 'For professional developers',
-      features: [
-        'Priority usage of the Base Model',
-        'Unlimited basic requests',
-        'Admin dashboard',
-        'Priority support',
-        '500 premium calls per month',
-        'Additional premium calls available at $0.08 each',
-      ],
-      isPopular: true,
-      planType: 'PRO',
-    },
-    {
-      title: 'Pro+',
-      price: '$25',
-      description: 'For ultra professional developers',
-      features: [
-        'Priority usage of the Base Model',
-        'Unlimited basic requests',
-        'Admin dashboard',
-        'Priority support',
-        '1000 premium calls per month',
-        'Additional premium calls available at $0.05 each',
-      ],
-      isPopular: false,
-      planType: 'PRO_PLUS',
-    },
-  ];
-
-  // Create pricing plans from API data or use fallback if loading/error
+  // Create pricing plans from API data
   const pricingPlans =
     loading || error || !subscriptionPlans || subscriptionPlans.length === 0
-      ? fallbackPlans
-      : subscriptionPlans.map(mapSubscriptionPlanToPricingPlan)
+      ? []
+      : subscriptionPlans
+          // Sort plans by monthly_price in ascending order
+          .sort(
+            (a: { monthly_price: string }, b: { monthly_price: string }) =>
+              parseFloat(a.monthly_price) - parseFloat(b.monthly_price)
+          )
+          .map((plan: SubscriptionPlan, index: number) =>
+            mapSubscriptionPlanToPricingPlan(plan, index)
+          )
 
   return (
     <Box
@@ -356,6 +294,12 @@ export const PricingSection = ({
           <Box sx={{ textAlign: 'center', width: '100%', py: 4 }}>
             <Typography variant="body1" sx={{ color: '#AEAEAE' }}>
               Unable to load pricing plans. Please try again later.
+            </Typography>
+          </Box>
+        ) : pricingPlans.length === 0 ? (
+          <Box sx={{ textAlign: 'center', width: '100%', py: 4 }}>
+            <Typography variant="body1" sx={{ color: '#AEAEAE' }}>
+              No pricing plans are currently available. Please check back later.
             </Typography>
           </Box>
         ) : (

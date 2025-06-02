@@ -20,6 +20,11 @@ import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
 import { SubscriptionPlan } from '@/services/types'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 
+// Helper function to format numbers with commas for values over 999
+const formatNumber = (num: number): string => {
+  return num >= 1000 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : num.toString();
+}
+
 interface UpgradeMembershipProps {
   open: boolean
   onClose: (membershipUpdated: boolean) => void
@@ -37,13 +42,18 @@ const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
   const handleClose = () => onClose(false)
   const handlePlanSelection = (plan: SubscriptionPlan) => setSelectedPlan(plan)
 
-  // Filter out the free plan
-  const paidPlans = subscriptionPlans?.filter(
-    (plan: SubscriptionPlan) =>
-      plan.type !== 'FREE' &&
-      plan.monthly_price !== '0' &&
-      !plan.type.toLowerCase().includes('free')
-  ) || []
+  // Filter out the free plan and sort by monthly_price in ascending order
+  const paidPlans = (
+    subscriptionPlans?.filter(
+      (plan: SubscriptionPlan) =>
+        plan.type !== 'FREE' &&
+        plan.monthly_price !== '0' &&
+        !plan.type.toLowerCase().includes('free')
+    ) || []
+  ).sort(
+    (a: { monthly_price: string }, b: { monthly_price: string }) =>
+      parseFloat(a.monthly_price) - parseFloat(b.monthly_price)
+  )
 
   const style = {
     dialogContainer: {},
@@ -209,24 +219,15 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                 fontFamily: '"JetBrains Mono", monospace',
                 fontSize: isMobile ? '16px' : undefined,
                 background:
-                  selectedPlan.type.toLowerCase().includes('pro+') ||
-                  selectedPlan.type.toLowerCase().includes('pro plus') ||
-                  selectedPlan.type.toLowerCase().includes('premium')
-                    ? 'linear-gradient(to right, #7C5EFD, #FB5EC0)'
-                    : selectedPlan.type.toLowerCase().includes('pro') ||
-                        selectedPlan.type.toLowerCase().includes('standard')
-                      ? 'linear-gradient(to right, #FFB42A, #F85E8A)'
-                      : 'none',
+                  selectedPlan.type === 'STANDARD'
+                    ? 'linear-gradient(to right, #FFB42A, #F85E8A)'
+                    : 'none',
                 WebkitBackgroundClip:
-                  selectedPlan.type.toLowerCase().includes('pro') ||
-                  selectedPlan.type.toLowerCase().includes('premium') ||
-                  selectedPlan.type.toLowerCase().includes('standard')
+                  selectedPlan.type === 'STANDARD'
                     ? 'text'
                     : 'border-box',
                 WebkitTextFillColor:
-                  selectedPlan.type.toLowerCase().includes('pro') ||
-                  selectedPlan.type.toLowerCase().includes('premium') ||
-                  selectedPlan.type.toLowerCase().includes('standard')
+                  selectedPlan.type === 'STANDARD'
                     ? 'transparent'
                     : '#808080',
                 fontWeight: 500,
@@ -266,7 +267,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        {selectedPlan.total_credits}
+                        {formatNumber(selectedPlan.total_credits)}
                       </Box>
                     </Box>
                   }
@@ -299,7 +300,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        {selectedPlan.buckets.gemini}
+                        {formatNumber(selectedPlan.buckets.gemini)}
                       </Box>
                     </Box>
                   }
@@ -332,7 +333,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        {selectedPlan.buckets.claude}
+                        {formatNumber(selectedPlan.buckets.claude)}
                       </Box>
                     </Box>
                   }
@@ -365,7 +366,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        {selectedPlan.buckets.gpt}
+                        {formatNumber(selectedPlan.buckets.gpt)}
                       </Box>
                     </Box>
                   }
@@ -454,20 +455,12 @@ const RadioGroupExample = ({
   const getGradientForPlan = (planType: string) => {
     if (!planType) return '#808080, #808080' // Default gray
 
-    const type = planType.toLowerCase()
-    if (
-      type.includes('pro+') ||
-      type.includes('pro plus') ||
-      type.includes('premium')
-    ) {
-      return '#7C5EFD, #FB5EC0' // Premium/Pro+ gradient
-    } else if (type.includes('pro') || type.includes('standard')) {
-      return '#FFB42A, #F85E8A' // Pro/Standard gradient
-    } else if (type.includes('free') || type.includes('basic')) {
-      return '#808080, #808080' // Free/Basic tier gray
+    // Only the STANDARD plan should be highlighted as "Most Popular"
+    if (planType === 'STANDARD') {
+      return '#FFB42A, #F85E8A' // Standard gradient (Most Popular)
+    } else {
+      return '#808080, #808080' // Default gray for all other plans
     }
-
-    return '#808080, #808080' // Default gray
   }
 
   // if (isProcessing || !plans.length) {
@@ -488,7 +481,7 @@ const RadioGroupExample = ({
           <RadioOption
             key={plan.type}
             label={plan.type}
-            description={`Total Credits: ${plan.total_credits}`}
+            description={`Total Credits: ${formatNumber(plan.total_credits)}`}
             price={plan.monthly_price}
             selected={selectedPlan?.type === plan.type}
             onChange={() => onPlanSelect(plan)}

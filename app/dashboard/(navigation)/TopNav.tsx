@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import MenuIcon from '@mui/icons-material/Menu'
+import DownloadIcon from '@mui/icons-material/Download'
+import { EXTENSION_URL } from '@/constants'
 import UpgradeMembershipModal from '@/app/dashboard/members/(components)/UpgradeMembershipModal'
 import UserDetails from './UserDetails'
 import { useDashboard } from '../DashboardContext'
@@ -219,45 +221,100 @@ const TopNav: React.FC<TopNavProps> = ({ onUpgradeClick, modalOpen, onModalClose
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {!isMobile ? (
-              <Button
-                onClick={upgradeSubscription}
-                sx={{
-                  padding: '4px 16px',
-                  marginRight: '16px',
-                }}
-              >
-                <TrendingUpIcon
+              <>
+                <Button
+                  onClick={upgradeSubscription}
                   sx={{
-                    height: '16px',
-                    width: '16px',
-                    color: '#775EFF',
-                    marginRight: '8px',
-                  }}
-                />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontSize: '13px',
-                    fontWeight: '300',
-                    fontFamily: 'JetBrains Mono',
-                    background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
+                    padding: '4px 16px',
+                    marginRight: '16px',
                   }}
                 >
-                  Upgrade Subscription
-                </Typography>
-              </Button>
+                  <TrendingUpIcon
+                    sx={{
+                      height: '16px',
+                      width: '16px',
+                      color: '#775EFF',
+                      marginRight: '8px',
+                    }}
+                  />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: '13px',
+                      fontWeight: '300',
+                      fontFamily: 'JetBrains Mono',
+                      background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
+                    Upgrade Subscription
+                  </Typography>
+                </Button>
+                <a href={EXTENSION_URL} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+                  <Button
+                    sx={{
+                      padding: '4px 16px',
+                      marginRight: '16px',
+                    }}
+                  >
+                    <DownloadIcon
+                      sx={{
+                        height: '16px',
+                        width: '16px',
+                        color: '#775EFF',
+                        marginRight: '8px',
+                      }}
+                    />
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontSize: '13px',
+                        fontWeight: '300',
+                        fontFamily: 'JetBrains Mono',
+                        background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                      }}
+                    >
+                      Download VS Code Extension
+                    </Typography>
+                  </Button>
+                </a>
+              </>
             ) : (
-              <IconButton
-                onClick={upgradeSubscription}
-                sx={{
-                  marginRight: '8px',
-                  color: '#775EFF',
-                }}
-              >
-                <TrendingUpIcon />
-              </IconButton>
+              <>
+                <Button
+                  onClick={upgradeSubscription}
+                  sx={{
+                    padding: '4px 12px',
+                    marginRight: '8px',
+                    minWidth: 'auto',
+                  }}
+                >
+                  <TrendingUpIcon
+                    sx={{
+                      height: '16px',
+                      width: '16px',
+                      color: '#775EFF',
+                      marginRight: '4px',
+                    }}
+                  />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontSize: '13px',
+                      fontWeight: '300',
+                      fontFamily: 'JetBrains Mono',
+                      background: `linear-gradient(to right, #775EFF, #FF5EBF)`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
+                    Upgrade
+                  </Typography>
+                </Button>
+              </>
             )}
 
             <UserDetails isMobile={isMobile} />
