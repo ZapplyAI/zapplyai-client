@@ -23,15 +23,15 @@ export const Footer = ({ isMobile = false }: FooterProps) => {
         // { name: 'Changelog', url: '#' },
       ],
     },
-    {
-      title: 'Resources',
-      links: [
-        { name: 'Documentation', url: '/docs' },
-        // { name: 'Tutorials', url: '#' },
-        // { name: 'Blog', url: '#' },
-        // { name: 'Community', url: '#' },
-      ],
-    },
+    // {
+    //   title: 'Resources',
+    //   links: [
+    //     { name: 'Documentation', url: '/docs' },
+    //     // { name: 'Tutorials', url: '#' },
+    //     // { name: 'Blog', url: '#' },
+    //     // { name: 'Community', url: '#' },
+    //   ],
+    // },
     {
       title: 'Company',
       links: [

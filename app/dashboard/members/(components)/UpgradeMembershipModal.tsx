@@ -31,7 +31,6 @@ interface UpgradeMembershipProps {
 }
 
 // Using the imported SubscriptionPlan interface from services/types.ts
-
 const UpgradeMembershipModal = ({ open, onClose }: UpgradeMembershipProps) => {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const { subscriptionPlans, loading, error } = useSubscriptionPlans()
