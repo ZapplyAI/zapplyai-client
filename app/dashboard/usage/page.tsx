@@ -409,7 +409,7 @@ export default function UsagePage() {
             }}
           >
             <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
-              Credits Usage
+              Credits Left
             </Typography>
 
             {usageData.buckets && usageData.buckets.length > 0 ? (
