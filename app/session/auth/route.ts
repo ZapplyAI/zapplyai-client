@@ -15,5 +15,10 @@ export async function GET(req: Request) {
 
   return auth0.startInteractiveLogin({
     returnTo: returnToUrl,
+    authorizationParameters: {
+      scope: 'openid profile email offline_access',
+      audience: 'https://dev-ns2zh0uf5v48x7jl.us.auth0.com/api/v2/',
+      mode: 'individual'
+    }
   })
 }
