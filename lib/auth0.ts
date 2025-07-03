@@ -10,6 +10,7 @@ export const auth0 = new Auth0Client({
   authorizationParameters: {
     scope: 'openid profile email offline_access',
     audience: 'https://dev-ns2zh0uf5v48x7jl.us.auth0.com/api/v2/',
+    mode: 'individual',
   },
   session: {
     rolling: true,
