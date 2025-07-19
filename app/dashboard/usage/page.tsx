@@ -162,29 +162,29 @@ const PlanComparisonCard: React.FC<PlanComparisonCardProps> = ({ currentPlanName
             background: 'rgba(10, 9, 14, 0.7)',
           }}>
             <Typography variant="body2" sx={{ color: '#AAAAAA', mb: 1 }}>
-              Additional Credits
+              Additional Requests
             </Typography>
             <Typography variant="h6" sx={{
               color: '#E5E5E5',
               fontFamily: 'JetBrains Mono, monospace',
               fontSize: '1.1rem',
             }}>
-              +{formatNumber(totalCreditsDiff)} total credits
+              +{formatNumber(totalCreditsDiff)} total requests
             </Typography>
             <Box sx={{ mt: 1 }}>
               {geminiCreditsDiff > 0 && (
                 <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
-                  +{formatNumber(geminiCreditsDiff)} Gemini credits
+                  +{formatNumber(geminiCreditsDiff)} Gemini requests
                 </Typography>
               )}
               {claudeCreditsDiff > 0 && (
                 <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
-                  +{formatNumber(claudeCreditsDiff)} Claude credits
+                  +{formatNumber(claudeCreditsDiff)} Claude requests
                 </Typography>
               )}
               {gptCreditsDiff > 0 && (
                 <Typography variant="body2" sx={{ color: '#E5E5E5' }}>
-                  +{formatNumber(gptCreditsDiff)} GPT credits
+                  +{formatNumber(gptCreditsDiff)} GPT requests
                 </Typography>
               )}
             </Box>
@@ -206,7 +206,7 @@ const PlanComparisonCard: React.FC<PlanComparisonCardProps> = ({ currentPlanName
               Value Comparison
             </Typography>
             <Typography variant="body1" sx={{ color: '#E5E5E5' }}>
-              {Math.round((totalCreditsDiff / parseFloat(nextPlan.monthly_price)) * 100) / 100} credits per dollar
+              {Math.round((totalCreditsDiff / parseFloat(nextPlan.monthly_price)) * 100) / 100} requests per dollar
             </Typography>
             <Typography variant="body2" sx={{ color: '#AAAAAA', mt: 1 }}>
               vs. {Math.round((currentPlan.total_credits / parseFloat(currentPlan.monthly_price)) * 100) / 100} on your current plan
@@ -409,7 +409,7 @@ export default function UsagePage() {
             }}
           >
             <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5' }}>
-              Credits Left
+              Requests Left
             </Typography>
 
             {usageData.buckets && usageData.buckets.length > 0 ? (
@@ -423,7 +423,7 @@ export default function UsagePage() {
                        bucket.model}
                     </Typography>
                     <Typography variant="body2" sx={{ color: '#E5E5E5', fontFamily: 'JetBrains Mono' }}>
-                      {bucket.credits_used.toLocaleString()} credits
+                      {bucket.credits_used.toLocaleString()} requests
                     </Typography>
                   </Box>
                 </Box>

@@ -59,7 +59,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({ isMobile = false }) => {
 
   // If error loading user, use fake data
   const userData = error ? {
-    email: 'fake@gmail.com',
+    email: '',
     picture: null,
     name: 'Fake User'
   } : user

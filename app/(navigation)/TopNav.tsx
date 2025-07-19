@@ -36,7 +36,7 @@ export const TopNav = ({ showAlert, isMobile }: TopNavProps) => {
   const navLinks = [
     { name: 'Features', url: '#features' },
     { name: 'Pricing', url: '#pricing' },
-    { name: 'Documentation', url: '/documentation' },
+    { name: 'Documentation', url: 'https://docs.elasticapp.ai' },
     // { name: 'Blog', url: '#' },
   ]
 

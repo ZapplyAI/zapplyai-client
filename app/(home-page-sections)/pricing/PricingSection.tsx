@@ -193,19 +193,19 @@ export const PricingSection = ({
 
     // Add features for each provider if they exist in the buckets
     if (plan.buckets.claude) {
-      features.push(`${formatNumber(plan.buckets.claude)} Claude credits`)
+      features.push(`${formatNumber(plan.buckets.claude)} Claude requests`)
     }
 
     if (plan.buckets.gemini) {
-      features.push(`${formatNumber(plan.buckets.gemini)} Gemini credits`)
+      features.push(`${formatNumber(plan.buckets.gemini)} Gemini requests`)
     }
 
     if (plan.buckets.gpt) {
-      features.push(`${formatNumber(plan.buckets.gpt)} GPT credits`)
+      features.push(`${formatNumber(plan.buckets.gpt)} GPT requests`)
     }
 
     // Add total credits feature
-    features.push(`${formatNumber(plan.total_credits)} total credits`)
+    features.push(`${formatNumber(plan.total_credits)} total requests`)
 
     return {
       title: plan.type,

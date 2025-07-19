@@ -256,7 +256,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        Total credits:
+                        Total requests:
                       </Box>
                       <Box
                         component="span"
@@ -289,7 +289,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        Gemini credits:
+                        Gemini requests:
                       </Box>
                       <Box
                         component="span"
@@ -322,7 +322,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        Claude credits:
+                        Claude requests:
                       </Box>
                       <Box
                         component="span"
@@ -355,7 +355,7 @@ const SummaryContents = ({ selectedPlan }: SummaryContentsProps) => {
                           fontSize: isMobile ? '13px' : 'inherit',
                         }}
                       >
-                        GPT credits:
+                        GPT requests:
                       </Box>
                       <Box
                         component="span"
@@ -480,7 +480,7 @@ const RadioGroupExample = ({
           <RadioOption
             key={plan.type}
             label={plan.type}
-            description={`Total Credits: ${formatNumber(plan.total_credits)}`}
+            description={`Total requests: ${formatNumber(plan.total_credits)}`}
             price={plan.monthly_price}
             selected={selectedPlan?.type === plan.type}
             onChange={() => onPlanSelect(plan)}
