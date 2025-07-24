@@ -32,7 +32,7 @@ const PricingCard = ({
   showAlert: () => void
   planType: string
 }) => {
-  const { handleCheckout, loading: checkoutLoading } = useSubscriptionCheckout();
+  const { handleCheckout, loading: checkoutLoading } = useSubscriptionCheckout()
   return (
     <Box
       sx={{
@@ -146,7 +146,7 @@ const PricingCard = ({
       </Box>
 
       {/* Add Get Started button for all plans except free */}
-      {title.toLowerCase() !== 'free' && (
+      {
         <ClippedButton
           onClick={() => handleCheckout(planType)}
           disabled={checkoutLoading}
@@ -167,7 +167,7 @@ const PricingCard = ({
         >
           {checkoutLoading ? 'Processing...' : 'Get Started'}
         </ClippedButton>
-      )}
+      }
 
       <DecorRect sx={{ bottom: '15px', right: '15px' }} />
     </Box>
@@ -183,11 +183,16 @@ export const PricingSection = ({
 
   // Helper function to format numbers with commas for values over 999
   const formatNumber = (num: number): string => {
-    return num >= 1000 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : num.toString();
+    return num >= 1000
+      ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      : num.toString()
   }
 
   // Map API subscription plans to the format expected by PricingCard
-  const mapSubscriptionPlanToPricingPlan = (plan: SubscriptionPlan, index: number) => {
+  const mapSubscriptionPlanToPricingPlan = (
+    plan: SubscriptionPlan,
+    index: number
+  ) => {
     // Generate features list based on the buckets data
     const features = []
 

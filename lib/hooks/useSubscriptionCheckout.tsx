@@ -22,6 +22,12 @@ const useSubscriptionCheckout = () => {
     }
 
     try {
+      if (!planType || planType.toLowerCase() === 'free') {
+        // If the plan type is 'free', redirect to the dashboard directly
+        window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?`;
+        return;
+      }
+
       const { status, data: response } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/payments`, {
         plan: planType,
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?paymentStatus=success`,
