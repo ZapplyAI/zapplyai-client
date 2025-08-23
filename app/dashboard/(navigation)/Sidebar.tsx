@@ -8,6 +8,7 @@ import SettingsSharpIcon from '@mui/icons-material/SettingsSharp'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import LogoutIcon from '@mui/icons-material/Logout'
 import DataUsageIcon from '@mui/icons-material/DataUsage'
+import BusinessIcon from '@mui/icons-material/Business'
 import { useDashboard } from '../DashboardContext'
 import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
@@ -74,6 +75,7 @@ const renderSideMenu = (
   handleLogout: () => void,
   closeSidebar?: () => void
 ) => {
+  console.log(subscriptionType, 'starving');
   const style = {
     navContainer: {
       display: 'flex',
@@ -107,6 +109,10 @@ const renderSideMenu = (
     { label: 'Usage', path: '/usage', icon: DataUsageIcon },
     { label: 'Transaction History', path: '', icon: ReceiptLongIcon, onClick: handleTransactionHistory },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
+    // Only show Organization Settings for team subscriptions
+    ...(subscriptionType === 'team' ? [
+      { label: 'Organization', path: '/organizations/settings', icon: BusinessIcon }
+    ] : []),
     { label: 'Logout', path: '', icon: LogoutIcon, onClick: handleLogout },
   ]
 

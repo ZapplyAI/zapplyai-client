@@ -50,3 +50,35 @@ export interface UserProfile {
   created_at: string;
   subscription?: UserProfileSubscription;
 }
+
+export interface Organization {
+  id: string
+  name: string
+  seats: number
+}
+
+export interface UpdateMemberRequest {
+  role: string
+  remove?: boolean
+}
+
+export interface UpdateMemberResponse {
+  message: string
+}
+
+export interface OrganizationMember {
+  user_id: string
+  email: string
+  role: string
+  created_at: string
+}
+
+export interface ListMembersResponse {
+  count: number
+  Data: OrganizationMember[]
+}
+
+export interface UpdateOrganizationRequest {
+  name: string
+  seats: number
+}
