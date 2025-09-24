@@ -11,9 +11,10 @@ const userProfileService = {
   /**
    * Fetches the user profile from the API
    * @param forceRefresh If true, bypasses the cache and fetches fresh data
+   * @param mode Optional mode parameter (individual or organization)
    * @returns Promise with the user profile data
    */
-  fetchUserProfile: async (forceRefresh = false): Promise<UserProfile> => {
+  fetchUserProfile: async (forceRefresh = false, mode?: string): Promise<UserProfile> => {
     try {
       // Check if we have a cached profile that's not expired and forceRefresh is not requested
       const currentTime = Date.now();
@@ -21,7 +22,16 @@ const userProfileService = {
         return cachedProfile;
       }
 
-      const { data } = await axios.get('/api/auth/me');
+      // Extract mode from URL params if not provided and we're in browser
+      let userMode = mode;
+      if (!userMode && typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        userMode = urlParams.get('mode') || 'individual';
+      }
+
+      // Build URL with mode parameter
+      const url = '/api/auth/me';
+      const { data } = await axios.get(url);
 
       // Update cache
       cachedProfile = data;

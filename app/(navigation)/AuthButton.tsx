@@ -18,24 +18,34 @@ const AuthButton = () => {
     getSession()
   }, [])
 
+  const handleSignInClick = () => {
+    if (isLoggedIn) {
+      window.location.href = '/dashboard/usage'
+    } else {
+      // Go directly to Auth0 login with default individual mode
+      window.location.href = '/session/auth?mode=individual'
+    }
+  }
+
   if (isLoggedIn === null) {
     return <div></div>
   }
 
   return (
-    <a style={{width: isMobile ?  '100%' : 'auto'}} href={isLoggedIn ? '/dashboard/usage' : '/auth/login'}>
+    <div style={{ width: isMobile ? '100%' : 'auto' }}>
       <ClippedButton
+        onClick={handleSignInClick}
         sx={{
-          width: isMobile? '100%' : 'auto',
+          width: isMobile ? '100%' : 'auto',
           fontFamily: 'Tektur, sans-serif',
           fontSize: '0.9rem',
-          padding: isMobile? '12px 16px' : '8px 16px',
+          padding: isMobile ? '12px 16px' : '8px 16px',
           marginRight: '15px',
         }}
       >
         {isLoggedIn ? 'Go To Dashboard' : 'Sign In'}
       </ClippedButton>
-    </a>
+    </div>
   )
 }
 

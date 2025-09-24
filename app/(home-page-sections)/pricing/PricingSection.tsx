@@ -7,6 +7,7 @@ import ClippedButton from '@/app/(components)/ClippedButton'
 import CheckIcon from '@mui/icons-material/Check'
 import useSubscriptionPlans from '@/lib/hooks/useSubscriptionPlans'
 import useSubscriptionCheckout from '@/lib/hooks/useSubscriptionCheckout'
+import SignUpModeModal from '@/app/(components)/SignUpModeModal'
 import { SubscriptionPlan } from '@/services/types'
 
 interface PricingSectionProps {
@@ -32,8 +33,21 @@ const PricingCard = ({
   showAlert: () => void
   planType: string
 }) => {
-  const { handleCheckout, loading: checkoutLoading } = useSubscriptionCheckout()
+  const {
+    handleCheckout,
+    loading: checkoutLoading,
+    showModeModal,
+    handleModeSelect,
+    handleModalClose
+  } = useSubscriptionCheckout()
+
   return (
+    <>
+      <SignUpModeModal
+        open={showModeModal}
+        onClose={handleModalClose}
+        onModeSelect={handleModeSelect}
+      />
     <Box
       sx={{
         position: 'relative',
@@ -171,6 +185,7 @@ const PricingCard = ({
 
       <DecorRect sx={{ bottom: '15px', right: '15px' }} />
     </Box>
+    </>
   )
 }
 

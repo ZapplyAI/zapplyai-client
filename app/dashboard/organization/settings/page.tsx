@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useClientMediaQuery } from '@/helpers/IsMobile'
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   Alert,
   Card,
   CardContent,
+  CircularProgress,
   Divider,
   InputAdornment,
   Table,
@@ -37,6 +38,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useDashboard, TeamMember } from '../../DashboardContext'
+import useUserProfile from '@/lib/hooks/useUserProfile'
+import organizations from '@/services/organization'
 import { format } from 'date-fns'
 
 interface OrganizationData {
@@ -47,35 +50,102 @@ interface OrganizationData {
 export default function OrganizationSettingsPage() {
   const isMobile = useClientMediaQuery('(max-width: 600px)')
   const { subscriptionType, teamMembers } = useDashboard()
-  
-  // Mock organization data for demo purposes
-  const [organizationData] = useState<OrganizationData>({
-    name: 'Acme Corporation',
-    seats: 10
-  })
-  
+  const { profile, isProfileLoading } = useUserProfile()
+
+  // Real organization data from API
+  const [organizationData, setOrganizationData] = useState<OrganizationData | null>(null)
   const [formData, setFormData] = useState<OrganizationData>({
-    name: organizationData.name,
-    seats: organizationData.seats
+    name: '',
+    seats: 0
   })
-  
+
+  // Real team members data from API
+  const [realTeamMembers, setRealTeamMembers] = useState<any[]>([])
+  const [isLoadingMembers, setIsLoadingMembers] = useState(false)
+
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingOrg, setIsLoadingOrg] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
-  
+
   // Team member management states
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [newRole, setNewRole] = useState<'admin' | 'member'>('member')
-  
-  // Mock current user - in real app this would come from auth context
-  const currentUser = teamMembers.find(member => member.id === '1') // John Doe is admin
-  const isCurrentUserAdmin = currentUser?.role === 'admin'
+  const [newRole, setNewRole] = useState<string>('MEMBER')
 
-  // Only allow access for team subscriptions
-  if (subscriptionType !== 'team') {
+  // Fetch team members data
+  const fetchTeamMembers = async (orgId: string) => {
+    setIsLoadingMembers(true)
+    try {
+      const result = await organizations.getMembers(orgId)
+
+      if (result.success && result.response) {
+        // Transform API response to match the expected format
+        const members = result.response.Data || []
+        setRealTeamMembers(members)
+      } else {
+        console.error('Failed to load team members:', result.response)
+        setRealTeamMembers([])
+      }
+    } catch (err) {
+      console.error('Error fetching team members:', err)
+      setRealTeamMembers([])
+    } finally {
+      setIsLoadingMembers(false)
+    }
+  }
+
+  // Fetch organization data when profile is available
+  useEffect(() => {
+    const fetchOrganizationData = async () => {
+      if (!profile?.organization?.id) {
+        setError('No organization found for this user')
+        return
+      }
+
+      setIsLoadingOrg(true)
+      setError('')
+
+      try {
+        const result = await organizations.getOrganization(profile.organization.id)
+
+        if (result.success && result.response) {
+          const orgData = {
+            name: result.response.name || '',
+            seats: result.response.seats || 0
+          }
+          setOrganizationData(orgData)
+          setFormData(orgData)
+        } else {
+          setError(result.response || 'Failed to load organization data')
+        }
+
+        // Also fetch team members
+        await fetchTeamMembers(profile.organization.id)
+
+      } catch (err) {
+        console.error('Error fetching organization:', err)
+        setError('Failed to load organization data')
+      } finally {
+        setIsLoadingOrg(false)
+      }
+    }
+
+    if (profile && !isProfileLoading) {
+      void fetchOrganizationData()
+    }
+  }, [profile, isProfileLoading])
+
+  // Get current user's role from profile
+  const isCurrentUserAdmin = profile?.organization?.role === 'ADMIN'
+
+  // Use real team members data instead of mock data
+  const displayMembers = realTeamMembers.length > 0 ? realTeamMembers : teamMembers
+
+  // Only allow access if user has an organization
+  if (!profile?.organization) {
     return (
       <Box
         sx={{
@@ -91,9 +161,70 @@ export default function OrganizationSettingsPage() {
           Organization Settings
         </Typography>
         <Typography variant="body1" sx={{ mb: 4, textAlign: 'center' }}>
-          Organization settings are only available with a Team subscription plan.
-          Please upgrade your subscription to access organization management features.
+          You don&apos;t have access to any organization.
+          Please contact your organization administrator or create an organization to access these features.
         </Typography>
+      </Box>
+    )
+  }
+
+  // Show loading state while fetching organization data
+  if (isLoadingOrg || isProfileLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          padding: '24px',
+        }}
+      >
+        <CircularProgress sx={{ mb: 2 }} />
+        <Typography variant="body1">Loading organization data...</Typography>
+      </Box>
+    )
+  }
+
+  // Show error state if organization data failed to load
+  if (error && !organizationData) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          padding: '24px',
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2, color: 'error.main' }}>
+          Error Loading Organization
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: 'center' }}>
+          {error}
+        </Typography>
+      </Box>
+    )
+  }
+
+  // Don't render the form until we have organization data
+  if (!organizationData) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          padding: '24px',
+        }}
+      >
+        <CircularProgress sx={{ mb: 2 }} />
+        <Typography variant="body1">Loading organization data...</Typography>
       </Box>
     )
   }
@@ -130,14 +261,32 @@ export default function OrganizationSettingsPage() {
       return
     }
 
+    if (!profile?.organization?.id) {
+      setError('Organization ID not found')
+      return
+    }
+
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await organizations.updateOrganization(profile.organization.id, {
+        name: formData.name.trim(),
+        seats: formData.seats
+      })
+
+      if (result.success) {
+        setSuccess(true)
+        setOrganizationData(formData)
+        console.log('Organization updated successfully:', formData)
+      } else {
+        setError(result.response || 'Failed to update organization')
+      }
+    } catch (err) {
+      console.error('Error updating organization:', err)
+      setError('Failed to update organization')
+    } finally {
       setIsLoading(false)
-      setSuccess(true)
-      console.log('Organization updated:', formData)
-    }, 1000)
+    }
   }
 
   const formatDate = (dateString: string) => {
@@ -160,7 +309,7 @@ export default function OrganizationSettingsPage() {
 
   const handleEditRole = () => {
     if (selectedMember) {
-      setNewRole(selectedMember.role)
+      setNewRole(selectedMember.role.toUpperCase()) // Ensure uppercase format
       setEditDialogOpen(true)
     }
     handleMenuClose()
@@ -171,27 +320,76 @@ export default function OrganizationSettingsPage() {
     handleMenuClose()
   }
 
-  const handleSaveRole = () => {
-    if (selectedMember) {
-      console.log(`Updating ${selectedMember.name} role to ${newRole}`)
-      // Here you would call API to update the role
-      setEditDialogOpen(false)
-      setSelectedMember(null)
+  const handleSaveRole = async () => {
+    if (!selectedMember || !profile?.organization?.id) {
+      return
+    }
+
+    setIsLoading(true)
+    setError('')
+
+    try {
+      const result = await organizations.updateMember(
+        profile.organization.id,
+        selectedMember.id,
+        { role: newRole.toUpperCase() } // Convert to uppercase to match API format
+      )
+
+      if (result.success) {
+        // Refresh team members data
+        await fetchTeamMembers(profile.organization.id)
+        setEditDialogOpen(false)
+        setSelectedMember(null)
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 3000) // Clear success message after 3 seconds
+      } else {
+        setError(result.response || 'Failed to update member role')
+      }
+    } catch (err) {
+      console.error('Error updating member role:', err)
+      setError('Failed to update member role')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const handleConfirmDelete = () => {
-    if (selectedMember) {
-      console.log(`Deleting member: ${selectedMember.name}`)
-      // Here you would call API to delete the member
-      setDeleteDialogOpen(false)
-      setSelectedMember(null)
+  const handleConfirmDelete = async () => {
+    if (!selectedMember || !profile?.organization?.id) {
+      return
+    }
+
+    setIsLoading(true)
+    setError('')
+
+    try {
+      const result = await organizations.updateMember(
+        profile.organization.id,
+        selectedMember.id,
+        { role: selectedMember.role, remove: true } // Set remove flag to true
+      )
+
+      if (result.success) {
+        // Refresh team members data
+        await fetchTeamMembers(profile.organization.id)
+        setDeleteDialogOpen(false)
+        setSelectedMember(null)
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 3000) // Clear success message after 3 seconds
+      } else {
+        setError(result.response || 'Failed to remove member')
+      }
+    } catch (err) {
+      console.error('Error removing member:', err)
+      setError('Failed to remove member')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const hasChanges = 
-    formData.name !== organizationData.name || 
+  const hasChanges = organizationData ? (
+    formData.name !== organizationData.name ||
     formData.seats !== organizationData.seats
+  ) : false
 
   return (
     <Box
@@ -275,7 +473,7 @@ export default function OrganizationSettingsPage() {
                   </InputAdornment>
                 ),
               }}
-              helperText="Maximum 1000 seats allowed"
+              helperText="Maximum 300 seats allowed"
               sx={{
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
@@ -302,9 +500,9 @@ export default function OrganizationSettingsPage() {
           </Box>
 
           {error && (
-            <Alert 
-              severity="error" 
-              sx={{ 
+            <Alert
+              severity="error"
+              sx={{
                 mt: 2,
                 backgroundColor: 'rgba(211, 47, 47, 0.1)',
                 border: '1px solid #d32f2f',
@@ -316,9 +514,9 @@ export default function OrganizationSettingsPage() {
           )}
 
           {success && (
-            <Alert 
-              severity="success" 
-              sx={{ 
+            <Alert
+              severity="success"
+              sx={{
                 mt: 2,
                 backgroundColor: 'rgba(76, 175, 80, 0.1)',
                 border: '1px solid #4caf50',
@@ -336,11 +534,11 @@ export default function OrganizationSettingsPage() {
               onClick={handleSubmit}
               disabled={isLoading || !hasChanges}
               sx={{
-                background: hasChanges 
+                background: hasChanges
                   ? 'linear-gradient(to right, #775EFF, #FF5EBF)'
                   : '#5E5E5E',
                 '&:hover': {
-                  background: hasChanges 
+                  background: hasChanges
                     ? 'linear-gradient(to right, #6B52E6, #E654AB)'
                     : '#5E5E5E',
                 },
@@ -369,7 +567,7 @@ export default function OrganizationSettingsPage() {
         <CardContent sx={{ padding: '24px' }}>
           <Typography variant="h6" sx={{ mb: 3, color: '#E5E5E5', display: 'flex', alignItems: 'center' }}>
             <PeopleIcon sx={{ mr: 1 }} />
-            Team Members ({teamMembers.length})
+            Team Members ({isLoadingMembers ? '...' : displayMembers.length})
           </Typography>
 
           <TableContainer>
@@ -396,9 +594,26 @@ export default function OrganizationSettingsPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {teamMembers.map((member: TeamMember) => (
-                  <TableRow 
-                    key={member.id}
+                {isLoadingMembers ? (
+                  <TableRow>
+                    <TableCell colSpan={isCurrentUserAdmin ? 5 : 4} sx={{ textAlign: 'center', py: 4, borderBottom: '1px solid #5E5E5E' }}>
+                      <CircularProgress size={24} sx={{ mr: 2 }} />
+                      <Typography variant="body2" sx={{ color: '#AAAAAA', display: 'inline' }}>
+                        Loading team members...
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ) : displayMembers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={isCurrentUserAdmin ? 5 : 4} sx={{ textAlign: 'center', py: 4, borderBottom: '1px solid #5E5E5E' }}>
+                      <Typography variant="body2" sx={{ color: '#AAAAAA' }}>
+                        No team members found
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ) : displayMembers.map((member: any) => (
+                  <TableRow
+                    key={member.user_id || member.id}
                     sx={{
                       '&:hover': {
                         backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -406,75 +621,75 @@ export default function OrganizationSettingsPage() {
                       transition: 'background-color 0.2s ease-out',
                     }}
                   >
-                    <TableCell 
-                      sx={{ 
+                    <TableCell
+                      sx={{
                         borderBottom: '1px solid #5E5E5E',
                         color: '#E5E5E5',
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar 
-                          sx={{ 
-                            bgcolor: member.role === 'admin' ? '#775EFF' : '#5E5E5E',
+                        <Avatar
+                          sx={{
+                            bgcolor: (member.role === 'ADMIN' || member.role === 'admin') ? '#775EFF' : '#5E5E5E',
                             width: 32,
                             height: 32,
                             mr: 2,
                             fontSize: '14px'
                           }}
                         >
-                          {member.name.charAt(0)}
+                          {(member.name || member.email || 'U').charAt(0).toUpperCase()}
                         </Avatar>
                         <Typography variant="body2" sx={{ color: '#E5E5E5', fontWeight: 500 }}>
-                          {member.name}
+                          {member.name || member.email || 'Unknown User'}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell 
-                      sx={{ 
+                    <TableCell
+                      sx={{
                         borderBottom: '1px solid #5E5E5E',
                         color: '#AAAAAA',
                       }}
                     >
                       {member.email}
                     </TableCell>
-                    <TableCell 
-                      sx={{ 
+                    <TableCell
+                      sx={{
                         borderBottom: '1px solid #5E5E5E',
                       }}
                     >
-                      <Chip 
-                        label={member.role} 
+                      <Chip
+                        label={member.role}
                         size="small"
-                        sx={{ 
-                          bgcolor: member.role === 'admin' ? 'rgba(119, 94, 255, 0.1)' : 'transparent',
+                        sx={{
+                          bgcolor: (member.role === 'ADMIN' || member.role === 'admin') ? 'rgba(119, 94, 255, 0.1)' : 'transparent',
                           border: '1px solid',
-                          borderColor: member.role === 'admin' ? '#775EFF' : '#5E5E5E',
-                          color: member.role === 'admin' ? '#775EFF' : '#E5E5E5',
+                          borderColor: (member.role === 'ADMIN' || member.role === 'admin') ? '#775EFF' : '#5E5E5E',
+                          color: (member.role === 'ADMIN' || member.role === 'admin') ? '#775EFF' : '#E5E5E5',
                           fontSize: '12px',
                           height: '24px',
                         }}
                       />
                     </TableCell>
-                    <TableCell 
-                      sx={{ 
+                    <TableCell
+                      sx={{
                         borderBottom: '1px solid #5E5E5E',
                         color: '#AAAAAA',
                       }}
                     >
-                      {formatDate(member.joinedAt)}
+                      {formatDate(member.created_at || member.joinedAt)}
                     </TableCell>
                     {isCurrentUserAdmin && (
-                      <TableCell 
-                        sx={{ 
+                      <TableCell
+                        sx={{
                           borderBottom: '1px solid #5E5E5E',
                           width: '60px',
                         }}
                       >
-                        {member.id !== currentUser?.id && ( // Don't show menu for current user
+                        {member.email !== profile?.email && ( // Don't show menu for current user
                           <IconButton
                             size="small"
                             onClick={(e) => handleMenuClick(e, member)}
-                            sx={{ 
+                            sx={{
                               color: '#AAAAAA',
                               '&:hover': {
                                 color: '#E5E5E5',
@@ -525,8 +740,8 @@ export default function OrganizationSettingsPage() {
       </Menu>
 
       {/* Edit Role Dialog */}
-      <Dialog 
-        open={editDialogOpen} 
+      <Dialog
+        open={editDialogOpen}
         onClose={() => setEditDialogOpen(false)}
         PaperProps={{
           sx: {
@@ -541,13 +756,13 @@ export default function OrganizationSettingsPage() {
         </DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ mb: 2, color: '#AAAAAA' }}>
-            Change role for {selectedMember?.name}
+            Change role for {selectedMember?.name || selectedMember?.email}
           </Typography>
           <FormControl fullWidth sx={{ mt: 1 }}>
             <InputLabel sx={{ color: '#AAAAAA' }}>Role</InputLabel>
             <Select
               value={newRole}
-              onChange={(e) => setNewRole(e.target.value as 'admin' | 'member')}
+              onChange={(e) => setNewRole(e.target.value as string)}
               sx={{
                 color: '#E5E5E5',
                 '& .MuiOutlinedInput-notchedOutline': {
@@ -561,36 +776,41 @@ export default function OrganizationSettingsPage() {
                 },
               }}
             >
-              <MenuItem value="member" sx={{ color: '#E5E5E5' }}>Member</MenuItem>
-              <MenuItem value="admin" sx={{ color: '#E5E5E5' }}>Admin</MenuItem>
+              <MenuItem value="MEMBER" sx={{ color: '#E5E5E5' }}>Member</MenuItem>
+              <MenuItem value="ADMIN" sx={{ color: '#E5E5E5' }}>Admin</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             onClick={() => setEditDialogOpen(false)}
             sx={{ color: '#AAAAAA' }}
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             onClick={handleSaveRole}
             variant="contained"
+            disabled={isLoading}
             sx={{
-              background: 'linear-gradient(to right, #775EFF, #FF5EBF)',
+              background: isLoading ? '#5E5E5E' : 'linear-gradient(to right, #775EFF, #FF5EBF)',
               '&:hover': {
-                background: 'linear-gradient(to right, #6B52E6, #E654AB)',
+                background: isLoading ? '#5E5E5E' : 'linear-gradient(to right, #6B52E6, #E654AB)',
+              },
+              '&:disabled': {
+                background: '#5E5E5E',
+                color: '#AAAAAA',
               },
             }}
           >
-            Save
+            {isLoading ? 'Saving...' : 'Save'}
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog 
-        open={deleteDialogOpen} 
+      <Dialog
+        open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
         PaperProps={{
           sx: {
@@ -605,30 +825,35 @@ export default function OrganizationSettingsPage() {
         </DialogTitle>
         <DialogContent>
           <Typography variant="body1" sx={{ color: '#AAAAAA' }}>
-            Are you sure you want to remove <strong style={{ color: '#E5E5E5' }}>{selectedMember?.name}</strong> from the team?
+            Are you sure you want to remove <strong style={{ color: '#E5E5E5' }}>{selectedMember?.name || selectedMember?.email}</strong> from the team?
           </Typography>
           <Typography variant="body2" sx={{ mt: 1, color: '#d32f2f' }}>
             This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             onClick={() => setDeleteDialogOpen(false)}
             sx={{ color: '#AAAAAA' }}
           >
             Cancel
           </Button>
-          <Button 
+          <Button
             onClick={handleConfirmDelete}
             variant="contained"
+            disabled={isLoading}
             sx={{
-              backgroundColor: '#d32f2f',
+              backgroundColor: isLoading ? '#5E5E5E' : '#d32f2f',
               '&:hover': {
-                backgroundColor: '#b71c1c',
+                backgroundColor: isLoading ? '#5E5E5E' : '#b71c1c',
+              },
+              '&:disabled': {
+                backgroundColor: '#5E5E5E',
+                color: '#AAAAAA',
               },
             }}
           >
-            Remove
+            {isLoading ? 'Removing...' : 'Remove'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -644,7 +869,7 @@ export default function OrganizationSettingsPage() {
           <Typography variant="h6" sx={{ mb: 2, color: '#E5E5E5' }}>
             Current Settings
           </Typography>
-          
+
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="body1" sx={{ color: '#AAAAAA' }}>
@@ -654,9 +879,9 @@ export default function OrganizationSettingsPage() {
                 {organizationData.name}
               </Typography>
             </Box>
-            
+
             <Divider sx={{ borderColor: '#5E5E5E' }} />
-            
+
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="body1" sx={{ color: '#AAAAAA' }}>
                 Number of Seats:

@@ -10,7 +10,9 @@ export const auth0 = new Auth0Client({
   authorizationParameters: {
     scope: 'openid profile email offline_access',
     audience: 'https://dev-ns2zh0uf5v48x7jl.us.auth0.com/api/v2/',
-    mode: 'individual',
+    // env: process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_APP_BASE_URL?.includes('localhost') ? 'staging' : 'production',
+    env: 'STAGING',
+    // Note: mode is now passed dynamically in startInteractiveLogin calls
   },
   session: {
     rolling: true,

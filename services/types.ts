@@ -42,6 +42,12 @@ export interface UserProfileSubscription {
   trial_expiration_date: string;
 }
 
+export interface UserProfileOrganization {
+  id: string;
+  role: string;
+  seats: number;
+}
+
 export interface UserProfile {
   id: string;
   email: string;
@@ -49,6 +55,7 @@ export interface UserProfile {
   subscription_id?: string;
   created_at: string;
   subscription?: UserProfileSubscription;
+  organization?: UserProfileOrganization;
 }
 
 export interface Organization {

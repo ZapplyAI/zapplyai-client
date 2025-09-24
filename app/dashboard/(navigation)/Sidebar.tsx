@@ -10,6 +10,8 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import DataUsageIcon from '@mui/icons-material/DataUsage'
 import BusinessIcon from '@mui/icons-material/Business'
 import { useDashboard } from '../DashboardContext'
+import useUserProfile from '@/lib/hooks/useUserProfile'
+import { UserProfile } from '@/services/types'
 import TransactionHistoryModal from '../(components)/TransactionHistoryModal'
 
 interface SidebarProps {
@@ -21,6 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription, closeSidebar }) 
   const router = useRouter()
   const pathname = usePathname()
   const { subscriptionType } = useDashboard()
+  const { profile } = useUserProfile()
   const isOnFreeSubscription = subscriptionType === 'free'
   const [transactionModalOpen, setTransactionModalOpen] = useState(false)
 
@@ -55,7 +58,8 @@ const Sidebar: React.FC<SidebarProps> = ({ upgradeSubscription, closeSidebar }) 
         subscriptionType,
         handleTransactionHistory,
         handleLogout,
-        closeSidebar
+        closeSidebar,
+        profile
       )}
       <TransactionHistoryModal
         open={transactionModalOpen}
@@ -73,7 +77,8 @@ const renderSideMenu = (
   subscriptionType: 'free' | 'plus' | 'team',
   handleTransactionHistory: () => void,
   handleLogout: () => void,
-  closeSidebar?: () => void
+  closeSidebar?: () => void,
+  profile?: UserProfile | null
 ) => {
   console.log(subscriptionType, 'starving');
   const style = {
@@ -109,9 +114,9 @@ const renderSideMenu = (
     { label: 'Usage', path: '/usage', icon: DataUsageIcon },
     { label: 'Transaction History', path: '', icon: ReceiptLongIcon, onClick: handleTransactionHistory },
     { label: 'Settings', path: '/settings', icon: SettingsSharpIcon },
-    // Only show Organization Settings for team subscriptions
-    ...(subscriptionType === 'team' ? [
-      { label: 'Organization', path: '/organizations/settings', icon: BusinessIcon }
+    // Only show Organization Settings if user has an organization
+    ...(profile?.organization ? [
+      { label: 'Organization', path: '/organization/settings', icon: BusinessIcon }
     ] : []),
     { label: 'Logout', path: '', icon: LogoutIcon, onClick: handleLogout },
   ]
