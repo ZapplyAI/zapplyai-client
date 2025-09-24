@@ -2,7 +2,6 @@
 import React from 'react'
 import { Box, useTheme } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { HorizontalCenterBox } from '@/components/layouts/CenterBox'
 import DecorRect from '@/app/(components)/DecorRect'
 import ClippedButton from '@/app/(components)/ClippedButton'
 import { EXTENSION_URL } from '@/constants'
@@ -118,108 +117,6 @@ const ParticleAnimation = () => {
   )
 }
 
-// Futuristic panel component for the video
-const FuturisticVideoPanel = ({ isMobile }: { isMobile: boolean }) => {
-  const borderL = '110px'
-  const borderL_M = '55px'
-  const videoId = 'qjWzH8jk1rk'
-
-  const style = {
-    rectangle: {
-      width: '100%',
-      height: 'auto',
-      position: 'relative',
-      padding: isMobile ? '4px' : '48px',
-      marginTop: '30px',
-      marginBottom: '50px',
-    },
-    corner: {
-      pointerEvents: 'none',
-      position: 'absolute',
-      border: '1px solid #775EFF',
-      zIndex: 1,
-    },
-    topLeft: {
-      top: '0',
-      left: '0',
-      width: isMobile ? borderL_M : borderL,
-      height: isMobile ? borderL_M : borderL,
-      borderRight: 'none',
-      borderBottom: 'none',
-    },
-    topRight: {
-      top: '0',
-      right: '0',
-      width: isMobile ? borderL_M : borderL,
-      height: isMobile ? borderL_M : borderL,
-      borderLeft: 'none',
-      borderBottom: 'none',
-    },
-    bottomLeft: {
-      bottom: '0',
-      left: '0',
-      width: isMobile ? borderL_M : borderL,
-      height: isMobile ? borderL_M : borderL,
-      borderRight: 'none',
-      borderTop: 'none',
-    },
-    bottomRight: {
-      bottom: '0',
-      right: '0',
-      width: isMobile ? borderL_M : borderL,
-      height: isMobile ? borderL_M : borderL,
-      borderLeft: 'none',
-      borderTop: 'none',
-    },
-    videoContainer: {
-      width: '100%',
-      height: 'auto',
-      position: 'relative',
-      overflow: 'hidden',
-      borderRadius: '4px',
-      background:
-        'linear-gradient(135deg, rgba(119, 94, 255, 0.1), rgba(222, 58, 237, 0.1))',
-      backdropFilter: 'blur(5px)',
-      border: '1px solid rgba(119, 94, 255, 0.3)',
-    },
-    aspectRatioWrapper: {
-      position: 'relative',
-      width: '100%',
-      paddingTop: '59.25%', // 16:9 aspect ratio (9 / 16 = 0.5625)
-    },
-  }
-
-  return (
-    <HorizontalCenterBox sx={style.rectangle}>
-      <Box sx={style.videoContainer}>
-        <Box sx={style.aspectRatioWrapper}>
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&showinfo=0&modestbranding=1`}
-            title="Elastic Copilot Introduction"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={
-              {
-                position: 'absolute',
-                zIndex: 20,
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-              } as React.CSSProperties
-            }
-          />
-        </Box>
-      </Box>
-      <div style={{ ...style.corner, ...style.topLeft } as any}></div>
-      <div style={{ ...style.corner, ...style.topRight } as any}></div>
-      <div style={{ ...style.corner, ...style.bottomLeft } as any}></div>
-      <div style={{ ...style.corner, ...style.bottomRight } as any}></div>
-    </HorizontalCenterBox>
-  )
-}
-
 export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
   const theme = useTheme()
 
@@ -297,9 +194,6 @@ export const HeroSection = ({ isMobile, showAlert }: HeroSectionProps) => {
             </a>
           </Box>
         </Box>
-
-        <FuturisticVideoPanel isMobile={isMobile} />
-
         <DecorRect sx={{ top: '20px', right: '20px' }} />
         <DecorRect sx={{ bottom: '20px', left: '20px' }} />
       </Box>
