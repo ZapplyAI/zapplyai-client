@@ -1,1 +1,1 @@
-export const EXTENSION_URL = 'https://marketplace.visualstudio.com/items?itemName=elastic-ai.elastic-code' as const;
+export const EXTENSION_URL = 'https://marketplace.visualstudio.com/items?itemName=elasticAI.elastic-coder' as const;
