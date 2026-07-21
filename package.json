@@ -32,7 +32,7 @@
     "@tsparticles/react": "^3.0.0",
     "@types/lodash": "^4.17.0",
     "antd": "^5.17.4",
-    "axios": "^1.6.8",
+    "axios": "^1.8.2",
     "clsx": "^2.1.0",
     "cookie": "^0.6.0",
     "cookies-next": "^5.1.0",
